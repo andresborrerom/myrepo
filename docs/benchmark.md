@@ -21,10 +21,22 @@ Cualquier herramienta SaaS de PH en Colombia debe estar alineada con:
 
 ## 2. Plataformas analizadas (perfil por producto)
 
-### 2.1 Sygo
-- **URL oficial**: No fue posible verificar un sitio activo en `sygo.com.co` ni encontrar referencias indexadas a un producto SaaS de PH en Colombia llamado "Sygo". Búsquedas devolvieron consistentemente resultados de **Siigo** (proveedor contable, ver 2.3) y de competidores genéricos. ([Búsqueda directorio software](https://www.catalogodesoftware.com/a/sector-inmobiliario-propiedad-horizontal))
-- **Estado**: **Producto no verificado públicamente.** Es posible que sea (a) un producto regional sin presencia web, (b) una confusión fonética con Siigo, o (c) que haya cambiado de marca.
-- **Recomendación**: confirmar con el solicitante si "Sygo" es un proyecto interno, una marca específica que se ve en algún conjunto, o una referencia errónea a Siigo.
+> **Nota:** la referencia inicial a "Sygo" fue una pronunciación de **Siigo** (confirmado por la experta de dominio). El perfil completo está en §2.1. Por eso este benchmark arranca con Siigo como referencia principal del segmento ERP-contable.
+
+---
+
+### 2.1 SIIGO Propiedad Horizontal (módulo dentro de SIIGO) — referencia principal
+- **URL oficial**: <https://www.siigo.com> + portal específico ([Documentación SIIGO PH](http://portal.siigo.com/docs/DocView.aspx?DocumentID=%7B30779F0C-A82F-4ECB-B212-5E2C68AD348E%7D&NoHeader=1&NoSubject=1), [Base de conocimiento](https://siigopyme.portaldeclientes.siigo.com/basedeconocimiento/apertura-de-inmuebles-propiedad-horizontal/))
+- **Modelo de precios**: Suscripción SaaS contable (Siigo Pyme/Contador). El módulo PH se activa dentro de Siigo. Precio público en COP/mes para el módulo PH específicamente: **No publicado** en los resultados consultados.
+- **Stack**: Web (Siigo Nube). App móvil contable. Solo español. Proveedor tecnológico autorizado por DIAN.
+- **Funcionalidades núcleo**:
+  - Contabilidad completa con PUC, balances, P&G, presupuesto.
+  - Conceptos de facturación específicos para PH (administración, parqueaderos, vigilancia, áreas comunes).
+  - Documento Tipo F — Factura de venta para PH.
+  - Facturación electrónica DIAN nativa.
+  - Manejo de anticipos por copropietario.
+  - Facturación por lotes.
+  - Reportes contables, retenciones, soporte para exógena.
 
 ---
 
@@ -42,21 +54,6 @@ Cualquier herramienta SaaS de PH en Colombia debe estar alineada con:
   - Pagos online integrados (en Argentina con SIRO/Banco Roela). ([Integración SIRO](https://onlinesiro.com.ar/sistema/integracion-con-octopus/))
 - **Diferenciador**: experiencia móvil pulida, marca PropTech consolidada en Argentina.
 - **Debilidades para CO**: no integra DIAN, no tiene PUC colombiano, no cubre exógena ni Ley 675.
-
----
-
-### 2.3 SIIGO Propiedad Horizontal (módulo dentro de SIIGO)
-- **URL oficial**: <https://www.siigo.com> + portal específico ([Documentación SIIGO PH](http://portal.siigo.com/docs/DocView.aspx?DocumentID=%7B30779F0C-A82F-4ECB-B212-5E2C68AD348E%7D&NoHeader=1&NoSubject=1), [Base de conocimiento](https://siigopyme.portaldeclientes.siigo.com/basedeconocimiento/apertura-de-inmuebles-propiedad-horizontal/))
-- **Modelo de precios**: Suscripción SaaS contable (Siigo Pyme/Contador). El módulo PH se activa dentro de Siigo. Precio público en COP/mes para el módulo PH específicamente: **No publicado** en los resultados consultados.
-- **Stack**: Web (Siigo Nube). App móvil contable. Solo español. Proveedor tecnológico autorizado por DIAN.
-- **Funcionalidades núcleo**:
-  - Contabilidad completa con PUC, balances, P&G, presupuesto.
-  - Conceptos de facturación específicos para PH (administración, parqueaderos, vigilancia, áreas comunes).
-  - Documento Tipo F — Factura de venta para PH.
-  - Facturación electrónica DIAN nativa.
-  - Manejo de anticipos por copropietario.
-  - Facturación por lotes.
-  - Reportes contables, retenciones, soporte para exógena.
 - **Diferenciador**: **es el estándar contable** en Colombia; muchos contadores ya saben usarlo. Cumplimiento DIAN 100%.
 - **Debilidades**: NO es un software de comunidad — no tiene app residente, ni reservas, ni minuta de portería, ni PQR. Es estrictamente backend contable. Las administraciones que usan Siigo casi siempre complementan con una segunda herramienta para lo "front" (residentes, asambleas, comunicaciones).
 

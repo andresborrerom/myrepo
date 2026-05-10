@@ -1,0 +1,24 @@
+{
+  "name": "ph-colombia",
+  "private": true,
+  "version": "0.0.1",
+  "description": "SaaS de administración de propiedad horizontal en Colombia. Monorepo.",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "test:watch": "pnpm -r run test:watch",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck",
+    "db:lint": "find supabase/migrations -name '*.sql' | sort"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.5",
+    "fast-check": "^3.23.2",
+    "@types/node": "^22.9.0"
+  }
+}
