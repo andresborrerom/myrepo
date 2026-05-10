@@ -27,9 +27,29 @@ export const CARTAS: Carta[] = [
     fromId: 'andres',
     title: 'El año que naciste',
     body:
-      'En 1951 llegabas al mundo en Bogotá. Setenta y cinco años después seguimos ' +
+      'En 1951 llegabas al mundo en Cali. Setenta y cinco años después seguimos ' +
       'celebrando que naciste. Esta casa digital es nuestro abrazo.\n\n' +
       'Con amor, todos.'
+  },
+  {
+    year: 1963,
+    fromId: 'andres',
+    title: 'El año que no quisiste bajarte del avión',
+    body:
+      'Tenías doce años, papá. Dejabas Cali con su luz, su valle, su brisa ' +
+      'caliente, y aterrizabas en Bogotá: una ciudad fría, llena de gente ' +
+      'apurada, con nubes bajas y un acento que no era el tuyo. No querías. ' +
+      'Lo dijiste fuerte y lo dijiste callado, y nadie te preguntó.\n\n' +
+      'Lo que no podías saber ese año es que sin esa llegada no habría nada ' +
+      'de lo que hoy nos rodea. Tus cinco hijos nacimos en esta ciudad. Las ' +
+      'casas que construiste con tus manos están plantadas en su sabana. Los ' +
+      'jardines, las rosas que viajan desde aquí al mundo entero — todo nace ' +
+      'de un niño caleño que no quería estar acá.\n\n' +
+      'Aquel duelo de los doce años se convirtió, sin que te dieras cuenta, ' +
+      'en el suelo de nuestra vida. Hoy te decimos: gracias por haberte ' +
+      'quedado. Gracias por hacer de una ciudad ajena un hogar para cinco ' +
+      'familias y para todos los que vinieron después.\n\n' +
+      'De tus cinco hijos.'
   },
   {
     year: 1974,

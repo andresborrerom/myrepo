@@ -31,8 +31,15 @@ function nacimientosFamiliares(): Hito[] {
 
 // Hitos sembrados a mano. Andrés y familia los van completando.
 const HITOS_SEMBRADOS: Hito[] = [
-  { year: 1951, title: 'Nace Alejandro Borrero Ospina', description: 'En Bogotá.', scope: 'familia' },
+  { year: 1951, title: 'Nace Alejandro Borrero Ospina', description: 'En Cali, Valle del Cauca.', scope: 'familia' },
   { year: 1951, title: 'Colombia gana la Vuelta a Colombia', scope: 'pais' },
+  {
+    year: 1963,
+    title: 'Llega a Bogotá',
+    description:
+      'Con doce años deja Cali y aterriza en una ciudad fría que no eligió. Sin saberlo, está sembrando todo lo que vendrá.',
+    scope: 'familia'
+  },
   { year: 1969, title: 'Llegada del hombre a la Luna', description: 'Tú tenías 18 años.', scope: 'mundo' },
   // Placeholder de Elite Flower — el agente confirmará año y detalles.
   { year: 1996, title: 'Elite Flower (verificar año)', description: '[A confirmar con el agente investigador]', scope: 'obra' },
