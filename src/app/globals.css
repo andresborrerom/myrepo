@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Atkinson Hyperlegible: tipografía diseñada para baja visión.
+   Fraunces: serif cálida para títulos. Ambas open-source vía Google Fonts. */
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap');
+
+:root {
+  font-size: 18px; /* base 18px en lugar de 16 — más legible para 75 años */
+}
+
+@media (max-width: 380px) {
+  :root { font-size: 17px; }
+}
+
+html, body {
+  background-color: #FBF7F0;
+  color: #241D17;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Áreas de tap mínimo 48x48 (recomendación WCAG / Apple). */
+button, a {
+  min-height: 44px;
+}
+
+/* Reduce-motion respetado — algunos abuelos marean con animaciones. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Modo "lectura cómoda" — toggle por clase en <html>. */
+html.lectura-comoda { font-size: 21px; }
+html.lectura-comoda body { letter-spacing: 0.01em; }
