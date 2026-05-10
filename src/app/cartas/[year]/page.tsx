@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Avatar from '@/components/Avatar';
 import HeartButton from '@/components/HeartButton';
 import ShareButton from '@/components/ShareButton';
+import SpeakButton from '@/components/SpeakButton';
 import { BIRTH_YEAR, CARTAS, getAuthor, getCarta } from '@/data/cartas';
 import { getColorRama } from '@/data/family';
 
@@ -18,6 +19,13 @@ export default function CartaPage({ params }: { params: { year: string } }) {
   const author = getAuthor(carta);
   const age = year - BIRTH_YEAR;
   const ramaColor = getColorRama(carta.fromId);
+
+  // Texto narrado: autor + título + cuerpo. Pausas con punto para naturalidad.
+  const spokenText = [
+    author ? `Carta de ${author.shortName || author.name}.` : '',
+    carta.title ? `${carta.title}.` : '',
+    carta.body
+  ].filter(Boolean).join(' ');
 
   return (
     <article className="space-y-6">
@@ -51,10 +59,14 @@ export default function CartaPage({ params }: { params: { year: string } }) {
         </div>
       )}
 
-      {carta.audioUrl && (
+      {carta.audioUrl ? (
         <audio controls preload="none" className="w-full">
           <source src={carta.audioUrl} />
         </audio>
+      ) : (
+        <div className="flex">
+          <SpeakButton text={spokenText} />
+        </div>
       )}
 
       <div className="space-y-4 text-lg leading-relaxed text-ink-900">
