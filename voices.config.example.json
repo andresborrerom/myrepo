@@ -1,0 +1,18 @@
+{
+  "_comment": "Mapeo de fromId (ver src/data/family.ts) a ElevenLabs voice_id. Editar y duplicar en voices.config.json antes de correr scripts/synthesize-voices.mjs. El archivo voices.config.json está gitignored porque puede contener IDs que no quieres compartir.",
+  "voices": {
+    "andres":        "REEMPLAZAR_CON_VOICE_ID",
+    "luis-fernando": "",
+    "alexandra":     "",
+    "carolina":      "",
+    "camilo":        "",
+    "lucia":         "",
+    "miranda":       "",
+    "alejo":         "",
+    "valentina":     "",
+    "aleria":        "",
+    "carlota":       "",
+    "pedro-pablo":   "",
+    "martin":        ""
+  }
+}

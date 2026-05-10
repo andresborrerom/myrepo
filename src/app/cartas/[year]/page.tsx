@@ -5,6 +5,7 @@ import HeartButton from '@/components/HeartButton';
 import ShareButton from '@/components/ShareButton';
 import SpeakButton from '@/components/SpeakButton';
 import { BIRTH_YEAR, CARTAS, getAuthor, getCarta } from '@/data/cartas';
+import { getCartaAudioUrl } from '@/data/audios';
 import { getColorRama } from '@/data/family';
 
 export function generateStaticParams() {
@@ -19,6 +20,10 @@ export default function CartaPage({ params }: { params: { year: string } }) {
   const author = getAuthor(carta);
   const age = year - BIRTH_YEAR;
   const ramaColor = getColorRama(carta.fromId);
+
+  // Audio: prioriza el explícito (carta.audioUrl), luego el generado por
+  // el script de clonado de voces, y si nada existe cae al TTS del navegador.
+  const audioUrl = carta.audioUrl || getCartaAudioUrl(year);
 
   // Texto narrado: autor + título + cuerpo. Pausas con punto para naturalidad.
   const spokenText = [
@@ -59,9 +64,9 @@ export default function CartaPage({ params }: { params: { year: string } }) {
         </div>
       )}
 
-      {carta.audioUrl ? (
+      {audioUrl ? (
         <audio controls preload="none" className="w-full">
-          <source src={carta.audioUrl} />
+          <source src={audioUrl} />
         </audio>
       ) : (
         <div className="flex">
