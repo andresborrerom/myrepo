@@ -21,7 +21,7 @@ export const FAMILY: Person[] = [
     id: PATRIARCH_ID,
     name: 'Alejandro Borrero Ospina',
     shortName: 'Alejandro',
-    birthYear: 1952,
+    birthYear: 1951,
     age: 75,
     role: 'patriarca',
     parentId: null,

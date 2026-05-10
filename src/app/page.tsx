@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Avatar from '@/components/Avatar';
 import Countdown from '@/components/Countdown';
+import ReadingMode from '@/components/ReadingMode';
 import { APP_TAGLINE } from '@/lib/config';
 import { getPerson, PATRIARCH_ID } from '@/data/family';
 
@@ -9,6 +10,10 @@ export default function VestibuloPage() {
 
   return (
     <div className="space-y-8">
+      <div className="flex justify-end">
+        <ReadingMode />
+      </div>
+
       <header className="flex flex-col items-center gap-4 text-center">
         <Avatar person={alejandro} size="xl" />
         <div>
@@ -34,7 +39,7 @@ export default function VestibuloPage() {
       <section aria-label="Atajos" className="grid grid-cols-2 gap-3">
         <ShortcutCard href="/arbol"   icon="🌳" title="Tu árbol"   sub="14 personas" />
         <ShortcutCard href="/estudio" icon="✏️" title="Tu obra"    sub="Casas y flores" />
-        <ShortcutCard href="/buzon"   icon="✉️" title="El buzón"   sub="Mensajes y fotos" />
+        <ShortcutCard href="/cartas"  icon="✍️" title="Cartas"     sub="Una por año" />
         <ShortcutCard href="/memoria" icon="📖" title="La memoria" sub="75 años" />
       </section>
     </div>
