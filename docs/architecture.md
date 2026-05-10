@@ -24,7 +24,7 @@ Objetivo: producto SaaS multi-tenant para administración de PH en Colombia, con
 | Hosting | **Vercel** | Deploys por push, preview por PR, edge global | $0 hobby / $20 pro cuando facturemos |
 | Email transaccional | **Resend** | API moderna, templates en React, $0 hasta 3k/mes | $0 |
 | WhatsApp | **WhatsApp Cloud API** (Meta) | Oficial, gratuito hasta 1k conversaciones/mes en Centro/Sur América | $0 |
-| Pasarela de pagos | **Wompi** (Bancolombia) | KYC más rápido en CO, soporta PSE, tarjeta, Nequi, Bancolombia QR | Comisión por transacción |
+| Pasarela de pagos | **Wompi** (Bancolombia) | KYC más rápido en CO, soporta **Bre-B**, PSE, tarjeta, Nequi, Daviplata, Bancolombia QR, corresponsales | Comisión por transacción (ver §Medios de pago) |
 | Facturación electrónica DIAN | **Alegra** o **Siigo Nube** vía API (proveedor tecnológico autorizado) | No reinventamos certificación DIAN | Plan básico ~$30k COP/mes |
 | Tareas en background | **Supabase Edge Functions + cron** | Cobros mensuales, intereses, recordatorios | $0 |
 | Errores | **Sentry** | Free tier 5k eventos/mes | $0 |
@@ -183,7 +183,38 @@ Monorepo con **pnpm workspaces** + **Turborepo** para build incremental.
 - Migraciones SQL versionadas en `supabase/migrations`, aplicadas por CI.
 - *Feature flags* con PostHog para apagar funciones nuevas sin redeploy.
 
-## 12. Riesgos técnicos y mitigación
+## 12. Medios de pago (Colombia)
+
+### Lo que recibe el residente al pagar
+
+El residente paga **a la copropiedad** principalmente la cuota de administración mensual. Otros conceptos: cuotas extraordinarias, multas, reservas pagas (salón social), intereses moratorios.
+
+### Matriz de medios soportados
+
+| Método | Costo aprox. para la PH | Confirmación | Recomendación |
+|---|---|---|---|
+| **Bre-B (transferencia inmediata por llave)** | ~$0 a $1.500 COP por transacción | Segundos, 24/7 | **Primero en la UI.** Llave = NIT de la copropiedad o alias. Lanzado por Banco de la República fin 2024. |
+| **PSE** (débito desde cuenta bancaria) | ~$1.500–$3.500 COP fijo + ~0,5% | Minutos en horario bancario | Segundo en la UI. Conocido por todos. |
+| **Nequi / Daviplata / Bancolombia QR** | ~1,5–2,5% | Segundos | Buena para residentes jóvenes. |
+| **Tarjeta crédito/débito** | ~3,5% + IVA | Inmediato | Disponible pero no destacado — cuota mensual fija no debe pagarse con tarjeta crédito. |
+| **Efectivo en corresponsales** (Efecty, Baloto, Su Red) | ~$3.000–$6.000 COP fijo | Mismo día | Para residentes sin banca digital. |
+| **Débito automático** (PSE recurrente / BRE-B recurrente) | Igual a PSE/Bre-B | Automático en fecha de corte | Diferenciador comercial fuerte. |
+| **Consignación bancaria manual** | $0 | Manual del admin | Conciliación nocturna automática contra extracto. |
+
+### Decisión de diseño
+
+- Un solo **puerto** `PaymentGateway` con un adaptador por proveedor.
+- Wompi como adaptador por defecto (cubre Bre-B + PSE + tarjeta + Nequi + corresponsales).
+- ePayco como adaptador alternativo para clientes que ya lo tengan.
+- La UI **ordena** los métodos por costo creciente para la PH: Bre-B → PSE → billeteras → corresponsales → tarjeta.
+- Soportamos **conciliación bancaria** automática descargando el extracto Bancolombia/Davivienda/BBVA y emparejando contra recibos pendientes.
+
+### Lo que **no** hacemos en MVP
+
+- No retenemos plata: la pasarela deposita directo en la cuenta de la copropiedad. Nosotros nunca somos custodios.
+- No procesamos contracargos: los reenviamos a la pasarela y el admin los gestiona.
+
+## 13. Riesgos técnicos y mitigación
 
 | Riesgo | Mitigación |
 |---|---|

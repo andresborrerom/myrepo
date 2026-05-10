@@ -18,6 +18,7 @@ SaaS web para administración de copropiedades en Colombia: contabilidad, carter
 - [`docs/architecture.md`](docs/architecture.md) — Stack técnico, módulos, despliegue, costos.
 - [`docs/domain-model.md`](docs/domain-model.md) — Entidades del negocio (copropiedad, unidad, residente, expensa, recibo, asamblea…).
 - [`docs/roadmap.md`](docs/roadmap.md) — Fases, MVP, monetización.
+- [`docs/sesion-validacion-suegrita.md`](docs/sesion-validacion-suegrita.md) — Guía para la sesión de 1h con la experta de dominio antes de codear.
 
 ## Roles del proyecto
 
