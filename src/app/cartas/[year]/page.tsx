@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Avatar from '@/components/Avatar';
+import HeartButton from '@/components/HeartButton';
+import ShareButton from '@/components/ShareButton';
 import { BIRTH_YEAR, CARTAS, getAuthor, getCarta } from '@/data/cartas';
+import { getColorRama } from '@/data/family';
 
 export function generateStaticParams() {
   return CARTAS.map((c) => ({ year: String(c.year) }));
@@ -14,6 +17,7 @@ export default function CartaPage({ params }: { params: { year: string } }) {
 
   const author = getAuthor(carta);
   const age = year - BIRTH_YEAR;
+  const ramaColor = getColorRama(carta.fromId);
 
   return (
     <article className="space-y-6">
@@ -33,13 +37,16 @@ export default function CartaPage({ params }: { params: { year: string } }) {
       </header>
 
       {author && (
-        <div className="flex items-center gap-3 rounded-2xl bg-cream-100 p-3 shadow-warm">
-          <Avatar person={author} size="sm" />
-          <div>
-            <p className="text-xs uppercase tracking-wide text-ink-800/60">de</p>
-            <p className="font-display text-base font-bold text-ink-900">
-              {author.shortName || author.name}
-            </p>
+        <div className="overflow-hidden rounded-2xl bg-cream-100 shadow-warm">
+          <div aria-hidden className={`h-1.5 w-full ${ramaColor}`} />
+          <div className="flex items-center gap-3 p-3">
+            <Avatar person={author} size="sm" />
+            <div>
+              <p className="text-xs uppercase tracking-wide text-ink-800/60">de</p>
+              <p className="font-display text-base font-bold text-ink-900">
+                {author.shortName || author.name}
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -54,6 +61,11 @@ export default function CartaPage({ params }: { params: { year: string } }) {
         {carta.body.split(/\n\s*\n/).map((para, i) => (
           <p key={i}>{para}</p>
         ))}
+      </div>
+
+      <div className="flex flex-wrap gap-2 pt-2">
+        <HeartButton itemId={`carta:${year}`} />
+        <ShareButton title={carta.title} text={`Carta del año ${year}`} />
       </div>
     </article>
   );

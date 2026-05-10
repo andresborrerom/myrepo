@@ -42,6 +42,13 @@ export default function VestibuloPage() {
         <ShortcutCard href="/cartas"  icon="✍️" title="Cartas"     sub="Una por año" />
         <ShortcutCard href="/memoria" icon="📖" title="La memoria" sub="75 años" />
       </section>
+
+      <Link
+        href="/como-instalar"
+        className="block rounded-2xl border border-cream-200 bg-cream-50 p-4 text-center text-sm text-ink-800/80"
+      >
+        ¿Cómo poner esta app en tu iPhone? →
+      </Link>
     </div>
   );
 }

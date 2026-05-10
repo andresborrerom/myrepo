@@ -12,6 +12,7 @@ export type Person = {
   role: 'patriarca' | 'hijo' | 'nieto';
   photo?: string; // ruta en /public o URL pública. Vacío = avatar de iniciales.
   bio?: string;
+  color?: string; // tailwind bg class para colorear su rama (solo en hijos).
 };
 
 export const PATRIARCH_ID = 'alejandro';
@@ -31,12 +32,12 @@ export const FAMILY: Person[] = [
       'jardines y de un mundo más bello, una flor a la vez.'
   },
 
-  // --- Hijos ---
-  { id: 'luis-fernando', name: 'Luis Fernando Borrero', shortName: 'Luis Fernando', age: 52, role: 'hijo', parentId: PATRIARCH_ID },
-  { id: 'alexandra',     name: 'Alexandra Borrero',     shortName: 'Alexandra',     age: 50, role: 'hijo', parentId: PATRIARCH_ID },
-  { id: 'carolina',      name: 'Carolina Borrero',      shortName: 'Carolina',      age: 48, role: 'hijo', parentId: PATRIARCH_ID },
-  { id: 'andres',        name: 'Andrés Borrero',        shortName: 'Andrés',        age: 46, role: 'hijo', parentId: PATRIARCH_ID },
-  { id: 'camilo',        name: 'Camilo Borrero',        shortName: 'Camilo',        age: 34, role: 'hijo', parentId: PATRIARCH_ID },
+  // --- Hijos --- (cada uno con un color para identificar su rama)
+  { id: 'luis-fernando', name: 'Luis Fernando Borrero', shortName: 'Luis Fernando', age: 52, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-500' },
+  { id: 'alexandra',     name: 'Alexandra Borrero',     shortName: 'Alexandra',     age: 50, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-olive-600' },
+  { id: 'carolina',      name: 'Carolina Borrero',      shortName: 'Carolina',      age: 48, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-700' },
+  { id: 'andres',        name: 'Andrés Borrero',        shortName: 'Andrés',        age: 46, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-olive-700' },
+  { id: 'camilo',        name: 'Camilo Borrero',        shortName: 'Camilo',        age: 34, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-400' },
 
   // --- Nietos ---
   { id: 'alejo',        name: 'Alejo',        age: 16, role: 'nieto', parentId: 'luis-fernando' },
@@ -66,3 +67,18 @@ export function getBranch(childId: string): Person[] {
 
 export const HIJOS = FAMILY.filter((p) => p.role === 'hijo');
 export const NIETOS = FAMILY.filter((p) => p.role === 'nieto');
+
+// Devuelve el hijo (la rama) al que pertenece una persona. Para el patriarca
+// devuelve null. Para hijos, ellos mismos. Para nietos, su padre.
+export function getRama(personId: string): Person | null {
+  const p = getPerson(personId);
+  if (!p) return null;
+  if (p.role === 'patriarca') return null;
+  if (p.role === 'hijo') return p;
+  return p.parentId ? getPerson(p.parentId) || null : null;
+}
+
+export function getColorRama(personId: string): string {
+  const rama = getRama(personId);
+  return rama?.color || 'bg-clay-500';
+}
