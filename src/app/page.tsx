@@ -3,10 +3,20 @@ import Avatar from '@/components/Avatar';
 import Countdown from '@/components/Countdown';
 import ReadingMode from '@/components/ReadingMode';
 import { APP_TAGLINE } from '@/lib/config';
-import { getPerson, PATRIARCH_ID } from '@/data/family';
+import { getPerson, getColorRama, PATRIARCH_ID } from '@/data/family';
+import { getCartaDelDia, BIRTH_YEAR } from '@/data/cartas';
+import {
+  getAuthor as getUpdateAuthor,
+  formatRelative,
+  getUpdatesOrdenados
+} from '@/data/updates';
+
+export const revalidate = 60; // refresca contenidos derivados del día actual
 
 export default function VestibuloPage() {
   const alejandro = getPerson(PATRIARCH_ID)!;
+  const cartaHoy = getCartaDelDia();
+  const updates = getUpdatesOrdenados().slice(0, 3);
 
   return (
     <div className="space-y-8">
@@ -29,11 +39,67 @@ export default function VestibuloPage() {
         <Countdown />
       </section>
 
-      <section aria-label="Novedades de hoy" className="space-y-3">
-        <h2 className="font-display text-xl text-ink-900">Novedades de hoy</h2>
-        <div className="rounded-2xl border border-dashed border-cream-200 bg-cream-50 p-6 text-center text-ink-800/70">
-          Aún no hay novedades. La familia las irá llenando.
-        </div>
+      {cartaHoy && (
+        <Link
+          href={`/cartas/${cartaHoy.year}`}
+          aria-label={`Carta de hoy: año ${cartaHoy.year}`}
+          className="block overflow-hidden rounded-3xl bg-clay-500 text-cream-50 shadow-warm"
+        >
+          <div className="p-6">
+            <p className="text-sm uppercase tracking-wide opacity-80">
+              Tu carta de hoy
+            </p>
+            <p className="mt-2 font-display text-2xl font-bold">
+              {cartaHoy.title || `El año ${cartaHoy.year}`}
+            </p>
+            <p className="mt-1 text-sm opacity-90">
+              Año {cartaHoy.year} · {cartaHoy.year - BIRTH_YEAR} años
+            </p>
+            <p className="mt-4 inline-flex items-center gap-1 text-sm">
+              Ábrela <span aria-hidden>→</span>
+            </p>
+          </div>
+        </Link>
+      )}
+
+      <section aria-label="Novedades" className="space-y-3">
+        <h2 className="font-display text-xl text-ink-900">Novedades de la familia</h2>
+        {updates.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-cream-200 bg-cream-50 p-6 text-center text-ink-800/70">
+            Aún no hay novedades. La familia las irá llenando.
+          </div>
+        ) : (
+          <ul className="space-y-2">
+            {updates.map((u) => {
+              const author = getUpdateAuthor(u);
+              const ramaColor = getColorRama(u.fromId);
+              return (
+                <li key={u.id}>
+                  <Link
+                    href="/buzon"
+                    className="flex items-center gap-3 overflow-hidden rounded-2xl bg-cream-100 shadow-warm"
+                  >
+                    <span aria-hidden className={`h-full w-1.5 self-stretch ${ramaColor}`} />
+                    <div className="flex flex-1 items-center gap-3 py-3 pr-4">
+                      {author && <Avatar person={author} size="sm" />}
+                      <div className="min-w-0 flex-1">
+                        <p className="font-display text-base font-bold text-ink-900">
+                          {author?.shortName || 'Familia'}
+                        </p>
+                        <p className="truncate text-sm text-ink-800/70">
+                          {u.title || u.text || 'Nueva entrada'}
+                        </p>
+                        <p className="mt-0.5 text-xs text-ink-800/50">
+                          {formatRelative(u.createdAt)}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </section>
 
       <section aria-label="Atajos" className="grid grid-cols-2 gap-3">
