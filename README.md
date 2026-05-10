@@ -37,6 +37,7 @@ En producción Supabase aplica las migraciones automáticamente y el stub no se 
 - [`docs/domain-model.md`](docs/domain-model.md) — Entidades del negocio (copropiedad, unidad, residente, expensa, recibo, asamblea…).
 - [`docs/roadmap.md`](docs/roadmap.md) — Fases, MVP, monetización.
 - [`docs/sesion-validacion-suegrita.md`](docs/sesion-validacion-suegrita.md) — Guía para la sesión de 1h con la experta de dominio antes de codear.
+- [`docs/cuestionario-suegrita.md`](docs/cuestionario-suegrita.md) — Cuestionario auto-llenable (con copia en `.docx`, `.odt`, `.html` en `docs/cuestionario/`) para que ella responda directamente sin necesidad de reunión.
 - [`supabase/README.md`](supabase/README.md) — Esquema de base de datos, RLS y convenciones.
 
 ## Estructura del repo (actual)

@@ -2,6 +2,8 @@
 
 > Objetivo: validar que el modelo de dominio y los flujos centrales corresponden a cómo realmente se administra una PH en Colombia. **Sin la mirada de la suegrita, vamos a codear cosas que nadie usa.**
 
+> **Nota:** si prefieres que ella conteste sin reunión presencial (en su tiempo, sin presión), pásale el **cuestionario auto-llenable** que está en `docs/cuestionario-suegrita.md` (con copia descargable en `.docx`, `.odt` y `.html` en `docs/cuestionario/`). Tiene espacios para escribir directamente. Cuando lo devuelva, esta sesión se vuelve un repaso de 30 min en lugar de 60.
+
 ## Reglas de la sesión
 
 1. **No le mostramos código ni esquemas SQL.** Le mostramos lenguaje de negocio.
