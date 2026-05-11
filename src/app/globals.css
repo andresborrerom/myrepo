@@ -37,3 +37,13 @@ button, a {
 /* Modo "lectura cómoda" — toggle por clase en <html>. */
 html.lectura-comoda { font-size: 21px; }
 html.lectura-comoda body { letter-spacing: 0.01em; }
+
+/* Apertura sutil de cartas. La media query global de reduce-motion
+   ya neutraliza esta animación a 0.01ms. */
+@keyframes carta-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.carta-enter {
+  animation: carta-enter 380ms ease-out;
+}

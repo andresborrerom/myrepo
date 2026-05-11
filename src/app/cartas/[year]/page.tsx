@@ -33,7 +33,7 @@ export default function CartaPage({ params }: { params: { year: string } }) {
   ].filter(Boolean).join(' ');
 
   return (
-    <article className="space-y-6">
+    <article className="carta-enter space-y-6">
       <Link href="/cartas" className="inline-flex items-center gap-1 text-clay-600">
         ‹ Volver a las cartas
       </Link>
