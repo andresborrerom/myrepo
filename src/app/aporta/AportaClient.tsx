@@ -204,18 +204,6 @@ export default function AportaClient({
           />
         </Field>
 
-        {needsBody && (
-          <Field label="Texto">
-            <textarea
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              rows={6}
-              placeholder="Escribe lo que quieras decirle..."
-              className="w-full rounded-2xl border border-cream-200 bg-cream-50 px-4 py-3 text-base"
-            />
-          </Field>
-        )}
-
         {needsFile && (
           <Field label={`Archivo (${kind})`}>
             <input
@@ -235,6 +223,20 @@ export default function AportaClient({
             )}
           </Field>
         )}
+
+        <Field label={needsBody ? 'Texto' : 'Mensaje o caption (opcional)'}>
+          <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            rows={6}
+            placeholder={
+              needsBody
+                ? 'Escribe lo que quieras decirle...'
+                : 'Acompaña tu archivo con unas palabras (opcional)...'
+            }
+            className="w-full rounded-2xl border border-cream-200 bg-cream-50 px-4 py-3 text-base"
+          />
+        </Field>
 
         {error && (
           <p className="rounded-xl bg-clay-500/10 px-4 py-3 text-sm text-clay-700">
