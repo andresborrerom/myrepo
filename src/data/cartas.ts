@@ -80,6 +80,40 @@ export const CARTAS: Carta[] = [
     fromId: 'camilo',
     title: 'El benjamín',
     body: '[Camilo llenará esta carta]'
+  },
+  {
+    year: 1997,
+    fromId: 'andres',
+    title: 'El año en que cruzaste el mar',
+    body:
+      'En diciembre te mudaste a Marbella. Habías pasado treinta y cuatro ' +
+      'años en Bogotá: la casa que armaste para cinco familias, los ' +
+      'edificios que dibujaste para otras, las rosas que aprendiste a ' +
+      'cultivar. Después de todo eso, escogiste otro paisaje, otro idioma ' +
+      'del Mediterráneo, otra forma de estar.\n\n' +
+      'Desde entonces vuelves a Bogotá para vernos. Y nosotros vamos a ' +
+      'Marbella para contarte. La distancia se llena de vuelos y de ' +
+      'llamadas. Y, desde hoy, también de esta casa digital — que existe ' +
+      'precisamente porque ningún océano va a separar a esta familia.\n\n' +
+      'De tus cinco hijos.'
+  },
+  {
+    year: 2000,
+    fromId: 'andres',
+    title: 'El año en que tu papá se volvió escuela',
+    body:
+      'Cinco años después de despedir a tu papá, ustedes los hermanos ' +
+      'quisieron que su nombre no se quedara solo en una lápida. ' +
+      'Inauguraron, en El Corzo de Facatativá, un colegio que llevara su ' +
+      'nombre: la Fundación Fernando Borrero Caicedo.\n\n' +
+      'Empezó con 34 niños — los hijos de los trabajadores que cuidan las ' +
+      'rosas de la familia. Hoy son 619.\n\n' +
+      'Cada uno de ellos pronuncia el apellido de tu padre todos los días. ' +
+      'Cada vez que alguien en Estados Unidos compra un ramo de Elite en ' +
+      'Whole Foods, sin saberlo está mandando algo a ese colegio que lleva ' +
+      'el nombre de tu papá.\n\n' +
+      'Tu padre no se fue. Se volvió escuela.\n\n' +
+      'De tus cinco hijos.'
   }
 ];
 

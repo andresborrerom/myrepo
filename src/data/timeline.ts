@@ -30,9 +30,9 @@ function nacimientosFamiliares(): Hito[] {
 }
 
 // Hitos sembrados a mano. Andrés y familia los van completando.
+// Política: solo hitos desde el nacimiento de Alejandro (1951) en adelante.
 const HITOS_SEMBRADOS: Hito[] = [
   { year: 1951, title: 'Nace Alejandro Borrero Ospina', description: 'En Cali, Valle del Cauca.', scope: 'familia' },
-  { year: 1951, title: 'Colombia gana la Vuelta a Colombia', scope: 'pais' },
   {
     year: 1963,
     title: 'Llega a Bogotá',
@@ -41,8 +41,25 @@ const HITOS_SEMBRADOS: Hito[] = [
     scope: 'familia'
   },
   { year: 1969, title: 'Llegada del hombre a la Luna', description: 'Tú tenías 18 años.', scope: 'mundo' },
-  // Placeholder de Elite Flower — el agente confirmará año y detalles.
-  { year: 1996, title: 'Elite Flower (verificar año)', description: '[A confirmar con el agente investigador]', scope: 'obra' },
+  {
+    year: 1997,
+    title: 'Te mudas a Marbella',
+    description: 'En diciembre cruzas el océano. Empiezas otra forma de estar.',
+    scope: 'familia'
+  },
+  {
+    year: 2000,
+    title: 'Nace la Fundación Fernando Borrero Caicedo',
+    description:
+      'En honor a tu papá. Empezó con 34 niños hijos de trabajadores de Elite Flower; hoy son 619.',
+    scope: 'obra'
+  },
+  {
+    year: 2021,
+    title: 'Excellence Flowers se vuelve The Elite Flower',
+    description: 'Las rosas de tu familia pasan a ser parte del segundo exportador floricultor del país.',
+    scope: 'obra'
+  },
   { year: TURNS_75_YEAR, title: '75 años', description: 'Hoy.', scope: 'familia' }
 ];
 
