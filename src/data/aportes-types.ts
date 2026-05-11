@@ -20,11 +20,11 @@ export type Aporte = {
 };
 
 export const APORTE_KIND_LABEL: Record<AporteKind, string> = {
-  texto: 'Texto',
+  texto: 'Texto (mensaje libre)',
   foto:  'Foto',
   audio: 'Audio',
   video: 'Video',
-  carta: 'Carta (para un año específico)'
+  carta: 'Carta para un año específico de su vida'
 };
 
 export const APORTE_KIND_ICON: Record<AporteKind, string> = {

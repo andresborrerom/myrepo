@@ -171,6 +171,11 @@ export default function AportaClient({
               </option>
             ))}
           </select>
+          <p className="mt-1 text-xs text-ink-800/60">
+            <strong>Carta</strong>: atada a un año específico de su vida (1951-2026). Se le revela día por día después del cumpleaños.
+            <br />
+            <strong>Texto / Foto / Audio / Video</strong>: mensaje libre, sin año. Va al Buzón.
+          </p>
         </Field>
 
         {kind === 'carta' && (
