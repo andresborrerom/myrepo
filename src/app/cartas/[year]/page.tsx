@@ -4,25 +4,27 @@ import Avatar from '@/components/Avatar';
 import HeartButton from '@/components/HeartButton';
 import ShareButton from '@/components/ShareButton';
 import SpeakButton from '@/components/SpeakButton';
-import { BIRTH_YEAR, CARTAS, getAuthor, getCarta } from '@/data/cartas';
+import { BIRTH_YEAR } from '@/data/cartas';
 import { getCartaAudioUrl } from '@/data/audios';
-import { getColorRama } from '@/data/family';
+import { getColorRama, getPerson } from '@/data/family';
+import { getCartaFinal } from '@/lib/cartas-fetch';
 
-export function generateStaticParams() {
-  return CARTAS.map((c) => ({ year: String(c.year) }));
-}
+export const dynamic = 'force-dynamic';
 
-export default function CartaPage({ params }: { params: { year: string } }) {
+export default async function CartaPage({ params }: { params: { year: string } }) {
   const year = Number(params.year);
-  const carta = getCarta(year);
+  if (!year || year < 1900 || year > 2100) notFound();
+
+  const carta = await getCartaFinal(year);
   if (!carta) notFound();
 
-  const author = getAuthor(carta);
+  const author = getPerson(carta.fromId);
   const age = year - BIRTH_YEAR;
   const ramaColor = getColorRama(carta.fromId);
 
-  // Audio: prioriza el explícito (carta.audioUrl), luego el generado por
-  // el script de clonado de voces, y si nada existe cae al TTS del navegador.
+  // Audio: prioriza el explícito (carta.audioUrl — DB media o seed manual),
+  // luego el generado por el script de clonado, y si nada existe cae al
+  // TTS del navegador.
   const audioUrl = carta.audioUrl || getCartaAudioUrl(year);
 
   // Texto narrado: autor + título + cuerpo. Pausas con punto para naturalidad.
@@ -33,7 +35,7 @@ export default function CartaPage({ params }: { params: { year: string } }) {
   ].filter(Boolean).join(' ');
 
   return (
-    <article className="space-y-6">
+    <article className="carta-enter space-y-6">
       <Link href="/cartas" className="inline-flex items-center gap-1 text-clay-600">
         ‹ Volver a las cartas
       </Link>

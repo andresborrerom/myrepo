@@ -7,14 +7,14 @@ import { HIJOS } from '@/data/family';
 import {
   type Update,
   formatRelative,
-  getAuthor,
-  getUpdatesOrdenados
+  getAuthor
 } from '@/data/updates';
 import { getRama } from '@/data/family';
 
 // Buzón con filtro por rama. Cliente para mantener el estado del filtro.
-export default function BuzonClient() {
-  const all = useMemo(() => getUpdatesOrdenados(), []);
+// Recibe el feed combinado (DB + seed) ya ordenado desde el server component.
+export default function BuzonClient({ initialUpdates }: { initialUpdates: Update[] }) {
+  const all = useMemo(() => initialUpdates, [initialUpdates]);
   const [filter, setFilter] = useState<string | null>(null);
 
   const updates = filter
