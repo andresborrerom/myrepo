@@ -75,3 +75,19 @@ export async function fetchAllAportesAdmin(): Promise<Aporte[]> {
   return (data || []) as Aporte[];
 }
 
+// Aportes firmados por una persona (from_id). Útil para mostrar el feed de
+// cada miembro en su perfil del árbol.
+export async function fetchAportesByPerson(personId: string, limit = 20): Promise<Aporte[]> {
+  noStore();
+  const supabase = getPublicClient();
+  if (!supabase) return [];
+  const { data } = await supabase
+    .from('aportes')
+    .select('*')
+    .eq('status', 'published')
+    .eq('from_id', personId)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+  return (data || []) as Aporte[];
+}
+

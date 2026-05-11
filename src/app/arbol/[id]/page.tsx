@@ -9,12 +9,16 @@ import {
   getColorRama,
   getRama
 } from '@/data/family';
+import { fetchAportesByPerson } from '@/lib/aportes-fetch';
+import {
+  APORTE_KIND_ICON,
+  APORTE_KIND_LABEL
+} from '@/data/aportes-types';
+import { formatRelative } from '@/data/updates';
 
-export function generateStaticParams() {
-  return FAMILY.map((p) => ({ id: p.id }));
-}
+export const dynamic = 'force-dynamic';
 
-export default function PersonPage({ params }: { params: { id: string } }) {
+export default async function PersonPage({ params }: { params: { id: string } }) {
   const person = getPerson(params.id);
   if (!person) notFound();
 
@@ -23,11 +27,16 @@ export default function PersonPage({ params }: { params: { id: string } }) {
   const rama = getRama(person.id);
   const ramaColor = getColorRama(person.id);
 
-  // Hermanos (mismo padre, excluyendo a uno mismo). Solo aplica a nietos —
-  // los hijos del patriarca también tienen "hermanos" entre sí, lo mostramos.
+  // Hermanos del mismo padre, excluyendo a uno mismo.
   const siblings = person.parentId
     ? getChildren(person.parentId).filter((p) => p.id !== person.id)
     : [];
+
+  // Aportes firmados por esta persona (DB). Para el patriarca no traemos
+  // — su feed es la app entera; el árbol queda como índice de los demás.
+  const aportes = person.role === 'patriarca'
+    ? []
+    : await fetchAportesByPerson(person.id, 12);
 
   const roleLabel =
     person.role === 'patriarca' ? 'Patriarca'
@@ -70,6 +79,77 @@ export default function PersonPage({ params }: { params: { id: string } }) {
           )}
         </div>
       </header>
+
+      {person.role !== 'patriarca' && (
+        <section className="space-y-2">
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-display text-lg text-ink-900">
+              Lo que {person.shortName || person.name} te ha dejado
+            </h2>
+            {aportes.length > 0 && (
+              <Link href="/buzon" className="text-sm text-clay-600">
+                Ver todo
+              </Link>
+            )}
+          </div>
+          {aportes.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-cream-200 bg-cream-50 p-5 text-center text-sm text-ink-800/60">
+              Todavía no te ha dejado nada. Llegará.
+            </div>
+          ) : (
+            <ul className="space-y-2">
+              {aportes.map((a) => (
+                <li
+                  key={a.id}
+                  className="overflow-hidden rounded-2xl bg-cream-100 shadow-warm"
+                >
+                  <div aria-hidden className={`h-1 w-full ${ramaColor}`} />
+                  <div className="p-3">
+                    <p className="text-xs text-ink-800/60">
+                      <span aria-hidden>{APORTE_KIND_ICON[a.kind]}</span>{' '}
+                      {APORTE_KIND_LABEL[a.kind]}
+                      {a.year ? ` · año ${a.year}` : ''}
+                      {' · '}{formatRelative(a.created_at)}
+                    </p>
+                    {a.title && (
+                      <p className="mt-1 font-display text-base font-bold text-ink-900">
+                        {a.title}
+                      </p>
+                    )}
+                    {a.kind === 'foto' && a.media_url && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={a.media_url} alt={a.title || ''} className="mt-2 w-full rounded-xl" />
+                    )}
+                    {a.kind === 'audio' && a.media_url && (
+                      <audio controls preload="none" className="mt-2 w-full">
+                        <source src={a.media_url} />
+                      </audio>
+                    )}
+                    {a.kind === 'video' && a.media_url && (
+                      <video controls preload="none" className="mt-2 w-full rounded-xl">
+                        <source src={a.media_url} />
+                      </video>
+                    )}
+                    {a.kind === 'carta' && a.year && (
+                      <Link
+                        href={`/cartas/${a.year}`}
+                        className="mt-1 inline-block text-sm text-clay-600 underline"
+                      >
+                        Leer carta del año {a.year} →
+                      </Link>
+                    )}
+                    {a.body && (
+                      <p className="mt-2 text-sm text-ink-800 whitespace-pre-wrap">
+                        {a.body}
+                      </p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
 
       {parent && (
         <section className="space-y-2">
@@ -115,10 +195,6 @@ export default function PersonPage({ params }: { params: { id: string } }) {
           </ul>
         </section>
       )}
-
-      <section className="rounded-2xl border border-dashed border-cream-200 bg-cream-50 p-5 text-center text-ink-800/70">
-        Próximamente: foto, audio de saludo y novedades de su rama.
-      </section>
     </div>
   );
 }
