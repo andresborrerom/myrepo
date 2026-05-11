@@ -7,16 +7,17 @@ import { getPerson, getColorRama, PATRIARCH_ID } from '@/data/family';
 import { getCartaDelDia, BIRTH_YEAR } from '@/data/cartas';
 import {
   getAuthor as getUpdateAuthor,
-  formatRelative,
-  getUpdatesOrdenados
+  formatRelative
 } from '@/data/updates';
+import { getCombinedFeed } from '@/lib/feed';
 
-export const revalidate = 60; // refresca contenidos derivados del día actual
+export const dynamic = 'force-dynamic';
 
-export default function VestibuloPage() {
+export default async function VestibuloPage() {
   const alejandro = getPerson(PATRIARCH_ID)!;
   const cartaHoy = getCartaDelDia();
-  const updates = getUpdatesOrdenados().slice(0, 3);
+  const feed = await getCombinedFeed();
+  const updates = feed.slice(0, 3);
 
   return (
     <div className="space-y-8">

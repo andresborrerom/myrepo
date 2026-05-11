@@ -4,7 +4,6 @@ import {
   BIRTH_YEAR,
   TURNS_75_YEAR,
   CARTAS,
-  getYearsCoverage,
   getCartaDelDia,
   getCartasReveladas,
   getRevealDate,
@@ -12,13 +11,14 @@ import {
   getAuthor
 } from '@/data/cartas';
 import { getColorRama } from '@/data/family';
+import { getYearsCoverageWithDb } from '@/lib/cartas-fetch';
 
 export const metadata = { title: 'Cartas' };
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
-export default function CartasPage() {
-  const cobertura = getYearsCoverage();
-  const totalSembradas = CARTAS.length;
+export default async function CartasPage() {
+  const cobertura = await getYearsCoverageWithDb();
+  const totalSembradas = cobertura.filter((c) => c.hasCarta).length;
   const cartaHoy = getCartaDelDia();
   const reveladas = getCartasReveladas();
   const yaRecibidas = reveladas.filter((c) => c.year !== cartaHoy?.year);
