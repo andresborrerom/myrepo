@@ -2,6 +2,7 @@
 // Si Supabase no está configurado, devolvemos arrays vacíos para que las
 // páginas sigan funcionando con sus datos seed.
 
+import { unstable_noStore as noStore } from 'next/cache';
 import { getPublicClient } from './supabase';
 import type { Aporte, AporteKind } from '@/data/aportes-types';
 
@@ -9,6 +10,7 @@ export async function fetchPublishedAportes(opts?: {
   kinds?: AporteKind[];
   limit?: number;
 }): Promise<Aporte[]> {
+  noStore();
   const supabase = getPublicClient();
   if (!supabase) return [];
 
@@ -31,6 +33,7 @@ export async function fetchPublishedAportes(opts?: {
 }
 
 export async function fetchCartaForYear(year: number): Promise<Aporte | null> {
+  noStore();
   const supabase = getPublicClient();
   if (!supabase) return null;
 
@@ -48,6 +51,7 @@ export async function fetchCartaForYear(year: number): Promise<Aporte | null> {
 }
 
 export async function fetchAportesCount(): Promise<number> {
+  noStore();
   const supabase = getPublicClient();
   if (!supabase) return 0;
   const { count } = await supabase
@@ -56,3 +60,18 @@ export async function fetchAportesCount(): Promise<number> {
     .eq('status', 'published');
   return count || 0;
 }
+
+// Server-side: para /admin (todos los aportes incluso no publicados).
+// Usa service_role bypassing RLS.
+export async function fetchAllAportesAdmin(): Promise<Aporte[]> {
+  noStore();
+  const { getServiceClient } = await import('./supabase');
+  const supabase = getServiceClient();
+  if (!supabase) return [];
+  const { data } = await supabase
+    .from('aportes')
+    .select('*')
+    .order('created_at', { ascending: false });
+  return (data || []) as Aporte[];
+}
+

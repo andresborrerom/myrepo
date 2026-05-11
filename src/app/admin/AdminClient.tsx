@@ -92,12 +92,12 @@ export default function AdminClient({ initialAportes }: { initialAportes: Aporte
                   <span aria-hidden className="text-xl">{APORTE_KIND_ICON[a.kind]}</span>
                   <div>
                     <p className="font-display text-sm font-bold text-ink-900">
-                      {author?.shortName || a.from_id}
+                      {author?.shortName || author?.name || a.from_id}
                     </p>
                     <p className="text-xs text-ink-800/60">
                       {APORTE_KIND_LABEL[a.kind]}
                       {a.year ? ` · año ${a.year}` : ''}
-                      {onBehalf && ` · subido por ${onBehalf.shortName}`}
+                      {onBehalf && ` · subido por ${onBehalf.shortName || onBehalf.name}`}
                     </p>
                   </div>
                 </div>
