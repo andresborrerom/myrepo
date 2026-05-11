@@ -27,10 +27,11 @@ export const FAMILY: Person[] = [
     role: 'patriarca',
     parentId: null,
     bio:
-      'Caleño de nacimiento, bogotano por destino. Arquitecto. Padre de ' +
-      'cinco — a cada uno le construyó una casa para vivir con su familia. ' +
-      'Abuelo de ocho. Constructor de hogares, jardines y de un mundo más ' +
-      'bello, una flor a la vez.'
+      'Caleño de nacimiento, bogotano por destino, marbellí por elección. ' +
+      'Arquitecto y constructor (Borrero y Sánchez Cía). Hijo de Fernando ' +
+      'Borrero Caicedo. Padre de cinco — a cada uno le construyó una casa ' +
+      'para vivir con su familia. Abuelo de ocho. Constructor de hogares, ' +
+      'jardines y de un mundo más bello, una flor a la vez.'
   },
 
   // --- Hijos --- (cada uno con un color para identificar su rama)
