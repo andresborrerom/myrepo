@@ -38,6 +38,13 @@ export default function AportaClient({
   const [total, setTotal] = useState(initialTotal);
   const [ultimos] = useState(initialUltimos);
 
+  const mineIds = useMemo(() => new Set(mineList.map((m) => m.id)), [mineList]);
+
+  function claimAporte(id: string) {
+    pushToMine(id);
+    refreshMine();
+  }
+
   // "Mis aportes" desde localStorage: lista de aportes que esta persona
   // subió desde este dispositivo. Se mantiene sincronizada con DB.
   const [mineList, setMineList] = useState<Aporte[]>([]);
@@ -505,9 +512,13 @@ export default function AportaClient({
       {ultimos.length > 0 && (
         <section aria-label="Últimos aportes" className="space-y-3">
           <h2 className="font-display text-xl text-ink-900">Los últimos aportes de la familia</h2>
+          <p className="text-sm text-ink-800/60">
+            Si alguno es tuyo y quieres editarlo, tócalo "Es mío" — se mueve a tu lista de arriba.
+          </p>
           <ul className="space-y-2">
             {ultimos.map((u) => {
               const author = getPerson(u.from_id);
+              const yaEsMio = mineIds.has(u.id);
               return (
                 <li key={u.id} className="rounded-2xl bg-cream-100 p-3 shadow-warm">
                   <p className="text-sm">
@@ -521,6 +532,20 @@ export default function AportaClient({
                   </p>
                   {u.title && (
                     <p className="mt-1 truncate text-sm font-bold text-ink-900">{u.title}</p>
+                  )}
+                  {!yaEsMio && (
+                    <button
+                      type="button"
+                      onClick={() => claimAporte(u.id)}
+                      className="mt-2 rounded-full bg-clay-500/10 px-3 py-1 text-xs font-bold text-clay-700"
+                    >
+                      Es mío — déjame editarlo
+                    </button>
+                  )}
+                  {yaEsMio && (
+                    <p className="mt-2 text-xs text-olive-700">
+                      ✓ Ya está en tu lista de arriba
+                    </p>
                   )}
                 </li>
               );
