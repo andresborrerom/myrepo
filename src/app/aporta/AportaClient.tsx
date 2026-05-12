@@ -45,6 +45,8 @@ export default function AportaClient({
   const [editTitle, setEditTitle] = useState('');
   const [editBody, setEditBody] = useState('');
   const [editYear, setEditYear] = useState<number | null>(null);
+  const [editFile, setEditFile] = useState<File | null>(null);
+  const [editSaving, setEditSaving] = useState(false);
 
   const needsFile = kind === 'foto' || kind === 'audio' || kind === 'video';
   const needsBody = kind === 'texto' || kind === 'carta';
@@ -100,16 +102,20 @@ export default function AportaClient({
     localStorage.setItem(MINE_KEY, JSON.stringify(ids));
   }
 
-  async function uploadFile(): Promise<string | null> {
-    if (!file || !storage) return null;
-    const ext = file.name.split('.').pop() || 'bin';
+  async function uploadToStorage(f: File): Promise<string | null> {
+    if (!f || !storage) return null;
+    const ext = f.name.split('.').pop() || 'bin';
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     const { data, error } = await storage
       .from('aportes-media')
-      .upload(filename, file, { contentType: file.type, upsert: false });
+      .upload(filename, f, { contentType: f.type, upsert: false });
     if (error) throw new Error(`Subida fallida: ${error.message}`);
     const { data: pub } = storage.from('aportes-media').getPublicUrl(data.path);
     return pub.publicUrl;
+  }
+
+  async function uploadFile(): Promise<string | null> {
+    return file ? uploadToStorage(file) : null;
   }
 
   async function submit(e: React.FormEvent) {
@@ -162,6 +168,7 @@ export default function AportaClient({
     setEditTitle(a.title || '');
     setEditBody(a.body || '');
     setEditYear(a.year);
+    setEditFile(null);
   }
 
   function cancelEdit() {
@@ -169,21 +176,33 @@ export default function AportaClient({
     setEditTitle('');
     setEditBody('');
     setEditYear(null);
+    setEditFile(null);
   }
 
   async function saveEdit(id: string) {
-    const res = await fetch(`/api/aporta/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title: editTitle,
-        body: editBody,
-        ...(editYear !== null ? { year: editYear } : {})
-      })
-    });
-    if (res.ok) {
-      cancelEdit();
-      refreshMine();
+    setEditSaving(true);
+    try {
+      let newMediaUrl: string | undefined;
+      if (editFile) {
+        const url = await uploadToStorage(editFile);
+        if (url) newMediaUrl = url;
+      }
+      const res = await fetch(`/api/aporta/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: editTitle,
+          body: editBody,
+          ...(editYear !== null ? { year: editYear } : {}),
+          ...(newMediaUrl ? { media_url: newMediaUrl } : {})
+        })
+      });
+      if (res.ok) {
+        cancelEdit();
+        refreshMine();
+      }
+    } finally {
+      setEditSaving(false);
     }
   }
 
@@ -409,15 +428,39 @@ export default function AportaClient({
                       placeholder="Cuerpo"
                       className="w-full rounded-xl border border-cream-200 bg-cream-50 px-3 py-2 text-sm"
                     />
+                    {(a.kind === 'foto' || a.kind === 'audio' || a.kind === 'video') && (
+                      <div className="rounded-xl border border-dashed border-cream-200 p-2">
+                        <p className="text-xs text-ink-800/70">
+                          Reemplazar {a.kind} (opcional — deja vacío para mantener el actual)
+                        </p>
+                        <input
+                          type="file"
+                          accept={
+                            a.kind === 'foto' ? 'image/*'
+                            : a.kind === 'audio' ? 'audio/*'
+                            : 'video/*'
+                          }
+                          onChange={(e) => setEditFile(e.target.files?.[0] || null)}
+                          className="mt-1 w-full text-sm"
+                        />
+                        {editFile && (
+                          <p className="mt-1 text-xs text-clay-600">
+                            Nuevo: {editFile.name} · {Math.round(editFile.size / 1024)} KB
+                          </p>
+                        )}
+                      </div>
+                    )}
                     <div className="flex gap-2">
                       <button
                         onClick={() => saveEdit(a.id)}
-                        className="rounded-full bg-olive-700 px-3 py-1.5 text-xs font-bold text-cream-50"
+                        disabled={editSaving}
+                        className="rounded-full bg-olive-700 px-3 py-1.5 text-xs font-bold text-cream-50 disabled:opacity-50"
                       >
-                        Guardar
+                        {editSaving ? 'Guardando...' : 'Guardar'}
                       </button>
                       <button
                         onClick={cancelEdit}
+                        disabled={editSaving}
                         className="rounded-full bg-cream-200 px-3 py-1.5 text-xs font-bold text-ink-900"
                       >
                         Cancelar
