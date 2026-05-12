@@ -23,9 +23,10 @@ export async function PATCH(
 
   const updates = await req.json().catch(() => ({}));
   const safe: Record<string, unknown> = {};
-  if (typeof updates.title === 'string') safe.title = updates.title.trim() || null;
-  if (typeof updates.body === 'string')  safe.body = updates.body.trim() || null;
-  if (typeof updates.year === 'number')  safe.year = updates.year;
+  if (typeof updates.title === 'string')     safe.title = updates.title.trim() || null;
+  if (typeof updates.body === 'string')      safe.body = updates.body.trim() || null;
+  if (typeof updates.year === 'number')      safe.year = updates.year;
+  if (typeof updates.media_url === 'string') safe.media_url = updates.media_url || null;
   safe.updated_at = new Date().toISOString();
 
   const { error } = await supabase
