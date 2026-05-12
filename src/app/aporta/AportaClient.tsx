@@ -38,13 +38,6 @@ export default function AportaClient({
   const [total, setTotal] = useState(initialTotal);
   const [ultimos] = useState(initialUltimos);
 
-  const mineIds = useMemo(() => new Set(mineList.map((m) => m.id)), [mineList]);
-
-  function claimAporte(id: string) {
-    pushToMine(id);
-    refreshMine();
-  }
-
   // "Mis aportes" desde localStorage: lista de aportes que esta persona
   // subió desde este dispositivo. Se mantiene sincronizada con DB.
   const [mineList, setMineList] = useState<Aporte[]>([]);
@@ -62,6 +55,13 @@ export default function AportaClient({
     () => FAMILY.filter((p) => p.role !== 'patriarca'),
     []
   );
+
+  const mineIds = useMemo(() => new Set(mineList.map((m) => m.id)), [mineList]);
+
+  function claimAporte(id: string) {
+    pushToMine(id);
+    refreshMine();
+  }
 
   const refreshMine = useCallback(async () => {
     if (typeof window === 'undefined') return;
