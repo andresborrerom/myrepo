@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { FAMILY, HIJOS, NIETOS, getPerson } from '@/data/family';
 import {
@@ -12,8 +12,8 @@ import {
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const MINE_KEY = 'casa-aporta:mios';
 
-// Cliente de Storage anónimo. Sube archivos directo al bucket público.
 const storage = SUPABASE_URL && SUPABASE_ANON
   ? createClient(SUPABASE_URL, SUPABASE_ANON, { auth: { persistSession: false } }).storage
   : null;
@@ -38,6 +38,14 @@ export default function AportaClient({
   const [total, setTotal] = useState(initialTotal);
   const [ultimos] = useState(initialUltimos);
 
+  // "Mis aportes" desde localStorage: lista de aportes que esta persona
+  // subió desde este dispositivo. Se mantiene sincronizada con DB.
+  const [mineList, setMineList] = useState<Aporte[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editBody, setEditBody] = useState('');
+  const [editYear, setEditYear] = useState<number | null>(null);
+
   const needsFile = kind === 'foto' || kind === 'audio' || kind === 'video';
   const needsBody = kind === 'texto' || kind === 'carta';
 
@@ -45,6 +53,52 @@ export default function AportaClient({
     () => FAMILY.filter((p) => p.role !== 'patriarca'),
     []
   );
+
+  const refreshMine = useCallback(async () => {
+    if (typeof window === 'undefined') return;
+    const raw = localStorage.getItem(MINE_KEY);
+    if (!raw) {
+      setMineList([]);
+      return;
+    }
+    let ids: string[] = [];
+    try { ids = JSON.parse(raw); } catch { ids = []; }
+    if (!Array.isArray(ids) || ids.length === 0) {
+      setMineList([]);
+      return;
+    }
+    const res = await fetch('/api/aporta/mine', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids })
+    });
+    if (!res.ok) return;
+    const { aportes } = await res.json();
+    setMineList(aportes as Aporte[]);
+  }, []);
+
+  useEffect(() => {
+    refreshMine();
+  }, [refreshMine]);
+
+  function pushToMine(id: string) {
+    if (typeof window === 'undefined') return;
+    const raw = localStorage.getItem(MINE_KEY);
+    let ids: string[] = [];
+    try { ids = raw ? JSON.parse(raw) : []; } catch { ids = []; }
+    if (!Array.isArray(ids)) ids = [];
+    if (!ids.includes(id)) ids.unshift(id);
+    localStorage.setItem(MINE_KEY, JSON.stringify(ids.slice(0, 100)));
+  }
+
+  function removeFromMine(id: string) {
+    if (typeof window === 'undefined') return;
+    const raw = localStorage.getItem(MINE_KEY);
+    let ids: string[] = [];
+    try { ids = raw ? JSON.parse(raw) : []; } catch { ids = []; }
+    ids = ids.filter((i) => i !== id);
+    localStorage.setItem(MINE_KEY, JSON.stringify(ids));
+  }
 
   async function uploadFile(): Promise<string | null> {
     if (!file || !storage) return null;
@@ -87,16 +141,59 @@ export default function AportaClient({
         throw new Error(j.error || 'No se pudo guardar');
       }
 
+      const { aporte } = await res.json();
+      if (aporte?.id) pushToMine(aporte.id);
+
       setSubmitted(true);
       setTotal((t) => t + 1);
-      // limpiar formulario para próximo aporte
       setTitle('');
       setBody('');
       setFile(null);
+      refreshMine();
     } catch (e) {
       setError((e as Error).message);
     } finally {
       setUploading(false);
+    }
+  }
+
+  function startEdit(a: Aporte) {
+    setEditingId(a.id);
+    setEditTitle(a.title || '');
+    setEditBody(a.body || '');
+    setEditYear(a.year);
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditTitle('');
+    setEditBody('');
+    setEditYear(null);
+  }
+
+  async function saveEdit(id: string) {
+    const res = await fetch(`/api/aporta/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: editTitle,
+        body: editBody,
+        ...(editYear !== null ? { year: editYear } : {})
+      })
+    });
+    if (res.ok) {
+      cancelEdit();
+      refreshMine();
+    }
+  }
+
+  async function deleteMine(id: string) {
+    if (!confirm('¿Borrar este aporte? No se puede deshacer.')) return;
+    const res = await fetch(`/api/aporta/${id}`, { method: 'DELETE' });
+    if (res.ok) {
+      removeFromMine(id);
+      refreshMine();
+      setTotal((t) => Math.max(0, t - 1));
     }
   }
 
@@ -253,9 +350,118 @@ export default function AportaClient({
         </button>
       </form>
 
+      {mineList.length > 0 && (
+        <section aria-label="Mis aportes" className="space-y-3">
+          <h2 className="font-display text-xl text-ink-900">Mis aportes</h2>
+          <p className="text-sm text-ink-800/60">
+            Los que subiste desde este celular. Puedes editarlos o borrarlos.
+          </p>
+          <ul className="space-y-2">
+            {mineList.map((a) => (
+              <li
+                key={a.id}
+                className="overflow-hidden rounded-2xl bg-cream-100 shadow-warm"
+              >
+                <header className="flex items-center justify-between px-3 pt-3">
+                  <div className="text-sm">
+                    <span aria-hidden>{APORTE_KIND_ICON[a.kind]}</span>{' '}
+                    <strong>{getPerson(a.from_id)?.shortName || a.from_id}</strong>
+                    <span className="ml-1 text-xs text-ink-800/60">
+                      {APORTE_KIND_LABEL[a.kind]}
+                      {a.year ? ` · año ${a.year}` : ''}
+                    </span>
+                  </div>
+                  <span className={`rounded-full px-2 py-0.5 text-xs ${
+                    a.status === 'published' ? 'bg-olive-700 text-cream-50'
+                    : a.status === 'flagged' ? 'bg-clay-500 text-cream-50'
+                    : 'bg-cream-200 text-ink-900'
+                  }`}>
+                    {a.status === 'published' ? 'Visible' :
+                     a.status === 'flagged'   ? 'Oculto' :
+                     a.status === 'pending'   ? 'Pendiente' : 'Rechazado'}
+                  </span>
+                </header>
+
+                {editingId === a.id ? (
+                  <div className="space-y-2 p-3">
+                    {a.kind === 'carta' && (
+                      <input
+                        type="number"
+                        min={1951}
+                        max={2026}
+                        value={editYear ?? ''}
+                        onChange={(e) => setEditYear(Number(e.target.value))}
+                        className="w-full rounded-xl border border-cream-200 bg-cream-50 px-3 py-2 text-sm"
+                        placeholder="Año"
+                      />
+                    )}
+                    <input
+                      type="text"
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      placeholder="Título"
+                      className="w-full rounded-xl border border-cream-200 bg-cream-50 px-3 py-2 text-sm"
+                    />
+                    <textarea
+                      value={editBody}
+                      onChange={(e) => setEditBody(e.target.value)}
+                      rows={4}
+                      placeholder="Cuerpo"
+                      className="w-full rounded-xl border border-cream-200 bg-cream-50 px-3 py-2 text-sm"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => saveEdit(a.id)}
+                        className="rounded-full bg-olive-700 px-3 py-1.5 text-xs font-bold text-cream-50"
+                      >
+                        Guardar
+                      </button>
+                      <button
+                        onClick={cancelEdit}
+                        className="rounded-full bg-cream-200 px-3 py-1.5 text-xs font-bold text-ink-900"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="space-y-1 px-3 pb-2">
+                      {a.title && (
+                        <p className="font-display text-base font-bold text-ink-900">{a.title}</p>
+                      )}
+                      {a.body && (
+                        <p className="text-sm text-ink-800 whitespace-pre-wrap line-clamp-3">{a.body}</p>
+                      )}
+                      {a.media_url && (
+                        <p className="text-xs text-ink-800/60">📎 archivo adjunto</p>
+                      )}
+                    </div>
+                    <footer className="flex gap-2 border-t border-cream-200 bg-cream-50 px-3 py-2">
+                      <button
+                        onClick={() => startEdit(a)}
+                        className="rounded-full bg-clay-500 px-3 py-1.5 text-xs font-bold text-cream-50"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => deleteMine(a.id)}
+                        className="ml-auto rounded-full bg-clay-700 px-3 py-1.5 text-xs font-bold text-cream-50"
+                      >
+                        Borrar
+                      </button>
+                    </footer>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {ultimos.length > 0 && (
         <section aria-label="Últimos aportes" className="space-y-3">
-          <h2 className="font-display text-xl text-ink-900">Los últimos aportes</h2>
+          <h2 className="font-display text-xl text-ink-900">Los últimos aportes de la familia</h2>
           <ul className="space-y-2">
             {ultimos.map((u) => {
               const author = getPerson(u.from_id);
@@ -263,7 +469,7 @@ export default function AportaClient({
                 <li key={u.id} className="rounded-2xl bg-cream-100 p-3 shadow-warm">
                   <p className="text-sm">
                     <span aria-hidden>{APORTE_KIND_ICON[u.kind]}</span>{' '}
-                    <strong>{author?.shortName || u.from_id}</strong>
+                    <strong>{author?.shortName || author?.name || u.from_id}</strong>
                     {' · '}
                     <span className="text-ink-800/70">
                       {APORTE_KIND_LABEL[u.kind]}
