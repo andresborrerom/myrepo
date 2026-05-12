@@ -18,7 +18,7 @@ export default async function AportaPage() {
   }
 
   const total = await fetchAportesCount();
-  const ultimos = await fetchPublishedAportes({ limit: 3 });
+  const ultimos = await fetchPublishedAportes({ limit: 15 });
 
   return <AportaClient initialTotal={total} initialUltimos={ultimos} />;
 }
