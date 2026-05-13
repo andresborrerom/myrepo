@@ -7,6 +7,7 @@ export type Person = {
   name: string;
   shortName?: string;
   birthYear?: number;
+  birthDate?: string; // ISO 'YYYY-MM-DD'. Si está, el calendario lo usa.
   age?: number;
   parentId?: string | null; // null = raíz (Alejandro). undefined no soportado.
   role: 'patriarca' | 'hijo' | 'nieto';
@@ -23,6 +24,7 @@ export const FAMILY: Person[] = [
     name: 'Alejandro Borrero Ospina',
     shortName: 'Alejandro',
     birthYear: 1951,
+    birthDate: '1951-05-21',
     age: 75,
     role: 'patriarca',
     parentId: null,

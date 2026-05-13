@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { isFamilyAuth } from '@/lib/auth';
 import { getServiceClient } from '@/lib/supabase';
+import { sendEmail, emailTemplate } from '@/lib/email';
+import { getPerson } from '@/data/family';
+import { APORTE_KIND_LABEL } from '@/data/aportes-types';
 import type { AporteKind } from '@/data/aportes-types';
 
 // POST /api/aporta — recibe un aporte de la familia, lo inserta en DB.
@@ -80,5 +83,44 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  // Notificación a admin — best effort, no rompe el flujo si falla.
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (adminEmail && data) {
+    const author = getPerson(from_id);
+    const uploader = getPerson(on_behalf_of_id);
+    const authorName = author?.shortName || author?.name || from_id;
+    const uploaderName = uploader?.shortName || uploader?.name || on_behalf_of_id;
+    const kindLabel = APORTE_KIND_LABEL[kind as AporteKind];
+
+    sendEmail({
+      to: adminEmail,
+      subject: `Nuevo aporte: ${kindLabel.toLowerCase()} de ${authorName}`,
+      html: emailTemplate({
+        title: `Nuevo aporte de ${authorName}`,
+        body: `
+          <p><strong>${authorName}</strong> dejó un nuevo aporte en la casa.</p>
+          <ul style="padding-left:20px;line-height:1.7;">
+            <li>Tipo: <strong>${kindLabel}</strong></li>
+            ${data.year ? `<li>Año: <strong>${data.year}</strong></li>` : ''}
+            ${data.title ? `<li>Título: <em>"${escapeHtml(data.title)}"</em></li>` : ''}
+            ${uploaderName !== authorName ? `<li>Subido por: ${uploaderName}</li>` : ''}
+          </ul>
+          ${data.body ? `<blockquote style="border-left:3px solid #C97B5C;margin:16px 0;padding:0 16px;color:#3A2F26;">${escapeHtml(data.body).slice(0, 400)}${data.body.length > 400 ? '…' : ''}</blockquote>` : ''}
+          <p style="margin-top:20px;">
+            <a href="https://casa-de-papa.vercel.app/admin" style="background:#B05F40;color:#FBF7F0;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:bold;">Ver en /admin</a>
+          </p>
+        `
+      })
+    }).catch((e) => console.error('[email] notification failed:', e));
+  }
+
   return NextResponse.json({ ok: true, aporte: data });
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
 }
