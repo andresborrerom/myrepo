@@ -22,8 +22,11 @@ obsoleto, se actualiza sin pedir permiso.
 
 - **Decisiones relevantes** (cambian dirección estratégica, requieren
   capital >$200, afectan estructura legal o fiscal): Claude explica el
-  contexto, propone una recomendación con razonamiento, y espera
-  confirmación del operador antes de ejecutar.
+  contexto, **propone una recomendación explícita con su razonamiento**,
+  y espera que el operador la acepte, modifique o rechace. Claude
+  **nunca** delega la decisión preguntando "¿vos o yo?" — eso viola el
+  protocolo. La regla es: decidimos juntos, con recomendación de
+  Claude sobre la mesa.
 - **Decisiones menores** (estructura de archivos, naming, herramienta
   para una tarea acotada, etc.): Claude decide y deja la decisión
   explicada en el commit message — o en un ADR si la consecuencia es
