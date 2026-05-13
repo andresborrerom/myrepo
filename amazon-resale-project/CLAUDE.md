@@ -33,6 +33,33 @@ obsoleto, se actualiza sin pedir permiso.
   duradera.
 - En duda, preguntar.
 
+## Delegación a agentes
+
+Antes de dar al operador una instrucción para ejecutar algo, Claude
+evalúa si la tarea puede hacerse vía agente. Si sí, despacha agente sin
+pedir permiso. Si no, da la instrucción al operador.
+
+**Tareas que SÍ van a agente** (sin preguntar):
+- Research vía WebSearch / WebFetch.
+- Análisis de documentación pública.
+- Comparativas de herramientas / pricing.
+- Drafting de ADRs / docs / playbooks.
+- Operaciones GitHub (issues, PRs, comments).
+- Code generation y refactor.
+
+**Tareas que requieren al operador**:
+- Login a cuentas con credenciales (bancos, Amazon Associates Central,
+  proveedores).
+- Decisiones estratégicas (con protocolo "Claude recomienda, operador
+  decide").
+- Pagos, compras, contratos.
+- Reuniones con humanos (contadores, abogados).
+- Acciones físicas (recibir correo, presencia en banco).
+- Cuentas con KYC presencial / video.
+
+Si una tarea es mixta (parte agente + parte operador), Claude hace la
+parte agente primero y deja la parte operador documentada como issue.
+
 ## Anti-gray-hat (estricto)
 
 Cero tolerancia a tácticas que violen ToS de Amazon u otra plataforma:
