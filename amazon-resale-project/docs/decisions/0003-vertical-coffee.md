@@ -81,9 +81,49 @@ muestre datos.
 
 | Mes | KPI mínimo aceptable |
 |---|---|
-| 1 | Sitio publicado, ≥100 páginas indexadas, Amazon Associates US aplicación enviada |
-| 2 | ≥500 páginas indexadas, primer click orgánico, Amazon Associates aprobada |
-| 3 | ≥1000 impresiones/día en Search Console, primer revenue ($1-50) |
+| 1 | Sitio publicado, ≥100 páginas indexadas. **NO aplicar a Amazon Associates todavía** (ver Update abajo). |
+| 2 | ≥500 páginas indexadas, primer click orgánico. |
+| 3 | ≥1000 impresiones/día Search Console, ≥500 visitas/mes documentadas. **Aplicar a Amazon Associates US ahora.** |
+| 4 | Aplicación Associates aprobada condicionalmente; primer revenue ($1-50). |
+| 5-9 | Reloj de 180 días / 3 ventas calificadas corriendo. |
+
+## Update 2026-05-13 — ajuste de timing por research de issues #16/#17
+
+Tras research consolidado (ver `research/amazon-associates-from-panama.md`
+y `research/payment-receivers-panama.md`), dos hallazgos cambian el
+timing operativo sin cambiar la decisión de vertical:
+
+1. **Aplicación a Associates se mueve de mes 1 a mes 3-4.** Amazon
+   Associates US tiene regla de **3 ventas calificadas en 180 días**
+   post-aprobación condicional, o cierre automático sin appeal. Aplicar
+   demasiado temprano (sin tráfico orgánico aún) gasta el reloj de 180
+   días en un sitio que recién está indexándose. Esperar a tener ≥500
+   visitas/mes documentadas antes de aplicar maximiza las chances de
+   cumplir el threshold de 3 ventas.
+
+2. **Payment method en fases.**
+   - **Fase 1 (payouts <$200/mes, meses 4-6)**: configurar Amazon
+     Associates pago como **Gift Card** ($10 mínimo, $0 fees). Saldo
+     se usa para reinvertir en compras del proyecto (herramientas,
+     suscripciones, productos de coffee equipment para reseñas
+     auténticas).
+   - **Fase 2 (payouts >$500/mes, meses 7+)**: abrir cuenta **Payoneer**
+     (única opción confirmada para residentes Panamá; Wise no opera
+     allí, Global66 zona gris con reportes de bloqueos). Configurar
+     Amazon como direct deposit a virtual US account de Payoneer.
+     Retirar a banco panameño USD cuando saldo acumulado >$500-1000.
+
+3. **W-8BEN — respuesta crítica.** En el tax interview de Amazon,
+   responder **"No"** a "Do you perform services in the United States?".
+   Esto clasifica las comisiones como non-US source income (IRC §861)
+   y resulta en **0% withholding**. Panamá NO tiene tax treaty con US,
+   pero este mecanismo funciona sin treaty. **No marcar treaty benefits
+   en Part II del W-8BEN** (sería incorrecto y puede gatillar review).
+
+4. **Tributación Panamá**: aunque withholding US sea 0%, las comisiones
+   generadas por trabajo prestado desde Panamá pueden ser tributables
+   localmente. Régimen territorial es ambiguo en este caso. **Consultar
+   contador panameño antes de mes 6 cuando empiecen los payouts**.
 
 ## Condiciones de pivot dentro del vertical
 
