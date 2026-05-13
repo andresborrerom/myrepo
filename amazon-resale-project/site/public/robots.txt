@@ -1,0 +1,6 @@
+# robots.txt — currently blocks ALL crawlers
+# Reason: soft launch with mock content. Switch to "Allow" when ready to index.
+# Toggle documented in amazon-resale-project/docs/deploy-setup.md.
+
+User-agent: *
+Disallow: /
