@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="About"
+  description="Who we are and how we review coffee equipment. Data-driven, independent, affiliate-funded."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'About', url: '/about/' },
+  ]}
+>
+  <article class="legal-page">
+    <h1>About</h1>
+
+    <p class="lead">
+      We help readers choose better coffee equipment by comparing real
+      specifications, prices, and use cases across hundreds of products.
+      Less hype, more numbers.
+    </p>
+
+    <h2>What this site is</h2>
+    <p>
+      An independent reviews and comparison site for coffee equipment —
+      espresso machines, grinders, brewers, and accessories. Every
+      product page is built from verifiable specifications, not
+      generic opinions. The question we try to answer is straightforward:
+      <em>which machine fits your specific use case at your specific
+      budget?</em>
+    </p>
+
+    <h2>How we make money</h2>
+    <p>
+      We earn affiliate commission when readers buy through our product
+      links. As an Amazon Associate, we earn from qualifying purchases.
+      Affiliate revenue funds the site and keeps it free of paid
+      advertising. We do not accept payment from manufacturers in
+      exchange for coverage, and we do not accept free samples in
+      exchange for rankings.
+    </p>
+
+    <h2>Editorial approach</h2>
+    <p>
+      Our recommendations are anchored in three things:
+    </p>
+    <ul>
+      <li>
+        <strong>Verifiable specifications.</strong> Boiler type, group
+        head size, burr material, PID presence, footprint, weight,
+        warranty — publicly documented attributes that can be compared
+        side by side.
+      </li>
+      <li>
+        <strong>Use-case fit.</strong> The "best" machine depends on
+        whether you make milk drinks, work in a small kitchen, want
+        manual control, or value low-maintenance automation. Content
+        is organized around those real decisions.
+      </li>
+      <li>
+        <strong>Price tier transparency.</strong> Products are bucketed
+        by price (budget, mid, premium, pro). Comparisons happen within
+        tiers; we don't pretend a $200 machine competes with a $1500
+        one — though we will tell you when the difference doesn't matter
+        for your use case.
+      </li>
+    </ul>
+
+    <h2>What we don't do</h2>
+    <ul>
+      <li>We don't post fake reviews.</li>
+      <li>We don't accept payment in exchange for ranking position.</li>
+      <li>We don't recommend products outside the budget you indicated.</li>
+      <li>We don't simulate first-hand testing for products we haven't actually used; comparative analysis is clearly labeled as such.</li>
+    </ul>
+
+    <h2>Coffee origins, briefly</h2>
+    <p>
+      The operator grew up in Colombia, one of the world's top
+      coffee-producing countries, before relocating internationally. This
+      site focuses on equipment rather than beans, but that background
+      informs how we think about the machine-to-cup relationship: the
+      right equipment is the one that lets a good bean show its
+      character.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Reach us at <a href="mailto:hello@example.com">hello@example.com</a>.
+      <em>(A permanent contact address will be published here once the
+      site is on its final domain.)</em>
+    </p>
+  </article>
+</Base>
+
+<style>
+  .legal-page {
+    max-width: 720px;
+    margin: 2rem auto 4rem;
+    line-height: 1.7;
+  }
+  .legal-page h1 {
+    margin-bottom: 0.5rem;
+  }
+  .legal-page .lead {
+    font-size: 1.1rem;
+    color: #444;
+    margin-top: 0;
+  }
+  .legal-page h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-page ul {
+    padding-left: 1.25rem;
+  }
+  .legal-page li {
+    margin-bottom: 0.5rem;
+  }
+</style>
