@@ -37,11 +37,11 @@ export const FAMILY: Person[] = [
   },
 
   // --- Hijos --- (cada uno con un color para identificar su rama)
-  { id: 'luis-fernando', name: 'Luis Fernando Borrero', shortName: 'Luis Fernando', age: 52, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-500' },
-  { id: 'alexandra',     name: 'Alexandra Borrero',     shortName: 'Alexandra',     age: 50, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-olive-600' },
-  { id: 'carolina',      name: 'Carolina Borrero',      shortName: 'Carolina',      age: 48, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-700' },
-  { id: 'andres',        name: 'Andrés Borrero',        shortName: 'Andrés',        age: 46, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-olive-700' },
-  { id: 'camilo',        name: 'Camilo Borrero',        shortName: 'Camilo',        age: 34, role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-400' },
+  { id: 'luis-fernando', name: 'Luis Fernando Borrero', shortName: 'Luis Fernando', age: 52, birthDate: '1973-08-16', role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-500' },
+  { id: 'alexandra',     name: 'Alexandra Borrero',     shortName: 'Alexandra',     age: 50, birthDate: '1975-08-20', role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-olive-600' },
+  { id: 'carolina',      name: 'Carolina Borrero',      shortName: 'Carolina',      age: 48, birthDate: '1977-05-31', role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-700' },
+  { id: 'andres',        name: 'Andrés Borrero',        shortName: 'Andrés',        age: 46, birthDate: '1979-08-08', role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-olive-700' },
+  { id: 'camilo',        name: 'Camilo Borrero',        shortName: 'Camilo',        age: 34, birthDate: '1991-07-03', role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-400' },
 
   // --- Nietos ---
   { id: 'alejo',        name: 'Alejo',        age: 16, role: 'nieto', parentId: 'luis-fernando' },
