@@ -33,6 +33,16 @@ export default function MemoriaPage() {
         </p>
       </Link>
 
+      <Link
+        href="/calendario"
+        className="block rounded-2xl bg-cream-100 p-4 shadow-warm"
+      >
+        <p className="font-display text-lg font-bold text-ink-900">📅 Calendario familiar</p>
+        <p className="mt-1 text-sm text-ink-800/70">
+          Los cumpleaños de toda la familia, ordenados por proximidad.
+        </p>
+      </Link>
+
       <ol className="relative space-y-3 border-l-2 border-cream-200 pl-4">
         {hitos.map((h, i) => {
           const style = SCOPE_STYLE[h.scope];
