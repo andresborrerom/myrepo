@@ -19,6 +19,7 @@
 - ✅ Research consolidado: shortlist verticales (`market/niches/shortlist.md`), Associates desde Panamá (`research/amazon-associates-from-panama.md`), recepción de pagos (`research/payment-receivers-panama.md`)
 - ✅ CLAUDE.md con protocolos (decisión, anti-gray-hat, delegación a agentes, stop loss, inicio de sesión)
 - ✅ Glosario de siglas del proyecto
+- ✅ **Site bootstrap Astro 5** (commit 6749a74): 51 productos mock, 64 páginas (home + 51 product + 6 best-of + 6 compare), build local exitoso 1.92s, Schema.org JSON-LD completo. Vive en `amazon-resale-project/site/`, se migra a repo separado al elegir dominio.
 
 ### Próximo hito objetivo
 
@@ -73,12 +74,12 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 
 **Próximos pasos sin esperar operador:**
 
-1. Esqueleto Astro inicial con 3 templates (best-of, vs-comparison, single-product).
-2. 50-100 ASINs mock cargados manualmente desde Keepa web UI.
-3. Configurar Cloudflare Pages + dominio temporal (pre-elección de dominio final).
-4. Documentar onboarding técnico en `docs/setup.md`.
-5. Configurar Cloudflare Web Analytics.
-6. Configurar repo separado para el sitio.
+1. ~~Esqueleto Astro inicial con 3 templates~~ ✅ hecho (commit 6749a74).
+2. ~~50-100 ASINs mock~~ ✅ 51 productos mock cargados.
+3. **Pendiente**: 404 page + robots.txt + `npm audit fix`.
+4. **Pendiente**: deploy a Cloudflare Pages a una URL `.pages.dev` temporal (no submitir a Search Console hasta tener dominio real + validaciones verdes).
+5. **Pendiente**: agente de research para shortlist de dominios candidatos (se puede correr mientras esperamos #20/#21).
+6. **Bloqueado por operador**: si #20 y #21 vienen verdes, picking de dominio + deploy + replace de placeholders (affiliate tag, canonicals, CF Web Analytics token).
 
 ---
 
@@ -90,3 +91,4 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-13 | Aplicación Associates movida mes 1 → mes 3 | Regla 180 días / 3 ventas (research #16) |
 | 2026-05-13 | Keepa diferida mes 1 → mes 2 | Tweak 1 ADR 0004; ahorra $76 y valida stack primero |
 | 2026-05-13 | Pinterest app promovida a bloque A (esta semana) | Tweak 3 ADR 0004; aprobación tarda 1-3 semanas |
+| 2026-05-13 | Site bootstrap Astro completado (commit 6749a74) | Agente terminó esqueleto + 51 productos mock + build green |
