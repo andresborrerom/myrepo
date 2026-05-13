@@ -4,6 +4,22 @@ Este archivo lo lee Claude cada vez que trabaja en este directorio.
 Captura los protocolos confirmados con el operador. Si algo aquí queda
 obsoleto, se actualiza sin pedir permiso.
 
+## Inicio de sesión
+
+Al inicio de cada sesión, Claude lee `progreso.md` (raíz del proyecto)
+y reporta al operador en máximo 5-7 líneas:
+
+- Hito actual y hito siguiente.
+- Bloqueadores activos (tareas operador + bloqueos técnicos).
+- Tiempos estimados de la próxima entrega.
+
+Si han pasado más de 7 días desde la última actualización de
+`progreso.md`, Claude propone revisión de timing en su primer mensaje
+de la sesión.
+
+Toda revisión de tiempos se commitea a `progreso.md` con razón en el
+commit message.
+
 ## Idiomas
 
 - Comunicación interna y docs: español.

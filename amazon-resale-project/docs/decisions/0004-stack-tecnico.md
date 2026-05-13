@@ -346,3 +346,70 @@ final. Items 2, 4, 5, 7 pueden resolverse en paralelo.
 - **Estrategia de imágenes**: Cloudflare Images ($5/mes 100k imágenes)
   vs Astro image optimization local vs assets en R2. Decidir cuando
   tengamos primer batch de productos.
+
+## Update 2026-05-13 — tweaks aceptados por el operador
+
+Tras revisión de Claude y aceptación del operador, se modifican tres
+decisiones del cuerpo del ADR. El razonamiento original sigue válido;
+estos son ajustes operativos.
+
+### Tweak 1 — Diferir suscripción a Keepa al mes 2
+
+**Cambio:** Mes 1 construimos infraestructura del sitio con 50-100 ASINs
+ingresados manualmente desde Keepa web UI (gratis, rate-limited pero
+suficiente para semillas) o desde Amazon directo. Validamos templates,
+build, deploy y schema sin costo recurrente. **Mes 2**, una vez validado
+el stack end-to-end, suscribimos Keepa API y hacemos el pull completo
+para escalar a 500-1000 productos.
+
+**Por qué:** $76/mes es ~18% del stop loss anual antes de tener infra
+validada. Diferir un mes ahorra el costo y reduce riesgo de comprometer
+suscripción a un stack no probado.
+
+**Impacto en costos revisado:**
+
+| Item | Mes 1 | Mes 2-12 |
+|---|---|---|
+| Dominio | $0.85/mes | $0.85/mes |
+| Hosting Cloudflare | $0 | $0 (o $5 si pegamos límites) |
+| Keepa sub + API | **$0** | ~$76/mes |
+| Resto | $0 | $0 |
+| **Total** | **~$1/mes** | **~$76-$81/mes** |
+
+Total revisado 12 meses: **~$835 USD** (vs ~$910 original).
+
+### Tweak 2 — Cloudflare Web Analytics en lugar de GoatCounter
+
+**Cambio:** Analytics primario será **Cloudflare Web Analytics** (gratis,
+nativo del CDN donde hosteamos, sin cookies, sin spam de bots, cero
+mantenimiento).
+
+**Por qué:** GoatCounter self-hosted en "Fly.io free tier" no es viable
+en 2026 — Fly.io eliminó la mayor parte del free tier en 2024-2025. La
+opción "gratis" del ADR original en realidad requiere VM de $5/mes o
+Plausible Cloud $9/mes. CF Analytics resuelve el caso sin setup
+adicional ni costo recurrente.
+
+**Migrar a Plausible Cloud** ($9/mes) si más adelante necesitamos event
+tracking custom o segmentación avanzada. No urgente.
+
+### Tweak 3 — Aplicar a Pinterest Business + API esta semana
+
+**Cambio:** La tarea "abrir Pinterest Business + app developer" se
+promueve de "no bloqueante hoy" a **bloque A del operador, plazo 1
+semana**.
+
+**Por qué:** la aprobación de Standard API de Pinterest puede tardar
+1-3 semanas. Si la queremos lista para mes 2 (cuando arranque el
+agente de pinning programático), hay que arrancar el reloj ya.
+
+### Flags (no cambios, solo recordatorios)
+
+- **Estrategia de imágenes de producto**: pendiente decidir entre
+  scraping (ToS gray zone), SiteStripe iframes oficiales
+  (post-aprobación Associates) o renders propios. Decisión vale para
+  mes 2-3.
+- **Repo público vs privado del sitio**: privado al inicio. Reabrir si
+  pegamos el techo de 2000 min/mes de Actions.
+- **Dónde vive el código del sitio**: repo separado nuevo (nombre TBD
+  cuando elijamos dominio), no dentro de `myrepo/amazon-resale-project/`.
