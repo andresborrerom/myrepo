@@ -1,0 +1,124 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const all = await getCollection('products');
+
+const sortedByUpdated = [...all].sort(
+  (a, b) => b.data.updated_at.getTime() - a.data.updated_at.getTime()
+);
+const latest = sortedByUpdated.slice(0, 6);
+
+const espressoMachines = all
+  .filter((p) => p.data.type === 'espresso-machine')
+  // Prefer pro/premium tier picks for the homepage highlight section.
+  .sort((a, b) => b.data.price - a.data.price)
+  .slice(0, 4);
+
+const grinders = all
+  .filter((p) => p.data.type === 'grinder')
+  .sort((a, b) => b.data.price - a.data.price)
+  .slice(0, 4);
+
+// Pull from the best/ pages list (kept in sync manually for the home grid).
+const bestOfLinks = [
+  { slug: 'best-espresso-machine-under-500', title: 'Best espresso machines under $500' },
+  { slug: 'best-grinder-under-200', title: 'Best grinders under $200' },
+  { slug: 'best-espresso-machine-for-beginners', title: 'Best espresso machines for beginners' },
+  { slug: 'best-grinder-for-espresso', title: 'Best grinders for espresso' },
+  { slug: 'best-espresso-machine-for-small-kitchen', title: 'Best espresso machines for small kitchens' },
+  { slug: 'best-budget-espresso-machine', title: 'Best budget espresso machines' },
+];
+
+const compareLinks = [
+  { slug: 'breville-bambino-plus-vs-gaggia-classic-pro', title: 'Bambino Plus vs Gaggia Classic Pro' },
+  { slug: 'breville-barista-express-vs-breville-barista-pro', title: 'Barista Express vs Barista Pro' },
+  { slug: 'baratza-encore-esp-vs-baratza-sette-270', title: 'Baratza Encore ESP vs Sette 270' },
+  { slug: 'niche-zero-vs-eureka-mignon-specialita', title: 'Niche Zero vs Eureka Specialita' },
+  { slug: 'aeropress-original-vs-hario-v60-02', title: 'AeroPress vs Hario V60' },
+  { slug: 'flair-58-vs-cafelat-robot', title: 'Flair 58 vs Cafelat Robot' },
+];
+
+const associatesTag = 'PLACEHOLDER-20';
+---
+<Base
+  title="Coffee Equipment Reviews — Espresso Machines, Grinders, Brewers"
+  description="Independent reviews and comparisons of home espresso machines, burr grinders, and pour-over brewers. Specs, pros, cons, and clear price-tier recommendations."
+>
+  <h1>Coffee equipment, reviewed honestly.</h1>
+  <p class="lead">
+    Independent reviews and direct comparisons of home espresso machines, burr grinders, and pour-over
+    brewers. No paid placements — just specs, pros and cons, and an answer to "should I buy this?"
+  </p>
+
+  <section class="section">
+    <h2>Latest reviews</h2>
+    <ul class="product-grid">
+      {latest.map((p) => (
+        <li class="product-card">
+          <h3><a href={`/products/${p.data.asin}/`}>{p.data.name}</a></h3>
+          <p class="meta">{p.data.brand} &middot; {p.data.type}</p>
+          <p class="meta"><span class="price">${p.data.price}</span> &middot; {p.data.price_tier}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Featured espresso machines</h2>
+    <ul class="product-grid">
+      {espressoMachines.map((p) => (
+        <li class="product-card">
+          <h3><a href={`/products/${p.data.asin}/`}>{p.data.name}</a></h3>
+          <p class="meta">{p.data.brand}</p>
+          <p class="meta"><span class="price">${p.data.price}</span> &middot; {p.data.price_tier}</p>
+          <p>
+            <a
+              href={`https://amazon.com/dp/${p.data.asin}?tag=${associatesTag}`}
+              rel="sponsored nofollow noopener"
+              target="_blank"
+            >Check on Amazon &rarr;</a>
+          </p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Featured grinders</h2>
+    <ul class="product-grid">
+      {grinders.map((p) => (
+        <li class="product-card">
+          <h3><a href={`/products/${p.data.asin}/`}>{p.data.name}</a></h3>
+          <p class="meta">{p.data.brand}</p>
+          <p class="meta"><span class="price">${p.data.price}</span> &middot; {p.data.price_tier}</p>
+          <p>
+            <a
+              href={`https://amazon.com/dp/${p.data.asin}?tag=${associatesTag}`}
+              rel="sponsored nofollow noopener"
+              target="_blank"
+            >Check on Amazon &rarr;</a>
+          </p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Buying guides</h2>
+    <ul>
+      {bestOfLinks.map((l) => (
+        <li><a href={`/best/${l.slug}/`}>{l.title}</a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Head-to-head comparisons</h2>
+    <ul>
+      {compareLinks.map((l) => (
+        <li><a href={`/compare/${l.slug}/`}>{l.title}</a></li>
+      ))}
+    </ul>
+  </section>
+</Base>

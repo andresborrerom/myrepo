@@ -1,0 +1,179 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { bestPages, type BestPage } from '../../data/best-pages';
+
+type Product = CollectionEntry<'products'>;
+
+export async function getStaticPaths() {
+  const { bestPages: pages } = await import('../../data/best-pages');
+  const all = await getCollection('products');
+  return pages.map((page) => {
+    const matches = all
+      .filter((p) => page.filter(p.data))
+      .sort((a, b) => (page.sort ? page.sort(a.data, b.data) : 0));
+    return {
+      params: { slug: page.slug },
+      props: { page, matches },
+    };
+  });
+}
+
+interface Props {
+  page: BestPage;
+  matches: Product[];
+}
+
+const { page, matches } = Astro.props as Props;
+
+const associatesTag = 'PLACEHOLDER-20';
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: page.title,
+  itemListElement: matches.map((m, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    item: {
+      '@type': 'Product',
+      name: m.data.name,
+      brand: { '@type': 'Brand', name: m.data.brand },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'USD',
+        price: m.data.price,
+      },
+    },
+  })),
+};
+
+const faq = [
+  {
+    q: `How were these ${page.title.toLowerCase()} picks chosen?`,
+    a: 'Each pick is evaluated on shot quality (or grind quality), build, parts availability, and price-to-performance. We do not accept payment from manufacturers; affiliate links to Amazon do not change the editorial ranking.',
+  },
+  {
+    q: 'How often is this list updated?',
+    a: 'We review this list quarterly and update individual entries when new products release, prices change materially, or community feedback flags an issue. Last update timestamps appear on each product page.',
+  },
+  {
+    q: 'Are these products available outside the US?',
+    a: 'Pricing and links target the US Amazon market. Many products are sold internationally through specialty distributors at different prices.',
+  },
+  ...(page.faqExtras ?? []),
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Best Of', url: '/' },
+  { name: page.title, url: `/best/${page.slug}/` },
+];
+
+// Reference imported pages array to satisfy unused-import linting; consumers
+// that need the full list can re-export from this module.
+void bestPages;
+---
+<Base
+  title={`${page.title} (2026)`}
+  description={page.description}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[itemListSchema, faqSchema]}
+>
+  <h1>{page.title}</h1>
+  <p class="lead">{page.intro}</p>
+
+  {matches.length === 0 ? (
+    <p>No products match this criteria yet. Check back as the catalog grows.</p>
+  ) : (
+    <>
+      <section class="section">
+        <h2>At a glance</h2>
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Type</th>
+              <th>Best for</th>
+            </tr>
+          </thead>
+          <tbody>
+            {matches.map((m, idx) => (
+              <tr>
+                <td>#{idx + 1}</td>
+                <td>
+                  <a href={`/products/${m.data.asin}/`}>{m.data.name}</a>
+                </td>
+                <td>${m.data.price}</td>
+                <td>{m.data.type}</td>
+                <td>{m.data.best_for.slice(0, 2).join(', ')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <ol class="ranked-list">
+        {matches.map((m, idx) => (
+          <li>
+            <span class="rank-badge">#{idx + 1}</span>
+            <h3>
+              <a href={`/products/${m.data.asin}/`}>{m.data.name}</a>
+            </h3>
+            <p class="meta muted">
+              {m.data.brand} &middot; ${m.data.price} &middot; {m.data.price_tier} tier
+            </p>
+            <div class="pros-cons">
+              <div class="pros">
+                <h4>Pros</h4>
+                <ul>
+                  {m.data.pros.slice(0, 3).map((item: string) => <li>{item}</li>)}
+                </ul>
+              </div>
+              <div class="cons">
+                <h4>Cons</h4>
+                <ul>
+                  {m.data.cons.slice(0, 2).map((item: string) => <li>{item}</li>)}
+                </ul>
+              </div>
+            </div>
+            <p>
+              <a
+                class="affiliate-cta"
+                href={`https://amazon.com/dp/${m.data.asin}?tag=${associatesTag}`}
+                rel="sponsored nofollow noopener"
+                target="_blank"
+              >
+                Check on Amazon
+              </a>
+              {' '}
+              <a href={`/products/${m.data.asin}/`}>Read the full review &rarr;</a>
+            </p>
+          </li>
+        ))}
+      </ol>
+    </>
+  )}
+
+  <section class="section faq">
+    <h2>Frequently Asked Questions</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.q}</summary>
+        <p>{item.a}</p>
+      </details>
+    ))}
+  </section>
+</Base>

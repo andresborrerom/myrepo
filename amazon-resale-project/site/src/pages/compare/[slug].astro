@@ -1,0 +1,220 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { comparePages, type ComparePage } from '../../data/compare-pages';
+
+type Product = CollectionEntry<'products'>;
+
+export async function getStaticPaths() {
+  const { comparePages: comparisons } = await import('../../data/compare-pages');
+  const all = await getCollection('products');
+  const byAsin = new Map(all.map((p) => [p.data.asin, p]));
+
+  return comparisons
+    .map((comp) => {
+      const a = byAsin.get(comp.asinA);
+      const b = byAsin.get(comp.asinB);
+      if (!a || !b) {
+        // eslint-disable-next-line no-console
+        console.warn(`Compare page ${comp.slug}: missing ASIN ${comp.asinA} or ${comp.asinB}`);
+        return null;
+      }
+      return {
+        params: { slug: comp.slug },
+        props: { comp, a, b },
+      };
+    })
+    .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+}
+
+interface Props {
+  comp: ComparePage;
+  a: Product;
+  b: Product;
+}
+
+const { comp, a, b } = Astro.props as Props;
+const associatesTag = 'PLACEHOLDER-20';
+
+const title = `${a.data.name} vs ${b.data.name}: Side-by-Side Comparison`;
+const description = `${a.data.name} versus ${b.data.name}: specs, pros, cons, pricing, and a clear recommendation by use case.`;
+
+// Union of feature keys so the spec table compares apples-to-apples.
+const allKeys = new Set<string>([
+  ...Object.keys(a.data.features),
+  ...Object.keys(b.data.features),
+]);
+
+const featureRows = Array.from(allKeys).sort();
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Compare', url: '/' },
+  { name: `${a.data.name} vs ${b.data.name}`, url: `/compare/${comp.slug}/` },
+];
+
+// JSON-LD: WebPage with mainEntity describing both compared products.
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  description,
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: [a, b].map((p, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'Product',
+        name: p.data.name,
+        brand: { '@type': 'Brand', name: p.data.brand },
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'USD',
+          price: p.data.price,
+        },
+      },
+    })),
+  },
+};
+
+const faq = [
+  {
+    q: `Is the ${a.data.name} better than the ${b.data.name}?`,
+    a: `Neither is universally better — they target different users. The ${a.data.name} is best for ${a.data.best_for.slice(0, 2).join(' and ')}. The ${b.data.name} is best for ${b.data.best_for.slice(0, 2).join(' and ')}.`,
+  },
+  {
+    q: `What's the price difference?`,
+    a: `The ${a.data.name} retails around $${a.data.price}; the ${b.data.name} around $${b.data.price}. Price difference: $${Math.abs(a.data.price - b.data.price)}.`,
+  },
+  {
+    q: `Which one is better for milk drinks?`,
+    a: `Look at the steam-related features in the spec table. Tags help too — products with 'milk-drinks' or 'dual-boiler' tags handle milk better. ${a.data.name} tags: ${a.data.tags.join(', ')}. ${b.data.name} tags: ${b.data.tags.join(', ')}.`,
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+void comparePages;
+---
+<Base
+  title={title}
+  description={description}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[pageSchema, faqSchema]}
+>
+  <h1>{a.data.name} vs {b.data.name}</h1>
+  <p class="lead">{comp.intro}</p>
+
+  <section class="section">
+    <h2>Quick verdict</h2>
+    <div class="pros-cons">
+      <div>
+        <h3><a href={`/products/${a.data.asin}/`}>{a.data.name}</a></h3>
+        <p class="meta muted">${a.data.price} &middot; {a.data.price_tier} tier</p>
+        <p><strong>Best for:</strong> {a.data.best_for.slice(0, 3).join(', ')}</p>
+        <a
+          class="affiliate-cta"
+          href={`https://amazon.com/dp/${a.data.asin}?tag=${associatesTag}`}
+          rel="sponsored nofollow noopener"
+          target="_blank"
+        >
+          Check on Amazon
+        </a>
+      </div>
+      <div>
+        <h3><a href={`/products/${b.data.asin}/`}>{b.data.name}</a></h3>
+        <p class="meta muted">${b.data.price} &middot; {b.data.price_tier} tier</p>
+        <p><strong>Best for:</strong> {b.data.best_for.slice(0, 3).join(', ')}</p>
+        <a
+          class="affiliate-cta"
+          href={`https://amazon.com/dp/${b.data.asin}?tag=${associatesTag}`}
+          rel="sponsored nofollow noopener"
+          target="_blank"
+        >
+          Check on Amazon
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Spec comparison</h2>
+    <table class="specs-table">
+      <thead>
+        <tr>
+          <th>Spec</th>
+          <th>{a.data.name}</th>
+          <th>{b.data.name}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Brand</th>
+          <td>{a.data.brand}</td>
+          <td>{b.data.brand}</td>
+        </tr>
+        <tr>
+          <th>Price (USD)</th>
+          <td>${a.data.price}</td>
+          <td>${b.data.price}</td>
+        </tr>
+        <tr>
+          <th>Price tier</th>
+          <td>{a.data.price_tier}</td>
+          <td>{b.data.price_tier}</td>
+        </tr>
+        {featureRows.map((key) => (
+          <tr>
+            <th>{key.replace(/_/g, ' ')}</th>
+            <td>{a.data.features[key] !== undefined ? String(a.data.features[key]) : '—'}</td>
+            <td>{b.data.features[key] !== undefined ? String(b.data.features[key]) : '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section pros-cons">
+    <div>
+      <h3>{a.data.name}</h3>
+      <div class="pros">
+        <h4>Pros</h4>
+        <ul>{a.data.pros.map((p: string) => <li>{p}</li>)}</ul>
+      </div>
+      <div class="cons">
+        <h4>Cons</h4>
+        <ul>{a.data.cons.map((p: string) => <li>{p}</li>)}</ul>
+      </div>
+    </div>
+    <div>
+      <h3>{b.data.name}</h3>
+      <div class="pros">
+        <h4>Pros</h4>
+        <ul>{b.data.pros.map((p: string) => <li>{p}</li>)}</ul>
+      </div>
+      <div class="cons">
+        <h4>Cons</h4>
+        <ul>{b.data.cons.map((p: string) => <li>{p}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq">
+    <h2>Frequently Asked Questions</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.q}</summary>
+        <p>{item.a}</p>
+      </details>
+    ))}
+  </section>
+</Base>
