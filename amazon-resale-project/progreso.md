@@ -24,6 +24,8 @@
 - ✅ **Pinterest developer app submitted** (Trial API automático, Standard API pendiente review humano 1-3 semanas).
 - ✅ **Validaciones nicho coffee VERDE**: issue #20 (volúmenes Ubersuggest, 15 keywords) y #21 (allintitle KGR, 12 long-tails) confirman volumen real + patrón KGR funcionando. Estrategia para escalar a 500-1000 páginas validada.
 - ✅ **Dominio registrado**: `baristapath.com` (Cloudflare Registrar, ~$10.46/año, auto-renew). Astro config + privacy/about emails actualizados al nuevo dominio.
+- ✅ **Custom domain conectado**: `https://baristapath.com/` sirve el sitio (SSL provisionado, DNS auto desde Cloudflare Registrar).
+- ✅ **Scale content batch 2** (commit 298db58): +25 best-of + +16 compare = 108 páginas total. Patrones validados de #20/#21 aplicados (under-price-with-feature, niche-use-case, accessory-for-brand, sub-tipos).
 
 ### Próximo hito objetivo
 
@@ -100,3 +102,5 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-13 | Pinterest developer app submitted (Trial) | Operador completó form; Standard API pending 1-3 semanas |
 | 2026-05-14 | Validaciones nicho VERDE (#20, #21) | Confirmado volumen + KGR funcional en coffee equipment |
 | 2026-05-14 | Dominio baristapath.com registrado | Pendiente: connect como custom domain en CF Pages |
+| 2026-05-14 | baristapath.com conectado a CF Pages | SSL provisionado, sitio live en dominio branded |
+| 2026-05-14 | Scale content batch 2: +41 páginas (108 total) | Agente generó best-of + compare siguiendo patrones KGR oro |
