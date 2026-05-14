@@ -10,8 +10,10 @@ import {
   getCarta,
   getAuthor
 } from '@/data/cartas';
-import { getColorRama } from '@/data/family';
+import { getColorRama, getPerson } from '@/data/family';
 import { getYearsCoverageWithDb } from '@/lib/cartas-fetch';
+import { fetchMensajesLibres } from '@/lib/aportes-fetch';
+import { APORTE_KIND_ICON } from '@/data/aportes-types';
 
 export const metadata = { title: 'Cartas' };
 export const dynamic = 'force-dynamic';
@@ -22,6 +24,7 @@ export default async function CartasPage() {
   const cartaHoy = getCartaDelDia();
   const reveladas = getCartasReveladas();
   const yaRecibidas = reveladas.filter((c) => c.year !== cartaHoy?.year);
+  const mensajesLibres = await fetchMensajesLibres();
   const proxima = CARTAS
     .filter((c) => getRevealDate(c) > new Date())
     .sort((a, b) => getRevealDate(a).getTime() - getRevealDate(b).getTime())[0];
@@ -70,10 +73,59 @@ export default async function CartasPage() {
         </section>
       )}
 
+      {mensajesLibres.length > 0 && (
+        <section aria-label="Mensajes libres" className="space-y-3">
+          <h2 className="font-display text-xl text-ink-900">Mensajes</h2>
+          <p className="text-sm text-ink-800/60">
+            Mensajes que la familia te deja sin atar a un año — solo cariño.
+          </p>
+          <ul className="space-y-2">
+            {mensajesLibres.map((m) => {
+              const author = getPerson(m.from_id);
+              const ramaColor = getColorRama(m.from_id);
+              return (
+                <li
+                  key={m.id}
+                  className="overflow-hidden rounded-2xl bg-cream-100 shadow-warm"
+                >
+                  <div aria-hidden className={`h-1.5 w-full ${ramaColor}`} />
+                  <div className="p-4">
+                    <div className="flex items-center gap-3">
+                      {author && <Avatar person={author} size="sm" />}
+                      <div>
+                        <p className="font-display text-base font-bold text-ink-900">
+                          {author?.shortName || author?.name || m.from_id}
+                        </p>
+                        <p className="text-xs text-ink-800/60">
+                          {new Date(m.created_at).toLocaleDateString('es-CO', {
+                            day: 'numeric', month: 'long'
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    {m.title && (
+                      <p className="mt-3 font-display text-lg text-ink-900">{m.title}</p>
+                    )}
+                    {m.body && (
+                      <p className="mt-2 whitespace-pre-wrap text-base text-ink-900">{m.body}</p>
+                    )}
+                    {m.media_url && (
+                      <p className="mt-2 text-sm text-clay-600">
+                        <a href={m.media_url} target="_blank" rel="noreferrer">📎 Ver adjunto</a>
+                      </p>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
+
       <section aria-label="Todas las cartas" className="space-y-3">
-        <h2 className="font-display text-xl text-ink-900">Las setenta y cinco</h2>
+        <h2 className="font-display text-xl text-ink-900">Las setenta y cinco (años)</h2>
         <p className="text-sm text-ink-800/60">
-          Un cuadro por cada año de tu vida.
+          Un cuadro por cada año de tu vida. Las que tienen carta atada a un año.
         </p>
         <ul className="grid grid-cols-3 gap-2 sm:grid-cols-5">
           {cobertura.map(({ year, hasCarta }) => {
