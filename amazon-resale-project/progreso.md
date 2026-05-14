@@ -20,6 +20,8 @@
 - ✅ CLAUDE.md con protocolos (decisión, anti-gray-hat, delegación a agentes, stop loss, inicio de sesión)
 - ✅ Glosario de siglas del proyecto
 - ✅ **Site bootstrap Astro 5** (commit 6749a74): 51 productos mock, 64 páginas (home + 51 product + 6 best-of + 6 compare), build local exitoso 1.92s, Schema.org JSON-LD completo. Vive en `amazon-resale-project/site/`, se migra a repo separado al elegir dominio.
+- ✅ **Site deployado a Cloudflare Pages** (URL `myrepo-e68.pages.dev`): build CF green, /privacy + /about agregadas, app-icon.png generado, todas las páginas sirven OK.
+- ✅ **Pinterest developer app submitted** (Trial API automático, Standard API pendiente review humano 1-3 semanas).
 
 ### Próximo hito objetivo
 
@@ -27,8 +29,8 @@
 
 ### Bloqueadores activos
 
-- Validaciones de nicho pendientes del operador: #19 (comisión Kitchen, espera tener Associates), #20 (volúmenes Ubersuggest), #21 (allintitle KGR).
-- Aprobación Pinterest Standard API (no bloquea build inicial; bloquea agente de pinning de mes 2+).
+- Validaciones de nicho pendientes del operador: #19 (comisión Kitchen, espera tener Associates), **#20 (volúmenes Ubersuggest, ≈30 min)**, **#21 (allintitle KGR, ≈15 min)**. Sin estas dos no escalamos contenido más allá del esqueleto actual.
+- Pinterest Standard API: submitted, review humano 1-3 semanas. No bloquea construcción.
 
 ---
 
@@ -92,3 +94,5 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-13 | Keepa diferida mes 1 → mes 2 | Tweak 1 ADR 0004; ahorra $76 y valida stack primero |
 | 2026-05-13 | Pinterest app promovida a bloque A (esta semana) | Tweak 3 ADR 0004; aprobación tarda 1-3 semanas |
 | 2026-05-13 | Site bootstrap Astro completado (commit 6749a74) | Agente terminó esqueleto + 51 productos mock + build green |
+| 2026-05-13 | Site deployado a Cloudflare Pages (myrepo-e68.pages.dev) | Operador completó flujo Cloudflare; site live con /privacy, /about, 404, app-icon |
+| 2026-05-13 | Pinterest developer app submitted (Trial) | Operador completó form; Standard API pending 1-3 semanas |
