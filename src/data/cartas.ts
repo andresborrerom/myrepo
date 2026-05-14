@@ -134,6 +134,30 @@ Andrés.`
       'el nombre de tu papá.\n\n' +
       'Tu padre no se fue. Se volvió escuela.\n\n' +
       'De tus cinco hijos.'
+  },
+  {
+    year: 2017,
+    fromId: 'andres',
+    title: 'El año en que llegó Pepe',
+    body:
+`2017. 6 de julio. Después de buscarlo con Marce dos o tres años, después de dos pérdidas que pesan aunque uno no las cuente, llegó. Mi hijo. Mi motor.
+
+Papa: no sé bien cómo decirte la felicidad que me ha dado este niño. Empecé a ser papá en 2013, cuando Marce y Luchi me adoptaron a mí — no al revés. Ellas dos me enseñaron que yo quería familia. Que después de tanto desorden, lo que más me apetecía era una mesa con voces. Sin Luchi y sin Marce nunca habría buscado a Pepe.
+
+Pero Pepe es otra cosa. Es el hijo que uno arma cuando ya sabe lo que quiere. Lo cargué la primera vez y entendí ese tipo de amor del que tú nunca hablaste mucho pero que debiste sentir cinco veces. El que no se explica. El que lleva a hacer cosas que uno no creía que haría — madrugar, perder noches, leer libros de niños cien veces. Te perdono cada vez que dijiste "ya entenderás cuando seas papa". Sí entendí.
+
+Hoy tiene ocho años. Y lo gracioso, padre mío, es que es igual a ti. La gente se lo dice como si fuera regaño — "ay, Pepe, igual al abuelo" — y yo por dentro me río, porque para mí es el mejor cumplido. Le gusta la arquitectura más que a mí. Le gusta viajar más que a mí. Tiene ese sentido de la elegancia que yo nunca tuve y que tú sí — se peina, se ajusta el cuello, le importa que las cosas combinen. A los ocho años. Yo a esa edad andaba descalzo en el patio.
+
+Quiero que sean cercanos. Mucho. Porque Pepe te va a entender de una manera que yo a veces no termino de entender — el por qué de los edificios, el por qué del viaje, el por qué del detalle. Te necesita él, te necesito yo para él. Cuéntale historias. Llévalo a Marbella cuando puedas. Que te vea trabajar aunque sea el dibujo de una servilleta.
+
+Mientras tanto, padre mío, déjame seguir intentando. Procuro todos los días enseñarle cosas para que algún día no me necesite — esa es la meta. Que se vaya. Que se haga su vida. Pero antes, quiero darle lo mejor que tengo. Y mucho de lo mejor que tengo me lo diste tú.
+
+Gracias por dejarme tu apellido. Gracias por dejarme tu manera de mirar a los hijos. Gracias por estar — desde donde estés — para que yo pueda copiar lo bueno y descartar, con cariño, lo poco que no me cuadra.
+
+Pepe es tuyo también. En esos ojos, en esas manos, en esa risa que no aprendió de mí.
+
+Te adoro,
+Andrés.`
   }
 ];
 
