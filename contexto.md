@@ -72,6 +72,12 @@ Cronología clave:
 - Muy buscado, 2-3 años intentando
 - "Mi motor" — frase de Andrés
 - Le gusta la arquitectura, viajar, ser elegante — mucho más que Andrés
+- A los 8 ya es elegante: "se peina, se ajusta el cuello, le importa que las cosas combinen"
+- Le dice "oso" a Andrés por su frescura para ciertas cosas
+- Es **"apachurre"** — cariñoso, abrazador (palabra que Alejandro tal vez no aprecia tanto en su forma libre)
+- Es **desatento**, vive en otro mundo (pantallas)
+- Pero antes de dormir le fascina oír historias y preguntar mil cosas
+- "Habla más de su abuelo de lo que crees. Te admira."
 - La familia le dice "igual al abuelo" como regaño, a Andrés le da risa porque le parece halago
 
 ---
@@ -96,6 +102,8 @@ Cronología clave:
 - "nadie me quita lo bailado"
 - "a dormir q mañana se madruga" (frase de Alejandro que Andrés cita)
 - "policía un día, policía toda la vida"
+- "el alto piso que nos das" — concepto: Alejandro provee la base económica/material a sus hijos que les permite enfocarse en lo emocional con sus propios hijos
+- Andrés se autodefine como **"oso"** para ciertas cosas (frescura, no preocupado por verse bien) — autoironía recurrente
 
 **Estilo**:
 - Vulnerable con humor
@@ -123,6 +131,15 @@ Cronología clave:
 | **2017** | **El año en que llegó Pepe** | **Andrés** | Nacimiento de Pepe, "igual al abuelo" |
 
 ---
+
+## Características de Alejandro (papá) que la familia reconoce — útil para retratarlo en cartas
+
+- Es **desatento a veces** con los nietos, vive en su mundo. La familia no lo pinta como abuelo super-cercano-de-pantalones-cortos. Es de su generación: distinguido, formal, elegante.
+- Es **elegante**: se cuida, le importa la presentación, el detalle. Pepe heredó eso.
+- Su forma de querer es **proveer**: nada falta. "Alto piso" económico y material para que los hijos no se preocupen por lo básico y puedan enfocarse en lo emocional con los suyos.
+- No habla mucho de los amores grandes — los siente pero no los nombra. ("ese tipo de amor del que tú nunca hablaste mucho pero que debiste sentir cinco veces")
+- A los 75 vive en Marbella desde 1997. Visita Bogotá esporádicamente.
+- No le gustan los "apachurres" (excesos cariñosos físicos) — es más reservado.
 
 ## Temas que NO se repiten en cartas personales
 

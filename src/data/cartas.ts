@@ -146,15 +146,15 @@ Papa: no sé bien cómo decirte la felicidad que me ha dado este niño. Empecé 
 
 Pero Pepe es otra cosa. Es el hijo que uno arma cuando ya sabe lo que quiere. Lo cargué la primera vez y entendí ese tipo de amor del que tú nunca hablaste mucho pero que debiste sentir cinco veces. El que no se explica. El que lleva a hacer cosas que uno no creía que haría — madrugar, perder noches, leer libros de niños cien veces. Te perdono cada vez que dijiste "ya entenderás cuando seas papa". Sí entendí.
 
-Hoy tiene ocho años. Y lo gracioso, padre mío, es que es igual a ti. La gente se lo dice como si fuera regaño — "ay, Pepe, igual al abuelo" — y yo por dentro me río, porque para mí es el mejor cumplido. Le gusta la arquitectura más que a mí. Le gusta viajar más que a mí. Tiene ese sentido de la elegancia que yo nunca tuve y que tú sí — se peina, se ajusta el cuello, le importa que las cosas combinen. A los ocho años. Yo a esa edad andaba descalzo en el patio.
+Hoy tiene ocho años. Y lo gracioso, padre mío, es que es parecido a ti. La gente se lo dice como si fuera regaño — "ay, Pepe, igual al abuelo" — y yo por dentro me río, porque para mí es el mejor cumplido. Le gusta la arquitectura más que a mí. Le gusta viajar más que a mí. Tiene ese sentido de la elegancia que yo nunca tuve y que tú sí — se peina, se ajusta el cuello, le importa que las cosas combinen, y me dice "oso" porque le doy algo de pena por mi frescura para ciertas cosas. A los ocho años. Yo a los 46 nada q aprendo eso de querer verme mejor y si me visto bien es porque algo me regalaste.
 
-Quiero que sean cercanos. Mucho. Porque Pepe te va a entender de una manera que yo a veces no termino de entender — el por qué de los edificios, el por qué del viaje, el por qué del detalle. Te necesita él, te necesito yo para él. Cuéntale historias. Llévalo a Marbella cuando puedas. Que te vea trabajar aunque sea el dibujo de una servilleta.
+Quiero que sean cercanos. Mucho. Solo si lo quieres recibir. Sé que es desatento. Sé que vive en otro mundo que no nos tocó como el de las pantallas y demás. Pero cuéntale historias. Cuando se va a dormir le fascina oírlas y preguntar mil cosas. Alguna vez que lo acompañes vas a ver de lo q hablo.
 
-Mientras tanto, padre mío, déjame seguir intentando. Procuro todos los días enseñarle cosas para que algún día no me necesite — esa es la meta. Que se vaya. Que se haga su vida. Pero antes, quiero darle lo mejor que tengo. Y mucho de lo mejor que tengo me lo diste tú.
+Mientras tanto, padre mío, a mi manera disfruto que me necesite y sigo procurando que algún día no me necesite — esa es la meta. Que se vaya. Que se haga su vida. Pero antes, quiero darle lo mejor que tengo. Y mucho de lo mejor que tengo me lo has dado tú.
 
-Gracias por dejarme tu apellido. Gracias por dejarme tu manera de mirar a los hijos. Gracias por estar — desde donde estés — para que yo pueda copiar lo bueno y descartar, con cariño, lo poco que no me cuadra.
+Gracias por dejarme tu manera de mirar a los hijos donde uno procura que nada les falte. La inspiración me llegó algo tarde desde Luchi y la doblé con Pepe, pero llegó. Gracias por estar en el alto piso que nos das para que yo pueda estar más pendiente de sus emociones y temores y menos de cómo voy a darle de comer.
 
-Pepe es tuyo también. En esos ojos, en esas manos, en esa risa que no aprendió de mí.
+Pepe es tuyo también. Habla mas de su abuelo de lo que crees. Te admira. Y aunque él es un apachurre que probablemente no disfrutas mucho en su forma libre de ser, quiero que sepas cuánto te quiere.
 
 Te adoro,
 Andrés.`
