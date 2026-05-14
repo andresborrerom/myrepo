@@ -91,3 +91,20 @@ export async function fetchAportesByPerson(personId: string, limit = 20): Promis
   return (data || []) as Aporte[];
 }
 
+// Cartas/mensajes SIN año asignado (kind='carta' AND year IS NULL).
+// Son los "mensajes libres" — cariño atemporal que la familia deja.
+export async function fetchMensajesLibres(limit = 100): Promise<Aporte[]> {
+  noStore();
+  const supabase = getPublicClient();
+  if (!supabase) return [];
+  const { data } = await supabase
+    .from('aportes')
+    .select('*')
+    .eq('status', 'published')
+    .eq('kind', 'carta')
+    .is('year', null)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+  return (data || []) as Aporte[];
+}
+

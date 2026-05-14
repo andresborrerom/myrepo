@@ -28,7 +28,7 @@ export default function AportaClient({
   const [fromId, setFromId] = useState('andres');
   const [onBehalfOf, setOnBehalfOf] = useState('andres');
   const [kind, setKind] = useState<AporteKind>('texto');
-  const [year, setYear] = useState<number>(2026);
+  const [year, setYear] = useState<number | ''>('');
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [file, setFile] = useState<File | null>(null);
@@ -143,7 +143,7 @@ export default function AportaClient({
           from_id: onBehalfOf,
           on_behalf_of_id: fromId,
           kind,
-          year: kind === 'carta' ? year : null,
+          year: kind === 'carta' && year !== '' ? Number(year) : null,
           title: title || null,
           body: body || null,
           media_url: mediaUrl
@@ -302,17 +302,20 @@ export default function AportaClient({
         </Field>
 
         {kind === 'carta' && (
-          <Field label="¿Para qué año?">
+          <Field label="¿Para qué año? (opcional)">
             <input
               type="number"
               min={1951}
               max={2026}
               value={year}
-              onChange={(e) => setYear(Number(e.target.value))}
+              onChange={(e) => setYear(e.target.value === '' ? '' : Number(e.target.value))}
+              placeholder="Déjalo vacío si no es para un año específico"
               className="w-full rounded-2xl border border-cream-200 bg-cream-50 px-4 py-3 text-base"
             />
             <p className="mt-1 text-xs text-ink-800/60">
-              Entre 1951 (su nacimiento) y 2026 (hoy).
+              <strong>Con año</strong> (1951-2026): atado a un año icónico de su vida (nacimiento, grado, viaje, casa, etc.). Va al calendario de las 75 cartas.
+              <br />
+              <strong>Sin año</strong>: mensaje libre, atemporal. Aparece en "Mensajes" — un feed de cariño sin agenda.
             </p>
           </Field>
         )}

@@ -44,3 +44,10 @@ export function clearAuthCookies() {
   cookies().delete(FAMILY_COOKIE);
   cookies().delete(ADMIN_COOKIE);
 }
+
+// "Insider" = familia o admin. Sirve como gate para vista preview de
+// la rejilla de cartas. Si no eres insider (es decir, eres Alejandro),
+// solo ves contenido ya revelado.
+export function isInsider(): boolean {
+  return isFamilyAuth() || isAdminAuth();
+}

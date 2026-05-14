@@ -7,7 +7,8 @@ import SpeakButton from '@/components/SpeakButton';
 import { BIRTH_YEAR } from '@/data/cartas';
 import { getCartaAudioUrl } from '@/data/audios';
 import { getColorRama, getPerson } from '@/data/family';
-import { getCartaFinal } from '@/lib/cartas-fetch';
+import { getCartasForYear, getDayIndex, type CartaFinal } from '@/lib/cartas-fetch';
+import { isInsider } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,24 +16,33 @@ export default async function CartaPage({ params }: { params: { year: string } }
   const year = Number(params.year);
   if (!year || year < 1900 || year > 2100) notFound();
 
-  const carta = await getCartaFinal(year);
-  if (!carta) notFound();
+  const cartas = await getCartasForYear(year);
+  if (cartas.length === 0) notFound();
 
-  const author = getPerson(carta.fromId);
-  const age = year - BIRTH_YEAR;
-  const ramaColor = getColorRama(carta.fromId);
+  // Bloqueo para Alejandro si el año todavía no toca.
+  const insider = isInsider();
+  const dayIdx = getDayIndex();
+  const dayOfYear = year - BIRTH_YEAR;
+  const isReleased = dayIdx !== null && dayOfYear <= dayIdx;
 
-  // Audio: prioriza el explícito (carta.audioUrl — DB media o seed manual),
-  // luego el generado por el script de clonado, y si nada existe cae al
-  // TTS del navegador.
-  const audioUrl = carta.audioUrl || getCartaAudioUrl(year);
-
-  // Texto narrado: autor + título + cuerpo. Pausas con punto para naturalidad.
-  const spokenText = [
-    author ? `Carta de ${author.shortName || author.name}.` : '',
-    carta.title ? `${carta.title}.` : '',
-    carta.body
-  ].filter(Boolean).join(' ');
+  if (!insider && !isReleased) {
+    return (
+      <div className="space-y-6 text-center">
+        <Link href="/cartas" className="inline-flex items-center gap-1 text-clay-600">
+          ‹ Volver a las cartas
+        </Link>
+        <div className="rounded-3xl bg-cream-100 p-8 shadow-warm">
+          <p className="text-5xl">🔒</p>
+          <h1 className="mt-4 font-display text-2xl text-ink-900">
+            Esta carta llega después
+          </h1>
+          <p className="mt-3 text-base text-ink-800">
+            La carta del año {year} todavía no toca. Te llegará el día {dayOfYear + 1} desde tu cumpleaños.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <article className="carta-enter space-y-6">
@@ -42,14 +52,44 @@ export default async function CartaPage({ params }: { params: { year: string } }
 
       <header className="space-y-2">
         <p className="font-display text-clay-600 text-xl">
-          {year} · {age} {age === 1 ? 'año' : 'años'}
+          {year} · {year - BIRTH_YEAR} {year - BIRTH_YEAR === 1 ? 'año' : 'años'}
         </p>
-        {carta.title && (
-          <h1 className="font-display text-3xl leading-tight text-ink-900">
-            {carta.title}
-          </h1>
+        {cartas.length > 1 && (
+          <p className="text-sm text-ink-800/60">
+            {cartas.length} cartas para este año
+          </p>
         )}
       </header>
+
+      <ul className="space-y-8">
+        {cartas.map((carta, i) => (
+          <li key={`${carta.fromId}-${i}`}>
+            <CartaItem carta={carta} year={year} />
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}
+
+function CartaItem({ carta, year }: { carta: CartaFinal; year: number }) {
+  const author = getPerson(carta.fromId);
+  const ramaColor = getColorRama(carta.fromId);
+  const audioUrl = carta.audioUrl || getCartaAudioUrl(year);
+
+  const spokenText = [
+    author ? `Carta de ${author.shortName || author.name}.` : '',
+    carta.title ? `${carta.title}.` : '',
+    carta.body
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className="space-y-4">
+      {carta.title && (
+        <h2 className="font-display text-2xl leading-tight text-ink-900">
+          {carta.title}
+        </h2>
+      )}
 
       {author && (
         <div className="overflow-hidden rounded-2xl bg-cream-100 shadow-warm">
@@ -83,9 +123,9 @@ export default async function CartaPage({ params }: { params: { year: string } }
       </div>
 
       <div className="flex flex-wrap gap-2 pt-2">
-        <HeartButton itemId={`carta:${year}`} />
+        <HeartButton itemId={`carta:${year}:${carta.fromId}:${carta._id || 'seed'}`} />
         <ShareButton title={carta.title} text={`Carta del año ${year}`} />
       </div>
-    </article>
+    </div>
   );
 }

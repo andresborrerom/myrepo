@@ -46,9 +46,10 @@ export async function POST(req: Request) {
   if (!ALLOWED_KINDS.includes(kind)) {
     return NextResponse.json({ error: 'Tipo no válido' }, { status: 400 });
   }
-  if (kind === 'carta' && (!year || year < 1951 || year > 2026)) {
+  // Las cartas pueden tener año (1951-2026) o no tenerlo (mensaje libre).
+  if (kind === 'carta' && year !== null && year !== undefined && (year < 1951 || year > 2026)) {
     return NextResponse.json(
-      { error: 'Las cartas necesitan un año entre 1951 y 2026' },
+      { error: 'Si pones año en una carta, debe estar entre 1951 y 2026' },
       { status: 400 }
     );
   }

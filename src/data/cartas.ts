@@ -98,6 +98,26 @@ export const CARTAS: Carta[] = [
       'De tus cinco hijos.'
   },
   {
+    year: 1998,
+    fromId: 'andres',
+    title: 'Tu salto del charco',
+    body:
+`1998 fue tu primer año entero en Marbella. También fue el mío entrando a la universidad — en el 97 yo estaba de chúcaro diciendo "policía un día, policía toda la vida!", y para cuando empezó el 98 tú ya tenías el Mediterráneo enfrente, y yo a punto de empezar universidad. Empezábamos nuevos capítulos.
+
+Papa: desde entonces me has hecho falta. Soy malo para hablar por teléfono y tú para chatear. Y los dos somos buenos para estar juntos cuando estamos en la misma ciudad. Nos faltaron varias rondas de golf, almuerzos domingueros y concentramos en poco meses los whiskeys del año.
+
+Me abriste la puerta a seguirte y yo me quedé pensando en mi mamá. Me quedé en una Bogotá que era mi zona de confort, en sus calles que me sabía de memoria, en los amigos que no me daba ganas de soltar. Para bien o para mal, decidí no cruzar el mar.
+
+Y aquí te digo algo que me ha costado decir en voz alta: me desordené diez años por una falta de guía que elegí desperdiciar. No te lo cuento como reproche. Te lo cuento como prueba de cuánto vale tu cercanía. Cuánta diferencia hace una llamada tuya, un sermón, un silencio tuyo en la sala. La gente como tú no se da cuenta del piso que pone para los demás.
+
+Pero también te digo lo otro: aunque te fuiste, nunca te has ido. He sentido tu abrazo desde lejos, padre mío. En el techo que me regalaste y bajo el cual viven Luchi y Pepe. En cada vez que estoy a punto de equivocarme y oigo tu voz adentro (a dormir q mañana se madruga!) En la manera en que le hablo a Lucía cuando saca a relucir su adolescencia. En los silencios con Marcela que aprendí a heredar con cierta sabiduría en algunos momentos. Has estado conmigo todo el tiempo, y cuando me dicen q me parezco a ti para regañarme me hace gracia porque lo que me produce es algo de orgullo.
+
+Gracias por irte cuando había que irse porque tenías que cuidarte. Gracias por dejar la puerta abierta. Gracias por enseñarme que el amor no se mide en metros sino en apoyo y guía, cuando el hijo la elige recibir.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 2000,
     fromId: 'andres',
     title: 'El año en que tu papá se volvió escuela',
