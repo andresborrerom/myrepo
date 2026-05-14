@@ -22,6 +22,8 @@
 - ✅ **Site bootstrap Astro 5** (commit 6749a74): 51 productos mock, 64 páginas (home + 51 product + 6 best-of + 6 compare), build local exitoso 1.92s, Schema.org JSON-LD completo. Vive en `amazon-resale-project/site/`, se migra a repo separado al elegir dominio.
 - ✅ **Site deployado a Cloudflare Pages** (URL `myrepo-e68.pages.dev`): build CF green, /privacy + /about agregadas, app-icon.png generado, todas las páginas sirven OK.
 - ✅ **Pinterest developer app submitted** (Trial API automático, Standard API pendiente review humano 1-3 semanas).
+- ✅ **Validaciones nicho coffee VERDE**: issue #20 (volúmenes Ubersuggest, 15 keywords) y #21 (allintitle KGR, 12 long-tails) confirman volumen real + patrón KGR funcionando. Estrategia para escalar a 500-1000 páginas validada.
+- ✅ **Dominio registrado**: `baristapath.com` (Cloudflare Registrar, ~$10.46/año, auto-renew). Astro config + privacy/about emails actualizados al nuevo dominio.
 
 ### Próximo hito objetivo
 
@@ -96,3 +98,5 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-13 | Site bootstrap Astro completado (commit 6749a74) | Agente terminó esqueleto + 51 productos mock + build green |
 | 2026-05-13 | Site deployado a Cloudflare Pages (myrepo-e68.pages.dev) | Operador completó flujo Cloudflare; site live con /privacy, /about, 404, app-icon |
 | 2026-05-13 | Pinterest developer app submitted (Trial) | Operador completó form; Standard API pending 1-3 semanas |
+| 2026-05-14 | Validaciones nicho VERDE (#20, #21) | Confirmado volumen + KGR funcional en coffee equipment |
+| 2026-05-14 | Dominio baristapath.com registrado | Pendiente: connect como custom domain en CF Pages |
