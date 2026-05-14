@@ -103,7 +103,7 @@ Cronología clave:
 - "a dormir q mañana se madruga" (frase de Alejandro que Andrés cita)
 - "policía un día, policía toda la vida"
 - "el alto piso que nos das" — concepto: Alejandro provee la base económica/material a sus hijos que les permite enfocarse en lo emocional con sus propios hijos
-- Andrés se autodefine como **"oso"** para ciertas cosas (frescura, no preocupado por verse bien) — autoironía recurrente
+- **Pepe le dice "oso"** a Andrés por su frescura para ciertas cosas (no preocupado por verse bien). No es autodefinición de Andrés, es observación de su hijo de 8.
 
 **Estilo**:
 - Vulnerable con humor
