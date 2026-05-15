@@ -166,6 +166,22 @@ Cronología clave:
 - Honesto sin ser melodramático
 - Reconoce sin glorificar
 
+**Firma de prosa para futuras cartas (decisión de Andrés)**:
+Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio estilo de Andrés. Es decir:
+- Intimidad honesta, humor seco, observación específica sin metáfora
+- Frases cortas mezcladas con largas
+- Listas concretas (gente, lugares, eventos) sobre abstracciones
+- Sin "templo de…", sin "alma serena como…", sin metáforas de adorno
+- Sin glorificación: el papá se retrata real, con sus colmos y sus contradicciones
+- Smile moments en lugar de melancolía pesada
+- Cierre directo (no buscar el remate poético — dejar la frase aterrizar)
+
+⚠️ Anti-patrones a evitar:
+- Cursilería: "templo abierto", "alma serena", "sin saber nombrarlo"
+- Repetición innecesaria de adjetivos
+- Listas de detalles enciclopédicos (ej: nombrar 5 arquitectos y 8 edificios cuando 2 referencias bastan)
+- Cierres con moraleja escrita
+
 ---
 
 ## Cartas ya escritas (no repetir contenido)
