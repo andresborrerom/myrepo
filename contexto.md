@@ -67,9 +67,14 @@ Cronología clave:
 
 ### Luchi (Lucía, hija de Andrés)
 - 26 sept 2007
-- Hija de Marce de relación anterior
+- Hija de Marce de relación anterior — **Becerra de sangre** (apellido paterno biológico)
 - Andrés la conoce en 2012, va a vivir con ellos en 2013
 - **Andrés la considera plenamente su hija**. NO se hace distinción "hija de crianza" o "hijastra" en las cartas
+- En 2025 **entró a Cornell** — Andrés la pudo apoyar en aplicar a la universidad de su sueño gracias al "alto piso" de Alejandro
+- A los 18: norte clarísimo, responsabilidad sobre juerga, no toma de más, nunca fiesta hasta tarde
+- **Pasión secreta**: montar a caballo. Sigue en Cornell.
+- Andrés la llama de cariño "muñeta" o "enana"
+- Andrés siente que Luchi es "más Alejandro Borrero que yo en ejemplo y comportamiento"
 
 ### Pepe (Pedro Pablo, hijo de Andrés)
 - 6 jul 2017
@@ -134,6 +139,7 @@ Cronología clave:
 | 2000 | El año en que tu papá se volvió escuela | Los 5 hijos | Fundación FBC |
 | **2012** | **Mayo del 2012** | **Andrés** | Conoce a Marce, fin del desorden, reflexión sobre matrimonio |
 | **2017** | **El año en que llegó Pepe** | **Andrés** | Nacimiento de Pepe, "igual al abuelo" |
+| **2025** | **El año que Luchi se fue a Cornell** | **Andrés** | Cornell, "alto piso", primer desilusión, "más Borrero que yo" |
 
 ---
 

@@ -182,6 +182,32 @@ Porque ella se jacta de ser mi buena influencia y sé que lo es; seguramente cua
 
 Te adoro,
 Andrés.`
+  },
+  {
+    year: 2025,
+    fromId: 'andres',
+    title: 'El año que Luchi se fue a Cornell',
+    body:
+`2025. Luchi aplicó. Luchi entró. Luchi se va a Cornell.
+
+Papa, no sé si entiendes lo que ese paso significó para mí. Cuando me llegó con la noticia, lo primero que pensé fue en ti. Porque gracias a ti — gracias al piso alto que nos sigues dando — pude acompañarla en todo el proceso sin miedo. Sin tener que decirle nunca "Luchi, esa no nos alcanza muñeta, déjalo para la maestría que ya habrá más adelante". Pude decirle: "ve por la que tú quieras y logres enana! Yo me encargo del resto". Esa frase no la habría podido decir sin ti.
+
+Y ahí, padre mío, te digo algo que me ha dolido en silencio durante años. Yo creo que tuve el talento para hacer lo que ella está haciendo. Pero nunca tuve la estructura. Y siento, a veces, que ese fue el primero de algunas desilusiones que te he causado en la vida.
+
+Pero ahora me llega Luchi, llenándome de felicidad y de orgullo, y al fin entiendo desde el otro lado el posible vacío que sentiste cuando rechacé ir "por todo" y me quedé en mi zona de confort. Es exactamente eso: ver a tu hijo con la oportunidad puesta sobre la mesa y verlo decidir no tomarla. Te entiendo, por fin, en eso también.
+
+Por eso quiero que este triunfo de Luchi lo sientas tuyo también. Aunque no lleve sangre Borrero, te aseguro que sacó lo bueno de los Borrero. Y gran parte de su decisión — para bien o para mal — es porque me ha visto a mí en su vida como yo te veo a ti. Como un papá.
+
+Gracias por esta oportunidad que le das a ella de asistir, y que me das a mí de llevarla tan lejos como su esfuerzo y su dedicación se merecen.
+
+Déjame contarte cómo es esta niña a sus 18 años, padre mío. Tiene un norte clarísimo en la vida. Su determinación me deja boquiabierto. Pone siempre la responsabilidad por encima de la juerga. No le cabe en la cabeza la posibilidad de tomarse un trago de más. Nunca me ha tenido esperando en la puerta a que salga de la fiesta — siempre es ella la que está esperando a que yo llegue por ella. Me hizo madrugar muchos sábados y domingos para llevarla a montar a caballo — su gran pasión secreta, que en Cornell va a seguir viviendo junto con sus estudios. Y nunca sacrifica el orden y la disciplina por momentos de falsa alegría, consciente del costo que tienen.
+
+¿Te suena a alguien?
+
+Luchi es Becerra de sangre, pero es más Alejandro Borrero que yo en ejemplo y en comportamiento.
+
+Te adoro,
+Andrés.`
   }
 ];
 
