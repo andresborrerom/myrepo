@@ -26,6 +26,10 @@
 - ✅ **Dominio registrado**: `baristapath.com` (Cloudflare Registrar, ~$10.46/año, auto-renew). Astro config + privacy/about emails actualizados al nuevo dominio.
 - ✅ **Custom domain conectado**: `https://baristapath.com/` sirve el sitio (SSL provisionado, DNS auto desde Cloudflare Registrar).
 - ✅ **Scale content batch 2** (commit 298db58): +25 best-of + +16 compare = 108 páginas total. Patrones validados de #20/#21 aplicados (under-price-with-feature, niche-use-case, accessory-for-brand, sub-tipos).
+- ✅ **Methodology page** (commit afb22e7): editorial standards transparentes para build trust pre-Associates application. Footer actualizado: About | Methodology | Privacy policy.
+- ✅ **Scale content batch 3a — accessories** (agent A): +13 accessories al catálogo (64 productos totales, antes 51) + 9 best-of pages targeted aprovechando los accesorios nuevos.
+- ✅ **Scale content batch 3b — review pages** (agent B, commit 513189f): nuevo template `/review/[slug]` + 22 páginas tipo "is X worth it for Y". Mix de verdicts honestos (15 yes / 6 depends / 1 no). Schema Review + Product + FAQPage + BreadcrumbList.
+- 📊 **Total páginas del sitio: 153** (arrancamos la sesión con 67, +128% en una sesión).
 
 ### Próximo hito objetivo
 
@@ -104,3 +108,6 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-14 | Dominio baristapath.com registrado | Pendiente: connect como custom domain en CF Pages |
 | 2026-05-14 | baristapath.com conectado a CF Pages | SSL provisionado, sitio live en dominio branded |
 | 2026-05-14 | Scale content batch 2: +41 páginas (108 total) | Agente generó best-of + compare siguiendo patrones KGR oro |
+| 2026-05-14 | Methodology page + footer link | Build trust pre-Associates application |
+| 2026-05-14 | Scale batch 3a: +13 accessories + 9 best-of (131 total) | Agente A; cubrió knock box, milk pitcher, WDT, descaler, 54mm tamper |
+| 2026-05-14 | Scale batch 3b: nuevo template /review + 22 worth-it pages (153 total) | Agente B; mix 15/6/1 yes/depends/no, schema Review completo |
