@@ -76,6 +76,28 @@ export const CARTAS: Carta[] = [
     body: '[Andrés llenará esta carta]'
   },
   {
+    year: 1979,
+    fromId: 'andres',
+    title: 'Llegó la felicidad a este mundo',
+    body:
+`Mi mamá más de una vez me dijo que ella quería dos hijos. ¡Vaya si la entiendo! Creo q tenía el derecho y la necesidad de a veces ventilarlo para que la entendiera cuando sentía que de pronto cuatro eran mucho para ella.
+
+Lejos de ser una queja, es agradecimiento dirigido. Ella me cuidó y consintió como toda una mamá, pero lo tengo claro: si no es por tu poder de convencimiento yo no existo. El cuarto a los 27 — incluso para los 70s — era un poco más allá de lo valiente. Llegué al Edificio Garden además, ¡buena cuna me tenías!
+
+Desde entonces, de las que me acuerdo, me he "tratado" de ahogar en la piscina, caer de cabeza por el jardín interno, caerme de espaldas 2 pisos en La Cristalina, quedar colgado patas arriba de un caballo al que picó una abeja, flotar mar adentro colgado a tus espaldas, tirarme desde un pico de nieve sin saber cómo frenar, y bueno… alguna q otra cosilla más.
+
+En cada una de esas, recuerdo que tú me sacaste de debajo del puente de la piscina, te tiraste detrás mío en el jardín interior de la 93, llegaste en menos de un minuto a ayudarme a respirar en La Cristalina, mantuviste la calma para que yo disfrutara mi mar mientras tú luchabas por nuestras vidas, y en la nieve ya puedo decir que solo te reías de mi torpeza.
+
+Tal vez porq sabes q tengo un ángel de la guarda que ha trabajado contigo desde antes de mi existencia para mantenerme en este mundo.
+
+Mi agradecimiento: he sentido la alegría y he disfrutado la felicidad que este mundo trae, como pocos pueden decir que lo han hecho. Quiero que sepas que esas alegrías son tuyas tanto como mías, porque desde que nací has sido bastión clave para hacerme la persona que hoy soy.
+
+Cuando estés emberracado por ahí, respira, y ten la seguridad que en un lugar del mundo una parte de ti está riendo, sonriendo, con cara de concentración, o hasta también emberracado o llorando… pero que lo está haciendo con toda la intensidad que vivir esta vida se merece.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 1992,
     fromId: 'camilo',
     title: 'El benjamín',
