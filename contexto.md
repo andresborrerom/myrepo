@@ -41,6 +41,14 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 - **Andrés es hincha del América de Cali** ("la mecha"), heredado de su papá (que a su vez lo heredó de su tío) y de Camilo, alias **"el cerdo mayor"** (el primogénito hincha más devoto). Andrés se inició "recibiendo taponazos en la cara orgulloso de ser Falcioni" — Eduardo Falcioni, arquero del América en los 80s.
 - **Selección Colombia**: alternativa familiar. Luchi y Pepe también son de la Selección.
 
+## Pasiones y rituales de Alejandro
+
+- **Las fincas**: amor profundo por sus fincas. Tuvo dos importantes:
+  - **Villeta** (Cundinamarca, tierra caliente): donde cabalgaba con Bernie, donde vivía Valentina la perra, donde la familia pasaba tiempo
+  - **Marbella** (España, desde 1997): la nueva finca, también con jardín, su segundo refugio
+- **Los caballos**: pasión propia. Cabalgaba en Villeta. Bernie (el pastor alemán) era su compañero en esas cabalgatas.
+- **Las piscinas**: en cada apartamento donde vivió, **se construía una piscina**. Marca personal — el agua siempre estaba presente en su casa.
+
 ## Perros (importante en el relato familiar)
 
 ### De Alejandro
