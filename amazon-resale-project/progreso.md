@@ -30,6 +30,9 @@
 - ✅ **Scale content batch 3a — accessories** (agent A): +13 accessories al catálogo (64 productos totales, antes 51) + 9 best-of pages targeted aprovechando los accesorios nuevos.
 - ✅ **Scale content batch 3b — review pages** (agent B, commit 513189f): nuevo template `/review/[slug]` + 22 páginas tipo "is X worth it for Y". Mix de verdicts honestos (15 yes / 6 depends / 1 no). Schema Review + Product + FAQPage + BreadcrumbList.
 - 📊 **Total páginas del sitio: 153** (arrancamos la sesión con 67, +128% en una sesión).
+- ✅ **Design benchmark research** (commit cc0de82): doc en `research/design-benchmark.md` con patterns table-stakes vs diferenciadores de 6-9 sitios afiliados top + recomendaciones priorizadas por ROI.
+- ✅ **Internal linking pass** (commit 5a4386a): Related content section en 4 templates, helper module `src/lib/related-content.ts`, 125/153 páginas con links cruzados.
+- ✅ **UX batch A** (table-stakes patterns implementados): 4 componentes nuevos (VerdictBox, AffiliateButton, Byline, MethodologyNote) + multi-tier labels en best-of + update cadence visible + Review schema E-E-A-T mejorado (author + dateModified). Sitio alineado con dominante de afiliados coffee top.
 
 ### Próximo hito objetivo
 
@@ -111,3 +114,5 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-14 | Methodology page + footer link | Build trust pre-Associates application |
 | 2026-05-14 | Scale batch 3a: +13 accessories + 9 best-of (131 total) | Agente A; cubrió knock box, milk pitcher, WDT, descaler, 54mm tamper |
 | 2026-05-14 | Scale batch 3b: nuevo template /review + 22 worth-it pages (153 total) | Agente B; mix 15/6/1 yes/depends/no, schema Review completo |
+| 2026-05-15 | Internal linking pass + design benchmark research | Related content + research/design-benchmark.md con shortlist priorizada |
+| 2026-05-15 | UX batch A: verdict box, CTA botón, byline, multi-tier labels, methodology link, update cadence | Sitio alineado con patterns table-stakes de coffee affiliates top |
