@@ -76,6 +76,28 @@ export const CARTAS: Carta[] = [
     body: '[Andrés llenará esta carta]'
   },
   {
+    year: 1979,
+    fromId: 'andres',
+    title: 'Llegó la felicidad a este mundo',
+    body:
+`Mi mamá más de una vez me dijo que ella quería dos hijos. ¡Vaya si la entiendo! Creo q tenía el derecho y la necesidad de a veces ventilarlo para que la entendiera cuando sentía que de pronto cuatro eran mucho para ella.
+
+Lejos de ser una queja, es agradecimiento dirigido. Ella me cuidó y consintió como toda una mamá, pero lo tengo claro: si no es por tu poder de convencimiento yo no existo. El cuarto a los 27 — incluso para los 70s — era un poco más allá de lo valiente. Llegué al Edificio Garden además, ¡buena cuna me tenías!
+
+Desde entonces, de las que me acuerdo, me he "tratado" de ahogar en la piscina, caer de cabeza por el jardín interno, caerme de espaldas 2 pisos en La Cristalina, quedar colgado patas arriba de un caballo al que picó una abeja, flotar mar adentro colgado a tus espaldas, tirarme desde un pico de nieve sin saber cómo frenar, y bueno… alguna q otra cosilla más.
+
+En cada una de esas, recuerdo que tú me sacaste de debajo del puente de la piscina, te tiraste detrás mío en el jardín interior de la 93, llegaste en menos de un minuto a ayudarme a respirar en La Cristalina, mantuviste la calma para que yo disfrutara mi mar mientras tú luchabas por nuestras vidas, y en la nieve ya puedo decir que solo te reías de mi torpeza.
+
+Tal vez porq sabes q tengo un ángel de la guarda que ha trabajado contigo desde antes de mi existencia para mantenerme en este mundo.
+
+Mi agradecimiento: he sentido la alegría y he disfrutado la felicidad que este mundo trae, como pocos pueden decir que lo han hecho. Quiero que sepas que esas alegrías son tuyas tanto como mías, porque desde que nací has sido bastión clave para hacerme la persona que hoy soy.
+
+Cuando estés emberracado por ahí, respira, y ten la seguridad que en un lugar del mundo una parte de ti está riendo, sonriendo, con cara de concentración, o hasta también emberracado o llorando… pero que lo está haciendo con toda la intensidad que vivir esta vida se merece.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 1992,
     fromId: 'camilo',
     title: 'El benjamín',
@@ -179,6 +201,32 @@ Que estés tranquilo, papa: voy bien acompañado. Pero también sé que nunca ha
 Y para que esto no se ponga muy serio, padre mío, te confieso una cosa con sonrisa: lo que más me divierte cuando vamos a visitarte es ver cómo Marce se desordena contigo. Con nadie más se suelta así. Algo tendrás de imán, o algo le enseñé yo de mi propio desorden — vaya uno a saber. Porque esos vinos no se los toma con esa frescura fácilmente en otro sitio.
 
 Porque ella se jacta de ser mi buena influencia y sé que lo es; seguramente cuando estamos contigo reconoce que ya tengo otra en frente y se deja ir por unas horas.
+
+Te adoro,
+Andrés.`
+  },
+  {
+    year: 2025,
+    fromId: 'andres',
+    title: 'El año que Luchi se fue a Cornell',
+    body:
+`2025. Luchi aplicó. Luchi entró. Luchi se va a Cornell.
+
+Papa, no sé si entiendes lo que ese paso significó para mí. Cuando me llegó con la noticia, lo primero que pensé fue en ti. Porque gracias a ti — gracias al piso alto que nos sigues dando — pude acompañarla en todo el proceso sin miedo. Sin tener que decirle nunca "Luchi, esa no nos alcanza muñeta, déjalo para la maestría que ya habrá más adelante". Pude decirle: "ve por la que tú quieras y logres enana! Yo me encargo del resto". Esa frase no la habría podido decir sin ti.
+
+Y ahí, padre mío, te digo algo que me ha dolido en silencio durante años. Yo creo que tuve el talento para hacer lo que ella está haciendo. Pero nunca tuve la estructura. Y siento, a veces, que ese fue el primero de algunas desilusiones que te he causado en la vida.
+
+Pero ahora me llega Luchi, llenándome de felicidad y de orgullo, y al fin entiendo desde el otro lado el posible vacío que sentiste cuando rechacé ir "por todo" y me quedé en mi zona de confort. Es exactamente eso: ver a tu hijo con la oportunidad puesta sobre la mesa y verlo decidir no tomarla. Te entiendo, por fin, en eso también.
+
+Por eso quiero que este triunfo de Luchi lo sientas tuyo también. Aunque no lleve sangre Borrero, te aseguro que sacó lo bueno de los Borrero. Y gran parte de su decisión — para bien o para mal — es porque me ha visto a mí en su vida como yo te veo a ti. Como un papá.
+
+Gracias por esta oportunidad que le das a ella de asistir, y que me das a mí de llevarla tan lejos como su esfuerzo y su dedicación se merecen.
+
+Déjame contarte cómo es esta niña a sus 18 años, padre mío. Tiene un norte clarísimo en la vida. Su determinación me deja boquiabierto. Pone siempre la responsabilidad por encima de la juerga. No le cabe en la cabeza la posibilidad de tomarse un trago de más. Nunca me ha tenido esperando en la puerta a que salga de la fiesta — siempre es ella la que está esperando a que yo llegue por ella. Me hizo madrugar muchos sábados y domingos para llevarla a montar a caballo — su gran pasión secreta, que en Cornell va a seguir viviendo junto con sus estudios. Y nunca sacrifica el orden y la disciplina por momentos de falsa alegría, consciente del costo que tienen.
+
+¿Te suena a alguien?
+
+Luchi es Becerra de sangre, pero es más Alejandro Borrero que yo en ejemplo y en comportamiento.
 
 Te adoro,
 Andrés.`

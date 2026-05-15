@@ -19,6 +19,13 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 - Vinculado a Elite Flower vía Excellence Flowers (adquirido por Elite en 2021)
 - Hoy: **75 años** (cumple el 21 may 2026, día kickoff de la app)
 
+## Lugares relevantes
+
+- **Edificio Garden** (Cl 93 #5-25, Bogotá): obra del estudio Borrero y Sánchez Cía. Cuna de Andrés — nació ahí, vivió 20 años.
+- **La Cristalina**: finca familiar, era del abuelo Fernando Borrero Caicedo. A Alejandro le encantaba. Aparece en la carta 1979 — varios "casi accidentes" de Andrés ocurrieron allí (cayó de espaldas 2 pisos, etc.).
+- **Marbella, España**: residencia de Alejandro desde diciembre 1997.
+- **La Calera**: donde Andrés, Marce y Luchi se fueron a vivir en febrero 2013.
+
 ### Los 5 hijos
 | Hijo | Fecha nac. | Notas |
 |---|---|---|
@@ -67,9 +74,14 @@ Cronología clave:
 
 ### Luchi (Lucía, hija de Andrés)
 - 26 sept 2007
-- Hija de Marce de relación anterior
+- Hija de Marce de relación anterior — **Becerra de sangre** (apellido paterno biológico)
 - Andrés la conoce en 2012, va a vivir con ellos en 2013
 - **Andrés la considera plenamente su hija**. NO se hace distinción "hija de crianza" o "hijastra" en las cartas
+- En 2025 **entró a Cornell** — Andrés la pudo apoyar en aplicar a la universidad de su sueño gracias al "alto piso" de Alejandro
+- A los 18: norte clarísimo, responsabilidad sobre juerga, no toma de más, nunca fiesta hasta tarde
+- **Pasión secreta**: montar a caballo. Sigue en Cornell.
+- Andrés la llama de cariño "muñeta" o "enana"
+- Andrés siente que Luchi es "más Alejandro Borrero que yo en ejemplo y comportamiento"
 
 ### Pepe (Pedro Pablo, hijo de Andrés)
 - 6 jul 2017
@@ -127,6 +139,7 @@ Cronología clave:
 | 1974 | El año que me hiciste papá tuyo | Luis Fernando | [pendiente] |
 | 1976 | Cuando llegué yo | Alexandra | [pendiente] |
 | 1978 | La hija del medio | Carolina | [pendiente] |
+| **1979** | **Llegó la felicidad a este mundo** | **Andrés** | Nacimiento de Andrés, mamá quería 2 hijos, casi-accidentes salvado por papá |
 | 1980 | Cuando me trajiste a casa | Andrés | [pendiente] |
 | 1992 | El benjamín | Camilo | [pendiente] |
 | 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
@@ -134,6 +147,7 @@ Cronología clave:
 | 2000 | El año en que tu papá se volvió escuela | Los 5 hijos | Fundación FBC |
 | **2012** | **Mayo del 2012** | **Andrés** | Conoce a Marce, fin del desorden, reflexión sobre matrimonio |
 | **2017** | **El año en que llegó Pepe** | **Andrés** | Nacimiento de Pepe, "igual al abuelo" |
+| **2025** | **El año que Luchi se fue a Cornell** | **Andrés** | Cornell, "alto piso", primer desilusión, "más Borrero que yo" |
 
 ---
 
