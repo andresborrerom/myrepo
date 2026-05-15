@@ -679,4 +679,282 @@ export const bestPages: BestPage[] = [
       },
     ],
   },
+
+  // ============================================================
+  // Batch 3a — accessory-leveraging long-tails
+  // Targets KGR gold patterns surfaced in agent batch 2 review:
+  // knock boxes, WDT, descalers, 54mm tampers, milk pitchers,
+  // and accessory bundle queries.
+  // ============================================================
+  {
+    slug: 'best-knock-box-for-breville-bambino',
+    title: 'Best Knock Boxes for the Breville Bambino',
+    intro:
+      'The Bambino and Bambino Plus pull pucks at the rate of a daily-driver home machine — a knock box should be low enough to slide under the drip tray and small enough to live next to a compact machine. The picks here all fit under 5 inches tall, leaving the Bambino\'s narrow footprint intact.',
+    description:
+      'Best knock boxes for the Breville Bambino and Bambino Plus — low-profile picks that fit compact kitchens.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      hasTag(p, 'knock-box') &&
+      (hasTag(p, 'small-kitchen') ||
+        hasTag(p, 'compact') ||
+        bestForIncludes(p, 'breville bambino') ||
+        (numFeature(p, 'height_in') !== undefined && (numFeature(p, 'height_in') as number) <= 5)),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'What knock box height fits under the Bambino drip tray?',
+        a: 'Under 5 inches. The Bambino sits about 5.5 inches off most counters at the spout-clearance gap, so a 4-4.5 inch box slides under without removing the tray. The Rattleware Short and Joe Frex Mini both fit; the Espro Toroid does not.',
+      },
+      {
+        q: 'How often do I need to empty the knock box?',
+        a: 'For a single-cup-a-day Bambino household, every 5-7 days. For two drinks a day, every 3-4 days. A 10-12 puck box matches the single-cup cadence; a 20-25 puck box adds a week of buffer if you do not want to think about it.',
+      },
+      {
+        q: 'Is a knock box worth it over knocking pucks straight into the trash?',
+        a: 'Yes — pucks are wet, heavy, and stain trash bag interiors. A real knock box also gives a firm impact target so you can dislodge a stubborn puck without bending the basket. At $24-65, the upgrade pays for itself in a couple of months of avoided mess.',
+      },
+    ],
+  },
+  {
+    slug: 'best-knock-box-for-gaggia-classic',
+    title: 'Best Knock Boxes for the Gaggia Classic Pro',
+    intro:
+      'The Gaggia Classic uses a commercial 58mm portafilter that delivers a heavier puck and a harder knock than a Breville Bambino. A knock box for the Gaggia should be stable under hard impact and tall enough to absorb the wider puck shape without splashing grounds onto the counter.',
+    description:
+      'Best knock boxes for the Gaggia Classic Pro and Evo Pro — stable, capacity-friendly picks for 58mm portafilter pucks.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      hasTag(p, 'knock-box') &&
+      p.price >= 25,
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'Why does knock box stability matter more for a Gaggia than a Bambino?',
+        a: 'The Gaggia\'s 58mm portafilter weighs about 600g loaded and produces a harder knock than the Bambino\'s 54mm. A light or plastic knock box rocks under that impact; a stainless steel or weighted-silicone design stays put.',
+      },
+      {
+        q: 'What capacity makes sense for a Gaggia household?',
+        a: 'Most Gaggia owners pull 1-3 shots a day. A 20-25 puck capacity (Espro Toroid, Cafelat Knock Tube) buys a full week between empties. A 12-puck (Rattleware Short) needs emptying every 3-4 days for a multi-drink household.',
+      },
+      {
+        q: 'Does the knock box need to match the machine aesthetic?',
+        a: 'Not functionally, but the Gaggia\'s polished stainless body pairs visually with a stainless knock box (Rattleware, Espro). The black Cafelat Knock Tube reads as a deliberate contrast. The Joe Frex Mini\'s plastic body looks budget next to the Gaggia\'s build — fine if you do not care about counter aesthetics.',
+      },
+    ],
+  },
+  {
+    slug: 'best-milk-pitcher-for-latte-art',
+    title: 'Best Milk Pitchers for Latte Art',
+    intro:
+      'Latte art pitchers earn their place by spout geometry, not capacity. The standard recommendation for a single drink is a 12oz pitcher with a sharp competition-cut spout. For two-drink batches, a 20oz pitcher with a slightly wider but still tapered spout is the right tool.',
+    description:
+      'Best milk pitchers for latte art — 12oz and 20oz competition-spout picks for rosetta, tulip, and heart pours.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      hasTag(p, 'milk-pitcher') &&
+      (hasTag(p, 'latte-art') ||
+        bestForIncludes(p, 'latte art') ||
+        bestForIncludes(p, 'latte') ||
+        bestForIncludes(p, 'cappuccino')),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'What size pitcher do I need for latte art?',
+        a: '12oz for a single 6-8oz drink — fill to just below the spout base. 20oz for two drinks or one 12oz drink. The pitcher should be roughly double the final drink volume so the milk has room to texture without overflowing.',
+      },
+      {
+        q: 'Does the pitcher material affect latte art?',
+        a: 'Stainless steel is the standard. Copper-lined and ceramic pitchers exist but offer no functional advantage and complicate steaming. Any single-walled polished stainless pitcher in the 12-20oz range will pour fine latte art with a sharp spout.',
+      },
+      {
+        q: 'Is a thermometer mount hole useful?',
+        a: 'For the first 1-3 months of microfoam practice, yes — it lets you hit 60-65C without hand-feel experience. After that, most baristas remove the thermometer and learn temperature by touch on the pitcher exterior. The Bellman 20oz includes a hole; the Rattleware 12oz and Joe Frex 20oz do not.',
+      },
+    ],
+  },
+  {
+    slug: 'best-milk-pitcher-for-breville-bambino',
+    title: 'Best Milk Pitchers for the Breville Bambino',
+    intro:
+      'The Bambino Plus auto-frother and the Bambino\'s manual wand both work best with a 12oz pitcher. The machine is sized for single drinks; the steam wand is short; the wand tip prefers a pitcher base around 3-3.5 inches in diameter. A 20oz pitcher technically works but wastes milk and is awkward to angle under the short wand.',
+    description:
+      'Best milk pitchers for the Breville Bambino and Bambino Plus — 12oz picks sized for the short steam wand.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      hasTag(p, 'milk-pitcher') &&
+      (numFeature(p, 'capacity_oz') !== undefined && (numFeature(p, 'capacity_oz') as number) <= 14 ||
+        hasTag(p, 'small') ||
+        bestForIncludes(p, 'breville bambino')),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'Will a 20oz pitcher work on the Bambino?',
+        a: 'Yes, but the steam wand is short and you will need to tilt the pitcher more than feels comfortable. For two-drink households making milk drinks back to back, a 20oz pitcher is workable; for single drinks, the 12oz is the right size.',
+      },
+      {
+        q: 'Does the Bambino Plus auto-frother prefer a specific pitcher?',
+        a: 'The auto-frother probe needs the pitcher base to sit on the drip tray and the probe to reach the milk. A 12oz Rattleware-class pitcher fits the geometry; non-standard tall or narrow pitchers may prevent the probe from reading correctly.',
+      },
+    ],
+  },
+  {
+    slug: 'best-wdt-tool-for-espresso',
+    title: 'Best WDT Tools for Espresso (Weiss Distribution Technique)',
+    intro:
+      'WDT (Weiss Distribution Technique) tools fix the most common cause of channeling in home espresso: clumps of fresh-ground coffee that fall unevenly into the basket. A WDT tool stirs the dose with thin needles to break up clumps before tamping — a 10-second step that visibly improves shot quality on most home grinders.',
+    description:
+      'Best WDT tools for home espresso — Normcore, Bplus, and KafaTek-class picks for puck preparation and channeling reduction.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      (hasTag(p, 'wdt') || hasTag(p, 'distribution-tool')),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'Do I really need a WDT tool, or is a paperclip fine?',
+        a: 'A bent paperclip works as a free WDT solution and many home baristas use one for years. A dedicated tool produces more even distribution because the needles are thinner (0.35-0.4mm vs the paperclip\'s ~1mm) and there are multiple needles spaced in a circle. The cup-quality gap is small but real.',
+      },
+      {
+        q: 'What needle gauge should I look for?',
+        a: '0.4mm is the consensus for budget tools (Normcore); 0.35mm is the premium gauge (Bplus, KafaTek). Finer needles leave less impression in the bed and produce slightly better distribution, but they bend more easily if dropped. For most users, 0.4mm is the right balance of effectiveness and durability.',
+      },
+      {
+        q: 'Does WDT matter on a hopper-fed grinder?',
+        a: 'Less than on a single-dose grinder, but still some. Hopper-fed grinders (Eureka Specialita, Mahlkonig X54) produce fewer clumps than single-dose flat-burrs (DF64, Niche), but light roasts and aged beans still benefit from a quick stir. For dark roasts on a quality hopper-fed grinder, WDT is optional.',
+      },
+      {
+        q: 'When does WDT become unnecessary?',
+        a: 'Almost never for espresso. The very high-end grinders (EK43, Mythos) produce distributions clean enough that WDT adds little; below that tier (everything in a home kitchen), WDT remains the highest-ROI ten seconds you can add to your shot prep.',
+      },
+    ],
+  },
+  {
+    slug: 'best-descaler-for-breville-espresso-machines',
+    title: 'Best Descalers and Cleaners for Breville Espresso Machines',
+    intro:
+      'Breville espresso machines need two different maintenance products on different schedules: a backflush cleaner (weekly, for coffee oils) and a descaler (every 3-6 months, for limescale in the thermojet or boiler). The picks here cover both categories — Cafiza for cleaning, plus the descaler chemistry Breville officially supports.',
+    description:
+      'Best cleaning and descaling products for Breville Bambino, Barista Express, Barista Pro, and Dual Boiler — Cafiza and descaler picks.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      (hasTag(p, 'cleaning') ||
+        hasTag(p, 'descaler') ||
+        hasTag(p, 'backflush') ||
+        hasTag(p, 'maintenance')),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'Is Cafiza a descaler?',
+        a: 'No — Cafiza is an alkaline cleaner that removes coffee oils from the group head and brew path. Descalers are acidic (citric or lactic) and remove limescale from the boiler. Most machines need both, on different schedules. Mixing them up is the most common maintenance mistake.',
+      },
+      {
+        q: 'How often should I descale a Breville?',
+        a: 'Every 3 months in hard-water cities, every 6 months in soft-water areas. Most Brevilles prompt you with a "CLEAN ME" or descale icon when the cycle count says you are due. Using filtered tank water doubles the interval; ignoring the prompt eventually clogs the thermojet permanently.',
+      },
+      {
+        q: 'Can I use any descaler on a Breville?',
+        a: 'Breville recommends their proprietary descaler, but third-party citric or lactic acid descalers work fine and cost a third of the price. Avoid vinegar — too acidic, leaves a smell, and can damage rubber gaskets.',
+      },
+      {
+        q: 'Does the Bambino need backflushing?',
+        a: 'The Bambino does not have a three-way solenoid, so traditional backflushing with a blind basket is not possible. Instead, run plain water cycles regularly and descale on schedule. The Barista Express and Dual Boiler do have the solenoid and benefit from Cafiza weekly.',
+      },
+    ],
+  },
+  {
+    slug: 'best-54mm-tamper-for-breville-bambino',
+    title: 'Best 54mm Tampers for the Breville Bambino',
+    intro:
+      'Breville uses a proprietary 54mm basket across the entire current lineup — Bambino, Bambino Plus, Barista Express, Barista Pro, Touch Impress. The stock plastic tamper is undersized and inconsistent; a real 54mm calibrated tamper is one of the cheapest upgrades with a directly visible effect on shot quality.',
+    description:
+      'Best 54mm tampers for the Breville Bambino and Barista series — calibrated, spring-loaded picks that fit Breville\'s proprietary basket.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      hasTag(p, 'tamper') &&
+      (hasTag(p, '54mm') ||
+        hasTag(p, 'breville-compatible') ||
+        (numFeature(p, 'diameter_mm') !== undefined && (numFeature(p, 'diameter_mm') as number) < 56)),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'Why does Breville use 54mm instead of the commercial 58mm?',
+        a: 'Breville designed the Bambino lineup around a smaller-footprint group head, which made 54mm the natural basket size for the platform. The downside is a smaller aftermarket — 58mm has every imaginable accessory, 54mm has fewer choices and slightly higher per-item pricing.',
+      },
+      {
+        q: 'Will a 58mm tamper work on a Bambino?',
+        a: 'No — a 58mm tamper is physically too large for the 54mm basket and will not seat against the coffee bed properly. You need a 54mm tamper for any Breville machine in the current Bambino, Barista, or Infuser lineup.',
+      },
+      {
+        q: 'Is a spring-loaded tamper better than a flat tamper for beginners?',
+        a: 'Yes, almost universally. A spring-loaded tamper applies a calibrated 30-lb pressure every shot regardless of how hard you push; a flat tamper depends on user technique. For the first 6-12 months of Bambino ownership, a Normcore 54mm spring-loaded tamper eliminates one of the biggest sources of shot variation.',
+      },
+    ],
+  },
+  {
+    slug: 'best-espresso-accessories-under-100',
+    title: 'Best Espresso Accessories Under $100',
+    intro:
+      'A first-year home espresso setup benefits from a small set of accessories more than from any single upgrade: a real tamper, a knock box, a milk pitcher, and a WDT tool. The picks here are all under $100 individually and collectively cover the workflow gaps that ship with most starter machines.',
+    description:
+      'Best espresso accessories under $100 — tampers, knock boxes, milk pitchers, WDT tools, and cleaning products for home espresso.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      p.price < 100 &&
+      (hasTag(p, 'tamper') ||
+        hasTag(p, 'knock-box') ||
+        hasTag(p, 'milk-pitcher') ||
+        hasTag(p, 'wdt') ||
+        hasTag(p, 'puck-screen') ||
+        hasTag(p, 'cleaning') ||
+        hasTag(p, 'thermometer') ||
+        hasTag(p, 'espresso-tools')),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'What accessories should I buy first with a new espresso machine?',
+        a: 'In order of impact: (1) a real tamper sized to your basket, (2) a knock box, (3) a milk pitcher if you do milk drinks, (4) a WDT tool, (5) cleaning supplies. The tamper and WDT have the largest cup-quality effect; the knock box has the largest workflow effect.',
+      },
+      {
+        q: 'Can I skip the stock tamper that came with my machine?',
+        a: 'Almost always yes. Stock tampers from Breville, Gaggia, De\'Longhi, and most starter machines are plastic, undersized, and inconsistent. A $40-65 calibrated tamper is the single cheapest upgrade with a visible effect on shot quality.',
+      },
+      {
+        q: 'Do I need a puck screen?',
+        a: 'Not for first-year setups. A puck screen helps reduce channeling on light roasts and keeps the shower screen cleaner, but the effect is small (5-10% extraction improvement at best). Spend the $19 on a better grinder budget first; add a puck screen later if channeling persists.',
+      },
+    ],
+  },
+  {
+    slug: 'best-essential-accessories-for-gaggia-classic',
+    title: 'Essential Accessories for the Gaggia Classic Pro',
+    intro:
+      'The Gaggia Classic ships with a plastic tamper, a single-spout portafilter, no knock box, no milk pitcher, and no cleaning supplies. Out of the box it brews drinkable espresso; with $150-200 in accessories it brews specialty-cafe espresso. The picks here are the essentials.',
+    description:
+      'Essential accessories for the Gaggia Classic Pro — tamper, WDT, knock box, milk pitcher, puck screen, and Cafiza picks.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      (hasTag(p, '58mm') ||
+        hasTag(p, 'tamper') ||
+        hasTag(p, 'knock-box') ||
+        hasTag(p, 'milk-pitcher') ||
+        hasTag(p, 'wdt') ||
+        hasTag(p, 'puck-screen') ||
+        hasTag(p, 'cleaning') ||
+        bestForIncludes(p, 'gaggia classic')),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'What is the minimum accessory budget for a Gaggia Classic?',
+        a: 'Around $120 total: $65 tamper (Normcore 58.5mm spring-loaded), $25 knock box (Rattleware Short), $22 milk pitcher (Rattleware 12oz), $18 Cafiza for cleaning. The WDT tool ($32) and puck screen ($19) are the next-tier additions.',
+      },
+      {
+        q: 'Do I need a 58mm bottomless portafilter for the Gaggia?',
+        a: 'Not essential, but the most-recommended upgrade for users learning espresso. A bottomless portafilter exposes channeling and uneven extractions visually, which accelerates the learning curve. Most Gaggia owners add one within the first six months.',
+      },
+      {
+        q: 'How important is the cleaning routine on a Gaggia Classic?',
+        a: 'Critical for longevity. The Gaggia\'s three-way solenoid and aluminum boiler benefit from weekly Cafiza backflushing and quarterly descaling. Skipping maintenance is the #1 cause of premature Gaggia failure — the boiler scales, the solenoid sticks, the brew temperature drifts.',
+      },
+    ],
+  },
 ];
