@@ -3,15 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-type Tab = { href: string; label: string; icon: string };
+type Tab = { href: string; n: string; label: string };
 
-// 4 íconos grandes, etiqueta visible siempre. Diseñado para una mano y para
-// que un abuelo pueda leer cada destino sin adivinar.
+// v2 — numeración editorial estilo Plano Maestro / Apartamento.
+// Los emojis se fueron. Quedó el número (mono) sobre el rótulo (serif).
 const TABS: Tab[] = [
-  { href: '/',         label: 'Vestíbulo', icon: '🏠' },
-  { href: '/arbol',    label: 'Árbol',     icon: '🌳' },
-  { href: '/estudio',  label: 'Estudio',   icon: '✏️' },
-  { href: '/buzon',    label: 'Buzón',     icon: '✉️' }
+  { href: '/',         n: '01', label: 'Vestíbulo' },
+  { href: '/arbol',    n: '02', label: 'Árbol' },
+  { href: '/estudio',  n: '03', label: 'Estudio' },
+  { href: '/buzon',    n: '04', label: 'Buzón' }
 ];
 
 export default function BottomNav() {
@@ -20,7 +20,7 @@ export default function BottomNav() {
   return (
     <nav
       aria-label="Navegación principal"
-      className="fixed bottom-0 left-0 right-0 z-30 border-t border-cream-200 bg-cream-50/95 backdrop-blur"
+      className="fixed bottom-0 left-0 right-0 z-30 border-t border-regla bg-lino/95 backdrop-blur"
     >
       <ul className="mx-auto flex max-w-xl items-stretch justify-around px-2 pb-[env(safe-area-inset-bottom)]">
         {TABS.map((tab) => {
@@ -31,12 +31,18 @@ export default function BottomNav() {
               <Link
                 href={tab.href}
                 aria-current={active ? 'page' : undefined}
-                className={`flex flex-col items-center gap-1 py-3 text-sm ${
-                  active ? 'text-clay-600 font-bold' : 'text-ink-800'
+                className={`flex flex-col items-center gap-0.5 py-3 ${
+                  active ? 'text-tomate' : 'text-tinta'
                 }`}
               >
-                <span aria-hidden className="text-2xl leading-none">{tab.icon}</span>
-                <span>{tab.label}</span>
+                <span className={`font-mono text-[10px] tracking-widest ${
+                  active ? 'text-tomate' : 'text-grafito'
+                }`}>
+                  {tab.n}
+                </span>
+                <span className="font-display text-base font-light italic">
+                  {tab.label}
+                </span>
               </Link>
             </li>
           );

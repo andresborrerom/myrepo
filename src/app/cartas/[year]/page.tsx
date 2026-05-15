@@ -1,12 +1,11 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import Avatar from '@/components/Avatar';
 import HeartButton from '@/components/HeartButton';
 import ShareButton from '@/components/ShareButton';
 import SpeakButton from '@/components/SpeakButton';
-import { BIRTH_YEAR } from '@/data/cartas';
+import { BIRTH_YEAR, CARTAS } from '@/data/cartas';
 import { getCartaAudioUrl } from '@/data/audios';
-import { getColorRama, getPerson } from '@/data/family';
+import { getPerson } from '@/data/family';
 import { getCartasForYear, getDayIndex, type CartaFinal } from '@/lib/cartas-fetch';
 import { isInsider } from '@/lib/auth';
 
@@ -19,25 +18,36 @@ export default async function CartaPage({ params }: { params: { year: string } }
   const cartas = await getCartasForYear(year);
   if (cartas.length === 0) notFound();
 
-  // Bloqueo para Alejandro si el año todavía no toca.
   const insider = isInsider();
   const dayIdx = getDayIndex();
   const dayOfYear = year - BIRTH_YEAR;
   const isReleased = dayIdx !== null && dayOfYear <= dayIdx;
 
+  // Posición en la rejilla — para "Carta 38 / 75"
+  const sembradas = CARTAS.map((c) => c.year).sort((a, b) => a - b);
+  const indexInSembradas = sembradas.indexOf(year);
+  const ordinal = indexInSembradas >= 0 ? indexInSembradas + 1 : null;
+  const total = sembradas.length;
+
+  // Año anterior / posterior con carta — para navegación libro
+  const prevYear = sembradas.filter((y) => y < year).pop();
+  const nextYear = sembradas.find((y) => y > year);
+
   if (!insider && !isReleased) {
     return (
-      <div className="space-y-6 text-center">
-        <Link href="/cartas" className="inline-flex items-center gap-1 text-clay-600">
-          ‹ Volver a las cartas
+      <div className="bg-lino text-tinta min-h-dvh -mt-6 -mx-5 px-6 pt-12 pb-32">
+        <Link href="/cartas" className="font-mono text-[10px] tracking-widest text-grafito hover:text-tomate">
+          ← VOLVER AL ÍNDICE
         </Link>
-        <div className="rounded-3xl bg-cream-100 p-8 shadow-warm">
-          <p className="text-5xl">🔒</p>
-          <h1 className="mt-4 font-display text-2xl text-ink-900">
-            Esta carta llega después
+        <div className="mt-12 text-center">
+          <p className="font-mono text-[10px] tracking-widest text-grafito">
+            CARTA SELLADA · AÑO {year}
+          </p>
+          <h1 className="mt-6 font-display text-3xl font-light italic text-tinta">
+            Esta carta llega después.
           </h1>
-          <p className="mt-3 text-base text-ink-800">
-            La carta del año {year} todavía no toca. Te llegará el día {dayOfYear + 1} desde tu cumpleaños.
+          <p className="mt-4 font-serif text-base italic text-grafito">
+            Te llegará el día {dayOfYear + 1} desde tu cumpleaños.
           </p>
         </div>
       </div>
@@ -45,36 +55,53 @@ export default async function CartaPage({ params }: { params: { year: string } }
   }
 
   return (
-    <article className="carta-enter space-y-6">
-      <Link href="/cartas" className="inline-flex items-center gap-1 text-clay-600">
-        ‹ Volver a las cartas
-      </Link>
-
-      <header className="space-y-2">
-        <p className="font-display text-clay-600 text-xl">
-          {year} · {year - BIRTH_YEAR} {year - BIRTH_YEAR === 1 ? 'año' : 'años'}
+    <article className="carta-enter bg-lino text-tinta min-h-dvh -mt-6 -mx-5 px-6 pt-10 pb-32">
+      {/* Cabecera tipo monografía */}
+      <header className="space-y-1">
+        <Link href="/cartas" className="inline-block font-mono text-[10px] tracking-widest text-grafito hover:text-tomate">
+          ← VOLVER AL ÍNDICE
+        </Link>
+        <p className="pt-6 font-mono text-[10px] tracking-[0.2em] text-grafito">
+          {ordinal !== null ? `CARTA ${String(ordinal).padStart(2, '0')} / ${total}` : 'CARTA'} · AÑO {year} · {year - BIRTH_YEAR} {year - BIRTH_YEAR === 1 ? 'AÑO' : 'AÑOS'}
         </p>
-        {cartas.length > 1 && (
-          <p className="text-sm text-ink-800/60">
-            {cartas.length} cartas para este año
-          </p>
-        )}
       </header>
 
-      <ul className="space-y-8">
+      <Rule className="my-6" />
+
+      {/* Lista de cartas (puede haber varias por año) */}
+      <ul className="space-y-12">
         {cartas.map((carta, i) => (
           <li key={`${carta.fromId}-${i}`}>
             <CartaItem carta={carta} year={year} />
+            {i < cartas.length - 1 && <Rule className="mt-12" />}
           </li>
         ))}
       </ul>
+
+      <Rule className="my-10" />
+
+      {/* Pie de página tipo libro */}
+      <footer className="flex items-center justify-between font-mono text-[11px] tracking-widest text-grafito">
+        {prevYear ? (
+          <Link href={`/cartas/${prevYear}`} className="hover:text-tomate">
+            ← {prevYear}
+          </Link>
+        ) : <span />}
+        <span className="text-center">
+          {ordinal !== null && `${String(ordinal).padStart(2, '0')} / ${total}`}
+        </span>
+        {nextYear ? (
+          <Link href={`/cartas/${nextYear}`} className="hover:text-tomate">
+            {nextYear} →
+          </Link>
+        ) : <span />}
+      </footer>
     </article>
   );
 }
 
 function CartaItem({ carta, year }: { carta: CartaFinal; year: number }) {
   const author = getPerson(carta.fromId);
-  const ramaColor = getColorRama(carta.fromId);
   const audioUrl = carta.audioUrl || getCartaAudioUrl(year);
 
   const spokenText = [
@@ -84,48 +111,48 @@ function CartaItem({ carta, year }: { carta: CartaFinal; year: number }) {
   ].filter(Boolean).join(' ');
 
   return (
-    <div className="space-y-4">
+    <div>
+      {/* Título */}
       {carta.title && (
-        <h2 className="font-display text-2xl leading-tight text-ink-900">
+        <h1 className="font-display text-4xl font-extralight italic leading-[1.1] text-tinta">
           {carta.title}
-        </h2>
+        </h1>
       )}
 
+      {/* Byline */}
       {author && (
-        <div className="overflow-hidden rounded-2xl bg-cream-100 shadow-warm">
-          <div aria-hidden className={`h-1.5 w-full ${ramaColor}`} />
-          <div className="flex items-center gap-3 p-3">
-            <Avatar person={author} size="sm" />
-            <div>
-              <p className="text-xs uppercase tracking-wide text-ink-800/60">de</p>
-              <p className="font-display text-base font-bold text-ink-900">
-                {author.shortName || author.name}
-              </p>
-            </div>
-          </div>
-        </div>
+        <p className="mt-4 font-mono text-[10px] tracking-[0.2em] text-grafito">
+          DE {(author.shortName || author.name).toUpperCase()}
+        </p>
       )}
 
-      {audioUrl ? (
-        <audio controls preload="none" className="w-full">
-          <source src={audioUrl} />
-        </audio>
-      ) : (
-        <div className="flex">
+      {/* Audio o TTS */}
+      <div className="mt-6">
+        {audioUrl ? (
+          <audio controls preload="none" className="w-full">
+            <source src={audioUrl} />
+          </audio>
+        ) : (
           <SpeakButton text={spokenText} />
-        </div>
-      )}
+        )}
+      </div>
 
-      <div className="space-y-4 text-lg leading-relaxed text-ink-900">
+      {/* Cuerpo — Source Serif 4, columna estrecha, leading generoso */}
+      <div className="mt-8 max-w-prose space-y-5 font-serif text-[18px] leading-[1.75] text-tinta">
         {carta.body.split(/\n\s*\n/).map((para, i) => (
           <p key={i}>{para}</p>
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-2 pt-2">
+      {/* Acciones */}
+      <div className="mt-8 flex flex-wrap gap-2">
         <HeartButton itemId={`carta:${year}:${carta.fromId}:${carta._id || 'seed'}`} />
         <ShareButton title={carta.title} text={`Carta del año ${year}`} />
       </div>
     </div>
   );
+}
+
+function Rule({ className = '' }: { className?: string }) {
+  return <div className={`h-px w-full bg-regla ${className}`} aria-hidden />;
 }

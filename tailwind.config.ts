@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Paleta cálida: tierra, papel, hojas, flor.
+        // === Paleta v1 (la actual, en uso en la mayoría de páginas) ===
         cream: {
           50: '#FBF7F0',
           100: '#F5EEE1',
@@ -25,11 +25,24 @@ const config: Config = {
         ink: {
           800: '#3A2F26',
           900: '#241D17'
-        }
+        },
+
+        // === Paleta v2 — Apartamento + Plano Maestro ===
+        // Páginas redibujadas (Vestíbulo, carta abierta) la usan.
+        lino: '#EDE6D8',
+        'lino-warm': '#F7EFE0',
+        tinta: '#3B2F26',
+        tomate: '#A8412C',
+        botella: '#3D5240',
+        grafito: '#6B6B68',
+        regla: '#C9C4B8'
       },
       fontFamily: {
         sans: ['"Atkinson Hyperlegible"', 'system-ui', 'sans-serif'],
-        display: ['"Fraunces"', 'Georgia', 'serif']
+        display: ['"Fraunces"', 'Georgia', 'serif'],
+        // v2: Source Serif 4 para lectura, JetBrains Mono para metadata.
+        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
       },
       fontSize: {
         // Escala generosa para 75 años: 1rem base = 18px (ver globals.css).
