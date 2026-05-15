@@ -158,6 +158,30 @@ Pepe es tuyo también. Habla mas de su abuelo de lo que crees. Te admira. Y aunq
 
 Te adoro,
 Andrés.`
+  },
+  {
+    year: 2012,
+    fromId: 'andres',
+    title: 'Mayo del 2012',
+    body:
+`Treinta y tres años, papa, y por primera vez se me ocurrió que tal vez ya era hora. Que el desorden ya había sido suficiente. Que faltaba alguien.
+
+Conocí a Marce ese mes. Tenía una hija de cuatro años que se llamaba Lucía, y una manera de mirarme que no me dejaba mentir. La escogí — y todavía no entiendo del todo cómo tuve esa claridad. La escogí porque es buena mujer. Porque se desvive por sus hijos. Porque eligió una carrera (y un trabajo muy duro!) donde cría y educa por encima de buscar plata y altos puestos. Porque me dio una hija inmediata — Luchi, que en febrero del 2013 ya estaba viviendo con nosotros en La Calera — y una suegra alcahuetas que le sigue volando a mi casa en el segundo que la necesitamos, sin parpadear.
+
+Pero te confieso algo, papa: hoy entiendo de otra manera lo difícil que es un matrimonio. Lo difícil que es mirar al otro y saber que las discusiones de hace cinco años son las mismas que vamos a tener dentro de treinta. Lo posible que es tomar la decisión de acabarlo. Te entiendo distinto hoy de lo que lo hicimos cuando te fuiste de la casa. Creo que he tenido hasta suerte de seguir casado, y la agradezco; pero sí reconozco lo importante que es valorarlo mucho y más para seguir intentado envejecer juntos.
+
+Y aunque yo no viví tus matrimonios, viendo a Marce reconozco las cosas que valoro más y me pregunto si en algo nos parecimos: la cualidad de hacer hogar. La cualidad de priorizar lo de adentro para que uno pueda salir tranquilo a buscar crecimiento afuera. Lo de pelar las naranjas en cuartos cuando alguien está enfermo, lo de saber qué uniforme va mañana, lo de acompañar las tareas así sean tablas de multiplicar que no se sabe. Esas cosas que no se notan hasta que faltan.
+
+Marce fue el fin de mi desorden. Punto. A los 33 acepté por fin el reto de cargar responsabilidades, y lo gracioso es que no me sentí cargado — me sentí aliviado. Puedo decirte con la mano en el corazón: antes la pasaba más bueno, pero con toda seguridad después de Marce fui más feliz. Las dos cosas son verdad y no se contradicen.
+
+Que estés tranquilo, papa: voy bien acompañado. Pero también sé que nunca hay garantía de envejecer juntos — eso lo entendí también con los años. De pronto gracias a esa misma incertidumbre me he puesto a cuidar más lo que más valoro: mi hogar con Marce, con Luchi, con Pepe. La casa que tú me regalaste es hogar porque ella es su eje.
+
+Y para que esto no se ponga muy serio, padre mío, te confieso una cosa con sonrisa: lo que más me divierte cuando vamos a visitarte es ver cómo Marce se desordena contigo. Con nadie más se suelta así. Algo tendrás de imán, o algo le enseñé yo de mi propio desorden — vaya uno a saber. Porque esos vinos no se los toma con esa frescura fácilmente en otro sitio.
+
+Porque ella se jacta de ser mi buena influencia y sé que lo es; seguramente cuando estamos contigo reconoce que ya tengo otra en frente y se deja ir por unas horas.
+
+Te adoro,
+Andrés.`
   }
 ];
 

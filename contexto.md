@@ -128,6 +128,7 @@ Cronología clave:
 | 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |
 | 2000 | El año en que tu papá se volvió escuela | Los 5 hijos | Fundación FBC |
+| **2012** | **Mayo del 2012** | **Andrés** | Conoce a Marce, fin del desorden, reflexión sobre matrimonio |
 | **2017** | **El año en que llegó Pepe** | **Andrés** | Nacimiento de Pepe, "igual al abuelo" |
 
 ---
