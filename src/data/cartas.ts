@@ -98,10 +98,140 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 1985,
+    fromId: 'andres',
+    title: 'Mi entrada al San Carlos',
+    body:
+`Escogiste un colegio perfecto para mí. Nunca me imaginé en otro. Fuerte en matemáticas, fuerte en fútbol, y aunque con mucho matoneo masculino del que a mí me parecía divertidísimo, también fuerte en valores. Sobre todo en uno: el servicio. El Padre Francis siempre promovió esa palabra como el eje del colegio. No sé si sabías en ese entonces todo esto, pero sí sé que elegiste bien desde lo más profundo de tu ser.
+
+Me gusta pensar en mí como una persona que ha sido sencilla en su forma de vivir dentro de los lujos que lo rodean. Me gusta pensar que aprendí a valorar a las personas por lo que son y no por lo que tienen. A tomar cerveza en la tienda del barrio y disfrutarlo más que el mejor vino en el mejor restaurante. A celebrar mis cumpleaños con 4 estratos en una misma casa y a no preocuparme por el carro que tienen los demás o de qué cuna vienen quienes me rodean.
+
+Para bien o para mal, ese soy yo. Y no sé si fue por el colegio en el que crecí o si fui feliz en ese colegio porque esa siempre fue mi esencia. Voto por la segunda.
+
+Porque te veo disfrutar el pollo asado en el río, o la lengua en salsa donde esté, más que la langosta en el mejor club. Porque tu carro no es deportivo sino trabajador, y tratas a tus empleados como tratas a tus vecinos. Con cariño, respeto, y el abrazo cuando tiene lugar, y de vez en cuando tu vecino se lleva su ignorada por Santista. Te pones una corbata por respeto al otro y no para darte aires de altivez. Y te da más mamera la recatada tía Ceci que mi suegrita y su transparencia. Prefiero el guaro al whisky, y un buen amigo a un amigo poderoso.
+
+Sé que estaba en mi esencia, porque gran parte de mi esencia eres tú.
+
+Te adoro,
+Andrés.`
+  },
+  {
+    year: 2016,
+    fromId: 'andres',
+    title: 'UC Berkeley',
+    body:
+`Cómo no incluir una carta de un año fabuloso por todo lo alto.
+
+Me casé con Marce, logramos darnos la oportunidad de un tercer embarazo que resultó en el gran Pepe, y entré a hacer una maestría en una materia que por fin me apasionó en una universidad que por fin me llevó a dar mucho más de mí.
+
+¿Hablar de salirse de la zona de confort? Qué tal 2 años en los que hice la maestría afortunadamente con éxito, tuve las responsabilidades de cuidar a un recién nacido por primera vez, y me enfrenté a un nuevo trabajo entrando a inversiones, ganándomelo dos años consecutivos para nada menos que sacarla del estadio.
+
+Viviendo con 4 perros y una oveja (quinto perro) en una casa soñada que disfruté cada minuto que le pegaba el sol en el frío caleruno, pero llena de calor de hogar.
+
+Tal vez el primer año después de muchos — tal vez desde el colegio — en que me acordé que el esfuerzo paga. Y el estrés y el dolor de cabeza se convierten en la mejor sensación cuando miro hacia atrás.
+
+Y cuando Berkeley me aceptó, yo estaba listo para endeudarme hasta el cogote para dar ese salto, pero llegaste tú, un minuto después de que te conté, a decirme que te encargarías de ese peso. Y me acuerdo cuando se me hinchó el alma al enterarme de la casualidad: que esa fue la única (o una de las pocas) universidad a la que consideraste irte a estudiar fuera de Colombia. ¿Qué mejor lugar para reencontrarme con un triunfo que donde tú alguna vez consideraste honrar con tu presencia?
+
+¡Qué par de años! No puedo decir que estoy listo para volverlos a vivir (sobre todo por lo del recién nacido), pero sí quiero decir que miro hacia atrás y empezaron con el pie derecho desde el marzo en que llevaste la aceptación de la universidad a un regalo absolutamente divino que me llenó de vigor como pocas veces lo había sentido.
+
+Gracias de nuevo, padre mío.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 1992,
     fromId: 'camilo',
     title: 'El benjamín',
     body: '[Camilo llenará esta carta]'
+  },
+  {
+    year: 1991,
+    fromId: 'andres',
+    title: 'El año en que llegó Cami',
+    body:
+`En el 86 te fuiste de la casa. Shit happens. Fue horrible. Fue duro para todos. Y ya pasó.
+
+Cinco años después llegó Camilo. Mi cachetón. Mi hermanito del alma. Y entendí algo, papa, que solo se entiende con el tiempo: de las rupturas a veces salen los regalos más raros. De sentir que había perdido mi hogar, gané una ampliación. Un hermano que cuando creció se volvió de mis personas favoritas en el mundo.
+
+Cami tiene un genio del demonio cuando se le sube — un cascarrabias profesional. Pero le bastan tres minutos de tomadera de pelo bien dada para que se le pase. Yo le he hecho ese servicio toda la vida y le esperan muchos años más del mismo.
+
+Nuestro Gato con Botas. Bogotano de nacimiento y andaluz de crecimiento. Oírlo renunciar a ciudadanías y calmarlo con una queja que a mí a Punta Cana no me llevaban en bus.
+
+Y cuando lo llevé de juerga a Brasil, Argentina y Uruguay. Yo tenía 31. Él tenía 19. Y tú confiaste en mí. No sé si entendías bien lo que me estabas entregando, papa — un cachetón casi menor de edad para tres países con Año Nuevo incluido (como el desayuno de Brasil, q "tá incluído" también) — pero la verdad es que volvimos enteros, contentos, hablándonos más que nunca. Esos meses me los regalaste tú. No los olvido.
+
+Ojalá pudiera tenerlo más cerca. Un día de estos me lo robo y me lo llevo a Panamá. A ver a quién me traigo primero, que el otro seguro lo sigue.
+
+Te adoro,
+Andrés.`
+  },
+  {
+    year: 1983,
+    fromId: 'andres',
+    title: 'Las Villas',
+    body:
+`Íbamos siempre a dos lugares, papa. A Cali, donde toda la familia. Y a Melgar, a la finca que alquilabas — Las Villas. Ese era el plan: vacaciones de los Borrero.
+
+Las Villas era el sitio. Acuatobogán, piscina, sol del Tolima, río al lado. Lo que un niño en los 80 podía pedir y un poco más.
+
+La piscina nos tragaba el día entero. Horas seguidas, hasta que se nos arrugaba la piel y nos salían los ojos rojos del cloro. Por la noche había que esquivar a los murciélagos de fruta — bajaban en picada a tomar agua y casi se llevaban una oreja a su paso. Era el deporte de las nueve.
+
+En las mañanas salíamos a coger mango. Mango biche, verde, duro, con sal. Cosa fina, papa. Cosa que solo entiende un niño colombiano de los 80, que un mango ácido con sal era un manjar.
+
+Bajábamos al río Sumapaz a nadar y a treparnos a las piedras del medio. Esas piedras eran nuestros barcos. Pasábamos horas peleando por la mejor.
+
+Lo épico: a Luis Fer lo picó una abeja en Las Villas y descubrimos en ese mismo viaje que era alérgico. Yo te miro hoy, papa, y me imagino el susto. A Maca Santos — la amiga de Caro — la picó un alacrán. Las Villas nos picaba pero nos amaba: las heridas siempre se nos curaban antes de que nos volviéramos a meter al agua.
+
+Hoy los niños piden wifi en la habitación, parques temáticos, planes con horario. No los culpo. Quieren otro tipo de vacaciones, tal vez porque el mundo cambió. Pero yo no cambio las vacaciones que tuve por nada de este mundo.
+
+Te adoro,
+Andrés.`
+  },
+  {
+    year: 1992,
+    fromId: 'andres',
+    title: 'El año en que llegó Bernie',
+    body:
+`1992. Te llegó Bernie. Pastor alemán, regalo de Bernardo Pérez, juicioso, mandón a pesar de no ser el más grande de la jauría. Tu compañero por años. Y la prueba viva de que tú, padre mío, los perros los amas — aunque toda la vida hayas dicho que adentro de la casa son estorbo.
+
+Esa será una de nuestras contradicciones favoritas. A ti los perros los amas afuera. Yo los necesito adentro. Y aún así, desde que tengo memoria — y un poquito antes — tú me has tenido un perro al lado.
+
+La lista, en orden de los míos:
+
+Scotchis — el poodle estándar negro de mi infancia. Tan grande que cuando lo sacaba a pasear (siendo yo más chiquito que él) los vecinos lo confundían con una oveja. Nadie me creía que era poodle. Fue mi sombra de niñez.
+
+Punto — chiquita, chiquita, en la época en que yo estaba más desordenado. Cuando me visitabas en esos años, padre mío, salías a sacarla a pesar de verse no tan varonil con una perrita de bolsillo (palabras tuyas). Aumentando tu paciencia hacia mí en cada vuelta a la cuadra para q la pobre perrita no se hiciera adentro.
+
+Malostragos — el perro de mi vida. Lo recogí de la calle y le inventé pedigrí de "Irish Ebriant" para que sonara bien. Él fue el que me acompañó del desorden a la responsabilidad. De la soltería al matrimonio. De los apartamentos solos a la casa de La Calera y de vuelta a Bogotá. Desde mi soledad hasta después de que Pepe dejó de ser bebé y se volvió niño. El perro de la transición.
+
+África — la de hoy. Cuida a Luchi y a Pepe. Yo me limito a ser su humano.
+
+Y al otro lado, los tuyos. Antes hubo otro, ¿Blackie?, el que me esperaba cuando nací. Después, en Villeta, Valentina — mi consentida cuando iba a verte. Y luego Bernie, tu Bernie. El que armó contigo cada rincón de la finca en Villeta, el que cabalgó contigo todas esas mañanas, el que después cruzó el océano y volvió a armar contigo cada rincón de la finca en Marbella. Tenía clase, y mucha mucha energía. Daba la vida por ti.
+
+Bernie vivió feliz. Malostragos vivió feliz. Punto y Scotchis vivieron felices. Y África ahora vive feliz. Todos los perros van al cielo, dicen — allá están esperándonos. A ti en el patio sentados juiciosos. A mí listos para botarse encima mío cuando me siente en el sofá.
+
+Te adoro,
+Andrés.`
+  },
+  {
+    year: 1996,
+    fromId: 'andres',
+    title: 'América de Cali',
+    body:
+`Otra marca registrada de mi personalidad inspirada por ti. El legado de tu tío lo trajiste a Bogotá, inspiraste a tu primogénito (alias el cerdo mayor) y llegó a mí a punta de recibir taponazos en la cara orgulloso de ser Falcioni.
+
+Te empezaste a alejar del fútbol cuando preferiste no llevarnos más al estadio, no sé si por las groserías de los asistentes que iban en contra de tu ética de comportamiento frente a tus hijos, o porque yo ya te daba mucho oso como vivía cada partido con la intensidad de una copa mundial.
+
+Esa ética te terminó de alejar de la mecha el día que el Pipa le dedicó el triunfo a un mafioso. Razón tenías y tu ética no se negocia.
+
+Yo en cambio… me quedé más encartado que gallina criando patos. Todavía trato de no perderme partido de mi mecha, pero ya con Pepe al lado en el estadio entiendo la incomodidad de los patanes al lado de uno, de lo secundario que es una derrota, pero ¡lo primario que sigue siendo una buena victoria!
+
+Ser hincha de la mecha es un legado tuyo, que siempre te agradeceré. Es mi amor ciego, mi irracionalidad juvenil con la madurez de darle la importancia suficiente para disfrutarlo y no para sufrirlo como cuando chiquito.
+
+¡Pero si no tenemos al AMEEERICAAA, tendremos siempre a la Selección Colombia! ¡Y Pepe y Luchi en esa también se nos unieron!
+
+Te adoro,
+Andrés.`
   },
   {
     year: 1997,
