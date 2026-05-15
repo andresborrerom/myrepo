@@ -3,6 +3,8 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { comparePages, type ComparePage } from '../../data/compare-pages';
 import { relatedForCompare } from '../../lib/related-content';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import Byline from '../../components/Byline.astro';
 
 type Product = CollectionEntry<'products'>;
 
@@ -36,7 +38,12 @@ interface Props {
 
 const { comp, a, b } = Astro.props as Props;
 const related = await relatedForCompare(comp.slug);
-const associatesTag = 'PLACEHOLDER-20';
+
+// updatedAt: max(updated_at) de los dos productos comparados. Refleja la
+// última vez que cualquiera de los specs se tocó.
+const updatedAt = new Date(
+  Math.max(a.data.updated_at.getTime(), b.data.updated_at.getTime())
+);
 
 const title = `${a.data.name} vs ${b.data.name}: Side-by-Side Comparison`;
 const description = `${a.data.name} versus ${b.data.name}: specs, pros, cons, pricing, and a clear recommendation by use case.`;
@@ -112,8 +119,10 @@ void comparePages;
   description={description}
   breadcrumbs={breadcrumbs}
   jsonLd={[pageSchema, faqSchema]}
+  updatedAt={updatedAt}
 >
   <h1>{a.data.name} vs {b.data.name}</h1>
+  <Byline updatedAt={updatedAt} />
   <p class="lead">{comp.intro}</p>
 
   <section class="section">
@@ -123,27 +132,13 @@ void comparePages;
         <h3><a href={`/products/${a.data.asin}/`}>{a.data.name}</a></h3>
         <p class="meta muted">${a.data.price} &middot; {a.data.price_tier} tier</p>
         <p><strong>Best for:</strong> {a.data.best_for.slice(0, 3).join(', ')}</p>
-        <a
-          class="affiliate-cta"
-          href={`https://amazon.com/dp/${a.data.asin}?tag=${associatesTag}`}
-          rel="sponsored nofollow noopener"
-          target="_blank"
-        >
-          Check on Amazon
-        </a>
+        <AffiliateButton asin={a.data.asin} productName={a.data.name} />
       </div>
       <div>
         <h3><a href={`/products/${b.data.asin}/`}>{b.data.name}</a></h3>
         <p class="meta muted">${b.data.price} &middot; {b.data.price_tier} tier</p>
         <p><strong>Best for:</strong> {b.data.best_for.slice(0, 3).join(', ')}</p>
-        <a
-          class="affiliate-cta"
-          href={`https://amazon.com/dp/${b.data.asin}?tag=${associatesTag}`}
-          rel="sponsored nofollow noopener"
-          target="_blank"
-        >
-          Check on Amazon
-        </a>
+        <AffiliateButton asin={b.data.asin} productName={b.data.name} />
       </div>
     </div>
   </section>

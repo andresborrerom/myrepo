@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import AffiliateButton from '../components/AffiliateButton.astro';
 
 const all = await getCollection('products');
 
@@ -39,7 +40,6 @@ const compareLinks = [
   { slug: 'flair-58-vs-cafelat-robot', title: 'Flair 58 vs Cafelat Robot' },
 ];
 
-const associatesTag = 'PLACEHOLDER-20';
 ---
 <Base
   title="Coffee Equipment Reviews — Espresso Machines, Grinders, Brewers"
@@ -72,13 +72,7 @@ const associatesTag = 'PLACEHOLDER-20';
           <h3><a href={`/products/${p.data.asin}/`}>{p.data.name}</a></h3>
           <p class="meta">{p.data.brand}</p>
           <p class="meta"><span class="price">${p.data.price}</span> &middot; {p.data.price_tier}</p>
-          <p>
-            <a
-              href={`https://amazon.com/dp/${p.data.asin}?tag=${associatesTag}`}
-              rel="sponsored nofollow noopener"
-              target="_blank"
-            >Check on Amazon &rarr;</a>
-          </p>
+          <AffiliateButton asin={p.data.asin} productName={p.data.name} variant="secondary" />
         </li>
       ))}
     </ul>
@@ -92,13 +86,7 @@ const associatesTag = 'PLACEHOLDER-20';
           <h3><a href={`/products/${p.data.asin}/`}>{p.data.name}</a></h3>
           <p class="meta">{p.data.brand}</p>
           <p class="meta"><span class="price">${p.data.price}</span> &middot; {p.data.price_tier}</p>
-          <p>
-            <a
-              href={`https://amazon.com/dp/${p.data.asin}?tag=${associatesTag}`}
-              rel="sponsored nofollow noopener"
-              target="_blank"
-            >Check on Amazon &rarr;</a>
-          </p>
+          <AffiliateButton asin={p.data.asin} productName={p.data.name} variant="secondary" />
         </li>
       ))}
     </ul>

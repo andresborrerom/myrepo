@@ -3,6 +3,7 @@
 // All page templates should wrap their content in <Base ...> for canonical/OG handling.
 
 import '../styles/global.css';
+import { author as defaultAuthor, type Author } from '../data/author';
 
 interface BreadcrumbItem {
   name: string;
@@ -20,6 +21,20 @@ export interface Props {
    * Optional JSON-LD payloads to inject. Pages pass their Product/ItemList/FAQPage schema here.
    */
   jsonLd?: object[];
+  /**
+   * Author override. Defaults to the single editor in src/data/author.ts.
+   * Templates that want a different byline (rare) can pass another Author.
+   */
+  author?: Author;
+  /** ISO date or Date — render "Updated <Month Day, Year>" in the byline. */
+  updatedAt?: Date | string;
+  /** Optional published date — shown only if updatedAt is missing. */
+  publishedAt?: Date | string;
+  /**
+   * Whether to render the byline block (right after the page title slot).
+   * Defaults to true; static legal pages opt out by passing false.
+   */
+  showByline?: boolean;
 }
 
 const {
@@ -30,6 +45,10 @@ const {
   ogImage,
   breadcrumbs = [],
   jsonLd = [],
+  author = defaultAuthor,
+  updatedAt,
+  publishedAt,
+  showByline = true,
 } = Astro.props;
 
 // Site URL is configured in astro.config.mjs; falls back to example.com placeholder.
@@ -51,6 +70,18 @@ const breadcrumbList = breadcrumbs.length
 
 const allJsonLd: object[] = [...jsonLd];
 if (breadcrumbList) allJsonLd.push(breadcrumbList);
+
+// Byline ----------------------------------------------------------------
+// Las props author/updatedAt/publishedAt se exponen acá para mantener una
+// API uniforme, pero el byline visible se renderiza en cada página debajo
+// de su H1 (orden correcto H1 → byline). Las páginas estáticas (about,
+// methodology, privacy) no muestran byline y dejan showByline=false como
+// señal explícita. Estas props también permiten en el futuro alimentar
+// dateModified en JSON-LD Article schema sin tocar más sitios.
+void author;
+void updatedAt;
+void publishedAt;
+void showByline;
 ---
 <!DOCTYPE html>
 <html lang="en">

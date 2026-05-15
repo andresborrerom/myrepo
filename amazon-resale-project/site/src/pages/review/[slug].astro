@@ -16,6 +16,11 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { reviewPages, type ReviewPage, type Verdict } from '../../data/review-pages';
 import { relatedForReview } from '../../lib/related-content';
+import VerdictBox from '../../components/VerdictBox.astro';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import Byline from '../../components/Byline.astro';
+import MethodologyNote from '../../components/MethodologyNote.astro';
+import { author } from '../../data/author';
 
 type Product = CollectionEntry<'products'>;
 
@@ -54,14 +59,13 @@ const related = await relatedForReview(page.slug);
 const associatesTag = 'PLACEHOLDER-20';
 const amazonUrl = `https://amazon.com/dp/${product.data.asin}?tag=${associatesTag}`;
 
-// Verdict display metadata. Capitalised label for the box header and a CSS-friendly
-// class hook so the styling can colour-code without inline logic in markup.
-const verdictMeta: Record<Verdict, { label: string; cssClass: string }> = {
-  yes: { label: 'Yes', cssClass: 'verdict-yes' },
-  no: { label: 'No', cssClass: 'verdict-no' },
-  depends: { label: 'Depends', cssClass: 'verdict-depends' },
-};
-const verdict = verdictMeta[page.verdict];
+// La fecha de actualización del review viene del producto reseñado — refleja
+// la última vez que tocamos specs/precios, que es lo que importa al lector.
+const updatedAt = product.data.updated_at;
+
+// Verdict display ahora vive en <VerdictBox variant="review" />. El tipo
+// Verdict se sigue importando porque la prop `verdict` aún tipa la página.
+void ({} as Verdict);
 
 // Quick-specs selection: pick a handful of high-signal feature keys when present,
 // then fall back to the first few entries. This keeps the at-a-glance table short
@@ -101,8 +105,9 @@ if (quickSpecs.length < 5) {
 }
 
 // JSON-LD payloads -----------------------------------------------------------
-// Review schema with rating mirroring the verdict. The author is the site itself
-// (Organization) — we do not claim individual reviewer credentials we cannot back up.
+// Review schema with rating mirroring the verdict. Author is the named editor
+// (Person) — claim único, verificable y consistente con el byline visible.
+// `dateModified` se alimenta del updated_at del producto reseñado.
 const reviewSchema = {
   '@context': 'https://schema.org',
   '@type': 'Review',
@@ -121,9 +126,15 @@ const reviewSchema = {
   name: page.title,
   reviewBody: page.verdictSummary,
   author: {
+    '@type': 'Person',
+    name: author.name,
+    url: author.url,
+  },
+  publisher: {
     '@type': 'Organization',
     name: 'Coffee Equipment Reviews',
   },
+  dateModified: updatedAt.toISOString().slice(0, 10),
 };
 
 const productSchema = {
@@ -169,32 +180,32 @@ void reviewPages;
   ogImage={product.data.image_url}
   breadcrumbs={breadcrumbs}
   jsonLd={[reviewSchema, productSchema, faqSchema]}
+  updatedAt={updatedAt}
 >
   <article>
     <h1>{page.title.replace(/ \(2026 Verdict\)$/, '')}</h1>
+    <Byline updatedAt={updatedAt} />
+
+    <VerdictBox
+      variant="review"
+      asin={product.data.asin}
+      productName={product.data.name}
+      verdict={page.verdict}
+      verdictSummary={page.verdictSummary}
+      bestFor={page.worthItFor[0]}
+      skipIf={page.skipIf[0]}
+    />
+
+    <MethodologyNote />
 
     <p class="lead">
       Based on the {product.data.name}'s published specs and reported user
       experience — no first-hand lab testing claimed. Editorial framing only.
     </p>
 
-    <section class={`verdict-box ${verdict.cssClass}`} aria-labelledby="verdict-heading">
-      <h2 id="verdict-heading">Verdict: {verdict.label}</h2>
-      <p class="verdict-summary">{page.verdictSummary}</p>
-      <p class="verdict-rating">
-        <strong>Rating for this use case:</strong> {page.rating.toFixed(1)} / 5
-      </p>
-      <p>
-        <a
-          class="affiliate-cta"
-          href={amazonUrl}
-          rel="sponsored nofollow noopener"
-          target="_blank"
-        >
-          Check {product.data.name} on Amazon
-        </a>
-      </p>
-    </section>
+    <p class="verdict-rating muted">
+      <strong>Rating for this use case:</strong> {page.rating.toFixed(1)} / 5
+    </p>
 
     {page.intro && (
       <section class="section">
@@ -277,14 +288,7 @@ void reviewPages;
               </p>
               <p><strong>Best for:</strong> {alt.data.best_for.slice(0, 3).join(', ')}</p>
               <p>
-                <a
-                  class="affiliate-cta"
-                  href={`https://amazon.com/dp/${alt.data.asin}?tag=${associatesTag}`}
-                  rel="sponsored nofollow noopener"
-                  target="_blank"
-                >
-                  Check on Amazon
-                </a>
+                <AffiliateButton asin={alt.data.asin} productName={alt.data.name} />
                 {' '}
                 <a href={`/products/${alt.data.asin}/`}>Read the full review &rarr;</a>
               </p>
@@ -308,6 +312,15 @@ void reviewPages;
       This verdict is based on the {product.data.name}'s published specifications
       and aggregated user experience reports. It is not a first-hand product test.
       Verify current pricing and availability on Amazon directly.
+    </p>
+
+    <p class="update-cadence">
+      <strong>Last reviewed:</strong>{' '}
+      <time datetime={updatedAt.toISOString()}>
+        {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+      </time>.
+      {' '}We update this review when the product's price drops significantly,
+      when a successor model launches, or when user reports shift our assessment.
     </p>
 
     {related.length > 0 && (

@@ -3,8 +3,58 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { bestPages, type BestPage } from '../../data/best-pages';
 import { relatedForBest } from '../../lib/related-content';
+import VerdictBox from '../../components/VerdictBox.astro';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import Byline from '../../components/Byline.astro';
+import MethodologyNote from '../../components/MethodologyNote.astro';
 
 type Product = CollectionEntry<'products'>;
+
+// Multi-tier pick label resolver.
+// Rank #1 → "Best overall".
+// Rank 2..N → semantic label derived from price_tier / best_for / tags,
+// con fallback "Also great" si no calza ninguna heurística.
+type PickLabel = {
+  text: string;
+  variant:
+    | 'overall'
+    | 'budget'
+    | 'upgrade'
+    | 'beginners'
+    | 'small-kitchen'
+    | 'milk-drinks'
+    | 'also-great';
+};
+
+function resolvePickLabel(product: Product, rank: number): PickLabel {
+  if (rank === 1) {
+    return { text: 'Best overall', variant: 'overall' };
+  }
+  const { price_tier, best_for, tags } = product.data;
+  if (price_tier === 'budget') {
+    return { text: 'Best budget pick', variant: 'budget' };
+  }
+  if (price_tier === 'pro') {
+    return { text: 'Upgrade pick', variant: 'upgrade' };
+  }
+  if (best_for.some((s: string) => s.toLowerCase().includes('beginner'))) {
+    return { text: 'Best for beginners', variant: 'beginners' };
+  }
+  if (
+    best_for.some((s: string) => /small\s*kitchen|apartment|compact/i.test(s)) ||
+    tags.includes('small-kitchen') ||
+    tags.includes('compact')
+  ) {
+    return { text: 'Best for small kitchens', variant: 'small-kitchen' };
+  }
+  if (
+    best_for.some((s: string) => /milk|latte|cappuccino|flat[-\s]?white/i.test(s)) ||
+    tags.includes('milk-drinks')
+  ) {
+    return { text: 'Best for milk drinks', variant: 'milk-drinks' };
+  }
+  return { text: 'Also great', variant: 'also-great' };
+}
 
 export async function getStaticPaths() {
   const { bestPages: pages } = await import('../../data/best-pages');
@@ -28,7 +78,21 @@ interface Props {
 const { page, matches } = Astro.props as Props;
 const related = await relatedForBest(page.slug);
 
-const associatesTag = 'PLACEHOLDER-20';
+// updatedAt para el byline: tomamos el max(updated_at) de los productos
+// listados. Esto refleja "la última vez que la lista se tocó" sin depender
+// de un campo manual por página.
+const updatedAt = matches.length
+  ? new Date(
+      Math.max(...matches.map((m) => m.data.updated_at.getTime()))
+    )
+  : new Date();
+
+// Top pick = primer match (ya viene ordenado por page.sort).
+const topPick = matches[0];
+const topPickAnchorId = topPick ? `pick-${topPick.data.asin}` : undefined;
+const topPickDescription = topPick
+  ? `${topPick.data.brand} — best for ${topPick.data.best_for.slice(0, 2).join(' and ')}.`
+  : undefined;
 
 const itemListSchema = {
   '@context': 'https://schema.org',
@@ -91,14 +155,30 @@ void bestPages;
   description={page.description}
   breadcrumbs={breadcrumbs}
   jsonLd={[itemListSchema, faqSchema]}
+  updatedAt={updatedAt}
 >
   <h1>{page.title}</h1>
+  <Byline updatedAt={updatedAt} />
   <p class="lead">{page.intro}</p>
 
   {matches.length === 0 ? (
     <p>No products match this criteria yet. Check back as the catalog grows.</p>
   ) : (
     <>
+      {topPick && (
+        <VerdictBox
+          variant="best"
+          asin={topPick.data.asin}
+          productName={topPick.data.name}
+          price={topPick.data.price}
+          imageUrl={topPick.data.image_url}
+          description={topPickDescription}
+          anchorId={topPickAnchorId}
+        />
+      )}
+
+      <MethodologyNote />
+
       <section class="section">
         <h2>At a glance</h2>
         <table class="specs-table">
@@ -128,43 +208,41 @@ void bestPages;
       </section>
 
       <ol class="ranked-list">
-        {matches.map((m, idx) => (
-          <li>
-            <span class="rank-badge">#{idx + 1}</span>
-            <h3>
-              <a href={`/products/${m.data.asin}/`}>{m.data.name}</a>
-            </h3>
-            <p class="meta muted">
-              {m.data.brand} &middot; ${m.data.price} &middot; {m.data.price_tier} tier
-            </p>
-            <div class="pros-cons">
-              <div class="pros">
-                <h4>Pros</h4>
-                <ul>
-                  {m.data.pros.slice(0, 3).map((item: string) => <li>{item}</li>)}
-                </ul>
+        {matches.map((m, idx) => {
+          const rank = idx + 1;
+          const label = resolvePickLabel(m, rank);
+          return (
+            <li id={`pick-${m.data.asin}`}>
+              <span class="rank-badge">#{rank}</span>
+              <span class={`pick-label pick-label--${label.variant}`}>{label.text}</span>
+              <h3>
+                <a href={`/products/${m.data.asin}/`}>{m.data.name}</a>
+              </h3>
+              <p class="meta muted">
+                {m.data.brand} &middot; ${m.data.price} &middot; {m.data.price_tier} tier
+              </p>
+              <div class="pros-cons">
+                <div class="pros">
+                  <h4>Pros</h4>
+                  <ul>
+                    {m.data.pros.slice(0, 3).map((item: string) => <li>{item}</li>)}
+                  </ul>
+                </div>
+                <div class="cons">
+                  <h4>Cons</h4>
+                  <ul>
+                    {m.data.cons.slice(0, 2).map((item: string) => <li>{item}</li>)}
+                  </ul>
+                </div>
               </div>
-              <div class="cons">
-                <h4>Cons</h4>
-                <ul>
-                  {m.data.cons.slice(0, 2).map((item: string) => <li>{item}</li>)}
-                </ul>
-              </div>
-            </div>
-            <p>
-              <a
-                class="affiliate-cta"
-                href={`https://amazon.com/dp/${m.data.asin}?tag=${associatesTag}`}
-                rel="sponsored nofollow noopener"
-                target="_blank"
-              >
-                Check on Amazon
-              </a>
-              {' '}
-              <a href={`/products/${m.data.asin}/`}>Read the full review &rarr;</a>
-            </p>
-          </li>
-        ))}
+              <p>
+                <AffiliateButton asin={m.data.asin} productName={m.data.name} />
+                {' '}
+                <a href={`/products/${m.data.asin}/`}>Read the full review &rarr;</a>
+              </p>
+            </li>
+          );
+        })}
       </ol>
     </>
   )}
@@ -178,6 +256,15 @@ void bestPages;
       </details>
     ))}
   </section>
+
+  <p class="update-cadence">
+    <strong>Last reviewed:</strong>{' '}
+    <time datetime={updatedAt.toISOString()}>
+      {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+    </time>.
+    {' '}We re-check our recommendations every 3 months and update them when prices,
+    model availability, or new releases shift the picture.
+  </p>
 
   {related.length > 0 && (
     <section class="section related-content" aria-labelledby="related-heading">

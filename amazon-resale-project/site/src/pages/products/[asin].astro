@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { relatedForProduct } from '../../lib/related-content';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import Byline from '../../components/Byline.astro';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -89,9 +91,11 @@ const breadcrumbs = [
   ogImage={data.image_url}
   breadcrumbs={breadcrumbs}
   jsonLd={[productSchema, faqSchema]}
+  updatedAt={data.updated_at}
 >
   <article>
     <h1>{data.name}</h1>
+    <Byline updatedAt={data.updated_at} />
     <p class="lead">
       {data.brand} {typeLabel} &middot; <strong class="price">${data.price}</strong> &middot;
       <span class="muted">{data.price_tier} tier</span>
@@ -102,14 +106,7 @@ const breadcrumbs = [
     </ul>
 
     <p>
-      <a
-        class="affiliate-cta"
-        href={amazonUrl}
-        rel="sponsored nofollow noopener"
-        target="_blank"
-      >
-        Check on Amazon
-      </a>
+      <AffiliateButton asin={data.asin} productName={data.name} />
     </p>
 
     <section class="section">
