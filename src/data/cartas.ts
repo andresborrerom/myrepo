@@ -172,6 +172,26 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 1996,
+    fromId: 'andres',
+    title: 'América de Cali',
+    body:
+`Otra marca registrada de mi personalidad inspirada por ti. El legado de tu tío lo trajiste a Bogotá, inspiraste a tu primogénito (alias el cerdo mayor) y llegó a mí a punta de recibir taponazos en la cara orgulloso de ser Falcioni.
+
+Te empezaste a alejar del fútbol cuando preferiste no llevarnos más al estadio, no sé si por las groserías de los asistentes que iban en contra de tu ética de comportamiento frente a tus hijos, o porque yo ya te daba mucho oso como vivía cada partido con la intensidad de una copa mundial.
+
+Esa ética te terminó de alejar de la mecha el día que el Pipa le dedicó el triunfo a un mafioso. Razón tenías y tu ética no se negocia.
+
+Yo en cambio… me quedé más encartado que gallina criando patos. Todavía trato de no perderme partido de mi mecha, pero ya con Pepe al lado en el estadio entiendo la incomodidad de los patanes al lado de uno, de lo secundario que es una derrota, pero ¡lo primario que sigue siendo una buena victoria!
+
+Ser hincha de la mecha es un legado tuyo, que siempre te agradeceré. Es mi amor ciego, mi irracionalidad juvenil con la madurez de darle la importancia suficiente para disfrutarlo y no para sufrirlo como cuando chiquito.
+
+¡Pero si no tenemos al AMEEERICAAA, tendremos siempre a la Selección Colombia! ¡Y Pepe y Luchi en esa también se nos unieron!
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 1997,
     fromId: 'andres',
     title: 'El año en que cruzaste el mar',

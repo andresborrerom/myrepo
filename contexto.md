@@ -35,8 +35,9 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 ## Política y deporte (datos del relato)
 
 - **"Santista"** = simpatizante del expresidente Juan Manuel Santos. La familia tiene "gran resentimiento" contra él. Cuando Andrés escribe "tu vecino se lleva su ignorada por Santista", es chiste político-familiar, no de fútbol.
-- **Alejandro no es fanático del fútbol.**
-- **Andrés es hincha del América de Cali**, heredado por su papá y su hermano Camilo. Hay una carta futura específica sobre eso.
+- **Alejandro no es fanático del fútbol** ahora, pero llevaba a los hijos al estadio cuando eran chicos. Se fue alejando del fútbol — primero por las groserías del estadio (su ética), luego definitivamente cuando "el Pipa" (Anthony de Ávila) le dedicó el triunfo a un mafioso (1996).
+- **Andrés es hincha del América de Cali** ("la mecha"), heredado de su papá (que a su vez lo heredó de su tío) y de Camilo, alias **"el cerdo mayor"** (el primogénito hincha más devoto). Andrés se inició "recibiendo taponazos en la cara orgulloso de ser Falcioni" — Eduardo Falcioni, arquero del América en los 80s.
+- **Selección Colombia**: alternativa familiar. Luchi y Pepe también son de la Selección.
 
 ## Perros (importante en el relato familiar)
 
@@ -181,6 +182,7 @@ Cronología clave:
 | **1985** | **Mi entrada al San Carlos** | **Andrés** | Colegio, Padre Francis, "servicio", Andrés se considera sencillo en el lujo |
 | **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
 | 1992 | El benjamín | Camilo | [pendiente] |
+| **1996** | **América de Cali** | **Andrés** | Hincha por legado, Camilo "cerdo mayor", el Pipa y la ética de papá |
 | 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |
 | 2000 | El año en que tu papá se volvió escuela | Los 5 hijos | Fundación FBC |
