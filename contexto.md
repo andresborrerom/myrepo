@@ -25,6 +25,18 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 - **La Cristalina**: finca familiar, era del abuelo Fernando Borrero Caicedo. A Alejandro le encantaba. Aparece en la carta 1979 — varios "casi accidentes" de Andrés ocurrieron allí (cayó de espaldas 2 pisos, etc.).
 - **Marbella, España**: residencia de Alejandro desde diciembre 1997.
 - **La Calera**: donde Andrés, Marce y Luchi se fueron a vivir en febrero 2013.
+- **Colegio San Carlos** (Bogotá): donde Andrés estudió desde 1985. Fuerte en matemáticas, fútbol, valores. El **Padre Francis** promovía "el servicio" como eje del colegio.
+
+## Personajes secundarios (parientes y referencias)
+
+- **Tía Ceci**: hermana de la suegra de Andrés, es decir, tía de Marce. "Recatada".
+- **Suegrita** de Andrés (mamá de Marce): "alcahuetas" y "transparente". Vuela a la casa cuando la necesitan.
+
+## Política y deporte (datos del relato)
+
+- **"Santista"** = simpatizante del expresidente Juan Manuel Santos. La familia tiene "gran resentimiento" contra él. Cuando Andrés escribe "tu vecino se lleva su ignorada por Santista", es chiste político-familiar, no de fútbol.
+- **Alejandro no es fanático del fútbol.**
+- **Andrés es hincha del América de Cali**, heredado por su papá y su hermano Camilo. Hay una carta futura específica sobre eso.
 
 ### Los 5 hijos
 | Hijo | Fecha nac. | Notas |
@@ -141,6 +153,7 @@ Cronología clave:
 | 1978 | La hija del medio | Carolina | [pendiente] |
 | **1979** | **Llegó la felicidad a este mundo** | **Andrés** | Nacimiento de Andrés, mamá quería 2 hijos, casi-accidentes salvado por papá |
 | 1980 | Cuando me trajiste a casa | Andrés | [pendiente] |
+| **1985** | **Mi entrada al San Carlos** | **Andrés** | Colegio, Padre Francis, "servicio", Andrés se considera sencillo en el lujo |
 | 1992 | El benjamín | Camilo | [pendiente] |
 | 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |

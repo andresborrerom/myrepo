@@ -98,6 +98,24 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 1985,
+    fromId: 'andres',
+    title: 'Mi entrada al San Carlos',
+    body:
+`Escogiste un colegio perfecto para mí. Nunca me imaginé en otro. Fuerte en matemáticas, fuerte en fútbol, y aunque con mucho matoneo masculino del que a mí me parecía divertidísimo, también fuerte en valores. Sobre todo en uno: el servicio. El Padre Francis siempre promovió esa palabra como el eje del colegio. No sé si sabías en ese entonces todo esto, pero sí sé que elegiste bien desde lo más profundo de tu ser.
+
+Me gusta pensar en mí como una persona que ha sido sencilla en su forma de vivir dentro de los lujos que lo rodean. Me gusta pensar que aprendí a valorar a las personas por lo que son y no por lo que tienen. A tomar cerveza en la tienda del barrio y disfrutarlo más que el mejor vino en el mejor restaurante. A celebrar mis cumpleaños con 4 estratos en una misma casa y a no preocuparme por el carro que tienen los demás o de qué cuna vienen quienes me rodean.
+
+Para bien o para mal, ese soy yo. Y no sé si fue por el colegio en el que crecí o si fui feliz en ese colegio porque esa siempre fue mi esencia. Voto por la segunda.
+
+Porque te veo disfrutar el pollo asado en el río, o la lengua en salsa donde esté, más que la langosta en el mejor club. Porque tu carro no es deportivo sino trabajador, y tratas a tus empleados como tratas a tus vecinos. Con cariño, respeto, y el abrazo cuando tiene lugar, y de vez en cuando tu vecino se lleva su ignorada por Santista. Te pones una corbata por respeto al otro y no para darte aires de altivez. Y te da más mamera la recatada tía Ceci que mi suegrita y su transparencia. Prefiero el guaro al whisky, y un buen amigo a un amigo poderoso.
+
+Sé que estaba en mi esencia, porque gran parte de mi esencia eres tú.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 1992,
     fromId: 'camilo',
     title: 'El benjamín',
