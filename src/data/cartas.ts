@@ -134,6 +134,54 @@ Andrés.`
       'el nombre de tu papá.\n\n' +
       'Tu padre no se fue. Se volvió escuela.\n\n' +
       'De tus cinco hijos.'
+  },
+  {
+    year: 2017,
+    fromId: 'andres',
+    title: 'El año en que llegó Pepe',
+    body:
+`2017. 6 de julio. Después de buscarlo con Marce dos o tres años, después de dos pérdidas que pesan aunque uno no las cuente, llegó. Mi hijo. Mi motor.
+
+Papa: no sé bien cómo decirte la felicidad que me ha dado este niño. Empecé a ser papá en 2013, cuando Marce y Luchi me adoptaron a mí — no al revés. Ellas dos me enseñaron que yo quería familia. Que después de tanto desorden, lo que más me apetecía era una mesa con voces. Sin Luchi y sin Marce nunca habría buscado a Pepe.
+
+Pero Pepe es otra cosa. Es el hijo que uno arma cuando ya sabe lo que quiere. Lo cargué la primera vez y entendí ese tipo de amor del que tú nunca hablaste mucho pero que debiste sentir cinco veces. El que no se explica. El que lleva a hacer cosas que uno no creía que haría — madrugar, perder noches, leer libros de niños cien veces. Te perdono cada vez que dijiste "ya entenderás cuando seas papa". Sí entendí.
+
+Hoy tiene ocho años. Y lo gracioso, padre mío, es que es parecido a ti. La gente se lo dice como si fuera regaño — "ay, Pepe, igual al abuelo" — y yo por dentro me río, porque para mí es el mejor cumplido. Le gusta la arquitectura más que a mí. Le gusta viajar más que a mí. Tiene ese sentido de la elegancia que yo nunca tuve y que tú sí — se peina, se ajusta el cuello, le importa que las cosas combinen, y me dice "oso" porque le doy algo de pena por mi frescura para ciertas cosas. A los ocho años. Yo a los 46 nada q aprendo eso de querer verme mejor y si me visto bien es porque algo me regalaste.
+
+Quiero que sean cercanos. Mucho. Solo si lo quieres recibir. Sé que es desatento. Sé que vive en otro mundo que no nos tocó como el de las pantallas y demás. Pero cuéntale historias. Cuando se va a dormir le fascina oírlas y preguntar mil cosas. Alguna vez que lo acompañes vas a ver de lo q hablo.
+
+Mientras tanto, padre mío, a mi manera disfruto que me necesite y sigo procurando que algún día no me necesite — esa es la meta. Que se vaya. Que se haga su vida. Pero antes, quiero darle lo mejor que tengo. Y mucho de lo mejor que tengo me lo has dado tú.
+
+Gracias por dejarme tu manera de mirar a los hijos donde uno procura que nada les falte. La inspiración me llegó algo tarde desde Luchi y la doblé con Pepe, pero llegó. Gracias por estar en el alto piso que nos das para que yo pueda estar más pendiente de sus emociones y temores y menos de cómo voy a darle de comer.
+
+Pepe es tuyo también. Habla mas de su abuelo de lo que crees. Te admira. Y aunque él es un apachurre que probablemente no disfrutas mucho en su forma libre de ser, quiero que sepas cuánto te quiere.
+
+Te adoro,
+Andrés.`
+  },
+  {
+    year: 2012,
+    fromId: 'andres',
+    title: 'Mayo del 2012',
+    body:
+`Treinta y tres años, papa, y por primera vez se me ocurrió que tal vez ya era hora. Que el desorden ya había sido suficiente. Que faltaba alguien.
+
+Conocí a Marce ese mes. Tenía una hija de cuatro años que se llamaba Lucía, y una manera de mirarme que no me dejaba mentir. La escogí — y todavía no entiendo del todo cómo tuve esa claridad. La escogí porque es buena mujer. Porque se desvive por sus hijos. Porque eligió una carrera (y un trabajo muy duro!) donde cría y educa por encima de buscar plata y altos puestos. Porque me dio una hija inmediata — Luchi, que en febrero del 2013 ya estaba viviendo con nosotros en La Calera — y una suegra alcahuetas que le sigue volando a mi casa en el segundo que la necesitamos, sin parpadear.
+
+Pero te confieso algo, papa: hoy entiendo de otra manera lo difícil que es un matrimonio. Lo difícil que es mirar al otro y saber que las discusiones de hace cinco años son las mismas que vamos a tener dentro de treinta. Lo posible que es tomar la decisión de acabarlo. Te entiendo distinto hoy de lo que lo hicimos cuando te fuiste de la casa. Creo que he tenido hasta suerte de seguir casado, y la agradezco; pero sí reconozco lo importante que es valorarlo mucho y más para seguir intentado envejecer juntos.
+
+Y aunque yo no viví tus matrimonios, viendo a Marce reconozco las cosas que valoro más y me pregunto si en algo nos parecimos: la cualidad de hacer hogar. La cualidad de priorizar lo de adentro para que uno pueda salir tranquilo a buscar crecimiento afuera. Lo de pelar las naranjas en cuartos cuando alguien está enfermo, lo de saber qué uniforme va mañana, lo de acompañar las tareas así sean tablas de multiplicar que no se sabe. Esas cosas que no se notan hasta que faltan.
+
+Marce fue el fin de mi desorden. Punto. A los 33 acepté por fin el reto de cargar responsabilidades, y lo gracioso es que no me sentí cargado — me sentí aliviado. Puedo decirte con la mano en el corazón: antes la pasaba más bueno, pero con toda seguridad después de Marce fui más feliz. Las dos cosas son verdad y no se contradicen.
+
+Que estés tranquilo, papa: voy bien acompañado. Pero también sé que nunca hay garantía de envejecer juntos — eso lo entendí también con los años. De pronto gracias a esa misma incertidumbre me he puesto a cuidar más lo que más valoro: mi hogar con Marce, con Luchi, con Pepe. La casa que tú me regalaste es hogar porque ella es su eje.
+
+Y para que esto no se ponga muy serio, padre mío, te confieso una cosa con sonrisa: lo que más me divierte cuando vamos a visitarte es ver cómo Marce se desordena contigo. Con nadie más se suelta así. Algo tendrás de imán, o algo le enseñé yo de mi propio desorden — vaya uno a saber. Porque esos vinos no se los toma con esa frescura fácilmente en otro sitio.
+
+Porque ella se jacta de ser mi buena influencia y sé que lo es; seguramente cuando estamos contigo reconoce que ya tengo otra en frente y se deja ir por unas horas.
+
+Te adoro,
+Andrés.`
   }
 ];
 
