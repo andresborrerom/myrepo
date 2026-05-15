@@ -1,0 +1,311 @@
+---
+// Review-intent page template for the "Is [product] worth it for [use case]" pattern.
+// Verdict-first structure: the reader gets a Yes / No / Depends in the first screen,
+// followed by what the product nails, where it falls short, and who it does/does not fit.
+//
+// Entries come from src/data/review-pages.ts. The template resolves the reviewed
+// product and the named alternatives from the products content collection, and emits
+// Review + Product + FAQPage JSON-LD.
+//
+// Editorial constraints (CLAUDE.md, anti-gray-hat):
+// - No fake first-hand testing claims; copy is framed as "based on specs and reported
+//   user experience".
+// - Verdicts must be honest — "depends" and "no" verdicts are valid editorial outcomes.
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { reviewPages, type ReviewPage, type Verdict } from '../../data/review-pages';
+
+type Product = CollectionEntry<'products'>;
+
+export async function getStaticPaths() {
+  const { reviewPages: pages } = await import('../../data/review-pages');
+  const all = await getCollection('products');
+  const byAsin = new Map(all.map((p) => [p.data.asin, p]));
+
+  return pages
+    .map((page) => {
+      const product = byAsin.get(page.productAsin);
+      if (!product) {
+        // eslint-disable-next-line no-console
+        console.warn(`Review page ${page.slug}: missing product ASIN ${page.productAsin}`);
+        return null;
+      }
+      const alternatives = page.alternativeAsins
+        .map((asin) => byAsin.get(asin))
+        .filter((p): p is Product => p !== undefined);
+      return {
+        params: { slug: page.slug },
+        props: { page, product, alternatives },
+      };
+    })
+    .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+}
+
+interface Props {
+  page: ReviewPage;
+  product: Product;
+  alternatives: Product[];
+}
+
+const { page, product, alternatives } = Astro.props as Props;
+const associatesTag = 'PLACEHOLDER-20';
+const amazonUrl = `https://amazon.com/dp/${product.data.asin}?tag=${associatesTag}`;
+
+// Verdict display metadata. Capitalised label for the box header and a CSS-friendly
+// class hook so the styling can colour-code without inline logic in markup.
+const verdictMeta: Record<Verdict, { label: string; cssClass: string }> = {
+  yes: { label: 'Yes', cssClass: 'verdict-yes' },
+  no: { label: 'No', cssClass: 'verdict-no' },
+  depends: { label: 'Depends', cssClass: 'verdict-depends' },
+};
+const verdict = verdictMeta[page.verdict];
+
+// Quick-specs selection: pick a handful of high-signal feature keys when present,
+// then fall back to the first few entries. This keeps the at-a-glance table short
+// without hand-curating per page.
+const QUICK_SPEC_PRIORITY = [
+  'boiler_type',
+  'pid',
+  'bar_pressure',
+  'group_head',
+  'burr_type',
+  'burr_size_mm',
+  'motor_watts',
+  'stepless',
+  'water_tank_l',
+  'auto_milk_frother',
+  'manual_lever',
+  'warm_up_seconds',
+  'retention_g',
+];
+
+const quickSpecs: Array<[string, string | number | boolean]> = [];
+const seenKeys = new Set<string>();
+for (const key of QUICK_SPEC_PRIORITY) {
+  const value = product.data.features[key];
+  if (value !== undefined) {
+    quickSpecs.push([key, value]);
+    seenKeys.add(key);
+  }
+  if (quickSpecs.length >= 5) break;
+}
+if (quickSpecs.length < 5) {
+  for (const [key, value] of Object.entries(product.data.features)) {
+    if (seenKeys.has(key)) continue;
+    quickSpecs.push([key, value]);
+    if (quickSpecs.length >= 5) break;
+  }
+}
+
+// JSON-LD payloads -----------------------------------------------------------
+// Review schema with rating mirroring the verdict. The author is the site itself
+// (Organization) — we do not claim individual reviewer credentials we cannot back up.
+const reviewSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Review',
+  itemReviewed: {
+    '@type': 'Product',
+    name: product.data.name,
+    brand: { '@type': 'Brand', name: product.data.brand },
+    sku: product.data.asin,
+  },
+  reviewRating: {
+    '@type': 'Rating',
+    ratingValue: page.rating,
+    bestRating: 5,
+    worstRating: 1,
+  },
+  name: page.title,
+  reviewBody: page.verdictSummary,
+  author: {
+    '@type': 'Organization',
+    name: 'Coffee Equipment Reviews',
+  },
+};
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.data.name,
+  brand: { '@type': 'Brand', name: product.data.brand },
+  sku: product.data.asin,
+  description: page.verdictSummary,
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    price: product.data.price,
+    url: amazonUrl,
+    availability: 'https://schema.org/InStock',
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: page.faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Reviews', url: '/' },
+  { name: page.title, url: `/review/${page.slug}/` },
+];
+
+// Reference the imported pages array to satisfy unused-import linting; the actual
+// data is consumed inside getStaticPaths via dynamic import.
+void reviewPages;
+---
+<Base
+  title={page.title}
+  description={page.description}
+  ogType="article"
+  ogImage={product.data.image_url}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[reviewSchema, productSchema, faqSchema]}
+>
+  <article>
+    <h1>{page.title.replace(/ \(2026 Verdict\)$/, '')}</h1>
+
+    <p class="lead">
+      Based on the {product.data.name}'s published specs and reported user
+      experience — no first-hand lab testing claimed. Editorial framing only.
+    </p>
+
+    <section class={`verdict-box ${verdict.cssClass}`} aria-labelledby="verdict-heading">
+      <h2 id="verdict-heading">Verdict: {verdict.label}</h2>
+      <p class="verdict-summary">{page.verdictSummary}</p>
+      <p class="verdict-rating">
+        <strong>Rating for this use case:</strong> {page.rating.toFixed(1)} / 5
+      </p>
+      <p>
+        <a
+          class="affiliate-cta"
+          href={amazonUrl}
+          rel="sponsored nofollow noopener"
+          target="_blank"
+        >
+          Check {product.data.name} on Amazon
+        </a>
+      </p>
+    </section>
+
+    {page.intro && (
+      <section class="section">
+        <p>{page.intro}</p>
+      </section>
+    )}
+
+    <section class="section">
+      <h2>Quick specs</h2>
+      <table class="specs-table">
+        <tbody>
+          <tr>
+            <th>Product</th>
+            <td>
+              <a href={`/products/${product.data.asin}/`}>{product.data.name}</a>
+            </td>
+          </tr>
+          <tr>
+            <th>Brand</th>
+            <td>{product.data.brand}</td>
+          </tr>
+          <tr>
+            <th>Price (USD)</th>
+            <td>${product.data.price}</td>
+          </tr>
+          <tr>
+            <th>Price tier</th>
+            <td>{product.data.price_tier}</td>
+          </tr>
+          {quickSpecs.map(([key, value]) => (
+            <tr>
+              <th>{key.replace(/_/g, ' ')}</th>
+              <td>{String(value)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section pros-cons">
+      <div class="pros">
+        <h2>What it nails</h2>
+        <ul>
+          {page.nails.map((item: string) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="cons">
+        <h2>Where it falls short</h2>
+        <ul>
+          {page.fallsShort.map((item: string) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Worth it for whom</h2>
+      <ul>
+        {page.worthItFor.map((item: string) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Skip if</h2>
+      <ul>
+        {page.skipIf.map((item: string) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    {alternatives.length > 0 && (
+      <section class="section">
+        <h2>Alternatives at this price point</h2>
+        <ul class="alternatives-list">
+          {alternatives.map((alt: Product) => (
+            <li>
+              <h3>
+                <a href={`/products/${alt.data.asin}/`}>{alt.data.name}</a>
+              </h3>
+              <p class="meta muted">
+                {alt.data.brand} &middot; ${alt.data.price} &middot; {alt.data.price_tier} tier
+              </p>
+              <p><strong>Best for:</strong> {alt.data.best_for.slice(0, 3).join(', ')}</p>
+              <p>
+                <a
+                  class="affiliate-cta"
+                  href={`https://amazon.com/dp/${alt.data.asin}?tag=${associatesTag}`}
+                  rel="sponsored nofollow noopener"
+                  target="_blank"
+                >
+                  Check on Amazon
+                </a>
+                {' '}
+                <a href={`/products/${alt.data.asin}/`}>Read the full review &rarr;</a>
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="section faq">
+      <h2>Frequently Asked Questions</h2>
+      {page.faqItems.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </section>
+
+    <p class="muted">
+      This verdict is based on the {product.data.name}'s published specifications
+      and aggregated user experience reports. It is not a first-hand product test.
+      Verify current pricing and availability on Amazon directly.
+    </p>
+  </article>
+</Base>
