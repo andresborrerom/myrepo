@@ -1,53 +1,55 @@
 'use client';
 
-// Estado client-side de "una carta al día".
-// localStorage:
-//   casa-cartas:reveladas  → JSON array de years que el usuario ya abrió
-//   casa-cartas:lastReveal → 'YYYY-MM-DD' del último día en que reveló una
+// Estado de "una carta al día" — sincronizado server-side vía Supabase
+// para que cruce iPhone / iPad / PC.
+//
+// Fallback graceful: si el API falla (sin Supabase configurado o sin red),
+// el gate deja pasar al usuario sin romper la experiencia.
 
-const REVEALED_KEY = 'casa-cartas:reveladas';
-const LAST_KEY = 'casa-cartas:lastReveal';
+export type RevealResult =
+  | { kind: 'first-reveal'; state: AlejandroState }
+  | { kind: 'already-revealed'; state: AlejandroState }
+  | { kind: 'blocked-today'; state: AlejandroState }
+  | { kind: 'no-backend' }
+  | { kind: 'error' };
 
-function todayISO(): string {
-  return new Date().toISOString().slice(0, 10);
-}
+export type AlejandroState = {
+  revealedYears: number[];
+  lastRevealDate: string | null;
+};
 
-export function getRevealedYears(): number[] {
-  if (typeof window === 'undefined') return [];
+export async function fetchState(): Promise<AlejandroState> {
   try {
-    const raw = localStorage.getItem(REVEALED_KEY);
-    if (!raw) return [];
-    const arr = JSON.parse(raw);
-    return Array.isArray(arr) ? arr.filter((y) => typeof y === 'number') : [];
+    const res = await fetch('/api/alejandro/state', { cache: 'no-store' });
+    if (!res.ok) return { revealedYears: [], lastRevealDate: null };
+    const data = await res.json();
+    return {
+      revealedYears: Array.isArray(data.revealedYears) ? data.revealedYears : [],
+      lastRevealDate: data.lastRevealDate || null
+    };
   } catch {
-    return [];
+    return { revealedYears: [], lastRevealDate: null };
   }
 }
 
-export function getLastRevealDate(): string {
-  if (typeof window === 'undefined') return '';
-  return localStorage.getItem(LAST_KEY) || '';
+export async function tryReveal(year: number): Promise<RevealResult> {
+  try {
+    const res = await fetch('/api/alejandro/reveal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ year })
+    });
+    if (!res.ok) return { kind: 'error' };
+    const data = await res.json();
+    return data;
+  } catch {
+    return { kind: 'error' };
+  }
 }
 
-export function canRevealMoreToday(): boolean {
-  return getLastRevealDate() !== todayISO();
-}
-
-// Devuelve true si se pudo registrar (year nuevo Y aún no se gastó el cupo del día).
-// Devuelve false si: ya estaba revelado (no consume cupo, pero tampoco "nueva apertura")
-// o si ya se usó el cupo del día con otro año.
-export type RevealResult =
-  | { kind: 'already-revealed' }
-  | { kind: 'first-reveal' }
-  | { kind: 'blocked-today' };
-
-export function tryReveal(year: number): RevealResult {
-  if (typeof window === 'undefined') return { kind: 'blocked-today' };
-  const revealed = getRevealedYears();
-  if (revealed.includes(year)) return { kind: 'already-revealed' };
-  if (!canRevealMoreToday()) return { kind: 'blocked-today' };
-  const updated = [...revealed, year];
-  localStorage.setItem(REVEALED_KEY, JSON.stringify(updated));
-  localStorage.setItem(LAST_KEY, todayISO());
-  return { kind: 'first-reveal' };
+// Compara una fecha (YYYY-MM-DD) con "hoy en Bogotá".
+export function isTodayInBogota(date: string | null): boolean {
+  if (!date) return false;
+  const bog = new Date(Date.now() - 5 * 3_600_000);
+  return bog.toISOString().slice(0, 10) === date;
 }

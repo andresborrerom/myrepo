@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getRevealedYears, canRevealMoreToday } from '@/lib/reveal-state';
+import { fetchState, isTodayInBogota } from '@/lib/reveal-state';
 
 export default function RandomPickButton({
   releasedYears
@@ -12,19 +12,22 @@ export default function RandomPickButton({
   const router = useRouter();
   const [ready, setReady] = useState(false);
   const [canPick, setCanPick] = useState(false);
-  const [candidatesCount, setCandidatesCount] = useState(0);
+  const [candidates, setCandidates] = useState<number[]>([]);
 
   useEffect(() => {
-    const revealed = new Set(getRevealedYears());
-    const remaining = releasedYears.filter((y) => !revealed.has(y));
-    setCandidatesCount(remaining.length);
-    setCanPick(remaining.length > 0 && canRevealMoreToday());
-    setReady(true);
+    (async () => {
+      const { revealedYears, lastRevealDate } = await fetchState();
+      const remaining = releasedYears.filter((y) => !revealedYears.includes(y));
+      setCandidates(remaining);
+      const usedToday = isTodayInBogota(lastRevealDate);
+      setCanPick(remaining.length > 0 && !usedToday);
+      setReady(true);
+    })();
   }, [releasedYears]);
 
   if (!ready) return null;
 
-  if (!canRevealMoreToday()) {
+  if (!canPick && candidates.length > 0) {
     return (
       <p className="font-serif text-sm italic text-grafito text-center my-6">
         Ya abriste tu carta de hoy. Mañana otra.
@@ -32,15 +35,13 @@ export default function RandomPickButton({
     );
   }
 
-  if (candidatesCount === 0) {
+  if (candidates.length === 0) {
     return null;
   }
 
   function pick() {
-    const revealed = new Set(getRevealedYears());
-    const remaining = releasedYears.filter((y) => !revealed.has(y));
-    if (remaining.length === 0) return;
-    const y = remaining[Math.floor(Math.random() * remaining.length)];
+    if (candidates.length === 0) return;
+    const y = candidates[Math.floor(Math.random() * candidates.length)];
     router.push(`/cartas/${y}`);
   }
 

@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getRevealedYears, tryReveal, getLastRevealDate } from '@/lib/reveal-state';
-import { BIRTH_YEAR } from '@/data/cartas';
+import { tryReveal, type AlejandroState } from '@/lib/reveal-state';
 
 type GateState =
   | { kind: 'loading' }
@@ -21,33 +20,38 @@ export default function CartaGate({
   year: number;
   insider: boolean;
   dayIdx: number | null; // null = pre-cumpleaños
-  dayOfYear: number; // year - BIRTH_YEAR
+  dayOfYear: number;     // year - BIRTH_YEAR
   children: React.ReactNode;
 }) {
   const [state, setState] = useState<GateState>({ kind: 'loading' });
 
   useEffect(() => {
-    // Insider: acceso total, sin contar contra el cupo diario.
+    // Insiders pasan derecho — no consumen cupo del día.
     if (insider) {
       setState({ kind: 'allowed' });
       return;
     }
-    // Pre-cumpleaños: nada visible.
+    // Pre-cumpleaños o año futuro: sellada.
     if (dayIdx === null || dayOfYear > dayIdx) {
       setState({ kind: 'locked-future' });
       return;
     }
-    // Post-cumpleaños: año liberado.
-    const result = tryReveal(year);
-    if (result.kind === 'already-revealed' || result.kind === 'first-reveal') {
+    // Año liberado: pedir cupo al servidor.
+    (async () => {
+      const result = await tryReveal(year);
+      if (result.kind === 'first-reveal' || result.kind === 'already-revealed') {
+        setState({ kind: 'allowed' });
+        return;
+      }
+      if (result.kind === 'blocked-today') {
+        const revealed = (result.state as AlejandroState).revealedYears;
+        const lastRevealed = revealed.length > 0 ? revealed[revealed.length - 1] : null;
+        setState({ kind: 'locked-today', revealedToday: lastRevealed });
+        return;
+      }
+      // 'no-backend' o 'error': graceful — dejamos pasar.
       setState({ kind: 'allowed' });
-      return;
-    }
-    // blocked-today: se usó el cupo con otro año.
-    // Para informar cuál, buscamos el último año en revealed.
-    const revealed = getRevealedYears();
-    const lastRevealed = revealed[revealed.length - 1] ?? null;
-    setState({ kind: 'locked-today', revealedToday: lastRevealed });
+    })();
   }, [insider, year, dayIdx, dayOfYear]);
 
   if (state.kind === 'loading') {
