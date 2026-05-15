@@ -70,7 +70,7 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 | Alexandra Borrero | 20 ago 1975 | Vive en Mirador de la Cañada |
 | Carolina Borrero | 31 may 1977 | |
 | **Andrés Borrero** | 8 ago 1979 | Narrador de las cartas |
-| Camilo Borrero | 3 jul 1991 | |
+| Camilo Borrero | 3 jul 1991 | "Cami" o "cachetón" — bogotano de nacimiento, andaluz de crecimiento (vive en Andalucía, España). Cascarrabias profesional. Andrés le dice "el Gato con Botas" por su acento. |
 
 ### Los 8 nietos (lista incompleta de fechas)
 - Alejo (16) — hijo de Luis Fernando
@@ -89,10 +89,13 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 Cronología clave:
 
 - **8 ago 1979**: nace en el Edificio Garden (Cl 93 #5-25), vive ahí 20 años
+- **1986**: Alejandro se va de la casa (separación de los papás de Andrés). Fue duro para todos
+- **1991**: nace Camilo, hermano del alma de Andrés
 - **1997**: graduación de bachillerato + servicio militar — "chúcaro, 'policía un día, policía toda la vida!'"
 - **Dic 1997**: papá se va a Marbella
 - **1998**: entra a la universidad
 - **~10 años de "pico de desorden"** (1998-2008 aprox), ausencia sentida de la guía paterna
+- **2010 aprox**: Andrés (31) lleva a Cami (19) de juerga por Brasil, Argentina, Uruguay con Año Nuevo incluido. Alejandro confió en él
 - **Mayo 2012**: conoce a Marcela
 - **2012**: conoce a Luchi (entonces tiene 4 años)
 - **Febrero 2013**: se va a vivir con Marce y Luchi a La Calera
@@ -196,6 +199,8 @@ Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio esti
 | **1979** | **Llegó la felicidad a este mundo** | **Andrés** | Nacimiento de Andrés, mamá quería 2 hijos, casi-accidentes salvado por papá |
 | 1980 | Cuando me trajiste a casa | Andrés | [pendiente] |
 | **1985** | **Mi entrada al San Carlos** | **Andrés** | Colegio, Padre Francis, "servicio", Andrés se considera sencillo en el lujo |
+| **1986** | El año del pentacampeonato (renombrada a 1986) | — | Hito que la familia recordará en la carta del América de Cali |
+| **1991** | **El año en que llegó Cami** | **Andrés** | Tras la separación del 86, llega el hermano del alma |
 | **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
 | 1992 | El benjamín | Camilo | [pendiente] |
 | **1996** | **América de Cali** | **Andrés** | Hincha por legado, Camilo "cerdo mayor", el Pipa y la ética de papá |

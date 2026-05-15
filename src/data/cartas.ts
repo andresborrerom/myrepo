@@ -146,6 +146,26 @@ Andrés.`
     body: '[Camilo llenará esta carta]'
   },
   {
+    year: 1991,
+    fromId: 'andres',
+    title: 'El año en que llegó Cami',
+    body:
+`En el 86 te fuiste de la casa. Shit happens. Fue horrible. Fue duro para todos. Y ya pasó.
+
+Cinco años después llegó Camilo. Mi cachetón. Mi hermanito del alma. Y entendí algo, papa, que solo se entiende con el tiempo: de las rupturas a veces salen los regalos más raros. De sentir que había perdido mi hogar, gané una ampliación. Un hermano que cuando creció se volvió de mis personas favoritas en el mundo.
+
+Cami tiene un genio del demonio cuando se le sube — un cascarrabias profesional. Pero le bastan tres minutos de tomadera de pelo bien dada para que se le pase. Yo le he hecho ese servicio toda la vida y le esperan muchos años más del mismo.
+
+Nuestro Gato con Botas. Bogotano de nacimiento y andaluz de crecimiento. Oírlo renunciar a ciudadanías y calmarlo con una queja que a mí a Punta Cana no me llevaban en bus.
+
+Y cuando lo llevé de juerga a Brasil, Argentina y Uruguay. Yo tenía 31. Él tenía 19. Y tú confiaste en mí. No sé si entendías bien lo que me estabas entregando, papa — un cachetón casi menor de edad para tres países con Año Nuevo incluido (como el desayuno de Brasil, q "tá incluído" también) — pero la verdad es que volvimos enteros, contentos, hablándonos más que nunca. Esos meses me los regalaste tú. No los olvido.
+
+Ojalá pudiera tenerlo más cerca. Un día de estos me lo robo y me lo llevo a Panamá. A ver a quién me traigo primero, que el otro seguro lo sigue.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 1992,
     fromId: 'andres',
     title: 'El año en que llegó Bernie',
