@@ -1,0 +1,972 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const faqs = [
+  {
+    q: 'Does this include the cost of a grinder?',
+    a: "Yes. Espresso quality is bottlenecked by the grinder, so we include a separate grinder slider (default $200). If you already own a capable grinder, slide that input to $0 to model your real upfront cost.",
+  },
+  {
+    q: 'How is electricity estimated?',
+    a: "We use a flat $0.02 per shot. A typical home espresso machine draws 1200 to 1500 watts, but only for ~30 seconds per shot plus some standby idle. At the U.S. average residential rate of about $0.16 per kWh, that lands in the $0.015 to $0.025 range. We round to two cents and call it good — electricity is not the deciding factor in this math.",
+  },
+  {
+    q: 'What about maintenance, descaler, and replacement parts?',
+    a: 'We amortize $40 per year ($3.33 per month) to cover descaler, water filters, group head gaskets, and incidental parts. Heavy daily users may spend more; light users less. Major repairs (boilers, pumps, PCBs) are not modeled and can be significant after year 5.',
+  },
+  {
+    q: 'What does the calculator deliberately not model?',
+    a: "Taste improvement is subjective and not modeled. Equipment depreciation, time investment to learn espresso, the social value of going to a cafe, and the time value of money are also excluded. The result is an upper bound on simple cash savings, not a complete life decision.",
+  },
+  {
+    q: 'Why do my numbers look so different from a friend’s?',
+    a: "The biggest swing factors are (1) cafe drink price in your city, (2) how many shots you actually pull per day on average, and (3) the dose. Two shots a day at $6 each in San Francisco hits payback fast; one shot a day at $4 in a small town takes much longer.",
+  },
+];
+
+const webApp = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Espresso Cost Per Cup Calculator',
+  description:
+    'Free calculator that estimates the cost per home espresso shot, monthly and yearly savings vs buying from a cafe, and payback period on an espresso machine plus grinder.',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  url: 'https://baristapath.com/tools/cost-per-cup-calculator/',
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<Base
+  title="Espresso Cost Per Cup Calculator — Payback on a Home Machine"
+  description="Free calculator: how long until a home espresso machine pays for itself versus your daily cafe habit? Adjust beans, dose, shots per day, and cafe price."
+  canonicalPath="/tools/cost-per-cup-calculator/"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Tools', url: '/tools/cost-per-cup-calculator/' },
+    { name: 'Cost per cup calculator', url: '/tools/cost-per-cup-calculator/' },
+  ]}
+  jsonLd={[webApp, faqLd]}
+>
+  <h1>Espresso cost per cup calculator</h1>
+  <p class="lead">
+    How much does your daily espresso habit actually cost you? Plug in your
+    numbers below and find out when a home machine pays for itself. All
+    calculations run in your browser — nothing is sent to a server.
+  </p>
+
+  <section class="calc-wrap" aria-labelledby="calc-heading">
+    <h2 id="calc-heading" class="visually-hidden">Calculator</h2>
+
+    <form id="calc-form" class="calc-form" aria-describedby="calc-help">
+      <p id="calc-help" class="muted calc-help">
+        Results update live as you change any input. No submit needed.
+      </p>
+
+      <div class="calc-field">
+        <label for="machine-price">Espresso machine price</label>
+        <div class="calc-input-row">
+          <input
+            type="range"
+            id="machine-price-range"
+            min="100"
+            max="3000"
+            step="25"
+            value="500"
+            aria-label="Espresso machine price slider, US dollars"
+          />
+          <div class="calc-number-wrap">
+            <span class="calc-prefix" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="machine-price"
+              min="100"
+              max="3000"
+              step="25"
+              value="500"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <label for="grinder-price">Grinder price</label>
+        <div class="calc-input-row">
+          <input
+            type="range"
+            id="grinder-price-range"
+            min="0"
+            max="2000"
+            step="25"
+            value="200"
+            aria-label="Grinder price slider, US dollars. Set to 0 if you already own one."
+          />
+          <div class="calc-number-wrap">
+            <span class="calc-prefix" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="grinder-price"
+              min="0"
+              max="2000"
+              step="25"
+              value="200"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+        <p class="calc-hint muted">Set to $0 if you already own a capable grinder.</p>
+      </div>
+
+      <div class="calc-field">
+        <label for="beans-price">Coffee beans price per pound</label>
+        <div class="calc-input-row">
+          <input
+            type="range"
+            id="beans-price-range"
+            min="10"
+            max="45"
+            step="0.5"
+            value="18"
+            aria-label="Coffee beans price per pound slider, US dollars"
+          />
+          <div class="calc-number-wrap">
+            <span class="calc-prefix" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="beans-price"
+              min="10"
+              max="45"
+              step="0.5"
+              value="18"
+              inputmode="decimal"
+            />
+            <span class="calc-suffix" aria-hidden="true">/lb</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <label for="grams-per-shot">Grams per shot (dose)</label>
+        <div class="calc-input-row">
+          <input
+            type="range"
+            id="grams-per-shot-range"
+            min="14"
+            max="22"
+            step="0.5"
+            value="18"
+            aria-label="Grams per shot slider"
+          />
+          <div class="calc-number-wrap">
+            <input
+              type="number"
+              id="grams-per-shot"
+              min="14"
+              max="22"
+              step="0.5"
+              value="18"
+              inputmode="decimal"
+            />
+            <span class="calc-suffix" aria-hidden="true">g</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <label for="shots-per-day">Shots per day</label>
+        <div class="calc-input-row">
+          <input
+            type="range"
+            id="shots-per-day-range"
+            min="1"
+            max="8"
+            step="1"
+            value="2"
+            aria-label="Shots per day slider"
+          />
+          <div class="calc-number-wrap">
+            <input
+              type="number"
+              id="shots-per-day"
+              min="1"
+              max="8"
+              step="1"
+              value="2"
+              inputmode="numeric"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <label for="cafe-price">Cafe drink price</label>
+        <div class="calc-input-row">
+          <input
+            type="range"
+            id="cafe-price-range"
+            min="3"
+            max="8"
+            step="0.25"
+            value="5.5"
+            aria-label="Cafe drink price slider, US dollars"
+          />
+          <div class="calc-number-wrap">
+            <span class="calc-prefix" aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="cafe-price"
+              min="3"
+              max="8"
+              step="0.25"
+              value="5.5"
+              inputmode="decimal"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-field">
+        <label for="years">Years to project</label>
+        <div class="calc-input-row">
+          <input
+            type="range"
+            id="years-range"
+            min="1"
+            max="10"
+            step="1"
+            value="3"
+            aria-label="Years to project slider"
+          />
+          <div class="calc-number-wrap">
+            <input
+              type="number"
+              id="years"
+              min="1"
+              max="10"
+              step="1"
+              value="3"
+              inputmode="numeric"
+            />
+            <span class="calc-suffix" aria-hidden="true">yr</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-actions">
+        <button type="button" id="reset-btn" class="calc-btn calc-btn--secondary">
+          Reset to defaults
+        </button>
+        <button type="button" id="save-btn" class="calc-btn">
+          Save my assumptions
+        </button>
+        <span id="save-status" class="calc-save-status muted" role="status" aria-live="polite"></span>
+      </div>
+    </form>
+
+    <aside class="calc-results" aria-labelledby="results-heading" aria-live="polite">
+      <h2 id="results-heading" class="visually-hidden">Results</h2>
+
+      <div class="calc-headline">
+        <p class="calc-headline__label">Payback period</p>
+        <p class="calc-headline__value" id="out-payback">—</p>
+        <p class="calc-headline__sub" id="out-breakeven">—</p>
+      </div>
+
+      <dl class="calc-output-grid">
+        <div class="calc-output">
+          <dt>Cost per home shot</dt>
+          <dd id="out-home-shot">—</dd>
+        </div>
+        <div class="calc-output">
+          <dt>Cost per cafe drink</dt>
+          <dd id="out-cafe">—</dd>
+        </div>
+        <div class="calc-output">
+          <dt>Savings per shot</dt>
+          <dd id="out-per-shot-savings">—</dd>
+        </div>
+        <div class="calc-output">
+          <dt>Daily savings</dt>
+          <dd id="out-daily">—</dd>
+        </div>
+        <div class="calc-output">
+          <dt>Monthly savings</dt>
+          <dd id="out-monthly">—</dd>
+        </div>
+        <div class="calc-output">
+          <dt>Yearly savings</dt>
+          <dd id="out-yearly">—</dd>
+        </div>
+        <div class="calc-output calc-output--total">
+          <dt>Net savings at <span id="out-years-label">3</span>-year mark</dt>
+          <dd id="out-total">—</dd>
+        </div>
+      </dl>
+
+      <p class="calc-disclaimer muted">
+        Estimates only. See <a href="#how-we-calculate">how we calculate it</a> and
+        <a href="#what-we-dont-model">what this doesn't model</a> before deciding.
+      </p>
+    </aside>
+  </section>
+
+  <section class="section" id="how-we-calculate">
+    <h2>How we calculate it</h2>
+
+    <p>
+      Everything is plain arithmetic with the assumptions you pick. No
+      regression, no machine learning, no opinions baked in. The formulas:
+    </p>
+
+    <h3>Cost per home shot</h3>
+    <p>
+      <code>(beans_price_per_lb / 453.6 g) &times; grams_per_shot + $0.02 electricity + $0.11 maintenance</code>
+    </p>
+    <p class="muted">
+      We use 453.6 grams per pound. Maintenance is $40 per year amortized across
+      ~365 shots, which works out to roughly $0.11 per shot at typical use. If
+      you pull twice as many shots, per-shot maintenance drops accordingly — the
+      calculator does this for you.
+    </p>
+
+    <h3>Daily, monthly, yearly savings</h3>
+    <p>
+      <code>(cafe_price &minus; home_shot_cost) &times; shots_per_day</code> is
+      your daily savings. We multiply by 30.44 for monthly and 365.25 for yearly
+      to handle leap years and partial months.
+    </p>
+
+    <h3>Payback period</h3>
+    <p>
+      <code>(machine_price + grinder_price) / monthly_savings</code>, expressed
+      in months, then formatted as "X years Y months" when greater than a year.
+    </p>
+
+    <h3>Net savings over N years</h3>
+    <p>
+      <code>(yearly_savings &times; N) &minus; (machine_price + grinder_price)</code>.
+      Negative values mean you haven't broken even yet within your projection
+      window.
+    </p>
+
+    <h3>Default assumptions</h3>
+    <ul>
+      <li>Electricity per shot: $0.02 (about 0.13 kWh at $0.16/kWh).</li>
+      <li>Maintenance: $40 per year (descaler, gaskets, water filter).</li>
+      <li>One bag of beans = 1 pound = 453.6 grams.</li>
+      <li>Same dose used every shot. Most home baristas drift between 17 and 19 grams.</li>
+    </ul>
+  </section>
+
+  <section class="section" id="what-we-dont-model">
+    <h2>What this calculator doesn't model</h2>
+
+    <p>
+      Honest list of things that affect the real decision but aren't in the
+      math above. Treat the calculator as a starting point, not a verdict.
+    </p>
+
+    <ul>
+      <li>
+        <strong>Taste.</strong> Home espresso, once dialed in, can match or
+        exceed cafe quality — but it also can be worse for months while you
+        learn. We don't put a dollar value on that.
+      </li>
+      <li>
+        <strong>Equipment depreciation.</strong> If you sell the machine in
+        three years, you'll recover some of the upfront cost. We assume zero
+        resale value, which is conservative.
+      </li>
+      <li>
+        <strong>Maintenance variance.</strong> A Gaggia Classic Pro is cheap
+        to maintain for a decade. A complex dual-boiler with a touchscreen
+        is not. We use a fixed average; high-end machines may exceed it.
+      </li>
+      <li>
+        <strong>Time investment.</strong> Pulling a shot, steaming milk, and
+        cleaning up takes 5 to 10 minutes per session. At minimum wage that's
+        $1 to $2 per drink. We don't subtract that — most people consider it
+        ritual, not labor — but it's worth knowing.
+      </li>
+      <li>
+        <strong>Cafe substitutes.</strong> If skipping the cafe means you
+        switch to drip coffee at home (~$0.30 per cup), savings are smaller
+        than this calculator suggests. We model the "all home espresso"
+        scenario.
+      </li>
+      <li>
+        <strong>Time value of money.</strong> $500 today is worth more than
+        $500 over three years. We ignore inflation and opportunity cost.
+        For payback periods under 18 months this barely matters; for longer
+        windows, shave 5 to 10 percent off the net savings figure.
+      </li>
+    </ul>
+  </section>
+
+  <section class="related-content">
+    <h2>Related guides</h2>
+    <ul>
+      <li class="related-link related-link--best">
+        <a href="/best/best-espresso-machine-under-500/">Best espresso machines under $500</a>
+      </li>
+      <li class="related-link related-link--best">
+        <a href="/best/best-grinder-under-200/">Best grinders under $200</a>
+      </li>
+      <li class="related-link related-link--best">
+        <a href="/best/best-budget-espresso-machine/">Best budget espresso machines</a>
+      </li>
+      <li class="related-link related-link--best">
+        <a href="/best/best-espresso-machine-for-beginners/">Best espresso machines for beginners</a>
+      </li>
+    </ul>
+    <p style="margin-top: var(--space-md);">
+      Curious how we evaluate gear? See our
+      <a href="/methodology/">methodology</a>.
+    </p>
+  </section>
+
+  <section class="faq" id="faq">
+    <h2>Frequently asked questions</h2>
+    {faqs.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </section>
+</Base>
+
+<script is:inline>
+  (function () {
+    'use strict';
+
+    var FIELDS = [
+      { id: 'machine-price', def: 500 },
+      { id: 'grinder-price', def: 200 },
+      { id: 'beans-price', def: 18 },
+      { id: 'grams-per-shot', def: 18 },
+      { id: 'shots-per-day', def: 2 },
+      { id: 'cafe-price', def: 5.5 },
+      { id: 'years', def: 3 },
+    ];
+
+    var STORAGE_KEY = 'bp_calc_v1';
+    var GRAMS_PER_LB = 453.6;
+    var ELECTRICITY_PER_SHOT = 0.02;
+    var MAINT_PER_YEAR = 40;
+    var DAYS_PER_MONTH = 30.44;
+    var DAYS_PER_YEAR = 365.25;
+
+    var usd = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 2,
+    });
+    var usdWhole = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0,
+    });
+
+    function clamp(value, min, max) {
+      if (isNaN(value)) return min;
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function getInputs() {
+      var inputs = {};
+      FIELDS.forEach(function (f) {
+        var el = document.getElementById(f.id);
+        var n = parseFloat(el.value);
+        var min = parseFloat(el.min);
+        var max = parseFloat(el.max);
+        inputs[f.id] = clamp(isNaN(n) ? f.def : n, min, max);
+      });
+      return inputs;
+    }
+
+    function syncPair(numId, rangeId) {
+      var num = document.getElementById(numId);
+      var range = document.getElementById(rangeId);
+      if (!num || !range) return;
+      num.addEventListener('input', function () {
+        range.value = num.value;
+        compute();
+      });
+      range.addEventListener('input', function () {
+        num.value = range.value;
+        compute();
+      });
+    }
+
+    function formatMonths(months) {
+      if (!isFinite(months) || months <= 0) return '—';
+      if (months < 1) {
+        var days = Math.round(months * DAYS_PER_MONTH);
+        return days + ' day' + (days === 1 ? '' : 's');
+      }
+      if (months < 12) {
+        var rounded = Math.round(months * 10) / 10;
+        return rounded + ' month' + (rounded === 1 ? '' : 's');
+      }
+      var years = Math.floor(months / 12);
+      var rem = Math.round(months - years * 12);
+      if (rem === 12) {
+        years += 1;
+        rem = 0;
+      }
+      var out = years + ' year' + (years === 1 ? '' : 's');
+      if (rem > 0) out += ' ' + rem + ' month' + (rem === 1 ? '' : 's');
+      return out;
+    }
+
+    function formatBreakeven(months) {
+      if (!isFinite(months) || months <= 0) return '';
+      var date = new Date();
+      date.setMonth(date.getMonth() + Math.round(months));
+      var opts = { year: 'numeric', month: 'long' };
+      return 'Break-even around ' + date.toLocaleDateString('en-US', opts);
+    }
+
+    function compute() {
+      var i = getInputs();
+
+      var shotsPerDay = i['shots-per-day'];
+      var shotsPerYear = shotsPerDay * DAYS_PER_YEAR;
+
+      var beansCostPerShot = (i['beans-price'] / GRAMS_PER_LB) * i['grams-per-shot'];
+      var maintPerShot = shotsPerYear > 0 ? MAINT_PER_YEAR / shotsPerYear : 0;
+      var homeShotCost = beansCostPerShot + ELECTRICITY_PER_SHOT + maintPerShot;
+
+      var cafePrice = i['cafe-price'];
+      var perShotSavings = cafePrice - homeShotCost;
+      var dailySavings = perShotSavings * shotsPerDay;
+      var monthlySavings = dailySavings * DAYS_PER_MONTH;
+      var yearlySavings = dailySavings * DAYS_PER_YEAR;
+
+      var upfront = i['machine-price'] + i['grinder-price'];
+      var paybackMonths =
+        monthlySavings > 0 ? upfront / monthlySavings : Infinity;
+
+      var years = i['years'];
+      var netSavings = yearlySavings * years - upfront;
+
+      // Render
+      document.getElementById('out-home-shot').textContent = usd.format(homeShotCost);
+      document.getElementById('out-cafe').textContent = usd.format(cafePrice);
+      document.getElementById('out-per-shot-savings').textContent =
+        usd.format(perShotSavings);
+      document.getElementById('out-daily').textContent = usd.format(dailySavings);
+      document.getElementById('out-monthly').textContent = usd.format(monthlySavings);
+      document.getElementById('out-yearly').textContent = usdWhole.format(yearlySavings);
+
+      var paybackEl = document.getElementById('out-payback');
+      var breakevenEl = document.getElementById('out-breakeven');
+      if (perShotSavings <= 0) {
+        paybackEl.textContent = 'Never';
+        breakevenEl.textContent =
+          'At these inputs the home shot costs more than the cafe drink.';
+      } else if (!isFinite(paybackMonths)) {
+        paybackEl.textContent = '—';
+        breakevenEl.textContent = '';
+      } else {
+        paybackEl.textContent = formatMonths(paybackMonths);
+        breakevenEl.textContent = formatBreakeven(paybackMonths);
+      }
+
+      document.getElementById('out-years-label').textContent = years;
+      var totalEl = document.getElementById('out-total');
+      totalEl.textContent = usdWhole.format(netSavings);
+      totalEl.classList.toggle('is-negative', netSavings < 0);
+      totalEl.classList.toggle('is-positive', netSavings >= 0);
+    }
+
+    function resetDefaults() {
+      FIELDS.forEach(function (f) {
+        var num = document.getElementById(f.id);
+        var range = document.getElementById(f.id + '-range');
+        if (num) num.value = String(f.def);
+        if (range) range.value = String(f.def);
+      });
+      compute();
+      setStatus('Defaults restored.');
+    }
+
+    function saveAssumptions() {
+      try {
+        var data = {};
+        FIELDS.forEach(function (f) {
+          var el = document.getElementById(f.id);
+          data[f.id] = el.value;
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        setStatus('Saved to this browser.');
+      } catch (e) {
+        setStatus('Could not save (storage disabled?).');
+      }
+    }
+
+    function loadAssumptions() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        var data = JSON.parse(raw);
+        FIELDS.forEach(function (f) {
+          if (data[f.id] == null) return;
+          var num = document.getElementById(f.id);
+          var range = document.getElementById(f.id + '-range');
+          if (num) num.value = data[f.id];
+          if (range) range.value = data[f.id];
+        });
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    function setStatus(msg) {
+      var el = document.getElementById('save-status');
+      if (!el) return;
+      el.textContent = msg;
+      setTimeout(function () {
+        if (el.textContent === msg) el.textContent = '';
+      }, 3000);
+    }
+
+    function init() {
+      FIELDS.forEach(function (f) {
+        syncPair(f.id, f.id + '-range');
+      });
+      document.getElementById('reset-btn').addEventListener('click', resetDefaults);
+      document.getElementById('save-btn').addEventListener('click', saveAssumptions);
+      loadAssumptions();
+      compute();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .calc-wrap {
+    display: grid;
+    gap: var(--space-lg);
+    margin: var(--space-lg) 0 var(--space-xl);
+  }
+
+  @media (min-width: 56rem) {
+    .calc-wrap {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+      align-items: start;
+    }
+  }
+
+  .calc-form {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .calc-help {
+    margin: 0 0 var(--space-sm);
+    font-size: 0.9rem;
+  }
+
+  .calc-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .calc-field label {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .calc-hint {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+
+  .calc-input-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+    align-items: center;
+  }
+
+  @media (min-width: 30rem) {
+    .calc-input-row {
+      grid-template-columns: 1fr auto;
+    }
+  }
+
+  .calc-input-row input[type="range"] {
+    width: 100%;
+    accent-color: var(--color-accent);
+  }
+
+  .calc-number-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 4px 8px;
+    min-width: 6.5rem;
+  }
+
+  .calc-number-wrap:focus-within {
+    border-color: var(--color-accent);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+
+  .calc-number-wrap input[type="number"] {
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    font: inherit;
+    font-size: 1rem;
+    width: 4.5rem;
+    text-align: right;
+    padding: 2px 0;
+    -moz-appearance: textfield;
+  }
+
+  .calc-number-wrap input[type="number"]:focus {
+    outline: none;
+  }
+
+  .calc-number-wrap input[type="number"]::-webkit-outer-spin-button,
+  .calc-number-wrap input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .calc-prefix,
+  .calc-suffix {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .calc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+  }
+
+  .calc-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: var(--color-accent);
+    color: #ffffff;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .calc-btn:hover,
+  .calc-btn:focus-visible {
+    background: var(--color-link-hover);
+    border-color: var(--color-link-hover);
+    color: #ffffff;
+  }
+
+  .calc-btn:focus-visible {
+    outline: 3px solid var(--color-text);
+    outline-offset: 2px;
+  }
+
+  .calc-btn--secondary {
+    background: transparent;
+    color: var(--color-link);
+    border-color: var(--color-border);
+  }
+
+  .calc-btn--secondary:hover,
+  .calc-btn--secondary:focus-visible {
+    background: var(--color-surface-alt);
+    color: var(--color-link-hover);
+    border-color: var(--color-link);
+  }
+
+  .calc-save-status {
+    font-size: 0.85rem;
+  }
+
+  .calc-results {
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  @media (min-width: 56rem) {
+    .calc-results {
+      position: sticky;
+      top: var(--space-md);
+    }
+  }
+
+  .calc-headline {
+    background: var(--color-surface);
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius);
+    padding: var(--space-md);
+    text-align: center;
+  }
+
+  .calc-headline__label {
+    margin: 0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  .calc-headline__value {
+    margin: 4px 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.25rem);
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1.1;
+  }
+
+  .calc-headline__sub {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    min-height: 1.2em;
+  }
+
+  .calc-output-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+    margin: 0;
+  }
+
+  @media (min-width: 30rem) and (max-width: 56rem) {
+    .calc-output-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .calc-output {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-sm);
+    padding: var(--space-xs) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .calc-output:last-of-type {
+    border-bottom: 0;
+  }
+
+  .calc-output dt {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .calc-output dd {
+    margin: 0;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .calc-output--total {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 0;
+    padding-top: var(--space-sm);
+    margin-top: var(--space-xs);
+  }
+
+  .calc-output--total dt {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .calc-output--total dd {
+    font-size: 1.1rem;
+  }
+
+  .calc-output dd.is-positive {
+    color: #2e7d4f;
+  }
+
+  .calc-output dd.is-negative {
+    color: #a13a2a;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .calc-output dd.is-positive {
+      color: #6dc591;
+    }
+    .calc-output dd.is-negative {
+      color: #e08070;
+    }
+  }
+
+  .calc-disclaimer {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+
+  #how-we-calculate code {
+    background: var(--color-surface-alt);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+</style>
+</content>
+</invoke>

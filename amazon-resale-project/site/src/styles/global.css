@@ -1081,3 +1081,74 @@ li {
   background: #b45309;
   color: #ffffff;
 }
+
+/* ---------- Home tool banner ---------- */
+/*
+ * Banner en homepage linkeando a /tools/cost-per-cup-calculator/.
+ * Diferenciador único: tool interactivo que ningún competidor del nicho tiene.
+ */
+.tool-banner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+  padding: var(--space-lg);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius);
+}
+
+@media (min-width: 40rem) {
+  .tool-banner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.tool-banner__content {
+  flex: 1;
+}
+
+.tool-banner__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.tool-banner__title {
+  margin: 4px 0 6px;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.tool-banner__desc {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  max-width: 50ch;
+}
+
+.tool-banner__cta {
+  display: inline-block;
+  padding: 10px 18px;
+  background: var(--color-accent);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+.tool-banner__cta:hover,
+.tool-banner__cta:focus-visible {
+  background: var(--color-link-hover);
+  color: #ffffff;
+}
