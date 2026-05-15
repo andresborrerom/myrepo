@@ -146,6 +146,32 @@ Andrés.`
     body: '[Camilo llenará esta carta]'
   },
   {
+    year: 1992,
+    fromId: 'andres',
+    title: 'El año en que llegó Bernie',
+    body:
+`1992. Te llegó Bernie. Pastor alemán, regalo de Bernardo Pérez, juicioso, mandón a pesar de no ser el más grande de la jauría. Tu compañero por años. Y la prueba viva de que tú, padre mío, los perros los amas — aunque toda la vida hayas dicho que adentro de la casa son estorbo.
+
+Esa será una de nuestras contradicciones favoritas. A ti los perros los amas afuera. Yo los necesito adentro. Y aún así, desde que tengo memoria — y un poquito antes — tú me has tenido un perro al lado.
+
+La lista, en orden de los míos:
+
+Scotchis — el poodle estándar negro de mi infancia. Tan grande que cuando lo sacaba a pasear (siendo yo más chiquito que él) los vecinos lo confundían con una oveja. Nadie me creía que era poodle. Fue mi sombra de niñez.
+
+Punto — chiquita, chiquita, en la época en que yo estaba más desordenado. Cuando me visitabas en esos años, padre mío, salías a sacarla a pesar de verse no tan varonil con una perrita de bolsillo (palabras tuyas). Aumentando tu paciencia hacia mí en cada vuelta a la cuadra para q la pobre perrita no se hiciera adentro.
+
+Malostragos — el perro de mi vida. Lo recogí de la calle y le inventé pedigrí de "Irish Ebriant" para que sonara bien. Él fue el que me acompañó del desorden a la responsabilidad. De la soltería al matrimonio. De los apartamentos solos a la casa de La Calera y de vuelta a Bogotá. Desde mi soledad hasta después de que Pepe dejó de ser bebé y se volvió niño. El perro de la transición.
+
+África — la de hoy. Cuida a Luchi y a Pepe. Yo me limito a ser su humano.
+
+Y al otro lado, los tuyos. Antes hubo otro, ¿Blackie?, el que me esperaba cuando nací. Después, en Villeta, Valentina — mi consentida cuando iba a verte. Y luego Bernie, tu Bernie. El que armó contigo cada rincón de la finca en Villeta, el que cabalgó contigo todas esas mañanas, el que después cruzó el océano y volvió a armar contigo cada rincón de la finca en Marbella. Tenía clase, y mucha mucha energía. Daba la vida por ti.
+
+Bernie vivió feliz. Malostragos vivió feliz. Punto y Scotchis vivieron felices. Y África ahora vive feliz. Todos los perros van al cielo, dicen — allá están esperándonos. A ti en el patio sentados juiciosos. A mí listos para botarse encima mío cuando me siente en el sofá.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 1997,
     fromId: 'andres',
     title: 'El año en que cruzaste el mar',

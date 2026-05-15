@@ -38,9 +38,29 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 - **Alejandro no es fanático del fútbol.**
 - **Andrés es hincha del América de Cali**, heredado por su papá y su hermano Camilo. Hay una carta futura específica sobre eso.
 
+## Perros (importante en el relato familiar)
+
+### De Alejandro
+- **Blackie (?)** — el que esperaba a Andrés cuando nació, nombre incierto
+- **Valentina** — perra de Villeta, "consentida" de Andrés cuando iba a visitarlo
+- **Bernie** — pastor alemán, regalo de Bernardo Pérez en 1992. Juicioso, mandón aunque no era el más grande, mucha energía, "daba la vida por él". Acompañó a Alejandro en cabalgatas en Villeta y armando la finca en Marbella.
+- A Alejandro le encantan los perros pero **siempre los quiere afuera** ("son estorbo adentro"). Eterna contradicción con Andrés.
+
+### De Andrés
+- **Scotchis** — poodle estándar negro de infancia, vecinos lo confundían con oveja
+- **Punto** — perrita chiquita de la época de desorden de Andrés. Alejandro le ayudaba a sacarla a pesar de "no verse tan varonil" con perrita de bolsillo
+- **Malostragos** — recogido de la calle, "Irish Ebriant" inventado como pedigrí. El perro de la transición desorden→responsabilidad
+- **África** — la actual. Cuida a Luchi y Pepe. "Yo me limito a ser su humano"
+- Andrés SIEMPRE vive con perros adentro de la casa
+
+### Lugares de los perros
+- **Finca en Villeta** (de Alejandro): donde estaba Valentina, donde cabalgaba con Bernie
+- **Finca en Marbella** (de Alejandro): donde Bernie también vivió tras cruzar el océano
+
 ## Dato biográfico de Alejandro útil para cartas
 
 - **UC Berkeley** fue una de las pocas (o la única) universidad a la que Alejandro consideró irse a estudiar fuera de Colombia en su día. Andrés terminó haciendo allá su maestría en 2016 — coincidencia poderosa.
+- **Bernardo Pérez** — buen amigo de Alejandro, le regaló a Bernie en 1992
 
 ### Los 5 hijos
 | Hijo | Fecha nac. | Notas |
@@ -159,6 +179,7 @@ Cronología clave:
 | **1979** | **Llegó la felicidad a este mundo** | **Andrés** | Nacimiento de Andrés, mamá quería 2 hijos, casi-accidentes salvado por papá |
 | 1980 | Cuando me trajiste a casa | Andrés | [pendiente] |
 | **1985** | **Mi entrada al San Carlos** | **Andrés** | Colegio, Padre Francis, "servicio", Andrés se considera sencillo en el lujo |
+| **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
 | 1992 | El benjamín | Camilo | [pendiente] |
 | 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |
