@@ -23,6 +23,8 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 
 - **Edificio Garden** (Cl 93 #5-25, Bogotá): obra del estudio Borrero y Sánchez Cía. Cuna de Andrés — nació ahí, vivió 20 años.
 - **La Cristalina**: finca familiar, era del abuelo Fernando Borrero Caicedo. A Alejandro le encantaba. Aparece en la carta 1979 — varios "casi accidentes" de Andrés ocurrieron allí (cayó de espaldas 2 pisos, etc.).
+- **Las Villas** (Melgar, Tolima): finca alquilada por Alejandro para vacaciones familiares en los 80. Acuatobogán, piscina, río Sumapaz al lado, mangos biches con sal, murciélagos de fruta en picada por la noche. A Luis Fer lo picó una abeja allí (descubrieron su alergia). A Maca Santos (amiga de Carolina) la picó un alacrán.
+- **Cali**: el otro destino de vacaciones — donde toda la familia.
 - **Marbella, España**: residencia de Alejandro desde diciembre 1997.
 - **La Calera**: donde Andrés, Marce y Luchi se fueron a vivir en febrero 2013.
 - **Colegio San Carlos** (Bogotá): donde Andrés estudió desde 1985. Fuerte en matemáticas, fútbol, valores. El **Padre Francis** promovía "el servicio" como eje del colegio.
@@ -198,6 +200,7 @@ Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio esti
 | 1978 | La hija del medio | Carolina | [pendiente] |
 | **1979** | **Llegó la felicidad a este mundo** | **Andrés** | Nacimiento de Andrés, mamá quería 2 hijos, casi-accidentes salvado por papá |
 | 1980 | Cuando me trajiste a casa | Andrés | [pendiente] |
+| **1983** | **Las Villas** | **Andrés** | Vacaciones de niños en Melgar — acuatobogán, río Sumapaz, mango biche, murciélagos |
 | **1985** | **Mi entrada al San Carlos** | **Andrés** | Colegio, Padre Francis, "servicio", Andrés se considera sencillo en el lujo |
 | **1986** | El año del pentacampeonato (renombrada a 1986) | — | Hito que la familia recordará en la carta del América de Cali |
 | **1991** | **El año en que llegó Cami** | **Andrés** | Tras la separación del 86, llega el hermano del alma |

@@ -166,6 +166,28 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 1983,
+    fromId: 'andres',
+    title: 'Las Villas',
+    body:
+`Íbamos siempre a dos lugares, papa. A Cali, donde toda la familia. Y a Melgar, a la finca que alquilabas — Las Villas. Ese era el plan: vacaciones de los Borrero.
+
+Las Villas era el sitio. Acuatobogán, piscina, sol del Tolima, río al lado. Lo que un niño en los 80 podía pedir y un poco más.
+
+La piscina nos tragaba el día entero. Horas seguidas, hasta que se nos arrugaba la piel y nos salían los ojos rojos del cloro. Por la noche había que esquivar a los murciélagos de fruta — bajaban en picada a tomar agua y casi se llevaban una oreja a su paso. Era el deporte de las nueve.
+
+En las mañanas salíamos a coger mango. Mango biche, verde, duro, con sal. Cosa fina, papa. Cosa que solo entiende un niño colombiano de los 80, que un mango ácido con sal era un manjar.
+
+Bajábamos al río Sumapaz a nadar y a treparnos a las piedras del medio. Esas piedras eran nuestros barcos. Pasábamos horas peleando por la mejor.
+
+Lo épico: a Luis Fer lo picó una abeja en Las Villas y descubrimos en ese mismo viaje que era alérgico. Yo te miro hoy, papa, y me imagino el susto. A Maca Santos — la amiga de Caro — la picó un alacrán. Las Villas nos picaba pero nos amaba: las heridas siempre se nos curaban antes de que nos volviéramos a meter al agua.
+
+Hoy los niños piden wifi en la habitación, parques temáticos, planes con horario. No los culpo. Quieren otro tipo de vacaciones, tal vez porque el mundo cambió. Pero yo no cambio las vacaciones que tuve por nada de este mundo.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 1992,
     fromId: 'andres',
     title: 'El año en que llegó Bernie',
