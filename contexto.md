@@ -38,6 +38,10 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 - **Alejandro no es fanático del fútbol.**
 - **Andrés es hincha del América de Cali**, heredado por su papá y su hermano Camilo. Hay una carta futura específica sobre eso.
 
+## Dato biográfico de Alejandro útil para cartas
+
+- **UC Berkeley** fue una de las pocas (o la única) universidad a la que Alejandro consideró irse a estudiar fuera de Colombia en su día. Andrés terminó haciendo allá su maestría en 2016 — coincidencia poderosa.
+
 ### Los 5 hijos
 | Hijo | Fecha nac. | Notas |
 |---|---|---|
@@ -71,6 +75,7 @@ Cronología clave:
 - **Mayo 2012**: conoce a Marcela
 - **2012**: conoce a Luchi (entonces tiene 4 años)
 - **Febrero 2013**: se va a vivir con Marce y Luchi a La Calera
+- **2016**: se casa con Marce + Marce queda embarazada de Pepe + entra a maestría en UC Berkeley (4 visitas en 2 años) + cambia a un nuevo trabajo en inversiones (gana un reconocimiento 2 años consecutivos) + viven en una casa soñada en La Calera con 4 perros y 1 oveja
 - **6 jul 2017**: nace Pepe (Pedro Pablo). Muy buscado, con dos pérdidas previas
 - **2026**: 46 años, papá cumple 75
 
@@ -159,6 +164,7 @@ Cronología clave:
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |
 | 2000 | El año en que tu papá se volvió escuela | Los 5 hijos | Fundación FBC |
 | **2012** | **Mayo del 2012** | **Andrés** | Conoce a Marce, fin del desorden, reflexión sobre matrimonio |
+| **2016** | **UC Berkeley** | **Andrés** | Boda con Marce, embarazo de Pepe, maestría Berkeley, nuevo trabajo inversiones |
 | **2017** | **El año en que llegó Pepe** | **Andrés** | Nacimiento de Pepe, "igual al abuelo" |
 | **2025** | **El año que Luchi se fue a Cornell** | **Andrés** | Cornell, "alto piso", primer desilusión, "más Borrero que yo" |
 

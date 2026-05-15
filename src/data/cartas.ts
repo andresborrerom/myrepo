@@ -116,6 +116,30 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 2016,
+    fromId: 'andres',
+    title: 'UC Berkeley',
+    body:
+`Cómo no incluir una carta de un año fabuloso por todo lo alto.
+
+Me casé con Marce, logramos darnos la oportunidad de un tercer embarazo que resultó en el gran Pepe, y entré a hacer una maestría en una materia que por fin me apasionó en una universidad que por fin me llevó a dar mucho más de mí.
+
+¿Hablar de salirse de la zona de confort? Qué tal 2 años en los que hice la maestría afortunadamente con éxito, tuve las responsabilidades de cuidar a un recién nacido por primera vez, y me enfrenté a un nuevo trabajo entrando a inversiones, ganándomelo dos años consecutivos para nada menos que sacarla del estadio.
+
+Viviendo con 4 perros y una oveja (quinto perro) en una casa soñada que disfruté cada minuto que le pegaba el sol en el frío caleruno, pero llena de calor de hogar.
+
+Tal vez el primer año después de muchos — tal vez desde el colegio — en que me acordé que el esfuerzo paga. Y el estrés y el dolor de cabeza se convierten en la mejor sensación cuando miro hacia atrás.
+
+Y cuando Berkeley me aceptó, yo estaba listo para endeudarme hasta el cogote para dar ese salto, pero llegaste tú, un minuto después de que te conté, a decirme que te encargarías de ese peso. Y me acuerdo cuando se me hinchó el alma al enterarme de la casualidad: que esa fue la única (o una de las pocas) universidad a la que consideraste irte a estudiar fuera de Colombia. ¿Qué mejor lugar para reencontrarme con un triunfo que donde tú alguna vez consideraste honrar con tu presencia?
+
+¡Qué par de años! No puedo decir que estoy listo para volverlos a vivir (sobre todo por lo del recién nacido), pero sí quiero decir que miro hacia atrás y empezaron con el pie derecho desde el marzo en que llevaste la aceptación de la universidad a un regalo absolutamente divino que me llenó de vigor como pocas veces lo había sentido.
+
+Gracias de nuevo, padre mío.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 1992,
     fromId: 'camilo',
     title: 'El benjamín',
