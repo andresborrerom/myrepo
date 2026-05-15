@@ -110,6 +110,30 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 1988,
+    fromId: 'andres',
+    title: 'Guillermo Esquella y la selva viva',
+    body:
+`Tenías 4 hijos. Te ibas a la "juerga". La juerga no era fiesta ni trago ni turismo. Te ibas a la selva una o dos semanas, con Guillermo Esquella — un oficial militar chileno, veinte años mayor que tú — y desaparecías.
+
+Volvías con anécdotas que yo repetía después a amigos, novias, compañeros de servicio militar, y hoy las sigo contando, como si fueran leyenda:
+
+— La serpiente. La que te persiguió. Guillermo te gritaba "quédate quieto" para poder dispararle con la escopeta. Tú sin saber a qué le debías tener más miedo entre la serpiente y la escopeta de Guillermo.
+
+— Los mosquitos de las 5 de la tarde. Tan insoportables que ustedes preferían meterse al río, con pirañas, antes que aguantarlos. Eso solo se entiende habiéndolo vivido. Yo me lo imagino y me da risa de incredulidad y agradezco a Dios que no tuvieras una herida de la que no fueras consciente para alimentar a las pirañas.
+
+— La comunidad indígena. Conocieron una. Hasta hoy no sabes si eran amigables o caníbales. Con ustedes fueron amigables, eso al menos lo cuentas con seguridad. Yo prefiero no saber el resto.
+
+— Los piojos. Llegaste a Bogotá con la cabeza colonizada. Te tocó pasar por la peluquería y explicarle al peluquero dónde habías estado. Imagino la cara del peluquero. Imagino la tuya, padre mío, pidiendo dignidad mientras sacaban a la mano lo que vivía ahí.
+
+Y nos traías regalos. Yo recuerdo un esqueleto de piraña que ponías en la repisa. Yo iba a verlo muy seguido. Lo miraba mucho rato. Pensaba que tú habías estado en un lugar donde los peces tenían dientes de león, y eso era lo más fascinante del mundo. Mi papá había estado ahí. Y además, pescó una.
+
+Tu lema lo aprendí viéndote: ir tan cómodo como se pueda ir a cada lugar. A la selva no había nada más cómodo que dormir en el piso con Guillermo Esquella. Lo haces igual hoy, a tus 75 — no sacrificas comodidad si la hay, no lloras si no la hay. Te ajustas. Y tu espíritu de aventura sigue ahí, intacto, esperando la próxima juerga.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 2016,
     fromId: 'andres',
     title: 'UC Berkeley',

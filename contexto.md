@@ -48,6 +48,8 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
   - **Marbella** (España, desde 1997): la nueva finca, también con jardín, su segundo refugio
 - **Los caballos**: pasión propia. Cabalgaba en Villeta. Bernie (el pastor alemán) era su compañero en esas cabalgatas.
 - **Las piscinas**: en cada apartamento donde vivió, **se construía una piscina**. Marca personal — el agua siempre estaba presente en su casa.
+- **La selva — "la juerga"**: en los 80s, mientras tenía 4 hijos pequeños, se iba 1-2 semanas a la selva con **Guillermo Esquella** (oficial militar chileno, ~20 años mayor que él). Anécdotas legendarias: serpiente perseguidora, mosquitos brutales a las 5 PM (preferían meterse al río con pirañas), comunidad indígena de amigabilidad incierta, piojos al volver. Traía regalos como esqueletos de pirañas. Espíritu de aventura intacto a sus 75.
+- **Lema de Alejandro**: *"ir tan cómodo como se pueda ir a cada lugar"*. A la selva = dormir en el piso con Guillermo. No sacrifica comodidad si la hay, no llora si no la hay. Se ajusta.
 
 ## Perros (importante en el relato familiar)
 
@@ -209,6 +211,7 @@ Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio esti
 | **1979** | **Llegó la felicidad a este mundo** | **Andrés** | Nacimiento de Andrés, mamá quería 2 hijos, casi-accidentes salvado por papá |
 | **1983** | **Las Villas** | **Andrés** | Vacaciones de niños en Melgar — acuatobogán, río Sumapaz, mango biche, murciélagos |
 | **1985** | **Mi entrada al San Carlos** | **Andrés** | Colegio, Padre Francis, "servicio", Andrés se considera sencillo en el lujo |
+| **1988** | **Guillermo Esquella y la selva viva** | **Andrés** | Las "juergas" en la selva con Guillermo Esquella, militar chileno, en los 80s |
 | 1991 | El benjamín | Camilo | [pendiente] |
 | **1991** | **El año en que llegó Cami** | **Andrés** | Tras la separación del 86, llega el hermano del alma |
 | **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
