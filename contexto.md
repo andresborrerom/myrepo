@@ -203,17 +203,15 @@ Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio esti
 |---|---|---|---|
 | 1951 | El año que naciste | Andrés (colectiva) | Nacimiento en Cali |
 | 1963 | El año que no quisiste bajarte del avión | Los 5 hijos | Llegada de Cali a Bogotá a los 12 |
-| 1974 | El año que me hiciste papá tuyo | Luis Fernando | [pendiente] |
-| 1976 | Cuando llegué yo | Alexandra | [pendiente] |
-| 1978 | La hija del medio | Carolina | [pendiente] |
+| 1973 | El año que me hiciste papá tuyo | Luis Fernando | [pendiente] |
+| 1975 | Cuando llegué yo | Alexandra | [pendiente] |
+| 1977 | La hija del medio | Carolina | [pendiente] |
 | **1979** | **Llegó la felicidad a este mundo** | **Andrés** | Nacimiento de Andrés, mamá quería 2 hijos, casi-accidentes salvado por papá |
-| 1980 | Cuando me trajiste a casa | Andrés | [pendiente] |
 | **1983** | **Las Villas** | **Andrés** | Vacaciones de niños en Melgar — acuatobogán, río Sumapaz, mango biche, murciélagos |
 | **1985** | **Mi entrada al San Carlos** | **Andrés** | Colegio, Padre Francis, "servicio", Andrés se considera sencillo en el lujo |
-| **1986** | El año del pentacampeonato (renombrada a 1986) | — | Hito que la familia recordará en la carta del América de Cali |
+| 1991 | El benjamín | Camilo | [pendiente] |
 | **1991** | **El año en que llegó Cami** | **Andrés** | Tras la separación del 86, llega el hermano del alma |
 | **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
-| 1992 | El benjamín | Camilo | [pendiente] |
 | **1996** | **América de Cali** | **Andrés** | Hincha por legado, Camilo "cerdo mayor", el Pipa y la ética de papá |
 | 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |

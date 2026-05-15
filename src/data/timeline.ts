@@ -16,17 +16,30 @@ export type Hito = {
 };
 
 // Hitos derivados automáticamente del árbol (nacimientos de hijos y nietos).
+// Prefiere birthDate (exacto). Si no hay, cae al cálculo por edad (puede
+// estar off-by-one si la persona aún no cumplió este año).
 function nacimientosFamiliares(): Hito[] {
   const hoy = TURNS_75_YEAR;
   return FAMILY
-    .filter((p) => p.role !== 'patriarca' && p.age !== undefined)
-    .map<Hito>((p) => ({
-      year: hoy - (p.age as number),
-      title: `Nace ${p.shortName || p.name}`,
-      description:
-        p.role === 'hijo' ? 'Tu hijo llega al mundo.' : 'Llega un nieto.',
-      scope: 'familia'
-    }));
+    .filter((p) => p.role !== 'patriarca')
+    .map<Hito | null>((p) => {
+      let year: number | null = null;
+      if (p.birthDate) {
+        const m = /^(\d{4})/.exec(p.birthDate);
+        if (m) year = Number(m[1]);
+      } else if (p.age !== undefined) {
+        year = hoy - p.age;
+      }
+      if (year === null) return null;
+      return {
+        year,
+        title: `Nace ${p.shortName || p.name}`,
+        description:
+          p.role === 'hijo' ? 'Tu hijo llega al mundo.' : 'Llega un nieto.',
+        scope: 'familia'
+      };
+    })
+    .filter((h): h is Hito => h !== null);
 }
 
 // Hitos sembrados a mano. Andrés y familia los van completando.

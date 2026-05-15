@@ -52,28 +52,22 @@ export const CARTAS: Carta[] = [
       'De tus cinco hijos.'
   },
   {
-    year: 1974,
+    year: 1973,
     fromId: 'luis-fernando',
     title: 'El año que me hiciste papá tuyo',
     body: '[Luis Fernando llenará esta carta]'
   },
   {
-    year: 1976,
+    year: 1975,
     fromId: 'alexandra',
     title: 'Cuando llegué yo',
     body: '[Alexandra llenará esta carta]'
   },
   {
-    year: 1978,
+    year: 1977,
     fromId: 'carolina',
     title: 'La hija del medio',
     body: '[Carolina llenará esta carta]'
-  },
-  {
-    year: 1980,
-    fromId: 'andres',
-    title: 'Cuando me trajiste a casa',
-    body: '[Andrés llenará esta carta]'
   },
   {
     year: 1979,
@@ -140,7 +134,7 @@ Te adoro,
 Andrés.`
   },
   {
-    year: 1992,
+    year: 1991,
     fromId: 'camilo',
     title: 'El benjamín',
     body: '[Camilo llenará esta carta]'
