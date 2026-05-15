@@ -48,13 +48,140 @@ const updatedAt = new Date(
 const title = `${a.data.name} vs ${b.data.name}: Side-by-Side Comparison`;
 const description = `${a.data.name} versus ${b.data.name}: specs, pros, cons, pricing, and a clear recommendation by use case.`;
 
-// Union of feature keys so the spec table compares apples-to-apples.
-const allKeys = new Set<string>([
+// ---------- Spec row construction ----------
+//
+// La tabla original listaba TODAS las features unidas en orden alfabético.
+// Patrón recomendado (research/design-benchmark.md, Batch C) es mostrar
+// primero las filas donde A y B difieren ("differentiators") y colapsar
+// las comunes bajo <details>. Honest framing: si comparten casi todo,
+// se lo decimos al lector en vez de inflar diferencias falsas.
+
+type FeatureValue = string | number | boolean;
+
+interface SpecRow {
+  key: string;
+  label: string;
+  valueA: FeatureValue | undefined;
+  valueB: FeatureValue | undefined;
+}
+
+// Heurística de importancia: claves listadas primero pesan más para el
+// orden de differentiators. Match es por substring sobre la key normalizada
+// (lowercase, underscores intactos) para que matches parciales tipo
+// "burr_size_mm" cuenten para "burr". Si la comparación es de productos
+// fuera del dominio espresso (e.g. brewers), las keys simplemente no
+// matchean nada y caemos al sort alfabético del fallback.
+const IMPORTANCE_HINTS = [
+  'price', // injected como pseudo-row, ya rankea primero
+  'boiler',
+  'group_head',
+  'group',
+  'pid',
+  'bar_pressure',
+  'pressure',
+  'wattage',
+  'watt',
+  'power',
+  'steam',
+  'milk',
+  'grinder',
+  'built_in',
+  'burr',
+  'capacity',
+  'water_tank',
+  'dimensions',
+  'weight',
+  'material',
+  'warranty',
+];
+
+function importanceScore(key: string): number {
+  const k = key.toLowerCase();
+  for (let i = 0; i < IMPORTANCE_HINTS.length; i++) {
+    if (k.includes(IMPORTANCE_HINTS[i])) {
+      // Lower score = higher priority. Spread so ties go alphabetical.
+      return i;
+    }
+  }
+  return IMPORTANCE_HINTS.length + 100;
+}
+
+function prettifyLabel(key: string): string {
+  return key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function formatValue(v: FeatureValue | undefined): string {
+  if (v === undefined || v === null) return '—';
+  if (typeof v === 'boolean') return v ? 'Yes' : 'No';
+  return String(v);
+}
+
+// Una fila es "differentiator" si:
+// - Ausente en uno de los dos productos, O
+// - Ambos presentes pero con valores distintos (comparación estricta tras
+//   normalizar a string, sin redondear: 100W vs 110W cuenta como diferencia).
+// - Tipos distintos (string vs boolean) también: differentiator.
+function isDifferentiator(row: SpecRow): boolean {
+  const aPresent = row.valueA !== undefined;
+  const bPresent = row.valueB !== undefined;
+  if (!aPresent || !bPresent) return true;
+  if (typeof row.valueA !== typeof row.valueB) return true;
+  return String(row.valueA) !== String(row.valueB);
+}
+
+// Filas base: price + price_tier + brand + union(feature keys).
+// Brand lo tratamos como spec más para que aparezca en common si coincide.
+const featureKeys = new Set<string>([
   ...Object.keys(a.data.features),
   ...Object.keys(b.data.features),
 ]);
 
-const featureRows = Array.from(allKeys).sort();
+const baseRows: SpecRow[] = [
+  {
+    key: '_price',
+    label: 'Price (USD)',
+    valueA: `$${a.data.price}`,
+    valueB: `$${b.data.price}`,
+  },
+  {
+    key: '_price_tier',
+    label: 'Price tier',
+    valueA: a.data.price_tier,
+    valueB: b.data.price_tier,
+  },
+  {
+    key: '_brand',
+    label: 'Brand',
+    valueA: a.data.brand,
+    valueB: b.data.brand,
+  },
+  ...Array.from(featureKeys).map<SpecRow>((key) => ({
+    key,
+    label: prettifyLabel(key),
+    valueA: a.data.features[key],
+    valueB: b.data.features[key],
+  })),
+];
+
+const differentiatorRows = baseRows
+  .filter(isDifferentiator)
+  .sort((rowX, rowY) => {
+    // Price siempre primero (si difiere).
+    if (rowX.key === '_price') return -1;
+    if (rowY.key === '_price') return 1;
+    const sx = importanceScore(rowX.key);
+    const sy = importanceScore(rowY.key);
+    if (sx !== sy) return sx - sy;
+    // Fallback alfabético por label cuando importance no aplica.
+    return rowX.label.localeCompare(rowY.label);
+  });
+
+const commonRows = baseRows
+  .filter((row) => !isDifferentiator(row))
+  .sort((rowX, rowY) => rowX.label.localeCompare(rowY.label));
+
+// Si differentiators <3, marcamos el flag para mostrar el aviso honesto.
+const fewDifferentiators = differentiatorRows.length < 3;
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -112,6 +239,13 @@ const faqSchema = {
   })),
 };
 
+// Build-time log para calcular promedio de differentiators y detectar
+// páginas con <3 diffs. Lo lee el operador en el output del build.
+// eslint-disable-next-line no-console
+console.log(
+  `[compare-stats] slug=${comp.slug} diff=${differentiatorRows.length} common=${commonRows.length}`
+);
+
 void comparePages;
 ---
 <Base
@@ -144,40 +278,68 @@ void comparePages;
   </section>
 
   <section class="section">
-    <h2>Spec comparison</h2>
-    <table class="specs-table">
-      <thead>
-        <tr>
-          <th>Spec</th>
-          <th>{a.data.name}</th>
-          <th>{b.data.name}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>Brand</th>
-          <td>{a.data.brand}</td>
-          <td>{b.data.brand}</td>
-        </tr>
-        <tr>
-          <th>Price (USD)</th>
-          <td>${a.data.price}</td>
-          <td>${b.data.price}</td>
-        </tr>
-        <tr>
-          <th>Price tier</th>
-          <td>{a.data.price_tier}</td>
-          <td>{b.data.price_tier}</td>
-        </tr>
-        {featureRows.map((key) => (
-          <tr>
-            <th>{key.replace(/_/g, ' ')}</th>
-            <td>{a.data.features[key] !== undefined ? String(a.data.features[key]) : '—'}</td>
-            <td>{b.data.features[key] !== undefined ? String(b.data.features[key]) : '—'}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <h2>Key differences</h2>
+    {fewDifferentiators ? (
+      <p class="compare-note">
+        These products share most specifications — see the verdict above for
+        the meaningful differences.
+      </p>
+    ) : (
+      <p class="muted compare-subtle">
+        Specs where the two products diverge. Full spec list is below.
+      </p>
+    )}
+
+    {differentiatorRows.length > 0 && (
+      <div class="compare-table-wrap">
+        <table class="specs-table compare-table compare-table--differentiators">
+          <thead>
+            <tr>
+              <th scope="col">Spec</th>
+              <th scope="col">{a.data.name}</th>
+              <th scope="col">{b.data.name}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {differentiatorRows.map((row) => (
+              <tr>
+                <th scope="row">{row.label}</th>
+                <td>{formatValue(row.valueA)}</td>
+                <td>{formatValue(row.valueB)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+
+    {commonRows.length > 0 && (
+      <details class="compare-common-details">
+        <summary>
+          Show full specs <span class="compare-common-count">({commonRows.length} shared {commonRows.length === 1 ? 'spec' : 'specs'})</span>
+        </summary>
+        <div class="compare-table-wrap">
+          <table class="specs-table compare-table compare-table--common">
+            <thead>
+              <tr>
+                <th scope="col">Spec</th>
+                <th scope="col">{a.data.name}</th>
+                <th scope="col">{b.data.name}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {commonRows.map((row) => (
+                <tr>
+                  <th scope="row">{row.label}</th>
+                  <td>{formatValue(row.valueA)}</td>
+                  <td>{formatValue(row.valueB)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    )}
   </section>
 
   <section class="section pros-cons">
