@@ -33,6 +33,8 @@
 - ✅ **Design benchmark research** (commit cc0de82): doc en `research/design-benchmark.md` con patterns table-stakes vs diferenciadores de 6-9 sitios afiliados top + recomendaciones priorizadas por ROI.
 - ✅ **Internal linking pass** (commit 5a4386a): Related content section en 4 templates, helper module `src/lib/related-content.ts`, 125/153 páginas con links cruzados.
 - ✅ **UX batch A** (table-stakes patterns implementados): 4 componentes nuevos (VerdictBox, AffiliateButton, Byline, MethodologyNote) + multi-tier labels en best-of + update cadence visible + Review schema E-E-A-T mejorado (author + dateModified). Sitio alineado con dominante de afiliados coffee top.
+- ✅ **UX batch B** (compare pages mejoradas, commit 5b59611): 22 compare pages ahora muestran 9.14 differentiator rows arriba + collapse de common specs vía `<details>` nativo. Pattern de afiliados top aplicado.
+- ✅ **Calculator cost-per-cup tool** (commit pendiente verificar): nueva página `/tools/cost-per-cup-calculator/` con 7 inputs + 7 outputs, schema WebApplication + FAQPage, accesible y mobile responsive. **Diferenciador único** — ningún sitio del benchmark tiene calculator. Linkeada desde header nav, home banner, y methodology page. **154 páginas total ahora**.
 
 ### Próximo hito objetivo
 
@@ -116,3 +118,4 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-14 | Scale batch 3b: nuevo template /review + 22 worth-it pages (153 total) | Agente B; mix 15/6/1 yes/depends/no, schema Review completo |
 | 2026-05-15 | Internal linking pass + design benchmark research | Related content + research/design-benchmark.md con shortlist priorizada |
 | 2026-05-15 | UX batch A: verdict box, CTA botón, byline, multi-tier labels, methodology link, update cadence | Sitio alineado con patterns table-stakes de coffee affiliates top |
+| 2026-05-15 | UX batch B + calculator (154 páginas) | Compare collapse + calculator cost-per-cup (diferenciador único del nicho) |
