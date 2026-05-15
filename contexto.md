@@ -60,6 +60,10 @@ Cronología clave:
 - La conoce en mayo 2012
 - Se van juntos a La Calera en febrero 2013
 - Mamá de Pepe; trajo a Luchi al matrimonio
+- Carrera de crianza/educación ("un trabajo muy duro", Andrés enfatiza), eligió eso por encima de plata/altos puestos
+- "El eje del hogar" — la casa que Alejandro le regaló a Andrés se volvió hogar por ella
+- Se "desordena" con Alejandro como con nadie más cuando lo visitan — toma vinos con frescura, se suelta
+- Su mamá (suegra de Andrés) es "alcahuetas" — vuela a la casa cuando la necesitan, sin parpadear
 
 ### Luchi (Lucía, hija de Andrés)
 - 26 sept 2007
