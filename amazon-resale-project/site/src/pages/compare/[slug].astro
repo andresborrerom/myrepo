@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { comparePages, type ComparePage } from '../../data/compare-pages';
+import { relatedForCompare } from '../../lib/related-content';
 
 type Product = CollectionEntry<'products'>;
 
@@ -34,6 +35,7 @@ interface Props {
 }
 
 const { comp, a, b } = Astro.props as Props;
+const related = await relatedForCompare(comp.slug);
 const associatesTag = 'PLACEHOLDER-20';
 
 const title = `${a.data.name} vs ${b.data.name}: Side-by-Side Comparison`;
@@ -217,4 +219,17 @@ void comparePages;
       </details>
     ))}
   </section>
+
+  {related.length > 0 && (
+    <section class="section related-content" aria-labelledby="related-heading">
+      <h2 id="related-heading">Related content</h2>
+      <ul>
+        {related.map((link) => (
+          <li class={`related-link related-link--${link.kind}`}>
+            <a href={link.href}>{link.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 </Base>

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { relatedForProduct } from '../../lib/related-content';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -13,6 +14,7 @@ export async function getStaticPaths() {
 const { product } = Astro.props;
 const { data, body } = product;
 const { Content } = await product.render();
+const related = await relatedForProduct(data.asin);
 
 // Amazon Associates tag placeholder — replace PLACEHOLDER-20 once the
 // Associates account is approved and the production tag string is provided.
@@ -166,5 +168,18 @@ const breadcrumbs = [
     </section>
 
     <p class="muted">Last updated: {data.updated_at.toISOString().slice(0, 10)}</p>
+
+    {related.length > 0 && (
+      <section class="section related-content" aria-labelledby="related-heading">
+        <h2 id="related-heading">Related content</h2>
+        <ul>
+          {related.map((link) => (
+            <li class={`related-link related-link--${link.kind}`}>
+              <a href={link.href}>{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
   </article>
 </Base>

@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { bestPages, type BestPage } from '../../data/best-pages';
+import { relatedForBest } from '../../lib/related-content';
 
 type Product = CollectionEntry<'products'>;
 
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const { page, matches } = Astro.props as Props;
+const related = await relatedForBest(page.slug);
 
 const associatesTag = 'PLACEHOLDER-20';
 
@@ -176,4 +178,17 @@ void bestPages;
       </details>
     ))}
   </section>
+
+  {related.length > 0 && (
+    <section class="section related-content" aria-labelledby="related-heading">
+      <h2 id="related-heading">Related content</h2>
+      <ul>
+        {related.map((link) => (
+          <li class={`related-link related-link--${link.kind}`}>
+            <a href={link.href}>{link.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 </Base>

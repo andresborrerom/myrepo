@@ -15,6 +15,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { reviewPages, type ReviewPage, type Verdict } from '../../data/review-pages';
+import { relatedForReview } from '../../lib/related-content';
 
 type Product = CollectionEntry<'products'>;
 
@@ -49,6 +50,7 @@ interface Props {
 }
 
 const { page, product, alternatives } = Astro.props as Props;
+const related = await relatedForReview(page.slug);
 const associatesTag = 'PLACEHOLDER-20';
 const amazonUrl = `https://amazon.com/dp/${product.data.asin}?tag=${associatesTag}`;
 
@@ -307,5 +309,18 @@ void reviewPages;
       and aggregated user experience reports. It is not a first-hand product test.
       Verify current pricing and availability on Amazon directly.
     </p>
+
+    {related.length > 0 && (
+      <section class="section related-content" aria-labelledby="related-heading">
+        <h2 id="related-heading">Related content</h2>
+        <ul>
+          {related.map((link) => (
+            <li class={`related-link related-link--${link.kind}`}>
+              <a href={link.href}>{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
   </article>
 </Base>
