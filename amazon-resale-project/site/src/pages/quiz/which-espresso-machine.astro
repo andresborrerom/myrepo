@@ -17,548 +17,23 @@
 // - Recomendaciones top 3 con score-based ranking transparente
 
 import Base from '../../layouts/Base.astro';
+import { catalogWithReviews } from '../../data/quiz-catalog.js';
+// Vite ?raw import: cargamos el source de quiz-scoring.js como string al
+// build-time para inyectarlo en el inline script del browser. Misma lógica
+// que corre en los tests de Node, sin duplicación.
+import scoringSourceRaw from '../../lib/quiz-scoring.js?raw';
 
-// Catálogo de máquinas + brewers de fallback, curado a mano desde
-// src/content/products/*.md. Solo los campos necesarios para scoring.
-// Si se renombra un producto, fallar acá es fácil de detectar.
+// El catálogo + la lógica de scoring viven en módulos extraídos:
+//   src/data/quiz-catalog.js  → 27 entries (máquinas + brewers de fallback)
+//   src/lib/quiz-scoring.js   → scoreProduct, buildCaveats, buildSkipCategories,
+//                                pickRecommendations
+// Tests en test/quiz.spec.js consumen ambos via ES module imports.
 //
-// machineCat: 'manual-lever' | 'semi-auto' | 'all-in-one' | 'super-auto'
-// milkCap: 'none' | 'panarello' | 'manual-wand' | 'auto'
-// footprint: 'tiny' | 'small' | 'medium' | 'large'
-// timeProfile: tiempo típico por shot desde frio: 'fast' (<2min) | 'medium' (2-5) | 'slow' (5-10) | 'manual' (10+)
-const quizCatalog = [
-  // Brewers no-espresso de fallback (sólo recomendados cuando budget muy bajo o pure manual filter)
-  {
-    asin: 'B00004RFRV',
-    slug: 'bialetti-moka-express',
-    name: 'Bialetti Moka Express 6-cup',
-    brand: 'Bialetti',
-    price: 39,
-    priceTier: 'budget',
-    type: 'brewer',
-    machineCat: 'stovetop',
-    milkCap: 'none',
-    footprint: 'tiny',
-    timeProfile: 'medium',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: false,
-  },
-  {
-    asin: 'B0047BIWSK',
-    slug: 'aeropress-original',
-    name: 'AeroPress Original',
-    brand: 'AeroPress',
-    price: 39,
-    priceTier: 'budget',
-    type: 'brewer',
-    machineCat: 'manual-brewer',
-    milkCap: 'none',
-    footprint: 'tiny',
-    timeProfile: 'medium',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: false,
-  },
+// El JS inline del browser usa el MISMO archivo de scoring: lo leemos
+// como string en build-time, stripeamos los `export` keywords e inyectamos
+// dentro del IIFE de abajo. Así no duplicamos la lógica entre Node y browser.
+// Si tuneás pesos en quiz-scoring.js, el inline script se actualiza al build.
 
-  // Espresso machines (real)
-  {
-    asin: 'B073FNT7T8',
-    slug: 'flair-classic-signature',
-    name: 'Flair Classic Signature',
-    brand: 'Flair',
-    price: 119,
-    priceTier: 'budget',
-    type: 'espresso-machine',
-    machineCat: 'manual-lever',
-    milkCap: 'none',
-    footprint: 'small',
-    timeProfile: 'manual',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: true,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B0BX7TCQVD',
-    slug: 'casabrews-3700-essential',
-    name: 'Casabrews 3700 Essential',
-    brand: 'Casabrews',
-    price: 139,
-    priceTier: 'budget',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'panarello',
-    footprint: 'medium',
-    timeProfile: 'medium',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B00OBH4UQA',
-    slug: 'delonghi-dedica-ec685',
-    name: "De'Longhi Dedica EC685",
-    brand: "De'Longhi",
-    price: 249,
-    priceTier: 'mid',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'tiny',
-    timeProfile: 'fast',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07RZD5VQB',
-    slug: 'cafelat-robot',
-    name: 'Cafelat Robot',
-    brand: 'Cafelat',
-    price: 449,
-    priceTier: 'mid',
-    type: 'espresso-machine',
-    machineCat: 'manual-lever',
-    milkCap: 'none',
-    footprint: 'small',
-    timeProfile: 'manual',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: true,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07RB5K9TJ',
-    slug: 'delonghi-magnifica-s',
-    name: "De'Longhi Magnifica S",
-    brand: "De'Longhi",
-    price: 449,
-    priceTier: 'mid',
-    type: 'espresso-machine',
-    machineCat: 'super-auto',
-    milkCap: 'panarello',
-    footprint: 'medium',
-    timeProfile: 'fast',
-    hasPid: false,
-    hasGrinder: true,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B083TQR8BV',
-    slug: 'gaggia-classic-pro',
-    name: 'Gaggia Classic Pro',
-    brand: 'Gaggia',
-    price: 449,
-    priceTier: 'mid',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'slow',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07VFZHRYC',
-    slug: 'breville-bambino-plus',
-    name: 'Breville Bambino Plus',
-    brand: 'Breville',
-    price: 499,
-    priceTier: 'mid',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'auto',
-    footprint: 'small',
-    timeProfile: 'fast',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B0B5BC5VXM',
-    slug: 'gaggia-classic-evo-pro',
-    name: 'Gaggia Classic Evo Pro',
-    brand: 'Gaggia',
-    price: 549,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'slow',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B00OBH4UQB',
-    slug: 'breville-infuser',
-    name: 'Breville Infuser BES840XL',
-    brand: 'Breville',
-    price: 599,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'medium',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B00CH9182U',
-    slug: 'breville-barista-express',
-    name: 'Breville Barista Express',
-    brand: 'Breville',
-    price: 699,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'all-in-one',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'medium',
-    hasPid: true,
-    hasGrinder: true,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B09NDWGYG2',
-    slug: 'flair-58',
-    name: 'Flair 58',
-    brand: 'Flair',
-    price: 699,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'manual-lever',
-    milkCap: 'none',
-    footprint: 'small',
-    timeProfile: 'manual',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: true,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07GVHL5HN',
-    slug: 'lelit-anna-pl41tem',
-    name: 'Lelit Anna PL41TEM',
-    brand: 'Lelit',
-    price: 749,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'medium',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07W5C7QFD',
-    slug: 'delonghi-la-specialista',
-    name: "De'Longhi La Specialista",
-    brand: "De'Longhi",
-    price: 799,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'all-in-one',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'fast',
-    hasPid: false,
-    hasGrinder: true,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B0BQYMTBNL',
-    slug: 'rancilio-silvia-v6',
-    name: 'Rancilio Silvia V6',
-    brand: 'Rancilio',
-    price: 845,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'slow',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07QGCS2KW',
-    slug: 'breville-barista-pro',
-    name: 'Breville Barista Pro',
-    brand: 'Breville',
-    price: 849,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'all-in-one',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'fast',
-    hasPid: true,
-    hasGrinder: true,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07D8YHHG9',
-    slug: 'profitec-pro-300',
-    name: 'Profitec Pro 300',
-    brand: 'Profitec',
-    price: 1399,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'small',
-    timeProfile: 'slow',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07PMVZWMG',
-    slug: 'delonghi-eletta',
-    name: "De'Longhi Eletta Explore",
-    brand: "De'Longhi",
-    price: 1499,
-    priceTier: 'premium',
-    type: 'espresso-machine',
-    machineCat: 'super-auto',
-    milkCap: 'auto',
-    footprint: 'large',
-    timeProfile: 'fast',
-    hasPid: false,
-    hasGrinder: true,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B00CSAYE9W',
-    slug: 'breville-dual-boiler',
-    name: 'Breville Dual Boiler BES920XL',
-    brand: 'Breville',
-    price: 1599,
-    priceTier: 'pro',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'large',
-    timeProfile: 'medium',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B0BTBHC9JV',
-    slug: 'breville-touch-impress',
-    name: 'Breville Barista Touch Impress',
-    brand: 'Breville',
-    price: 1599,
-    priceTier: 'pro',
-    type: 'espresso-machine',
-    machineCat: 'all-in-one',
-    milkCap: 'auto',
-    footprint: 'medium',
-    timeProfile: 'fast',
-    hasPid: true,
-    hasGrinder: true,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B08FZB7N9V',
-    slug: 'lelit-mara-x',
-    name: 'Lelit Mara X PL62X',
-    brand: 'Lelit',
-    price: 1699,
-    priceTier: 'pro',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'medium',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B0BKD9LP1N',
-    slug: 'ascaso-steel-duo-prof',
-    name: 'Ascaso Steel Duo PROF',
-    brand: 'Ascaso',
-    price: 1799,
-    priceTier: 'pro',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'small',
-    timeProfile: 'medium',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B01N6DZJVQ',
-    slug: 'rocket-appartamento',
-    name: 'Rocket Appartamento',
-    brand: 'Rocket',
-    price: 1899,
-    priceTier: 'pro',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'medium',
-    hasPid: false,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B09F2HFGHN',
-    slug: 'rancilio-silvia-pro-x',
-    name: 'Rancilio Silvia Pro X',
-    brand: 'Rancilio',
-    price: 1990,
-    priceTier: 'pro',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'medium',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07BJ4HT4P',
-    slug: 'ecm-classika-pid',
-    name: 'ECM Classika PID',
-    brand: 'ECM',
-    price: 2199,
-    priceTier: 'pro',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'medium',
-    timeProfile: 'medium',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B0727YGZG8',
-    slug: 'breville-oracle-touch',
-    name: 'Breville Oracle Touch',
-    brand: 'Breville',
-    price: 2799,
-    priceTier: 'pro',
-    type: 'espresso-machine',
-    machineCat: 'all-in-one',
-    milkCap: 'auto',
-    footprint: 'large',
-    timeProfile: 'fast',
-    hasPid: true,
-    hasGrinder: true,
-    bestForBeginners: true,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-  {
-    asin: 'B07PYTQ8YN',
-    slug: 'la-marzocco-linea-mini',
-    name: 'La Marzocco Linea Mini',
-    brand: 'La Marzocco',
-    price: 5900,
-    priceTier: 'pro',
-    type: 'espresso-machine',
-    machineCat: 'semi-auto',
-    milkCap: 'manual-wand',
-    footprint: 'large',
-    timeProfile: 'medium',
-    hasPid: true,
-    hasGrinder: false,
-    bestForBeginners: false,
-    espressoOnly: false,
-    isRealEspresso: true,
-  },
-];
-
-// Real ASINs from src/content/products (sobrescribimos donde el catalog
-// inline tiene un placeholder distinto).
-// IMPORTANT: Sólo usar slug en links — los ASINs los rellena el JS desde
-// el catalog inline. Aún así, derivar el slug es lo único que necesita la UI.
-//
-// Map de slugs a review page slugs cuando existe review específico.
-const reviewSlugs: Record<string, string> = {
-  'breville-bambino-plus': 'is-breville-bambino-plus-worth-it-for-beginners',
-  'gaggia-classic-pro': 'is-gaggia-classic-pro-worth-it-for-beginners',
-  'breville-barista-express': 'is-breville-barista-express-worth-it-for-beginners',
-  'delonghi-la-specialista': 'is-delonghi-la-specialista-worth-it-for-milk-drinks',
-  'rancilio-silvia-v6': 'is-rancilio-silvia-worth-it-for-home-barista',
-  'aeropress-original': 'is-aeropress-worth-it-for-single-person',
-  'flair-classic-signature': 'is-flair-classic-worth-it-for-single-person',
-  'breville-dual-boiler': 'is-breville-dual-boiler-worth-it-for-home-barista',
-  'casabrews-3700-essential': 'is-casabrews-3700-worth-it-for-beginners',
-};
-
-// Inyectar reviewSlug al catálogo para evitar dos lookups en JS.
-const catalogWithReviews = quizCatalog.map((p) => ({
-  ...p,
-  reviewSlug: reviewSlugs[p.slug] ?? null,
-}));
 
 const faqs = [
   {
@@ -608,6 +83,11 @@ const faqLd = {
     acceptedAnswer: { '@type': 'Answer', text: f.a },
   })),
 };
+
+// Stripeamos las keywords `export` (válidas en ESM, inválidas en un IIFE
+// plano). Así el browser ejecuta las mismas funciones que importan los
+// tests, pero como declaraciones top-level globales del script inyectado.
+const scoringSource = scoringSourceRaw.replace(/^export\s+/gm, '');
 ---
 
 <Base
@@ -884,8 +364,16 @@ const faqLd = {
   ></script>
 </Base>
 
+<script is:inline set:html={`
+  // SCORING — inyectado desde src/lib/quiz-scoring.js al build time
+  // (un solo source of truth con los tests). Las funciones quedan en
+  // scope global del documento porque son declaraciones top-level.
+  ${scoringSource}
+`}></script>
+
 <script is:inline>
-  // Quiz vanilla JS. Scoring transparente (ver /methodology/).
+  // Plumbing del UI: progreso, persistencia, render. Usa pickRecommendations
+  // del módulo de scoring inyectado arriba (window-scope global).
   (function(){'use strict';
     var KEY='bp_quiz_v1',TAG='PLACEHOLDER-20',
         STEPS=['budget','experience','drinks','volume','space','time','control'],N=STEPS.length;
@@ -925,138 +413,9 @@ const faqLd = {
       show(0);
     }
 
-    // -------- SCORING --------
-    function bb(a){
-      return a==='under-300'?{min:0,max:300}:a==='300-700'?{min:300,max:700}:
-        a==='700-1500'?{min:700,max:1500}:a==='1500-3000'?{min:1500,max:3000}:
-        a==='over-3000'?{min:3000,max:100000}:{min:0,max:100000};
-    }
-    function score(p,a){
-      var s=0,why=[],b=bb(a.budget);
-      // Budget — 35% buffer for grinder when not integrated. Floor only
-      // penalizes when we are at low end (under-300/300-700); higher tiers
-      // shouldn't reject cheap niche machines (Flair, Cafelat Robot).
-      var mb=p.hasGrinder?b.max*0.9:b.max*0.65;
-      var fl=(a.budget==='under-300'||a.budget==='300-700')?(p.hasGrinder?b.min*0.7:b.min*0.4):0;
-      if(p.price<=mb&&p.price>=fl){s+=10;why.push('fits your budget');}
-      else if(p.price>b.max*1.3){s-=20;}else if(p.price>mb){s-=8;}
-      // Experience
-      var e=a.experience;
-      if(e==='total-beginner'){
-        if(p.bestForBeginners){s+=5;why.push('beginner-friendly workflow');}
-        if(p.machineCat==='manual-lever')s-=8;
-        if(p.priceTier==='pro')s-=6;
-      }else if(e==='some'){
-        if(p.bestForBeginners)s+=3;
-        if(p.machineCat==='manual-lever')s-=3;
-      }else if(e==='intermediate'){
-        if(p.machineCat==='semi-auto'){s+=3;why.push('semi-auto suits intermediate');}
-        if(p.hasPid)s+=2;
-      }else if(e==='advanced'){
-        if(p.priceTier==='pro'){s+=5;why.push('prosumer ceiling matches your level');}
-        if(p.hasPid)s+=3;
-        if(p.machineCat==='manual-lever')s+=4;
-        if(p.bestForBeginners&&p.priceTier==='budget')s-=4;
-      }
-      // Drinks
-      var d=a.drinks;
-      if(d==='espresso'){
-        if(p.machineCat==='manual-lever'){s+=5;why.push('lever excels at straight espresso');}
-        if(p.milkCap==='manual-wand'||p.milkCap==='none')s+=2;
-        if(p.milkCap==='auto')s-=2;
-        if(p.type==='brewer')s-=4;
-      }else if(d==='milk'){
-        if(p.milkCap==='auto'){s+=8;why.push('auto milk frother handles texture for you');}
-        if(p.milkCap==='manual-wand'){s+=4;why.push('manual steam wand for proper microfoam');}
-        if(p.milkCap==='panarello')s-=1;
-        if(p.milkCap==='none')s-=6;
-        if(p.type==='brewer')s-=8;
-      }else if(d==='mix'){
-        if(p.milkCap==='manual-wand'||p.milkCap==='auto'){s+=4;why.push('handles both straight and milk drinks');}
-        if(p.milkCap==='none')s-=3;
-      }else if(d==='filter'){
-        if(p.type==='brewer'){s+=8;why.push('right tool for filter coffee');}else s-=12;
-      }
-      // Volume
-      var v=a.volume;
-      if(v==='5plus'){
-        if(p.machineCat==='super-auto')s+=4;
-        if(p.machineCat==='manual-lever')s-=6;
-        if(p.priceTier==='pro'&&p.machineCat!=='manual-lever'){s+=4;why.push('built for back-to-back drinks');}
-      }else if(v==='3-4'){if(p.machineCat==='manual-lever')s-=2;
-      }else if(v==='1-2'){if(p.timeProfile==='fast'||p.footprint==='small'||p.footprint==='tiny')s+=2;}
-      // Space
-      var sp=a.space;
-      if(sp==='tiny'){
-        if(p.footprint==='tiny'){s+=8;why.push('fits very tight counters');}
-        else if(p.footprint==='small')s+=4;
-        else if(p.footprint==='large')s-=10;
-      }else if(sp==='small'){
-        if(p.footprint==='tiny'||p.footprint==='small'){s+=5;why.push('compact footprint');}
-        if(p.footprint==='large')s-=6;
-      }else if(sp==='large'){if(p.footprint==='large')s+=3;}
-      // Time
-      var t=a.time;
-      if(t==='1-2min'){
-        if(p.timeProfile==='fast'){s+=6;why.push('fast workflow start to finish');}
-        if(p.timeProfile==='manual')s-=12;
-        if(p.timeProfile==='slow')s-=6;
-      }else if(t==='3-5min'){
-        if(p.timeProfile==='fast'||p.timeProfile==='medium')s+=4;
-        if(p.timeProfile==='manual')s-=4;
-      }else if(t==='5-10min'){
-        if(p.timeProfile==='medium'||p.timeProfile==='slow'){s+=4;why.push('matches your ritual length');}
-      }else if(t==='10plus'){
-        if(p.timeProfile==='manual'){s+=10;why.push('manual workflow you said you wanted');}
-        else if(p.timeProfile==='slow')s+=4;
-        else if(p.timeProfile==='fast')s-=4;
-      }
-      // Control
-      var c=a.control;
-      if(c==='max-auto'){
-        if(p.machineCat==='super-auto'){s+=10;why.push('full bean-to-cup automation');}
-        else if(p.machineCat==='all-in-one'&&p.milkCap==='auto')s+=6;
-        if(p.machineCat==='manual-lever')s-=12;
-      }else if(c==='some-auto'){
-        if(p.machineCat==='all-in-one'){s+=6;why.push('assisted workflow with control over dose');}
-        if(p.machineCat==='super-auto')s+=2;
-        if(p.machineCat==='manual-lever')s-=6;
-      }else if(c==='full-control'){
-        if(p.machineCat==='semi-auto'){s+=8;why.push('semi-auto gives you the dials you want');}
-        if(p.hasPid)s+=2;
-        if(p.machineCat==='super-auto')s-=4;
-      }else if(c==='pure-manual'){
-        if(p.machineCat==='manual-lever'){s+=12;why.push('lever puts the pump in your hands');}
-        if(p.machineCat==='super-auto')s-=12;
-        if(p.machineCat==='all-in-one')s-=6;
-      }
-      // De-dup why
-      var seen={},out=[];for(var i=0;i<why.length;i++)if(!seen[why[i]]){seen[why[i]]=1;out.push(why[i]);}
-      return {score:s,reasons:out};
-    }
-
-    function caveats(a,top){
-      var n=[];
-      if(a.control==='max-auto'&&a.time==='10plus')n.push('You asked for maximum automation and also for 10+ minutes per drink. Those point at different machines — a super-automatic finishes in under 90 seconds, while a 10-minute workflow implies manual lever pulls. Pick the one that actually matches the kitchen morning you want.');
-      if(a.control==='pure-manual'&&a.time==='1-2min')n.push('Pure manual lever pulls (Robot, Flair) take 4 to 7 minutes including pre-heat and clean-up. If you really need a drink in 1 to 2 minutes, drop "pure manual" or accept the machine will spend most days unused.');
-      if(a.drinks==='milk'&&a.budget==='under-300')n.push('Milk drinks need a real steam wand or auto frother, both of which raise the floor to roughly $300 even with a thrifted grinder. Under $300 a milk frother + Moka pot combo gets you an honest cappuccino; a sub-$300 "espresso machine" with milk usually disappoints.');
-      if(a.budget==='under-300'&&a.drinks==='espresso'&&a.control!=='pure-manual')n.push('No push-button machine pulls real 9-bar espresso under $200. Your honest options are a Flair Classic Signature ($119, manual lever) or an AeroPress + Moka pot combo while you save for $400 to $500. We refuse to recommend a $139 pressurized-basket "espresso machine" as a real espresso solution.');
-      if(a.experience==='total-beginner'&&(a.budget==='1500-3000'||a.budget==='over-3000'))n.push('Beginner plus a $1,500+ budget works, but the ROI on the difference between a $700 setup and a $3,000 setup is mostly emotional. You will not pull better shots on day 30. Consider buying mid-range now and upgrading in 18 months if you stick with it.');
-      if(a.drinks==='filter')n.push('You said "mostly filter". An espresso machine is the wrong tool. The quiz pushed brewers (AeroPress, Moka pot) to the top, but our methodology page lists pour-over and drip recommendations too.');
-      if(top<5&&n.length===0)n.push('No machine in our catalog scores well against your combination. Your answers point at a niche the catalog does not cover (yet). Treat the picks below as the least-bad fit, not as endorsements.');
-      return n;
-    }
-
-    function skips(a){
-      var k=[];
-      if(a.control==='pure-manual'||a.control==='full-control')k.push('Super-automatics — you said you want control, those hide every variable.');
-      if(a.control==='max-auto')k.push('Manual lever machines — they are the opposite of one-button.');
-      if(a.space==='tiny')k.push('Prosumer dual boilers and Linea Mini — they will not fit.');
-      if(a.experience==='total-beginner'&&a.budget!=='over-3000')k.push('Prosumer dual boilers — overkill for month one, you can upgrade later.');
-      if(a.drinks==='espresso'&&a.experience!=='total-beginner')k.push('Super-automatics — they cap extraction below what a semi-auto + grinder hits.');
-      if(a.drinks==='filter')k.push('All espresso machines — you said filter is your daily drink.');
-      return k.slice(0,2);
-    }
+    // SCORING vive en src/lib/quiz-scoring.js (inyectado en el script anterior).
+    // Acá sólo usamos las funciones expuestas como globals:
+    //   scoreProduct, buildCaveats, buildSkipCategories, pickRecommendations.
 
     function why1(p,r){
       if(!r.length)return 'Fits your overall profile better than the alternatives in our catalog.';
@@ -1088,27 +447,29 @@ const faqLd = {
 
     function render(){
       var a=s.answers;
-      var sc=cat.map(function(p){var r=score(p,a);return {p:p,s:r.score,r:r.reasons};});
-      sc.sort(function(x,y){return y.s-x.s;});
-      var top=sc[0],a1=sc[1],a2=sc[2];
+      // pickRecommendations viene del módulo inyectado: corre scoring + ranking
+      // + caveats + skip categories de una sola llamada. Mismo pipeline que
+      // los tests de test/quiz.spec.js.
+      var rec=pickRecommendations(a,cat);
+      var top=rec.topPick,alts=rec.alternates||[],a1=alts[0],a2=alts[1];
 
-      var cv=caveats(a,top?top.s:-100),ce=$('result-caveat');
+      var cv=rec.caveats||[],ce=$('result-caveat');
       if(cv.length){ce.innerHTML='<h3>Honest caveat</h3>'+cv.map(function(c){return '<p>'+c+'</p>';}).join('');ce.hidden=false;}
       else{ce.hidden=true;ce.innerHTML='';}
 
-      if(top&&top.p){
-        $('top-name').textContent=top.p.name;$('top-price').textContent=priceLbl(top.p);
-        $('top-why').textContent=why1(top.p,top.r);actions($('top-actions'),top.p);
+      if(top&&top.product){
+        $('top-name').textContent=top.product.name;$('top-price').textContent=priceLbl(top.product);
+        $('top-why').textContent=why1(top.product,top.reasons);actions($('top-actions'),top.product);
       }
       function alt(x,pre){
-        if(!x||!x.p)return;
-        $(pre+'-name').textContent=x.p.name;$(pre+'-price').textContent=priceLbl(x.p);
-        $(pre+'-why').textContent=x.r.length?'Why this instead: '+x.r[0]+'.':'Why this instead: closest fit on remaining axes.';
-        actions($(pre+'-actions'),x.p);
+        if(!x||!x.product)return;
+        $(pre+'-name').textContent=x.product.name;$(pre+'-price').textContent=priceLbl(x.product);
+        $(pre+'-why').textContent=x.reasons.length?'Why this instead: '+x.reasons[0]+'.':'Why this instead: closest fit on remaining axes.';
+        actions($(pre+'-actions'),x.product);
       }
       alt(a1,'alt1');alt(a2,'alt2');
 
-      var sk=skips(a),sb=$('result-skip'),sl=$('skip-list');
+      var sk=rec.skipCategories||[],sb=$('result-skip'),sl=$('skip-list');
       if(sk.length){sl.innerHTML='';for(var i=0;i<sk.length;i++){var li=document.createElement('li');li.textContent=sk[i];sl.appendChild(li);}sb.hidden=false;}
       else sb.hidden=true;
 

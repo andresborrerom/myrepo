@@ -26,6 +26,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: amazon-resale-project/site/package-lock.json
       - run: npm ci
+      - run: npm test
       - run: npm run build
       - uses: actions/upload-artifact@v4
         with:
