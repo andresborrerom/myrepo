@@ -39,6 +39,7 @@
 - ✅ **Home redesign** (commit 6a25c58): 7 secciones (Hero + Tools + Start here + Latest reviews + Compare popular + By tier + Methodology banner), 19 internal links concentrados, schema WebSite/Organization/ItemList, 40.7KB total weight.
 - ✅ **Search page client-side** (commit 8d0f597): nueva `/search/` con Fuse.js sobre 148 entries (productos + best-of + compare + review), 26.4KB gzip total, schema WebSite SearchAction ahora apunta a URL real (sitelinks-search-box ready cuando ganemos autoridad). **156 páginas total.**
 - ✅ **Quiz snapshot tests** (commit pendiente): scoring extraído a `src/lib/quiz-scoring.js` + 9 tests (7 escenarios canónicos + 2 sanity) — todos passing. CI workflow corre `npm test` antes de build. Previene regresiones cuando se tunee scoring después de feedback real.
+- ✅ **Search filter pills + Calculator v2 shareable URL** (commits 6193056 + último): pills por kind (Products/Best/Compare/Reviews/All) con URL state en `/search/`; Share button + URL serialization en `/tools/cost-per-cup-calculator/` para backlinks orgánicos desde Reddit/foros.
 
 ### Próximo hito objetivo
 
@@ -126,3 +127,4 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-15 | Quiz "which espresso machine" (155 páginas) | Score-based con 7 preguntas, anti-gray-hat verificado en 4 escenarios |
 | 2026-05-15 | Home page redesign (40.7KB total) | 7 secciones, 19 internal links concentrados, mejor first impression |
 | 2026-05-15 | Search page + Quiz tests (156 páginas) | Fuse.js search client-side + 9 snapshot tests del quiz scoring |
+| 2026-05-15 | Search filter pills + Calculator v2 shareable URL | Pulido UX final: filtrar resultados de search por kind, calculator URL serializable para backlinks |
