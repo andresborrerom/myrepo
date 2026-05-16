@@ -104,6 +104,30 @@ const webPageSchema = {
     <p id="search-help" class="search-help muted">
       Results update as you type. Press <kbd>Esc</kbd> to clear.
     </p>
+
+    {/* Filter pills — filtran results por kind. Counts dinámicos según query. */}
+    <div
+      class="search-filters"
+      id="search-filters"
+      role="group"
+      aria-label="Filter results by type"
+    >
+      <button type="button" class="search-filter-pill is-active" data-kind="all" aria-pressed="true">
+        All <span class="search-filter-pill__count" data-count-for="all">0</span>
+      </button>
+      <button type="button" class="search-filter-pill" data-kind="product" aria-pressed="false">
+        Products <span class="search-filter-pill__count" data-count-for="product">0</span>
+      </button>
+      <button type="button" class="search-filter-pill" data-kind="best-of" aria-pressed="false">
+        Best of <span class="search-filter-pill__count" data-count-for="best-of">0</span>
+      </button>
+      <button type="button" class="search-filter-pill" data-kind="compare" aria-pressed="false">
+        Compare <span class="search-filter-pill__count" data-count-for="compare">0</span>
+      </button>
+      <button type="button" class="search-filter-pill" data-kind="review" aria-pressed="false">
+        Reviews <span class="search-filter-pill__count" data-count-for="review">0</span>
+      </button>
+    </div>
   </section>
 
   {/* Empty state — sugerencias de búsqueda populares (visible sin query). */}
@@ -162,11 +186,16 @@ const webPageSchema = {
     hidden
   >
     <h2 id="search-noresults-heading" class="search-section-heading">No matches</h2>
-    <p>
+    <p id="search-noresults-text">
       Nothing matched your search. Try a shorter query, check the spelling, or
       browse a category:
     </p>
-    <ul class="search-noresults__links">
+    <p id="search-noresults-filter" hidden>
+      <button type="button" id="search-noresults-clear-filter" class="search-more">
+        Clear filter
+      </button>
+    </p>
+    <ul class="search-noresults__links" id="search-noresults-links">
       <li><a href="/best/best-espresso-machine-under-500/">Best espresso machines under $500</a></li>
       <li><a href="/best/best-grinder-under-200/">Best grinders under $200</a></li>
       <li><a href="/best/best-espresso-machine-for-milk-drinks/">Best for milk drinks</a></li>
@@ -251,6 +280,11 @@ const webPageSchema = {
   const moreWrap = document.getElementById('search-more-wrap')!;
   const moreBtn = document.getElementById('search-more') as HTMLButtonElement;
   const chips = document.querySelectorAll<HTMLButtonElement>('.search-chip');
+  const filterPills = document.querySelectorAll<HTMLButtonElement>('.search-filter-pill');
+  const noResultsText = document.getElementById('search-noresults-text')!;
+  const noResultsFilter = document.getElementById('search-noresults-filter')!;
+  const noResultsClearFilter = document.getElementById('search-noresults-clear-filter') as HTMLButtonElement;
+  const noResultsLinks = document.getElementById('search-noresults-links')!;
 
   // Labels por kind: badge + texto humano.
   const KIND_LABEL: Record<SearchKind, string> = {
@@ -263,8 +297,33 @@ const webPageSchema = {
   // Estado de paginación: cuántos results visibles. Empieza en 20, "Show more"
   // suma 20 más. Reset en cada nueva query.
   const PAGE_SIZE = 20;
+  // currentMatches = matches ANTES del filter por kind (todos los kinds).
+  // filteredMatches = después del filter, lo que efectivamente se renderiza.
   let currentMatches: SearchEntry[] = [];
+  let filteredMatches: SearchEntry[] = [];
   let visibleCount = PAGE_SIZE;
+
+  // Filter state — qué kind mostrar. 'all' = sin filter.
+  type FilterKind = SearchKind | 'all';
+  const VALID_KINDS: ReadonlySet<FilterKind> = new Set<FilterKind>([
+    'all',
+    'product',
+    'best-of',
+    'compare',
+    'review',
+  ]);
+  let currentKind: FilterKind = 'all';
+
+  // Total por kind sobre el index completo — fallback para los counts cuando
+  // la query está vacía (mostramos el catálogo total por kind).
+  const TOTAL_BY_KIND: Record<SearchKind, number> = {
+    product: 0,
+    'best-of': 0,
+    compare: 0,
+    review: 0,
+  };
+  for (const e of entries) TOTAL_BY_KIND[e.kind]++;
+  const TOTAL_ALL = entries.length;
 
   // ---------- Render helpers ----------
   function escapeHtml(s: string): string {
@@ -291,15 +350,59 @@ const webPageSchema = {
     `;
   }
 
+  // Cuenta matches por kind desde un array de entries. Lo usamos para alimentar
+  // los counts de las filter pills.
+  function countByKind(matches: SearchEntry[]): Record<SearchKind, number> {
+    const counts: Record<SearchKind, number> = {
+      product: 0,
+      'best-of': 0,
+      compare: 0,
+      review: 0,
+    };
+    for (const m of matches) counts[m.kind]++;
+    return counts;
+  }
+
+  function applyKindFilter(matches: SearchEntry[]): SearchEntry[] {
+    if (currentKind === 'all') return matches;
+    return matches.filter((m) => m.kind === currentKind);
+  }
+
+  // Actualiza el estado visual de las pills + sus counts. Llama después de
+  // calcular currentMatches (la base sin filtrar).
+  function updateFilterPills(query: string): void {
+    const trimmed = query.trim();
+    // Si query vacía, los counts reflejan el index total por kind. Si hay query,
+    // reflejan los matches de Fuse por kind.
+    const counts = trimmed ? countByKind(currentMatches) : { ...TOTAL_BY_KIND };
+    const allCount = trimmed ? currentMatches.length : TOTAL_ALL;
+
+    filterPills.forEach((pill) => {
+      const kind = pill.dataset.kind as FilterKind;
+      const countEl = pill.querySelector<HTMLElement>('.search-filter-pill__count');
+      if (countEl) {
+        const n = kind === 'all' ? allCount : counts[kind as SearchKind];
+        countEl.textContent = String(n);
+      }
+      const isActive = kind === currentKind;
+      pill.classList.toggle('is-active', isActive);
+      pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
   function render(query: string): void {
     const trimmed = query.trim();
 
     if (!trimmed) {
-      // Empty state.
+      // Empty state — sin query, mostramos sugerencias y los counts totales
+      // por kind en las pills.
+      currentMatches = [];
+      filteredMatches = [];
       emptyEl.hidden = false;
       resultsWrap.hidden = true;
       noResults.hidden = true;
       clearBtn.hidden = true;
+      updateFilterPills('');
       return;
     }
 
@@ -309,35 +412,84 @@ const webPageSchema = {
     // la query cruda; si el user no usa esos modifiers, fuzzy normal aplica.
     const results = fuse.search(trimmed);
     currentMatches = results.map((r) => r.item);
+    filteredMatches = applyKindFilter(currentMatches);
     visibleCount = PAGE_SIZE;
 
+    // Counts en pills se calculan desde currentMatches (pre-filter) para que
+    // el user vea cuántos hay en cada kind antes de hacer click.
+    updateFilterPills(trimmed);
+
     if (currentMatches.length === 0) {
+      // No hubo matches en ningún kind — mensaje "nothing matched", no
+      // mostramos el clear filter porque el filter no es la causa.
       emptyEl.hidden = true;
       resultsWrap.hidden = true;
       noResults.hidden = false;
+      noResultsText.hidden = false;
+      noResultsLinks.hidden = false;
+      noResultsFilter.hidden = true;
       return;
     }
 
-    // Tenemos matches: render.
+    if (filteredMatches.length === 0) {
+      // Hay matches pero el filter actual los excluye → mensaje específico
+      // con CTA para limpiar el filter.
+      emptyEl.hidden = true;
+      resultsWrap.hidden = true;
+      noResults.hidden = false;
+      noResultsText.hidden = true;
+      noResultsLinks.hidden = true;
+      noResultsFilter.hidden = false;
+      return;
+    }
+
+    // Tenemos matches en el filter actual: render.
     emptyEl.hidden = true;
     noResults.hidden = true;
     resultsWrap.hidden = false;
     renderResultsSlice();
-    resultsCount.textContent = String(currentMatches.length);
-    resultsPlural.textContent = currentMatches.length === 1 ? '' : 's';
+    resultsCount.textContent = String(filteredMatches.length);
+    resultsPlural.textContent = filteredMatches.length === 1 ? '' : 's';
     resultsQuery.textContent = trimmed;
   }
 
   function renderResultsSlice(): void {
-    const slice = currentMatches.slice(0, visibleCount);
+    const slice = filteredMatches.slice(0, visibleCount);
     resultsList.innerHTML = slice.map(renderResultCard).join('');
-    moreWrap.hidden = visibleCount >= currentMatches.length;
+    moreWrap.hidden = visibleCount >= filteredMatches.length;
   }
 
   // ---------- URL sync ----------
   function readQueryFromUrl(): string {
     const params = new URLSearchParams(window.location.search);
     return params.get('q') ?? '';
+  }
+
+  // El URL param usa 'products' (plural) y 'reviews' por convención UX, pero
+  // internamente trabajamos con los kinds singular del index. Esta map traduce.
+  const KIND_FROM_URL: Record<string, FilterKind> = {
+    all: 'all',
+    products: 'product',
+    product: 'product',
+    'best-of': 'best-of',
+    best: 'best-of',
+    compare: 'compare',
+    reviews: 'review',
+    review: 'review',
+  };
+  const KIND_TO_URL: Record<FilterKind, string> = {
+    all: 'all',
+    product: 'products',
+    'best-of': 'best-of',
+    compare: 'compare',
+    review: 'reviews',
+  };
+
+  function readKindFromUrl(): FilterKind {
+    const params = new URLSearchParams(window.location.search);
+    const raw = (params.get('kind') ?? '').toLowerCase();
+    const mapped = KIND_FROM_URL[raw];
+    return mapped && VALID_KINDS.has(mapped) ? mapped : 'all';
   }
 
   function syncUrl(query: string): void {
@@ -347,6 +499,12 @@ const webPageSchema = {
       url.searchParams.set('q', trimmed);
     } else {
       url.searchParams.delete('q');
+    }
+    // Kind: default 'all' no se serializa (URL más limpia).
+    if (currentKind === 'all') {
+      url.searchParams.delete('kind');
+    } else {
+      url.searchParams.set('kind', KIND_TO_URL[currentKind]);
     }
     // replaceState — no llenamos history con cada keystroke.
     window.history.replaceState({}, '', url.toString());
@@ -413,7 +571,30 @@ const webPageSchema = {
     });
   });
 
-  // Sincronizar con ?q=... al cargar (deep-link friendly).
+  // Filter pills: toggle behavior — click en pill activa filtra; click en la
+  // pill ya activa vuelve a 'all'. Tab/Enter/Space funcionan nativamente con
+  // <button>, no necesitamos handlers extra de keyboard.
+  filterPills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const kind = pill.dataset.kind as FilterKind;
+      if (!VALID_KINDS.has(kind)) return;
+      // Toggle: si clickean la pill activa (y no es 'all'), volvemos a 'all'.
+      const next: FilterKind = kind === currentKind && kind !== 'all' ? 'all' : kind;
+      currentKind = next;
+      syncUrl(input.value);
+      render(input.value);
+    });
+  });
+
+  // CTA "Clear filter" en el no-results state cuando el filter es la causa.
+  noResultsClearFilter.addEventListener('click', () => {
+    currentKind = 'all';
+    syncUrl(input.value);
+    render(input.value);
+  });
+
+  // Sincronizar con ?q=... y ?kind=... al cargar (deep-link friendly).
+  currentKind = readKindFromUrl();
   const initialQuery = readQueryFromUrl();
   if (initialQuery) {
     input.value = initialQuery;
@@ -523,6 +704,65 @@ const webPageSchema = {
     background: var(--color-surface-alt);
     border: 1px solid var(--color-border);
     border-radius: 3px;
+  }
+
+  /* ---------- Filter pills (results filter por kind) ---------- */
+  .search-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin: var(--space-md) 0 0;
+  }
+
+  .search-filter-pill {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    background: #f5f5f0;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    cursor: pointer;
+    line-height: 1.2;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  }
+
+  .search-filter-pill__count {
+    font-weight: 400;
+    opacity: 0.75;
+  }
+
+  .search-filter-pill:hover {
+    background: #ebebe4;
+  }
+
+  .search-filter-pill:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .search-filter-pill.is-active {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+  }
+
+  .search-filter-pill.is-active .search-filter-pill__count {
+    opacity: 0.85;
+  }
+
+  .search-filter-pill.is-active:hover {
+    background: color-mix(in srgb, var(--color-accent) 88%, black);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .search-filter-pill {
+      background: var(--color-surface-alt);
+    }
+    .search-filter-pill:hover {
+      background: var(--color-surface);
+    }
   }
 
   .search-section-heading {
