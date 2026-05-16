@@ -1,0 +1,780 @@
+---
+// Página /search/ — búsqueda fuzzy client-side sobre el catálogo completo del
+// sitio (products + best-of + compare + review). Cumple dos roles:
+//
+//   1. UX interna: input prominente, results en vivo, empty/no-results states,
+//      query persistente en ?q=... (replaceState para no llenar history).
+//
+//   2. Activar el sitelinks-search-box de Google SERPs — el schema WebSite con
+//      SearchAction en home apunta a /search?q={search_term_string}, así que
+//      esta página es la "landing" que Google verifica.
+//
+// Implementación:
+// - Build-time: src/lib/search-index.ts recolecta entries de las 4 colecciones,
+//   las serializamos a JSON e inyectamos inline en el HTML (no fetch runtime).
+// - Runtime: Fuse.js (~13KB gzip) hace fuzzy matching con threshold 0.4,
+//   ponderando title > tags > context. Re-search debounced ~150ms por keystroke.
+//
+// Anti-gray-hat: los results muestran páginas reales del catálogo. Sin matches
+// inflados, sin redirects falsos, sin keyword stuffing en el index.
+
+import Base from '../layouts/Base.astro';
+import { buildSearchIndex } from '../lib/search-index';
+
+// El index se genera en build-time, una sola vez. Lo serializamos a JSON e
+// inyectamos en un <script type="application/json"> (más confiable que un
+// JS literal cuando hay caracteres especiales en titles/descriptions).
+const searchIndex = await buildSearchIndex();
+const indexJson = JSON.stringify(searchIndex);
+const indexCount = searchIndex.length;
+
+// Búsquedas populares — chips clickeables en el empty state. Las elegimos
+// para cubrir los 4 kinds del catalog y framings comunes (presupuesto,
+// caso de uso, modelo específico, accesorio).
+const popularSearches = [
+  'Bambino Plus',
+  'Best espresso under 500',
+  'Grinder for milk drinks',
+  'Gaggia Classic Pro',
+];
+
+// Schema markup: WebPage describe esta página. El SearchAction sigue viviendo
+// en el WebSite schema del home (ya existe) — no lo duplicamos acá para no
+// confundir a Google con dos declaraciones.
+const siteUrl = 'https://baristapath.com';
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Search Barista Path',
+  url: `${siteUrl}/search/`,
+  description: `Search across ${indexCount} pages on coffee equipment — espresso machines, grinders, brewers, and accessories.`,
+  isPartOf: {
+    '@type': 'WebSite',
+    url: `${siteUrl}/`,
+    name: 'Barista Path',
+  },
+};
+---
+<Base
+  title="Search — Barista Path"
+  description={`Search across ${indexCount} pages on coffee equipment: espresso machines, grinders, brewers, and accessories.`}
+  canonicalPath="/search/"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Search', url: '/search/' },
+  ]}
+  jsonLd={[webPageSchema]}
+  showByline={false}
+>
+  <section class="search-hero">
+    <h1 class="search-hero__title">Search</h1>
+    <p class="search-hero__sub">
+      Search across {indexCount} pages on coffee equipment.
+    </p>
+
+    <form
+      class="search-form"
+      role="search"
+      id="search-form"
+      autocomplete="off"
+      onsubmit="return false;"
+    >
+      <label for="search-input" class="visually-hidden">Search Barista Path</label>
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        placeholder="Try 'Bambino Plus', 'grinder under 200', 'milk drinks'…"
+        autofocus
+        aria-describedby="search-help"
+        aria-controls="search-results"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <button
+        type="button"
+        id="search-clear"
+        class="search-clear"
+        aria-label="Clear search"
+        hidden
+      >
+        &times;
+      </button>
+    </form>
+    <p id="search-help" class="search-help muted">
+      Results update as you type. Press <kbd>Esc</kbd> to clear.
+    </p>
+  </section>
+
+  {/* Empty state — sugerencias de búsqueda populares (visible sin query). */}
+  <section
+    class="search-empty"
+    id="search-empty"
+    aria-labelledby="search-empty-heading"
+  >
+    <h2 id="search-empty-heading" class="search-section-heading">Popular searches</h2>
+    <ul class="search-chips">
+      {popularSearches.map((q) => (
+        <li>
+          <button type="button" class="search-chip" data-query={q}>
+            {q}
+          </button>
+        </li>
+      ))}
+    </ul>
+    <p class="muted search-empty__hint">
+      Or browse <a href="/best/best-espresso-machine-under-500/">best espresso machines</a>,
+      <a href="/best/best-grinder-under-200/"> best grinders</a>, or take our
+      <a href="/quiz/which-espresso-machine/">guided quiz</a>.
+    </p>
+  </section>
+
+  {/* Results region — aria-live para anunciar al lector de pantalla los cambios. */}
+  <section
+    class="search-results-wrap"
+    id="search-results-wrap"
+    aria-labelledby="search-results-heading"
+    hidden
+  >
+    <h2 id="search-results-heading" class="search-section-heading">
+      <span id="search-results-count">0</span> result<span id="search-results-plural">s</span>
+      for <q id="search-results-query"></q>
+    </h2>
+    <ul
+      class="search-results"
+      id="search-results"
+      role="list"
+      aria-live="polite"
+      aria-atomic="false"
+    ></ul>
+    <div class="search-more-wrap" id="search-more-wrap" hidden>
+      <button type="button" id="search-more" class="search-more">
+        Show more results
+      </button>
+    </div>
+  </section>
+
+  {/* No-results state — visible cuando hay query pero matches=0. */}
+  <section
+    class="search-noresults"
+    id="search-noresults"
+    aria-labelledby="search-noresults-heading"
+    hidden
+  >
+    <h2 id="search-noresults-heading" class="search-section-heading">No matches</h2>
+    <p>
+      Nothing matched your search. Try a shorter query, check the spelling, or
+      browse a category:
+    </p>
+    <ul class="search-noresults__links">
+      <li><a href="/best/best-espresso-machine-under-500/">Best espresso machines under $500</a></li>
+      <li><a href="/best/best-grinder-under-200/">Best grinders under $200</a></li>
+      <li><a href="/best/best-espresso-machine-for-milk-drinks/">Best for milk drinks</a></li>
+      <li><a href="/best/best-budget-espresso-machine/">Best budget espresso machines</a></li>
+    </ul>
+  </section>
+
+  <aside class="search-footer-cta">
+    <p>
+      Didn't find what you're looking for? Try our
+      <a href="/quiz/which-espresso-machine/">guided quiz</a> for personalized
+      recommendations.
+    </p>
+  </aside>
+
+  {/* Index JSON inline — el script de abajo lo parsea para alimentar Fuse. */}
+  <script
+    type="application/json"
+    id="search-index-data"
+    set:html={indexJson}
+  />
+</Base>
+
+<script>
+  // Búsqueda fuzzy client-side con Fuse.js. Importamos el bundle ESM (Astro
+  // hace tree-shaking y emite un solo chunk). El index ya está inline en el
+  // HTML como JSON — lo leemos al iniciar, sin fetch.
+  //
+  // Decisiones:
+  // - Fuse threshold 0.4 (tolerante a typos pero no tan permisivo como para
+  //   matchear cualquier cosa). Keys ponderadas: title 0.7, tags 0.2,
+  //   context 0.1 (los users typean el título 90% del tiempo).
+  // - Debounce 150ms: suficiente para no re-correr Fuse en cada tecla
+  //   mientras el user tipea rápido, imperceptible cuando se detiene.
+  // - URL state: replaceState (no pushState) en el q param — no queremos que
+  //   cada tecla agregue una entry al history del browser.
+  // - Render: límite inicial de 20 visible, botón "Show more" expande +20.
+  //   Evita layout-thrash en queries que matchean 50+ items.
+
+  import Fuse from 'fuse.js';
+
+  type SearchKind = 'product' | 'best-of' | 'compare' | 'review';
+  interface SearchEntry {
+    kind: SearchKind;
+    title: string;
+    url: string;
+    context: string;
+    tags: string[];
+  }
+
+  // ---------- Boot ----------
+  const dataEl = document.getElementById('search-index-data');
+  if (!dataEl || !dataEl.textContent) {
+    // Sin index, no podemos hacer nada útil. Salimos sin errores en consola
+    // para no romper la página (el HTML estático sigue siendo lectura útil).
+    throw new Error('search-index-data missing');
+  }
+  const entries: SearchEntry[] = JSON.parse(dataEl.textContent);
+
+  const fuse = new Fuse(entries, {
+    includeScore: true,
+    threshold: 0.4,
+    ignoreLocation: true,
+    useExtendedSearch: true,
+    keys: [
+      { name: 'title', weight: 0.7 },
+      { name: 'tags', weight: 0.2 },
+      { name: 'context', weight: 0.1 },
+    ],
+  });
+
+  // ---------- DOM refs ----------
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const clearBtn = document.getElementById('search-clear') as HTMLButtonElement;
+  const emptyEl = document.getElementById('search-empty')!;
+  const resultsWrap = document.getElementById('search-results-wrap')!;
+  const resultsList = document.getElementById('search-results')!;
+  const resultsCount = document.getElementById('search-results-count')!;
+  const resultsPlural = document.getElementById('search-results-plural')!;
+  const resultsQuery = document.getElementById('search-results-query')!;
+  const noResults = document.getElementById('search-noresults')!;
+  const moreWrap = document.getElementById('search-more-wrap')!;
+  const moreBtn = document.getElementById('search-more') as HTMLButtonElement;
+  const chips = document.querySelectorAll<HTMLButtonElement>('.search-chip');
+
+  // Labels por kind: badge + texto humano.
+  const KIND_LABEL: Record<SearchKind, string> = {
+    product: 'Product',
+    'best-of': 'Best of',
+    compare: 'Compare',
+    review: 'Review',
+  };
+
+  // Estado de paginación: cuántos results visibles. Empieza en 20, "Show more"
+  // suma 20 más. Reset en cada nueva query.
+  const PAGE_SIZE = 20;
+  let currentMatches: SearchEntry[] = [];
+  let visibleCount = PAGE_SIZE;
+
+  // ---------- Render helpers ----------
+  function escapeHtml(s: string): string {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderResultCard(entry: SearchEntry): string {
+    const badgeClass = `search-badge search-badge--${entry.kind}`;
+    // Link envuelve la card entera: full tappable area, mejor mobile. El title
+    // queda como h3 para semántica.
+    return `
+      <li class="search-result">
+        <a class="search-result__link" href="${escapeHtml(entry.url)}">
+          <span class="${badgeClass}">${KIND_LABEL[entry.kind]}</span>
+          <h3 class="search-result__title">${escapeHtml(entry.title)}</h3>
+          <p class="search-result__context">${escapeHtml(entry.context)}</p>
+          <span class="search-result__chevron" aria-hidden="true">&rarr;</span>
+        </a>
+      </li>
+    `;
+  }
+
+  function render(query: string): void {
+    const trimmed = query.trim();
+
+    if (!trimmed) {
+      // Empty state.
+      emptyEl.hidden = false;
+      resultsWrap.hidden = true;
+      noResults.hidden = true;
+      clearBtn.hidden = true;
+      return;
+    }
+
+    clearBtn.hidden = false;
+
+    // Fuse extended search soporta '|' OR, '!' not, '"exact"', etc. Pasamos
+    // la query cruda; si el user no usa esos modifiers, fuzzy normal aplica.
+    const results = fuse.search(trimmed);
+    currentMatches = results.map((r) => r.item);
+    visibleCount = PAGE_SIZE;
+
+    if (currentMatches.length === 0) {
+      emptyEl.hidden = true;
+      resultsWrap.hidden = true;
+      noResults.hidden = false;
+      return;
+    }
+
+    // Tenemos matches: render.
+    emptyEl.hidden = true;
+    noResults.hidden = true;
+    resultsWrap.hidden = false;
+    renderResultsSlice();
+    resultsCount.textContent = String(currentMatches.length);
+    resultsPlural.textContent = currentMatches.length === 1 ? '' : 's';
+    resultsQuery.textContent = trimmed;
+  }
+
+  function renderResultsSlice(): void {
+    const slice = currentMatches.slice(0, visibleCount);
+    resultsList.innerHTML = slice.map(renderResultCard).join('');
+    moreWrap.hidden = visibleCount >= currentMatches.length;
+  }
+
+  // ---------- URL sync ----------
+  function readQueryFromUrl(): string {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('q') ?? '';
+  }
+
+  function syncUrl(query: string): void {
+    const url = new URL(window.location.href);
+    const trimmed = query.trim();
+    if (trimmed) {
+      url.searchParams.set('q', trimmed);
+    } else {
+      url.searchParams.delete('q');
+    }
+    // replaceState — no llenamos history con cada keystroke.
+    window.history.replaceState({}, '', url.toString());
+  }
+
+  // ---------- Debounce ----------
+  let debounceTimer: number | undefined;
+  function onInput(): void {
+    if (debounceTimer !== undefined) {
+      window.clearTimeout(debounceTimer);
+    }
+    debounceTimer = window.setTimeout(() => {
+      const q = input.value;
+      syncUrl(q);
+      render(q);
+    }, 150);
+  }
+
+  // ---------- Wiring ----------
+  input.addEventListener('input', onInput);
+
+  input.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      input.value = '';
+      syncUrl('');
+      render('');
+      input.focus();
+    } else if (e.key === 'Enter') {
+      // Anti-submit: el form ya tiene onsubmit="return false", pero algunos
+      // browsers móviles disparan navegación si no preventDefault acá también.
+      e.preventDefault();
+    }
+  });
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    syncUrl('');
+    render('');
+    input.focus();
+  });
+
+  moreBtn.addEventListener('click', () => {
+    visibleCount += PAGE_SIZE;
+    renderResultsSlice();
+    // Mantener focus en un lugar predecible para teclado: pasamos a moreBtn si
+    // todavía hay más, sino a el último result recién agregado.
+    if (moreWrap.hidden) {
+      const items = resultsList.querySelectorAll<HTMLAnchorElement>('.search-result__link');
+      const last = items[items.length - 1];
+      last?.focus();
+    } else {
+      moreBtn.focus();
+    }
+  });
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const q = chip.dataset.query ?? '';
+      input.value = q;
+      syncUrl(q);
+      render(q);
+      input.focus();
+    });
+  });
+
+  // Sincronizar con ?q=... al cargar (deep-link friendly).
+  const initialQuery = readQueryFromUrl();
+  if (initialQuery) {
+    input.value = initialQuery;
+    render(initialQuery);
+  } else {
+    render('');
+  }
+</script>
+
+<style>
+  /* visually-hidden compartido con otras páginas, lo redeclaramos local para
+     evitar dependencia en utility class del global.css. */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .search-hero {
+    margin: var(--space-md) 0 var(--space-xl);
+  }
+
+  .search-hero__title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .search-hero__sub {
+    margin: 0 0 var(--space-lg);
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+  }
+
+  .search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 1.1rem;
+    padding: 14px 44px 14px 16px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    box-sizing: border-box;
+    /* Min height 48px para tap target mobile-friendly. */
+    min-height: 48px;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 25%, transparent);
+  }
+
+  .search-input::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.7;
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 50%;
+    font-family: inherit;
+  }
+
+  .search-clear:hover,
+  .search-clear:focus-visible {
+    background: var(--color-surface-alt);
+    color: var(--color-text);
+  }
+
+  .search-clear:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+
+  .search-help {
+    margin: var(--space-sm) 0 0;
+    font-size: 0.85rem;
+  }
+
+  .search-help kbd {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.8rem;
+    padding: 1px 5px;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+  }
+
+  .search-section-heading {
+    font-size: 1.1rem;
+    margin: 0 0 var(--space-md);
+    color: var(--color-text-muted);
+    font-weight: 600;
+    font-family: inherit;
+  }
+
+  .search-section-heading q {
+    color: var(--color-text);
+    quotes: '"' '"';
+  }
+  .search-section-heading q::before { content: open-quote; }
+  .search-section-heading q::after { content: close-quote; }
+
+  /* ---------- Chips (empty state) ---------- */
+  .search-chips {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-md);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .search-chip {
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    background: var(--color-surface-alt);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    cursor: pointer;
+    /* Tap target mínimo 44px de alto contando padding. */
+    min-height: 36px;
+  }
+
+  .search-chip:hover,
+  .search-chip:focus-visible {
+    background: var(--color-surface);
+    border-color: var(--color-accent);
+    color: var(--color-link-hover);
+  }
+
+  .search-chip:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+
+  .search-empty__hint {
+    font-size: 0.9rem;
+  }
+
+  /* ---------- Results list ---------- */
+  .search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-lg);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+
+  @media (min-width: 48rem) {
+    .search-results {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 72rem) {
+    /* Desktop wide: vuelve a 1 col pero compacto. Density alta = más matches
+       visibles sin scroll. */
+    .search-results {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+
+  .search-result {
+    margin: 0;
+  }
+
+  .search-result__link {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'badge title chevron'
+      'badge context chevron';
+    column-gap: var(--space-md);
+    row-gap: 2px;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.12s ease, background 0.12s ease;
+    min-height: 44px;
+  }
+
+  .search-result__link:hover,
+  .search-result__link:focus-visible {
+    border-color: var(--color-accent);
+    background: var(--color-surface-alt);
+  }
+
+  .search-result__link:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+
+  .search-result__title {
+    grid-area: title;
+    margin: 0;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  .search-result__context {
+    grid-area: context;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.35;
+    /* Truncate visual a 1-2 líneas en mobile. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .search-result__chevron {
+    grid-area: chevron;
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+  }
+
+  /* Badges por kind — colores derivados de los tier-badges existentes para
+     mantener consistencia visual. */
+  .search-badge {
+    grid-area: badge;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    min-width: 64px;
+  }
+
+  .search-badge--product {
+    background: #e8efe2;
+    color: #2e5a1f;
+  }
+  .search-badge--best-of {
+    background: #fde8d0;
+    color: #8a4b1a;
+  }
+  .search-badge--compare {
+    background: #e0e7f4;
+    color: #2e4575;
+  }
+  .search-badge--review {
+    background: #f4e0e0;
+    color: #75342e;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .search-badge--product {
+      background: #2a3d22;
+      color: #b8d0a3;
+    }
+    .search-badge--best-of {
+      background: #4a2e15;
+      color: #e8b888;
+    }
+    .search-badge--compare {
+      background: #1f2a40;
+      color: #a8bdde;
+    }
+    .search-badge--review {
+      background: #3d1f1c;
+      color: #e0a8a3;
+    }
+  }
+
+  /* ---------- Show more ---------- */
+  .search-more-wrap {
+    display: flex;
+    justify-content: center;
+    margin: var(--space-md) 0;
+  }
+
+  .search-more {
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 10px 18px;
+    background: transparent;
+    color: var(--color-link);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    min-height: 44px;
+  }
+
+  .search-more:hover,
+  .search-more:focus-visible {
+    background: var(--color-surface-alt);
+    border-color: var(--color-accent);
+    color: var(--color-link-hover);
+  }
+
+  .search-more:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+
+  /* ---------- No results ---------- */
+  .search-noresults {
+    margin-bottom: var(--space-lg);
+  }
+
+  .search-noresults__links {
+    margin: var(--space-md) 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .search-noresults__links li {
+    margin-bottom: var(--space-xs);
+  }
+
+  /* ---------- Footer CTA ---------- */
+  .search-footer-cta {
+    margin-top: var(--space-xl);
+    padding: var(--space-md);
+    background: var(--color-surface-alt);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius);
+  }
+
+  .search-footer-cta p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+</style>
