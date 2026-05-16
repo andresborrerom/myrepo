@@ -274,7 +274,17 @@ const faqLd = {
         <button type="button" id="save-btn" class="calc-btn">
           Save my assumptions
         </button>
+        <button type="button" id="share-btn" class="calc-btn">
+          Share your savings
+        </button>
         <span id="save-status" class="calc-save-status muted" role="status" aria-live="polite"></span>
+      </div>
+      <p class="calc-hint muted calc-share-hint">
+        Copy a link with your inputs so you can share or save your scenario.
+      </p>
+      <div id="share-fallback" class="calc-share-fallback" hidden>
+        <label for="share-url" class="visually-hidden">Shareable URL</label>
+        <input id="share-url" type="text" readonly />
       </div>
     </form>
 
@@ -455,15 +465,19 @@ const faqLd = {
   (function () {
     'use strict';
 
+    // Cada campo tiene un alias corto para los query params (URLs más limpias).
     var FIELDS = [
-      { id: 'machine-price', def: 500 },
-      { id: 'grinder-price', def: 200 },
-      { id: 'beans-price', def: 18 },
-      { id: 'grams-per-shot', def: 18 },
-      { id: 'shots-per-day', def: 2 },
-      { id: 'cafe-price', def: 5.5 },
-      { id: 'years', def: 3 },
+      { id: 'machine-price', def: 500, param: 'machine' },
+      { id: 'grinder-price', def: 200, param: 'grinder' },
+      { id: 'beans-price', def: 18, param: 'beans' },
+      { id: 'grams-per-shot', def: 18, param: 'dose' },
+      { id: 'shots-per-day', def: 2, param: 'shots' },
+      { id: 'cafe-price', def: 5.5, param: 'cafe' },
+      { id: 'years', def: 3, param: 'years' },
     ];
+
+    // Whitelist de keys aceptadas en query string (para sanitizar input).
+    var ALLOWED_PARAMS = FIELDS.map(function (f) { return f.param; });
 
     var STORAGE_KEY = 'bp_calc_v1';
     var GRAMS_PER_LB = 453.6;
@@ -594,6 +608,76 @@ const faqLd = {
       totalEl.textContent = usdWhole.format(netSavings);
       totalEl.classList.toggle('is-negative', netSavings < 0);
       totalEl.classList.toggle('is-positive', netSavings >= 0);
+
+      // Sincronizar la URL con los inputs actuales (debounced).
+      scheduleUrlSync();
+    }
+
+    // Serializa los valores actuales como query string, omitiendo defaults
+    // para mantener la URL limpia. Devuelve string sin el "?" inicial.
+    function serializeState() {
+      var parts = [];
+      FIELDS.forEach(function (f) {
+        var el = document.getElementById(f.id);
+        if (!el) return;
+        var n = parseFloat(el.value);
+        if (isNaN(n)) return;
+        // Si el valor coincide con el default, no lo incluimos.
+        if (n === f.def) return;
+        parts.push(encodeURIComponent(f.param) + '=' + encodeURIComponent(String(n)));
+      });
+      return parts.join('&');
+    }
+
+    var urlSyncTimer = null;
+    function scheduleUrlSync() {
+      if (urlSyncTimer) clearTimeout(urlSyncTimer);
+      urlSyncTimer = setTimeout(function () {
+        urlSyncTimer = null;
+        try {
+          var qs = serializeState();
+          var newUrl = window.location.pathname + (qs ? '?' + qs : '');
+          // replaceState: no contaminamos el back button con estados intermedios.
+          window.history.replaceState(null, '', newUrl);
+        } catch (e) {
+          // Silencioso: en entornos sin history API, simplemente no sincronizamos.
+        }
+      }, 300);
+    }
+
+    // Aplica los query params válidos a los inputs. Devuelve true si al
+    // menos un param conocido fue aplicado (para decidir si ignoramos
+    // localStorage en esta sesión).
+    function applyUrlParams() {
+      try {
+        var search = window.location.search;
+        if (!search) return false;
+        var params = new URLSearchParams(search);
+        var applied = false;
+        FIELDS.forEach(function (f) {
+          // Sólo aceptamos keys en la whitelist (sanitización implícita
+          // porque iteramos sobre FIELDS).
+          if (!params.has(f.param)) return;
+          if (ALLOWED_PARAMS.indexOf(f.param) === -1) return;
+          var raw = params.get(f.param);
+          var n = parseFloat(raw);
+          if (isNaN(n)) return;
+          var num = document.getElementById(f.id);
+          var range = document.getElementById(f.id + '-range');
+          if (!num) return;
+          var min = parseFloat(num.min);
+          var max = parseFloat(num.max);
+          // Validación de rango: si está fuera, ignoramos silenciosamente.
+          if (!isNaN(min) && n < min) return;
+          if (!isNaN(max) && n > max) return;
+          num.value = String(n);
+          if (range) range.value = String(n);
+          applied = true;
+        });
+        return applied;
+      } catch (e) {
+        return false;
+      }
     }
 
     function resetDefaults() {
@@ -647,13 +731,65 @@ const faqLd = {
       }, 3000);
     }
 
+    // Construye la URL completa para compartir (con origin + path + query).
+    function buildShareUrl() {
+      var qs = serializeState();
+      return window.location.origin + window.location.pathname + (qs ? '?' + qs : '');
+    }
+
+    // Muestra fallback visible si clipboard API no está disponible.
+    function showShareFallback(url) {
+      var wrap = document.getElementById('share-fallback');
+      var input = document.getElementById('share-url');
+      if (!wrap || !input) return;
+      input.value = url;
+      wrap.hidden = false;
+      // Select-all al hacer click para copia manual fácil.
+      input.focus();
+      input.select();
+    }
+
+    function shareLink() {
+      var url = buildShareUrl();
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        navigator.clipboard.writeText(url).then(
+          function () {
+            setStatus('Link copied!');
+          },
+          function () {
+            // Promise rechazada (p.ej. permisos): caer a fallback visible.
+            showShareFallback(url);
+            setStatus('Copy the link below.');
+          }
+        );
+      } else {
+        // Sin clipboard API: mostrar input readonly y dejar al usuario copiar.
+        showShareFallback(url);
+        setStatus('Copy the link below.');
+      }
+    }
+
     function init() {
       FIELDS.forEach(function (f) {
         syncPair(f.id, f.id + '-range');
       });
       document.getElementById('reset-btn').addEventListener('click', resetDefaults);
       document.getElementById('save-btn').addEventListener('click', saveAssumptions);
-      loadAssumptions();
+      var shareBtn = document.getElementById('share-btn');
+      if (shareBtn) shareBtn.addEventListener('click', shareLink);
+      // Click en el input fallback selecciona todo el texto para copiar fácil.
+      var shareUrlInput = document.getElementById('share-url');
+      if (shareUrlInput) {
+        shareUrlInput.addEventListener('click', function () {
+          shareUrlInput.select();
+        });
+      }
+      // URL gana sobre localStorage: si hay query params válidos, los
+      // aplicamos y NO cargamos de localStorage en esta sesión.
+      var fromUrl = applyUrlParams();
+      if (!fromUrl) {
+        loadAssumptions();
+      }
       compute();
     }
 
@@ -832,6 +968,26 @@ const faqLd = {
   }
 
   .calc-save-status {
+    font-size: 0.85rem;
+  }
+
+  .calc-share-hint {
+    margin: var(--space-xs) 0 0;
+    font-size: 0.8rem;
+  }
+
+  .calc-share-fallback {
+    margin-top: var(--space-sm);
+  }
+
+  .calc-share-fallback input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface-alt);
+    color: var(--color-text);
+    font: inherit;
     font-size: 0.85rem;
   }
 
