@@ -1,0 +1,1447 @@
+---
+// Quiz interactivo "Which espresso machine should I buy?"
+//
+// Diferenciador editorial: ningún afiliado puro de coffee equipment
+// publica un quiz HONESTO. Si el budget es muy bajo, recomendamos
+// Moka pot / AeroPress en vez de fingir que un machine de $139 hace
+// espresso "real". Si beginner + máquina pro, advertimos del ROI
+// emocional. Esa franqueza es el diferenciador.
+//
+// Pattern: igual que /tools/cost-per-cup-calculator/ — vanilla JS,
+// schema markup, mobile-responsive. Cero frameworks. Catalog
+// serializado JSON inline en build time.
+//
+// Anti-gray-hat (CLAUDE.md):
+// - No empujar machine si combinación pide path alternativo
+// - Caveats explícitos cuando el quiz detecta inconsistencia
+// - Recomendaciones top 3 con score-based ranking transparente
+
+import Base from '../../layouts/Base.astro';
+
+// Catálogo de máquinas + brewers de fallback, curado a mano desde
+// src/content/products/*.md. Solo los campos necesarios para scoring.
+// Si se renombra un producto, fallar acá es fácil de detectar.
+//
+// machineCat: 'manual-lever' | 'semi-auto' | 'all-in-one' | 'super-auto'
+// milkCap: 'none' | 'panarello' | 'manual-wand' | 'auto'
+// footprint: 'tiny' | 'small' | 'medium' | 'large'
+// timeProfile: tiempo típico por shot desde frio: 'fast' (<2min) | 'medium' (2-5) | 'slow' (5-10) | 'manual' (10+)
+const quizCatalog = [
+  // Brewers no-espresso de fallback (sólo recomendados cuando budget muy bajo o pure manual filter)
+  {
+    asin: 'B00004RFRV',
+    slug: 'bialetti-moka-express',
+    name: 'Bialetti Moka Express 6-cup',
+    brand: 'Bialetti',
+    price: 39,
+    priceTier: 'budget',
+    type: 'brewer',
+    machineCat: 'stovetop',
+    milkCap: 'none',
+    footprint: 'tiny',
+    timeProfile: 'medium',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: false,
+  },
+  {
+    asin: 'B0047BIWSK',
+    slug: 'aeropress-original',
+    name: 'AeroPress Original',
+    brand: 'AeroPress',
+    price: 39,
+    priceTier: 'budget',
+    type: 'brewer',
+    machineCat: 'manual-brewer',
+    milkCap: 'none',
+    footprint: 'tiny',
+    timeProfile: 'medium',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: false,
+  },
+
+  // Espresso machines (real)
+  {
+    asin: 'B073FNT7T8',
+    slug: 'flair-classic-signature',
+    name: 'Flair Classic Signature',
+    brand: 'Flair',
+    price: 119,
+    priceTier: 'budget',
+    type: 'espresso-machine',
+    machineCat: 'manual-lever',
+    milkCap: 'none',
+    footprint: 'small',
+    timeProfile: 'manual',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: true,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B0BX7TCQVD',
+    slug: 'casabrews-3700-essential',
+    name: 'Casabrews 3700 Essential',
+    brand: 'Casabrews',
+    price: 139,
+    priceTier: 'budget',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'panarello',
+    footprint: 'medium',
+    timeProfile: 'medium',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B00OBH4UQA',
+    slug: 'delonghi-dedica-ec685',
+    name: "De'Longhi Dedica EC685",
+    brand: "De'Longhi",
+    price: 249,
+    priceTier: 'mid',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'tiny',
+    timeProfile: 'fast',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07RZD5VQB',
+    slug: 'cafelat-robot',
+    name: 'Cafelat Robot',
+    brand: 'Cafelat',
+    price: 449,
+    priceTier: 'mid',
+    type: 'espresso-machine',
+    machineCat: 'manual-lever',
+    milkCap: 'none',
+    footprint: 'small',
+    timeProfile: 'manual',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: true,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07RB5K9TJ',
+    slug: 'delonghi-magnifica-s',
+    name: "De'Longhi Magnifica S",
+    brand: "De'Longhi",
+    price: 449,
+    priceTier: 'mid',
+    type: 'espresso-machine',
+    machineCat: 'super-auto',
+    milkCap: 'panarello',
+    footprint: 'medium',
+    timeProfile: 'fast',
+    hasPid: false,
+    hasGrinder: true,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B083TQR8BV',
+    slug: 'gaggia-classic-pro',
+    name: 'Gaggia Classic Pro',
+    brand: 'Gaggia',
+    price: 449,
+    priceTier: 'mid',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'slow',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07VFZHRYC',
+    slug: 'breville-bambino-plus',
+    name: 'Breville Bambino Plus',
+    brand: 'Breville',
+    price: 499,
+    priceTier: 'mid',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'auto',
+    footprint: 'small',
+    timeProfile: 'fast',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B0B5BC5VXM',
+    slug: 'gaggia-classic-evo-pro',
+    name: 'Gaggia Classic Evo Pro',
+    brand: 'Gaggia',
+    price: 549,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'slow',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B00OBH4UQB',
+    slug: 'breville-infuser',
+    name: 'Breville Infuser BES840XL',
+    brand: 'Breville',
+    price: 599,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'medium',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B00CH9182U',
+    slug: 'breville-barista-express',
+    name: 'Breville Barista Express',
+    brand: 'Breville',
+    price: 699,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'all-in-one',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'medium',
+    hasPid: true,
+    hasGrinder: true,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B09NDWGYG2',
+    slug: 'flair-58',
+    name: 'Flair 58',
+    brand: 'Flair',
+    price: 699,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'manual-lever',
+    milkCap: 'none',
+    footprint: 'small',
+    timeProfile: 'manual',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: true,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07GVHL5HN',
+    slug: 'lelit-anna-pl41tem',
+    name: 'Lelit Anna PL41TEM',
+    brand: 'Lelit',
+    price: 749,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'medium',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07W5C7QFD',
+    slug: 'delonghi-la-specialista',
+    name: "De'Longhi La Specialista",
+    brand: "De'Longhi",
+    price: 799,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'all-in-one',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'fast',
+    hasPid: false,
+    hasGrinder: true,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B0BQYMTBNL',
+    slug: 'rancilio-silvia-v6',
+    name: 'Rancilio Silvia V6',
+    brand: 'Rancilio',
+    price: 845,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'slow',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07QGCS2KW',
+    slug: 'breville-barista-pro',
+    name: 'Breville Barista Pro',
+    brand: 'Breville',
+    price: 849,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'all-in-one',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'fast',
+    hasPid: true,
+    hasGrinder: true,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07D8YHHG9',
+    slug: 'profitec-pro-300',
+    name: 'Profitec Pro 300',
+    brand: 'Profitec',
+    price: 1399,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'small',
+    timeProfile: 'slow',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07PMVZWMG',
+    slug: 'delonghi-eletta',
+    name: "De'Longhi Eletta Explore",
+    brand: "De'Longhi",
+    price: 1499,
+    priceTier: 'premium',
+    type: 'espresso-machine',
+    machineCat: 'super-auto',
+    milkCap: 'auto',
+    footprint: 'large',
+    timeProfile: 'fast',
+    hasPid: false,
+    hasGrinder: true,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B00CSAYE9W',
+    slug: 'breville-dual-boiler',
+    name: 'Breville Dual Boiler BES920XL',
+    brand: 'Breville',
+    price: 1599,
+    priceTier: 'pro',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'large',
+    timeProfile: 'medium',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B0BTBHC9JV',
+    slug: 'breville-touch-impress',
+    name: 'Breville Barista Touch Impress',
+    brand: 'Breville',
+    price: 1599,
+    priceTier: 'pro',
+    type: 'espresso-machine',
+    machineCat: 'all-in-one',
+    milkCap: 'auto',
+    footprint: 'medium',
+    timeProfile: 'fast',
+    hasPid: true,
+    hasGrinder: true,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B08FZB7N9V',
+    slug: 'lelit-mara-x',
+    name: 'Lelit Mara X PL62X',
+    brand: 'Lelit',
+    price: 1699,
+    priceTier: 'pro',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'medium',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B0BKD9LP1N',
+    slug: 'ascaso-steel-duo-prof',
+    name: 'Ascaso Steel Duo PROF',
+    brand: 'Ascaso',
+    price: 1799,
+    priceTier: 'pro',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'small',
+    timeProfile: 'medium',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B01N6DZJVQ',
+    slug: 'rocket-appartamento',
+    name: 'Rocket Appartamento',
+    brand: 'Rocket',
+    price: 1899,
+    priceTier: 'pro',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'medium',
+    hasPid: false,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B09F2HFGHN',
+    slug: 'rancilio-silvia-pro-x',
+    name: 'Rancilio Silvia Pro X',
+    brand: 'Rancilio',
+    price: 1990,
+    priceTier: 'pro',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'medium',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07BJ4HT4P',
+    slug: 'ecm-classika-pid',
+    name: 'ECM Classika PID',
+    brand: 'ECM',
+    price: 2199,
+    priceTier: 'pro',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'medium',
+    timeProfile: 'medium',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B0727YGZG8',
+    slug: 'breville-oracle-touch',
+    name: 'Breville Oracle Touch',
+    brand: 'Breville',
+    price: 2799,
+    priceTier: 'pro',
+    type: 'espresso-machine',
+    machineCat: 'all-in-one',
+    milkCap: 'auto',
+    footprint: 'large',
+    timeProfile: 'fast',
+    hasPid: true,
+    hasGrinder: true,
+    bestForBeginners: true,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+  {
+    asin: 'B07PYTQ8YN',
+    slug: 'la-marzocco-linea-mini',
+    name: 'La Marzocco Linea Mini',
+    brand: 'La Marzocco',
+    price: 5900,
+    priceTier: 'pro',
+    type: 'espresso-machine',
+    machineCat: 'semi-auto',
+    milkCap: 'manual-wand',
+    footprint: 'large',
+    timeProfile: 'medium',
+    hasPid: true,
+    hasGrinder: false,
+    bestForBeginners: false,
+    espressoOnly: false,
+    isRealEspresso: true,
+  },
+];
+
+// Real ASINs from src/content/products (sobrescribimos donde el catalog
+// inline tiene un placeholder distinto).
+// IMPORTANT: Sólo usar slug en links — los ASINs los rellena el JS desde
+// el catalog inline. Aún así, derivar el slug es lo único que necesita la UI.
+//
+// Map de slugs a review page slugs cuando existe review específico.
+const reviewSlugs: Record<string, string> = {
+  'breville-bambino-plus': 'is-breville-bambino-plus-worth-it-for-beginners',
+  'gaggia-classic-pro': 'is-gaggia-classic-pro-worth-it-for-beginners',
+  'breville-barista-express': 'is-breville-barista-express-worth-it-for-beginners',
+  'delonghi-la-specialista': 'is-delonghi-la-specialista-worth-it-for-milk-drinks',
+  'rancilio-silvia-v6': 'is-rancilio-silvia-worth-it-for-home-barista',
+  'aeropress-original': 'is-aeropress-worth-it-for-single-person',
+  'flair-classic-signature': 'is-flair-classic-worth-it-for-single-person',
+  'breville-dual-boiler': 'is-breville-dual-boiler-worth-it-for-home-barista',
+  'casabrews-3700-essential': 'is-casabrews-3700-worth-it-for-beginners',
+};
+
+// Inyectar reviewSlug al catálogo para evitar dos lookups en JS.
+const catalogWithReviews = quizCatalog.map((p) => ({
+  ...p,
+  reviewSlug: reviewSlugs[p.slug] ?? null,
+}));
+
+const faqs = [
+  {
+    q: 'How does the quiz pick a recommendation?',
+    a: 'The quiz scores every espresso machine in our catalog against your seven answers using a transparent point system. Each answer adds or subtracts points for each candidate. The top scorer becomes the headline pick; the next two become alternates. If no candidate scores above zero, you see a caveat instead of a recommendation — that means your answers are pointing at a path other than buying a machine right now.',
+  },
+  {
+    q: 'Why does the quiz sometimes tell me to buy a Moka pot or AeroPress instead of an espresso machine?',
+    a: 'Because honesty pays better than a single affiliate click. Under roughly $200, no "espresso machine" pulls real 9-bar shots — pressurized baskets compensate cosmetically but the result is closer to strong coffee than espresso. A Moka pot or AeroPress at $40 produces a more honest beverage in that budget. We would rather lose a sale than route you toward a disappointing first machine.',
+  },
+  {
+    q: 'Does the quiz favor cheaper machines so I am more likely to buy?',
+    a: 'No. The scoring favors fit, not price. If you answered "advanced barista, dedicated coffee corner, mostly straight espresso, full manual control" the quiz will hand you a Cafelat Robot or a prosumer dual boiler, even though we earn less per click on items not in the Amazon mass-market bucket. The fit logic is identical regardless of affiliate payout.',
+  },
+  {
+    q: 'My answers feel inconsistent. Will the quiz tell me?',
+    a: 'Yes. If you ask for "maximum automation" and also "full manual control", or you say milk drinks but pick a sub-$200 budget that excludes a real steam wand, the result page flags the inconsistency and explains what trade-off you would be making. The quiz never silently picks one side of a contradiction.',
+  },
+  {
+    q: 'Is my progress saved if I leave and come back?',
+    a: 'Yes. Your answers are stored in your browser only (localStorage, no server). You can refresh, close the tab, or come back tomorrow and resume from the same question. Use the reset button on the result page to start over.',
+  },
+];
+
+const webApp = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Which espresso machine should I buy? — Interactive quiz',
+  description:
+    "Seven-question quiz that scores 20+ home espresso machines against your budget, experience, drink preferences, kitchen size, time tolerance, and automation preference. Returns three honest recommendations with caveats when the inputs don't fit any machine in our catalog.",
+  applicationCategory: 'LifestyleApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  url: 'https://baristapath.com/quiz/which-espresso-machine/',
+};
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<Base
+  title="Which espresso machine should I buy? — Interactive quiz"
+  description="Honest 7-question quiz. Scores 20+ home espresso machines against your budget, experience, drinks, kitchen size, time, and automation preference. Includes caveats when no machine fits."
+  canonicalPath="/quiz/which-espresso-machine/"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Quiz', url: '/quiz/which-espresso-machine/' },
+    { name: 'Which espresso machine should I buy?', url: '/quiz/which-espresso-machine/' },
+  ]}
+  jsonLd={[webApp, faqLd]}
+>
+  <h1>Which espresso machine should I buy?</h1>
+  <p class="lead">
+    Seven questions. No email gate, no spinning wheel of fake personalization. The quiz scores every
+    machine in our catalog against your answers and shows you the top three — plus an honest caveat
+    if your inputs suggest you should not buy a machine at all right now.
+  </p>
+
+  <section class="quiz-wrap" aria-labelledby="quiz-heading">
+    <h2 id="quiz-heading" class="visually-hidden">Quiz</h2>
+
+    <div class="quiz-progress" aria-hidden="true">
+      <div class="quiz-progress__track">
+        <div class="quiz-progress__bar" id="progress-bar" style="width: 14%;"></div>
+      </div>
+      <p class="quiz-progress__label">
+        Question <span id="progress-current">1</span> of <span id="progress-total">7</span>
+      </p>
+    </div>
+
+    <form id="quiz-form" class="quiz-form" novalidate>
+      <fieldset class="quiz-step" data-step="1" data-key="budget">
+        <legend class="quiz-step__legend">1. Your total budget (machine + grinder + accessories)</legend>
+        <div class="quiz-options" role="radiogroup" aria-label="Budget">
+          <label class="quiz-option"><input type="radio" name="budget" value="under-300" /><span>Under $300</span></label>
+          <label class="quiz-option"><input type="radio" name="budget" value="300-700" /><span>$300 to $700</span></label>
+          <label class="quiz-option"><input type="radio" name="budget" value="700-1500" /><span>$700 to $1,500</span></label>
+          <label class="quiz-option"><input type="radio" name="budget" value="1500-3000" /><span>$1,500 to $3,000</span></label>
+          <label class="quiz-option"><input type="radio" name="budget" value="over-3000" /><span>Over $3,000</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz-step" data-step="2" data-key="experience" hidden>
+        <legend class="quiz-step__legend">2. Your experience level with espresso</legend>
+        <div class="quiz-options" role="radiogroup" aria-label="Experience level">
+          <label class="quiz-option"><input type="radio" name="experience" value="total-beginner" /><span>Total beginner — never pulled a shot</span></label>
+          <label class="quiz-option"><input type="radio" name="experience" value="some" /><span>Some experience (Moka pot, AeroPress, pods)</span></label>
+          <label class="quiz-option"><input type="radio" name="experience" value="intermediate" /><span>Intermediate — used a semi-auto for a while</span></label>
+          <label class="quiz-option"><input type="radio" name="experience" value="advanced" /><span>Advanced — upgrading from a real machine</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz-step" data-step="3" data-key="drinks" hidden>
+        <legend class="quiz-step__legend">3. What do you drink most often?</legend>
+        <div class="quiz-options" role="radiogroup" aria-label="Preferred drinks">
+          <label class="quiz-option"><input type="radio" name="drinks" value="espresso" /><span>Straight espresso / americano</span></label>
+          <label class="quiz-option"><input type="radio" name="drinks" value="milk" /><span>Milk drinks (latte, cappuccino, flat white)</span></label>
+          <label class="quiz-option"><input type="radio" name="drinks" value="mix" /><span>A mix — both, depending on the day</span></label>
+          <label class="quiz-option"><input type="radio" name="drinks" value="filter" /><span>Mostly filter / drip coffee</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz-step" data-step="4" data-key="volume" hidden>
+        <legend class="quiz-step__legend">4. Daily drink volume across the household</legend>
+        <div class="quiz-options" role="radiogroup" aria-label="Daily volume">
+          <label class="quiz-option"><input type="radio" name="volume" value="1-2" /><span>1 to 2 drinks per day</span></label>
+          <label class="quiz-option"><input type="radio" name="volume" value="3-4" /><span>3 to 4 drinks per day</span></label>
+          <label class="quiz-option"><input type="radio" name="volume" value="5plus" /><span>5 or more drinks per day</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz-step" data-step="5" data-key="space" hidden>
+        <legend class="quiz-step__legend">5. Kitchen counter space you can spare</legend>
+        <div class="quiz-options" role="radiogroup" aria-label="Kitchen space">
+          <label class="quiz-option"><input type="radio" name="space" value="tiny" /><span>Tiny — under 12 inches wide</span></label>
+          <label class="quiz-option"><input type="radio" name="space" value="small" /><span>Small — 12 to 18 inches</span></label>
+          <label class="quiz-option"><input type="radio" name="space" value="medium" /><span>Medium — half a counter</span></label>
+          <label class="quiz-option"><input type="radio" name="space" value="large" /><span>Large — dedicated coffee corner</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz-step" data-step="6" data-key="time" hidden>
+        <legend class="quiz-step__legend">6. How long are you willing to spend per drink?</legend>
+        <div class="quiz-options" role="radiogroup" aria-label="Time tolerance">
+          <label class="quiz-option"><input type="radio" name="time" value="1-2min" /><span>1 to 2 minutes — push button, get coffee</span></label>
+          <label class="quiz-option"><input type="radio" name="time" value="3-5min" /><span>3 to 5 minutes — workflow is fine</span></label>
+          <label class="quiz-option"><input type="radio" name="time" value="5-10min" /><span>5 to 10 minutes — I enjoy the ritual</span></label>
+          <label class="quiz-option"><input type="radio" name="time" value="10plus" /><span>10+ minutes — manual pull, all the control</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="quiz-step" data-step="7" data-key="control" hidden>
+        <legend class="quiz-step__legend">7. Automation vs control preference</legend>
+        <div class="quiz-options" role="radiogroup" aria-label="Automation preference">
+          <label class="quiz-option"><input type="radio" name="control" value="max-auto" /><span>Maximum automation — bean to cup, one button</span></label>
+          <label class="quiz-option"><input type="radio" name="control" value="some-auto" /><span>Some automation — assisted, but I dose myself</span></label>
+          <label class="quiz-option"><input type="radio" name="control" value="full-control" /><span>Full control — semi-auto, I dial everything in</span></label>
+          <label class="quiz-option"><input type="radio" name="control" value="pure-manual" /><span>Pure manual — lever, I am the pump</span></label>
+        </div>
+      </fieldset>
+
+      <div class="quiz-nav">
+        <button type="button" id="prev-btn" class="quiz-btn quiz-btn--secondary" disabled>Previous</button>
+        <button type="button" id="next-btn" class="quiz-btn" disabled>Next</button>
+      </div>
+    </form>
+
+    <section
+      id="quiz-result"
+      class="quiz-result"
+      aria-labelledby="result-heading"
+      aria-live="polite"
+      hidden
+    >
+      <h2 id="result-heading">Your recommendations</h2>
+
+      <div id="result-caveat" class="quiz-caveat" hidden></div>
+
+      <article id="result-top" class="quiz-rec quiz-rec--top">
+        <p class="quiz-rec__label">Top pick</p>
+        <h3 class="quiz-rec__name" id="top-name">—</h3>
+        <p class="quiz-rec__price" id="top-price">—</p>
+        <p class="quiz-rec__why" id="top-why">—</p>
+        <div class="quiz-rec__actions" id="top-actions"></div>
+      </article>
+
+      <div class="quiz-alternates">
+        <article class="quiz-rec" id="result-alt-1">
+          <p class="quiz-rec__label">Alternate B</p>
+          <h3 class="quiz-rec__name" id="alt1-name">—</h3>
+          <p class="quiz-rec__price" id="alt1-price">—</p>
+          <p class="quiz-rec__why" id="alt1-why">—</p>
+          <div class="quiz-rec__actions" id="alt1-actions"></div>
+        </article>
+        <article class="quiz-rec" id="result-alt-2">
+          <p class="quiz-rec__label">Alternate C</p>
+          <h3 class="quiz-rec__name" id="alt2-name">—</h3>
+          <p class="quiz-rec__price" id="alt2-price">—</p>
+          <p class="quiz-rec__why" id="alt2-why">—</p>
+          <div class="quiz-rec__actions" id="alt2-actions"></div>
+        </article>
+      </div>
+
+      <div id="result-skip" class="quiz-skip" hidden>
+        <h3>Categories to skip</h3>
+        <ul id="skip-list"></ul>
+      </div>
+
+      <div class="quiz-result__actions">
+        <button type="button" id="reset-btn" class="quiz-btn quiz-btn--secondary">
+          Start over
+        </button>
+      </div>
+
+      <p class="quiz-result__methodology muted">
+        Scoring details and the assumptions behind this quiz are on our
+        <a href="/methodology/">methodology page</a>. Disagree with the picks?
+        Use the calculator at <a href="/tools/cost-per-cup-calculator/">cost per cup</a>
+        to gut-check the payback before buying anything.
+      </p>
+    </section>
+  </section>
+
+  <section class="section" id="how-the-quiz-works">
+    <h2>How the quiz works</h2>
+
+    <p>
+      Every espresso machine in our <a href="/methodology/">catalog of 20+ machines</a> starts with a
+      score of zero. Each of your seven answers either adds points (a good fit on that axis) or
+      subtracts points (a poor fit). The top three scorers become your recommendations. The exact
+      weights, in plain English:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Budget.</strong> +10 if the machine price fits comfortably. -20 if the machine
+        exceeds 1.3× your budget — that's a hard penalty, not a soft preference.
+      </li>
+      <li>
+        <strong>Experience.</strong> Beginners get a boost for beginner-friendly machines (Bambino
+        Plus, Magnifica S, Barista Express). Advanced users get a boost for prosumer dual boilers
+        and lever machines. Mismatches get small penalties.
+      </li>
+      <li>
+        <strong>Drinks.</strong> Milk drinks favor steam wands and auto frothers. Straight-espresso
+        users favor lever machines and prosumer semi-autos. Filter-mostly users get pushed toward
+        Moka pot or AeroPress, not an espresso machine.
+      </li>
+      <li>
+        <strong>Volume.</strong> 5+ drinks per day favors dual-boiler machines that can steam and
+        brew in parallel. 1 to 2 drinks per day favors smaller, fast-warmup machines.
+      </li>
+      <li>
+        <strong>Kitchen space.</strong> Tiny kitchens get a heavy bonus for compact machines (Dedica,
+        Bambino Plus, Robot). Large counters open up the prosumer category.
+      </li>
+      <li>
+        <strong>Time tolerance.</strong> 1 to 2 minute tolerance excludes manual lever machines and
+        slow-warmup prosumers. 10+ minute tolerance favors them.
+      </li>
+      <li>
+        <strong>Automation.</strong> "Max auto" pushes super-automatics to the top. "Pure manual"
+        pushes lever machines to the top. The middle two answers create a wider competitive field.
+      </li>
+    </ul>
+
+    <h3>When the quiz refuses to recommend a machine</h3>
+
+    <p>
+      If your top candidate scores below zero, or if your budget falls under the realistic
+      threshold for the drinks you said you want, the result page shows a caveat instead of pushing
+      a sale. Common cases:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Budget under $200 + milk drinks.</strong> A real steam wand starts around the
+        Casabrews / Dedica price point, and even those compromise. Below that, you are buying a
+        toy. We will tell you so.
+      </li>
+      <li>
+        <strong>Budget under $200 + "real espresso".</strong> No 9-bar machine exists at that
+        price. The Flair Classic Signature is the only honest entry — but it is a manual lever, not
+        a push-button machine. If you want push-button espresso under $200, you do not get it. Buy
+        a Moka pot or AeroPress while you save.
+      </li>
+      <li>
+        <strong>Maximum automation + pure manual.</strong> Pick one. The quiz will ask you to
+        reconsider rather than splitting the difference badly.
+      </li>
+      <li>
+        <strong>Beginner + $3,000+.</strong> Possible, but the ROI on the difference between a $700
+        Bambino+grinder and a $3,000 Linea Mini is mostly emotional. We will say so and let you
+        decide.
+      </li>
+    </ul>
+  </section>
+
+  <section class="related-content">
+    <h2>If you came here from a guide</h2>
+    <ul>
+      <li class="related-link related-link--best">
+        <a href="/best/best-espresso-machine-under-500/">Best espresso machines under $500</a>
+      </li>
+      <li class="related-link related-link--best">
+        <a href="/best/best-espresso-machine-for-beginners/">Best espresso machines for beginners</a>
+      </li>
+      <li class="related-link related-link--best">
+        <a href="/best/best-grinder-under-200/">Best grinders under $200</a>
+      </li>
+      <li class="related-link related-link--tool">
+        <a href="/tools/cost-per-cup-calculator/">Cost per cup calculator</a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="faq" id="faq">
+    <h2>Frequently asked questions</h2>
+    {faqs.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </section>
+
+  {/* Catálogo serializado en JSON al build — lo lee el script inline. */}
+  <script
+    type="application/json"
+    id="quiz-catalog"
+    set:html={JSON.stringify(catalogWithReviews)}
+  ></script>
+</Base>
+
+<script is:inline>
+  // Quiz vanilla JS. Scoring transparente (ver /methodology/).
+  (function(){'use strict';
+    var KEY='bp_quiz_v1',TAG='PLACEHOLDER-20',
+        STEPS=['budget','experience','drinks','volume','space','time','control'],N=STEPS.length;
+    var cat=[];try{cat=JSON.parse(document.getElementById('quiz-catalog').textContent||'[]');}catch(e){}
+    var s={current:0,answers:{}};
+    try{var r=localStorage.getItem(KEY);if(r){var p=JSON.parse(r);if(p&&p.answers){s.answers=p.answers;s.current=Math.min(p.current||0,N-1);}}}catch(e){}
+    var $=function(id){return document.getElementById(id);};
+    var form=$('quiz-form'),pb=$('prev-btn'),nb=$('next-btn'),rb=$('reset-btn'),
+        res=$('quiz-result'),bar=$('progress-bar'),pcur=$('progress-current');
+
+    function save(){try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}}
+    function show(i){
+      var steps=form.querySelectorAll('.quiz-step');
+      for(var j=0;j<steps.length;j++)steps[j].hidden=j!==i;
+      var k=STEPS[i],sv=s.answers[k];
+      if(sv){var inp=form.querySelector('input[name="'+k+'"][value="'+sv+'"]');if(inp)inp.checked=true;}
+      var fr=steps[i].querySelector('input[type="radio"]');if(fr)fr.focus({preventScroll:true});
+      nav();bar.style.width=Math.round((i+1)/N*100)+'%';pcur.textContent=String(i+1);
+    }
+    function nav(){
+      pb.disabled=s.current===0;
+      nb.disabled=!s.answers[STEPS[s.current]];
+      nb.textContent=s.current===N-1?'See my recommendations':'Next';
+    }
+    function next(){
+      if(!s.answers[STEPS[s.current]])return;
+      if(s.current===N-1){render();return;}
+      s.current++;save();show(s.current);
+    }
+    function prev(){if(s.current===0)return;s.current--;save();show(s.current);}
+    function reset(){
+      try{localStorage.removeItem(KEY);}catch(e){}
+      s={current:0,answers:{}};
+      var rs=form.querySelectorAll('input[type="radio"]');for(var i=0;i<rs.length;i++)rs[i].checked=false;
+      res.hidden=true;form.hidden=false;
+      var pr=document.querySelector('.quiz-progress');if(pr)pr.style.display='';
+      show(0);
+    }
+
+    // -------- SCORING --------
+    function bb(a){
+      return a==='under-300'?{min:0,max:300}:a==='300-700'?{min:300,max:700}:
+        a==='700-1500'?{min:700,max:1500}:a==='1500-3000'?{min:1500,max:3000}:
+        a==='over-3000'?{min:3000,max:100000}:{min:0,max:100000};
+    }
+    function score(p,a){
+      var s=0,why=[],b=bb(a.budget);
+      // Budget — 35% buffer for grinder when not integrated. Floor only
+      // penalizes when we are at low end (under-300/300-700); higher tiers
+      // shouldn't reject cheap niche machines (Flair, Cafelat Robot).
+      var mb=p.hasGrinder?b.max*0.9:b.max*0.65;
+      var fl=(a.budget==='under-300'||a.budget==='300-700')?(p.hasGrinder?b.min*0.7:b.min*0.4):0;
+      if(p.price<=mb&&p.price>=fl){s+=10;why.push('fits your budget');}
+      else if(p.price>b.max*1.3){s-=20;}else if(p.price>mb){s-=8;}
+      // Experience
+      var e=a.experience;
+      if(e==='total-beginner'){
+        if(p.bestForBeginners){s+=5;why.push('beginner-friendly workflow');}
+        if(p.machineCat==='manual-lever')s-=8;
+        if(p.priceTier==='pro')s-=6;
+      }else if(e==='some'){
+        if(p.bestForBeginners)s+=3;
+        if(p.machineCat==='manual-lever')s-=3;
+      }else if(e==='intermediate'){
+        if(p.machineCat==='semi-auto'){s+=3;why.push('semi-auto suits intermediate');}
+        if(p.hasPid)s+=2;
+      }else if(e==='advanced'){
+        if(p.priceTier==='pro'){s+=5;why.push('prosumer ceiling matches your level');}
+        if(p.hasPid)s+=3;
+        if(p.machineCat==='manual-lever')s+=4;
+        if(p.bestForBeginners&&p.priceTier==='budget')s-=4;
+      }
+      // Drinks
+      var d=a.drinks;
+      if(d==='espresso'){
+        if(p.machineCat==='manual-lever'){s+=5;why.push('lever excels at straight espresso');}
+        if(p.milkCap==='manual-wand'||p.milkCap==='none')s+=2;
+        if(p.milkCap==='auto')s-=2;
+        if(p.type==='brewer')s-=4;
+      }else if(d==='milk'){
+        if(p.milkCap==='auto'){s+=8;why.push('auto milk frother handles texture for you');}
+        if(p.milkCap==='manual-wand'){s+=4;why.push('manual steam wand for proper microfoam');}
+        if(p.milkCap==='panarello')s-=1;
+        if(p.milkCap==='none')s-=6;
+        if(p.type==='brewer')s-=8;
+      }else if(d==='mix'){
+        if(p.milkCap==='manual-wand'||p.milkCap==='auto'){s+=4;why.push('handles both straight and milk drinks');}
+        if(p.milkCap==='none')s-=3;
+      }else if(d==='filter'){
+        if(p.type==='brewer'){s+=8;why.push('right tool for filter coffee');}else s-=12;
+      }
+      // Volume
+      var v=a.volume;
+      if(v==='5plus'){
+        if(p.machineCat==='super-auto')s+=4;
+        if(p.machineCat==='manual-lever')s-=6;
+        if(p.priceTier==='pro'&&p.machineCat!=='manual-lever'){s+=4;why.push('built for back-to-back drinks');}
+      }else if(v==='3-4'){if(p.machineCat==='manual-lever')s-=2;
+      }else if(v==='1-2'){if(p.timeProfile==='fast'||p.footprint==='small'||p.footprint==='tiny')s+=2;}
+      // Space
+      var sp=a.space;
+      if(sp==='tiny'){
+        if(p.footprint==='tiny'){s+=8;why.push('fits very tight counters');}
+        else if(p.footprint==='small')s+=4;
+        else if(p.footprint==='large')s-=10;
+      }else if(sp==='small'){
+        if(p.footprint==='tiny'||p.footprint==='small'){s+=5;why.push('compact footprint');}
+        if(p.footprint==='large')s-=6;
+      }else if(sp==='large'){if(p.footprint==='large')s+=3;}
+      // Time
+      var t=a.time;
+      if(t==='1-2min'){
+        if(p.timeProfile==='fast'){s+=6;why.push('fast workflow start to finish');}
+        if(p.timeProfile==='manual')s-=12;
+        if(p.timeProfile==='slow')s-=6;
+      }else if(t==='3-5min'){
+        if(p.timeProfile==='fast'||p.timeProfile==='medium')s+=4;
+        if(p.timeProfile==='manual')s-=4;
+      }else if(t==='5-10min'){
+        if(p.timeProfile==='medium'||p.timeProfile==='slow'){s+=4;why.push('matches your ritual length');}
+      }else if(t==='10plus'){
+        if(p.timeProfile==='manual'){s+=10;why.push('manual workflow you said you wanted');}
+        else if(p.timeProfile==='slow')s+=4;
+        else if(p.timeProfile==='fast')s-=4;
+      }
+      // Control
+      var c=a.control;
+      if(c==='max-auto'){
+        if(p.machineCat==='super-auto'){s+=10;why.push('full bean-to-cup automation');}
+        else if(p.machineCat==='all-in-one'&&p.milkCap==='auto')s+=6;
+        if(p.machineCat==='manual-lever')s-=12;
+      }else if(c==='some-auto'){
+        if(p.machineCat==='all-in-one'){s+=6;why.push('assisted workflow with control over dose');}
+        if(p.machineCat==='super-auto')s+=2;
+        if(p.machineCat==='manual-lever')s-=6;
+      }else if(c==='full-control'){
+        if(p.machineCat==='semi-auto'){s+=8;why.push('semi-auto gives you the dials you want');}
+        if(p.hasPid)s+=2;
+        if(p.machineCat==='super-auto')s-=4;
+      }else if(c==='pure-manual'){
+        if(p.machineCat==='manual-lever'){s+=12;why.push('lever puts the pump in your hands');}
+        if(p.machineCat==='super-auto')s-=12;
+        if(p.machineCat==='all-in-one')s-=6;
+      }
+      // De-dup why
+      var seen={},out=[];for(var i=0;i<why.length;i++)if(!seen[why[i]]){seen[why[i]]=1;out.push(why[i]);}
+      return {score:s,reasons:out};
+    }
+
+    function caveats(a,top){
+      var n=[];
+      if(a.control==='max-auto'&&a.time==='10plus')n.push('You asked for maximum automation and also for 10+ minutes per drink. Those point at different machines — a super-automatic finishes in under 90 seconds, while a 10-minute workflow implies manual lever pulls. Pick the one that actually matches the kitchen morning you want.');
+      if(a.control==='pure-manual'&&a.time==='1-2min')n.push('Pure manual lever pulls (Robot, Flair) take 4 to 7 minutes including pre-heat and clean-up. If you really need a drink in 1 to 2 minutes, drop "pure manual" or accept the machine will spend most days unused.');
+      if(a.drinks==='milk'&&a.budget==='under-300')n.push('Milk drinks need a real steam wand or auto frother, both of which raise the floor to roughly $300 even with a thrifted grinder. Under $300 a milk frother + Moka pot combo gets you an honest cappuccino; a sub-$300 "espresso machine" with milk usually disappoints.');
+      if(a.budget==='under-300'&&a.drinks==='espresso'&&a.control!=='pure-manual')n.push('No push-button machine pulls real 9-bar espresso under $200. Your honest options are a Flair Classic Signature ($119, manual lever) or an AeroPress + Moka pot combo while you save for $400 to $500. We refuse to recommend a $139 pressurized-basket "espresso machine" as a real espresso solution.');
+      if(a.experience==='total-beginner'&&(a.budget==='1500-3000'||a.budget==='over-3000'))n.push('Beginner plus a $1,500+ budget works, but the ROI on the difference between a $700 setup and a $3,000 setup is mostly emotional. You will not pull better shots on day 30. Consider buying mid-range now and upgrading in 18 months if you stick with it.');
+      if(a.drinks==='filter')n.push('You said "mostly filter". An espresso machine is the wrong tool. The quiz pushed brewers (AeroPress, Moka pot) to the top, but our methodology page lists pour-over and drip recommendations too.');
+      if(top<5&&n.length===0)n.push('No machine in our catalog scores well against your combination. Your answers point at a niche the catalog does not cover (yet). Treat the picks below as the least-bad fit, not as endorsements.');
+      return n;
+    }
+
+    function skips(a){
+      var k=[];
+      if(a.control==='pure-manual'||a.control==='full-control')k.push('Super-automatics — you said you want control, those hide every variable.');
+      if(a.control==='max-auto')k.push('Manual lever machines — they are the opposite of one-button.');
+      if(a.space==='tiny')k.push('Prosumer dual boilers and Linea Mini — they will not fit.');
+      if(a.experience==='total-beginner'&&a.budget!=='over-3000')k.push('Prosumer dual boilers — overkill for month one, you can upgrade later.');
+      if(a.drinks==='espresso'&&a.experience!=='total-beginner')k.push('Super-automatics — they cap extraction below what a semi-auto + grinder hits.');
+      if(a.drinks==='filter')k.push('All espresso machines — you said filter is your daily drink.');
+      return k.slice(0,2);
+    }
+
+    function why1(p,r){
+      if(!r.length)return 'Fits your overall profile better than the alternatives in our catalog.';
+      var t=r.slice(0,2).join('; ');return t.charAt(0).toUpperCase()+t.slice(1)+'.';
+    }
+
+    function priceLbl(p){return (p.type==='brewer'?'Brewer · ':'')+'$'+p.price;}
+
+    function actions(c,p){
+      c.innerHTML='';
+      var wrap=document.createElement('span');wrap.className='affiliate-button-wrap affiliate-button-wrap--primary';
+      var a=document.createElement('a');
+      a.className='affiliate-button affiliate-button--primary';
+      a.href='https://amazon.com/dp/'+p.asin+'?tag='+TAG;
+      a.rel='sponsored nofollow noopener';a.target='_blank';
+      a.setAttribute('aria-label','Check price on Amazon: '+p.name+' (opens Amazon in a new tab)');
+      a.textContent='Check price on Amazon';
+      var ic=document.createElement('span');ic.className='affiliate-button__icon';ic.setAttribute('aria-hidden','true');ic.textContent=' ↗';
+      a.appendChild(ic);wrap.appendChild(a);
+      var d=document.createElement('span');d.className='affiliate-button__disclosure';
+      d.innerHTML='Affiliate link &middot; <a href="/about/#disclosure">disclosure</a>';
+      wrap.appendChild(d);c.appendChild(wrap);
+      var lk=document.createElement('p');lk.className='quiz-rec__links';
+      var sp=document.createElement('a');sp.href='/products/'+p.asin+'/';sp.textContent='Full specs and notes';lk.appendChild(sp);
+      if(p.reviewSlug){lk.appendChild(document.createTextNode(' · '));
+        var rv=document.createElement('a');rv.href='/review/'+p.reviewSlug+'/';rv.textContent='In-depth review';lk.appendChild(rv);}
+      c.appendChild(lk);
+    }
+
+    function render(){
+      var a=s.answers;
+      var sc=cat.map(function(p){var r=score(p,a);return {p:p,s:r.score,r:r.reasons};});
+      sc.sort(function(x,y){return y.s-x.s;});
+      var top=sc[0],a1=sc[1],a2=sc[2];
+
+      var cv=caveats(a,top?top.s:-100),ce=$('result-caveat');
+      if(cv.length){ce.innerHTML='<h3>Honest caveat</h3>'+cv.map(function(c){return '<p>'+c+'</p>';}).join('');ce.hidden=false;}
+      else{ce.hidden=true;ce.innerHTML='';}
+
+      if(top&&top.p){
+        $('top-name').textContent=top.p.name;$('top-price').textContent=priceLbl(top.p);
+        $('top-why').textContent=why1(top.p,top.r);actions($('top-actions'),top.p);
+      }
+      function alt(x,pre){
+        if(!x||!x.p)return;
+        $(pre+'-name').textContent=x.p.name;$(pre+'-price').textContent=priceLbl(x.p);
+        $(pre+'-why').textContent=x.r.length?'Why this instead: '+x.r[0]+'.':'Why this instead: closest fit on remaining axes.';
+        actions($(pre+'-actions'),x.p);
+      }
+      alt(a1,'alt1');alt(a2,'alt2');
+
+      var sk=skips(a),sb=$('result-skip'),sl=$('skip-list');
+      if(sk.length){sl.innerHTML='';for(var i=0;i<sk.length;i++){var li=document.createElement('li');li.textContent=sk[i];sl.appendChild(li);}sb.hidden=false;}
+      else sb.hidden=true;
+
+      form.hidden=true;
+      var pr=document.querySelector('.quiz-progress');if(pr)pr.style.display='none';
+      res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    function onChange(e){
+      var t=e.target;if(!t||t.tagName!=='INPUT'||t.type!=='radio')return;
+      s.answers[t.name]=t.value;save();nav();
+    }
+    function onKey(e){
+      if(e.key==='Enter'&&!nb.disabled&&document.activeElement&&document.activeElement.tagName!=='BUTTON'){
+        e.preventDefault();next();
+      }
+    }
+
+    function init(){
+      show(s.current);
+      form.addEventListener('change',onChange);
+      form.addEventListener('keydown',onKey);
+      nb.addEventListener('click',next);
+      pb.addEventListener('click',prev);
+      rb.addEventListener('click',reset);
+      if(STEPS.every(function(k){return !!s.answers[k];})&&s.current===N-1)nav();
+    }
+
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+    else init();
+  })();
+</script>
+
+<style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .quiz-wrap {
+    margin: var(--space-lg) 0 var(--space-xl);
+  }
+
+  .quiz-progress {
+    margin-bottom: var(--space-md);
+  }
+
+  .quiz-progress__track {
+    height: 6px;
+    background: var(--color-surface-alt);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .quiz-progress__bar {
+    height: 100%;
+    background: var(--color-accent);
+    transition: width 0.25s ease;
+  }
+
+  .quiz-progress__label {
+    margin: var(--space-xs) 0 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .quiz-form {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-lg);
+  }
+
+  .quiz-step {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .quiz-step__legend {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: var(--space-md);
+    color: var(--color-text);
+    line-height: 1.35;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .quiz-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 12px 14px;
+    min-height: 44px;
+    background: var(--color-surface-alt);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+    font-size: 0.98rem;
+    line-height: 1.4;
+  }
+
+  .quiz-option:hover {
+    border-color: var(--color-accent);
+  }
+
+  .quiz-option input[type="radio"] {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+  }
+
+  .quiz-option:has(input[type="radio"]:checked) {
+    border-color: var(--color-accent);
+    background: var(--color-surface);
+  }
+
+  .quiz-option:focus-within {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .quiz-option span {
+    flex: 1;
+  }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .quiz-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    min-height: 44px;
+    background: var(--color-accent);
+    color: #ffffff;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.98rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .quiz-btn:hover:not(:disabled),
+  .quiz-btn:focus-visible:not(:disabled) {
+    background: var(--color-link-hover);
+    border-color: var(--color-link-hover);
+  }
+
+  .quiz-btn:focus-visible {
+    outline: 3px solid var(--color-text);
+    outline-offset: 2px;
+  }
+
+  .quiz-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .quiz-btn--secondary {
+    background: transparent;
+    color: var(--color-link);
+    border-color: var(--color-border);
+  }
+
+  .quiz-btn--secondary:hover:not(:disabled),
+  .quiz-btn--secondary:focus-visible:not(:disabled) {
+    background: var(--color-surface-alt);
+    color: var(--color-link-hover);
+    border-color: var(--color-link);
+  }
+
+  /* Result panel ---------------------------------------------------- */
+
+  .quiz-result {
+    margin-top: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .quiz-caveat {
+    background: #fbf3e6;
+    border: 1px solid #d6a86a;
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--radius);
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .quiz-caveat {
+      background: #2a1f12;
+      border-color: #6b4a20;
+    }
+  }
+
+  .quiz-caveat h3 {
+    margin: 0 0 var(--space-sm);
+    font-size: 1.05rem;
+  }
+
+  .quiz-caveat p {
+    margin: 0 0 var(--space-sm);
+    line-height: 1.55;
+  }
+
+  .quiz-caveat p:last-child {
+    margin-bottom: 0;
+  }
+
+  .quiz-rec {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-lg);
+  }
+
+  .quiz-rec--top {
+    border: 2px solid var(--color-accent);
+    background: var(--color-surface);
+  }
+
+  .quiz-rec__label {
+    margin: 0;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    font-weight: 700;
+  }
+
+  .quiz-rec--top .quiz-rec__label {
+    color: var(--color-accent);
+  }
+
+  .quiz-rec__name {
+    margin: 4px 0 6px;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+
+  .quiz-rec__price {
+    margin: 0 0 var(--space-sm);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-muted);
+  }
+
+  .quiz-rec__why {
+    margin: 0 0 var(--space-md);
+    line-height: 1.55;
+  }
+
+  .quiz-rec__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    align-items: flex-start;
+  }
+
+  .quiz-rec__links {
+    margin: var(--space-xs) 0 0;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+
+  .quiz-alternates {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  @media (min-width: 40rem) {
+    .quiz-alternates {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .quiz-skip {
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .quiz-skip h3 {
+    margin: 0 0 var(--space-sm);
+    font-size: 1rem;
+  }
+
+  .quiz-skip ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .quiz-skip li {
+    margin-bottom: var(--space-xs);
+    line-height: 1.5;
+  }
+
+  .quiz-result__actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+  }
+
+  .quiz-result__methodology {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+</style>
+</Base>
