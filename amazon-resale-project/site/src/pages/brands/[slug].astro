@@ -1,0 +1,276 @@
+---
+// Brand page template — captura queries head-term branded ("breville espresso
+// machines", "all gaggia models", "rancilio espresso machines"), construye
+// topical authority por brand y desbloquea internal linking adicional.
+//
+// Estructura:
+//   1. H1 + Byline
+//   2. Lead editorial (2-3 párrafos factual, no marketing puff)
+//   3. Products in this catalog (grid de cards ordenadas por price)
+//   4. How [Brand] compares (compare pages que tocan brand products)
+//   5. Best [Brand] [type] picks (best-of pages donde brand aparece)
+//   6. Reviews of [Brand] products (review pages cubriendo brand products)
+//   7. FAQ (brand-level head-term Q&A)
+//   8. Related content (best-of/compare/review más relevantes para la brand)
+//
+// Anti-gray-hat: lead copy factual sin superlativos. FAQ con respuestas
+// neutrales ("depends on use case") cuando aplica. NO AffiliateButton al
+// final — esto NO es una sales page, los CTAs viven en las product cards.
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
+import { BRAND_META, brandSlug, type BrandMeta } from '../../data/brand-pages';
+import { bestPages } from '../../data/best-pages';
+import { comparePages } from '../../data/compare-pages';
+import { reviewPages } from '../../data/review-pages';
+
+type Product = CollectionEntry<'products'>;
+
+export async function getStaticPaths() {
+  const { BRAND_META: meta } = await import('../../data/brand-pages');
+  const all = await getCollection('products');
+
+  // Para cada brand con metadata definida, agrupamos los products cuyo
+  // campo `brand` matchea exactamente el `name`. Brands sin metadata
+  // (single-product) no generan página.
+  return meta.map((brand) => {
+    const products = all
+      .filter((p) => p.data.brand === brand.name)
+      .sort((a, b) => a.data.price - b.data.price);
+    return {
+      params: { slug: brand.slug },
+      props: { brand, products },
+    };
+  });
+}
+
+interface Props {
+  brand: BrandMeta;
+  products: Product[];
+}
+
+const { brand, products } = Astro.props as Props;
+
+// updatedAt para el byline: max(updated_at) de los productos de la brand.
+const updatedAt = products.length
+  ? new Date(Math.max(...products.map((p) => p.data.updated_at.getTime())))
+  : new Date();
+
+// Tier label para badges de las cards.
+const tierLabel: Record<string, string> = {
+  budget: 'Budget',
+  mid: 'Mid',
+  premium: 'Premium',
+  pro: 'Pro',
+};
+
+const typeLabel: Record<string, string> = {
+  'espresso-machine': 'espresso machine',
+  'grinder': 'grinder',
+  'accessory': 'accessory',
+  'brewer': 'brewer',
+};
+
+// ASINs de la brand — base para todos los lookup de internal linking.
+const brandAsins = new Set(products.map((p) => p.data.asin));
+
+// Pre-compute ASINs por best-of page (mismo patrón que related-content.ts).
+const allProducts = await getCollection('products');
+const bestPageAsins = new Map<string, Set<string>>();
+for (const page of bestPages) {
+  const asins = new Set<string>();
+  for (const product of allProducts) {
+    if (page.filter(product.data)) {
+      asins.add(product.data.asin);
+    }
+  }
+  bestPageAsins.set(page.slug, asins);
+}
+
+// Best-of pages que feature ≥1 product de la brand. Cap 5.
+const relatedBestPages = bestPages
+  .filter((page) => {
+    const asins = bestPageAsins.get(page.slug);
+    if (!asins) return false;
+    for (const asin of brandAsins) {
+      if (asins.has(asin)) return true;
+    }
+    return false;
+  })
+  .slice(0, 5);
+
+// Compare pages que tocan ≥1 product de la brand. Cap 5.
+const byAsin = new Map(allProducts.map((p) => [p.data.asin, p]));
+const relatedComparePages = comparePages
+  .filter((c) => brandAsins.has(c.asinA) || brandAsins.has(c.asinB))
+  .map((c) => {
+    const a = byAsin.get(c.asinA);
+    const b = byAsin.get(c.asinB);
+    return a && b
+      ? { slug: c.slug, title: `${a.data.name} vs ${b.data.name}` }
+      : null;
+  })
+  .filter((x): x is { slug: string; title: string } => x !== null)
+  .slice(0, 5);
+
+// Review pages cubriendo product de la brand. Cap 5.
+const relatedReviewPages = reviewPages
+  .filter((r) => brandAsins.has(r.productAsin))
+  .slice(0, 5);
+
+// ---------- Schema markup ----------
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://baristapath.com';
+const brandUrl = `${siteUrl}/brands/${brand.slug}/`;
+
+// Brand schema (Schema.org "Brand"). description usa el lead primer párrafo
+// truncado a 500 chars para mantener payload chico y compatible con limits.
+const brandSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Brand',
+  name: brand.name,
+  url: brandUrl,
+  description: brand.lead[0].slice(0, 500),
+};
+
+// ItemList para los products listados en la página.
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `${brand.name} products`,
+  itemListElement: products.map((p, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    item: {
+      '@type': 'Product',
+      name: p.data.name,
+      brand: { '@type': 'Brand', name: p.data.brand },
+      url: `${siteUrl}/products/${p.data.asin}/`,
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'USD',
+        price: p.data.price,
+      },
+    },
+  })),
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: brand.faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Brands', url: '/brands/' },
+  { name: brand.name, url: `/brands/${brand.slug}/` },
+];
+
+// Reference imported helpers to satisfy linting; brandSlug/BRAND_META se
+// usan en getStaticPaths via dynamic import.
+void brandSlug;
+void BRAND_META;
+---
+<Base
+  title={`${brand.name} coffee equipment — reviews, comparisons, picks`}
+  description={brand.description}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[brandSchema, itemListSchema, faqSchema]}
+  updatedAt={updatedAt}
+>
+  <article class="brand-page">
+    <h1>{brand.name} coffee equipment</h1>
+    <Byline updatedAt={updatedAt} />
+
+    <section class="brand-lead">
+      {brand.lead.map((paragraph) => <p>{paragraph}</p>)}
+    </section>
+
+    <section class="section">
+      <h2>Products in this catalog</h2>
+      <ul class="product-grid">
+        {products.map((p) => (
+          <li class="product-card">
+            <h3>
+              <a href={`/products/${p.data.asin}/`}>{p.data.name}</a>
+            </h3>
+            <p class="meta">
+              <span class="type-badge">{typeLabel[p.data.type]}</span>
+              {' '}&middot;{' '}
+              <span class={`tier-badge tier-badge--${p.data.price_tier}`}>
+                {tierLabel[p.data.price_tier]}
+              </span>
+            </p>
+            <p class="price">${p.data.price}</p>
+            <p>
+              <a href={`/products/${p.data.asin}/`}>Read review &rarr;</a>
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {relatedComparePages.length > 0 && (
+      <section class="section">
+        <h2>How {brand.name} compares</h2>
+        <ul>
+          {relatedComparePages.map((c) => (
+            <li>
+              <a href={`/compare/${c.slug}/`}>{c.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {relatedBestPages.length > 0 && (
+      <section class="section">
+        <h2>Best-of picks featuring {brand.name}</h2>
+        <ul>
+          {relatedBestPages.map((b) => (
+            <li>
+              <a href={`/best/${b.slug}/`}>{b.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {relatedReviewPages.length > 0 && (
+      <section class="section">
+        <h2>Reviews of {brand.name} products</h2>
+        <ul>
+          {relatedReviewPages.map((r) => (
+            <li>
+              <a href={`/review/${r.slug}/`}>{r.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="section faq">
+      <h2>Frequently Asked Questions</h2>
+      {brand.faq.map((item) => (
+        <details>
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <p class="update-cadence muted">
+      <strong>Last reviewed:</strong>{' '}
+      <time datetime={updatedAt.toISOString()}>
+        {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+      </time>.
+      {' '}We update brand pages when products are added, prices shift, or new
+      models from the manufacturer enter the catalog.
+    </p>
+  </article>
+</Base>

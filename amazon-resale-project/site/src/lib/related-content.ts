@@ -13,8 +13,9 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { bestPages } from '../data/best-pages';
 import { comparePages } from '../data/compare-pages';
 import { reviewPages } from '../data/review-pages';
+import { brandMetaFor } from '../data/brand-pages';
 
-export type RelatedKind = 'product' | 'best' | 'compare' | 'review';
+export type RelatedKind = 'product' | 'best' | 'compare' | 'review' | 'brand';
 
 export interface RelatedLink {
   href: string;
@@ -104,12 +105,36 @@ function finalize(links: RelatedLink[]): RelatedLink[] {
 // ---------------------------------------------------------------
 // PRODUCT PAGE
 // ---------------------------------------------------------------
-// 2-3 best-of where ASIN appears, 1-2 compare pages featuring ASIN,
-// 1-2 reviews where ASIN is the productAsin or in alternativeAsins.
+// 1 brand page (if brand has a dedicated page), 2-3 best-of where ASIN
+// appears, 1-2 compare pages featuring ASIN, 1-2 reviews where ASIN is
+// the productAsin or in alternativeAsins.
 export async function relatedForProduct(asin: string): Promise<RelatedLink[]> {
   const asinMap = await bestPageAsins();
   const selfHref = `/products/${asin}/`;
   const out: RelatedLink[] = [];
+
+  // 0) Brand page link — solo si la brand del product tiene página propia
+  // (≥2 products en el catalog). Va primero para que aparezca arriba
+  // del bloque de related content.
+  const products = await loadProducts();
+  const product = products.find((p) => p.data.asin === asin);
+  if (product) {
+    const brandMeta = brandMetaFor(product.data.brand);
+    if (brandMeta) {
+      pushUnique(
+        out,
+        [
+          {
+            href: `/brands/${brandMeta.slug}/`,
+            title: `More from ${brandMeta.name}`,
+            kind: 'brand',
+          },
+        ],
+        MAX_LINKS,
+        selfHref,
+      );
+    }
+  }
 
   // 1) Up to 3 best-of pages where this product appears.
   const bestMatches: RelatedLink[] = [];

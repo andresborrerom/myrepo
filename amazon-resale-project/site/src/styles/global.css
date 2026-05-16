@@ -712,6 +712,70 @@ li {
   content: 'Review';
 }
 
+.related-link--brand {
+  border-left-color: #8a4b1a;
+}
+.related-link--brand::before {
+  content: 'Brand';
+}
+
+/* ---------- Brand pages ---------- */
+/* Brand index/[slug] usan .product-grid pero queremos 3 columnas en
+   desktop (no 4): los nombres y descriptions ocupan más ancho cómodo. */
+.brand-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 36rem) {
+  .brand-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 60rem) {
+  .brand-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.brand-card h2 {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.brand-card h2 a {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.brand-lead p {
+  max-width: var(--line-length);
+}
+
+/* Type/tier badges en product cards de brand pages. */
+.type-badge,
+.tier-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.tier-badge--budget {
+  color: #4a9b3e;
+}
+.tier-badge--mid {
+  color: var(--color-accent);
+}
+.tier-badge--premium {
+  color: #3e6fb5;
+}
+.tier-badge--pro {
+  color: #b54d8a;
+}
+
 /* ---------- Affiliate button (component) ---------- */
 /*
  * Botón CTA en color de contraste (Wirecutter-style rojo coffee-warm).
