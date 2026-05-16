@@ -35,6 +35,8 @@
 - ✅ **UX batch A** (table-stakes patterns implementados): 4 componentes nuevos (VerdictBox, AffiliateButton, Byline, MethodologyNote) + multi-tier labels en best-of + update cadence visible + Review schema E-E-A-T mejorado (author + dateModified). Sitio alineado con dominante de afiliados coffee top.
 - ✅ **UX batch B** (compare pages mejoradas, commit 5b59611): 22 compare pages ahora muestran 9.14 differentiator rows arriba + collapse de common specs vía `<details>` nativo. Pattern de afiliados top aplicado.
 - ✅ **Calculator cost-per-cup tool** (commit pendiente verificar): nueva página `/tools/cost-per-cup-calculator/` con 7 inputs + 7 outputs, schema WebApplication + FAQPage, accesible y mobile responsive. **Diferenciador único** — ningún sitio del benchmark tiene calculator. Linkeada desde header nav, home banner, y methodology page. **154 páginas total ahora**.
+- ✅ **Quiz "Which espresso machine should I buy?"** (commit e5492c7): nueva página `/quiz/which-espresso-machine/` con 7 preguntas score-based, anti-gray-hat verificado (sub-$200 → Moka pot, beginner + $3000+ → caveat, inconsistencias flagged). 155 páginas total.
+- ✅ **Home redesign** (commit 6a25c58): 7 secciones (Hero + Tools + Start here + Latest reviews + Compare popular + By tier + Methodology banner), 19 internal links concentrados, schema WebSite/Organization/ItemList, 40.7KB total weight.
 
 ### Próximo hito objetivo
 
@@ -119,3 +121,5 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-15 | Internal linking pass + design benchmark research | Related content + research/design-benchmark.md con shortlist priorizada |
 | 2026-05-15 | UX batch A: verdict box, CTA botón, byline, multi-tier labels, methodology link, update cadence | Sitio alineado con patterns table-stakes de coffee affiliates top |
 | 2026-05-15 | UX batch B + calculator (154 páginas) | Compare collapse + calculator cost-per-cup (diferenciador único del nicho) |
+| 2026-05-15 | Quiz "which espresso machine" (155 páginas) | Score-based con 7 preguntas, anti-gray-hat verificado en 4 escenarios |
+| 2026-05-15 | Home page redesign (40.7KB total) | 7 secciones, 19 internal links concentrados, mejor first impression |
