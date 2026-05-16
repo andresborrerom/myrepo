@@ -1152,3 +1152,600 @@ li {
   background: var(--color-link-hover);
   color: #ffffff;
 }
+
+/* =====================================================================
+   Home page rediseño — hero, tools, start-here, latest, compare, tier,
+   methodology banner. Mobile-first; breakpoints en 36rem / 48rem / 60rem.
+   ===================================================================== */
+
+/* ---------- Hero ---------- */
+/*
+ * Gradient sutil + padding generoso. Sin imagen stock (pipeline pendiente).
+ * Margen negativo en main ancho para que el gradiente abrace los bordes.
+ */
+.hero {
+  position: relative;
+  margin: 0 calc(var(--space-md) * -1) var(--space-xl);
+  padding: var(--space-2xl) var(--space-md);
+  background: linear-gradient(
+    140deg,
+    rgba(196, 116, 44, 0.10) 0%,
+    rgba(196, 116, 44, 0.04) 45%,
+    transparent 100%
+  );
+  border-radius: var(--radius);
+}
+
+@media (min-width: 48rem) {
+  .hero {
+    margin: 0 calc(var(--space-lg) * -1) var(--space-xl);
+    padding: var(--space-2xl) var(--space-xl);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero {
+    background: linear-gradient(
+      140deg,
+      rgba(209, 134, 71, 0.18) 0%,
+      rgba(209, 134, 71, 0.06) 45%,
+      transparent 100%
+    );
+  }
+}
+
+.hero__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.hero__title {
+  font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem);
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.01em;
+}
+
+.hero__lead {
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  max-width: 60ch;
+  margin: 0 0 var(--space-lg);
+}
+
+/* CTAs stack en mobile, lado-a-lado en >=600px. */
+.hero-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: stretch;
+}
+
+@media (min-width: 36rem) {
+  .hero-ctas {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: background-color 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  line-height: 1.2;
+}
+
+.cta-button--primary {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+.cta-button--primary:hover,
+.cta-button--primary:focus-visible {
+  background: var(--color-link-hover);
+  color: #ffffff;
+}
+
+.cta-button--secondary {
+  background: transparent;
+  color: var(--color-link);
+  border-color: var(--color-accent);
+}
+
+.cta-button--secondary:hover,
+.cta-button--secondary:focus-visible {
+  background: var(--color-surface-alt);
+  color: var(--color-link-hover);
+}
+
+/* ---------- Section intro paragraph ---------- */
+.section__intro {
+  margin-top: calc(var(--space-md) * -0.5);
+  margin-bottom: var(--space-lg);
+  max-width: 60ch;
+}
+
+/* ---------- Tools grid (2 cards diferenciadores) ---------- */
+.section--tools {
+  margin-top: var(--space-2xl);
+}
+
+.tools-grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-lg);
+}
+
+@media (min-width: 40rem) {
+  .tools-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.tool-card:hover,
+.tool-card:focus-visible {
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.tool-card--quiz {
+  border-top-color: #3e6fb5; /* azul: quiz */
+}
+.tool-card--quiz:hover,
+.tool-card--quiz:focus-visible {
+  border-color: #3e6fb5;
+}
+
+.tool-card--calc {
+  border-top-color: #2e7d4f; /* verde: calculator */
+}
+.tool-card--calc:hover,
+.tool-card--calc:focus-visible {
+  border-color: #2e7d4f;
+}
+
+.tool-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-surface-alt);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+.tool-card--quiz .tool-card__icon {
+  background: rgba(62, 111, 181, 0.12);
+  color: #3e6fb5;
+  gap: 4px;
+}
+.tool-card--quiz .tool-card__icon span {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3e6fb5;
+}
+
+.tool-card--calc .tool-card__icon {
+  background: rgba(46, 125, 79, 0.12);
+  color: #2e7d4f;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tool-card--quiz .tool-card__icon { background: rgba(62, 111, 181, 0.22); }
+  .tool-card--calc .tool-card__icon { background: rgba(46, 125, 79, 0.22); }
+}
+
+.tool-card__title {
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.tool-card__desc {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.tool-card__cta {
+  margin-top: auto;
+  padding-top: var(--space-sm);
+  font-weight: 700;
+  color: var(--color-link);
+}
+
+.tool-card--quiz .tool-card__cta { color: #3e6fb5; }
+.tool-card--calc .tool-card__cta { color: #2e7d4f; }
+
+@media (prefers-color-scheme: dark) {
+  .tool-card--quiz .tool-card__cta { color: #7ba6e8; }
+  .tool-card--calc .tool-card__cta { color: #6dc591; }
+}
+
+/* ---------- Start here cards (1 → 2 → 4 cols) ---------- */
+.start-here-cards {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-md);
+}
+
+@media (min-width: 36rem) {
+  .start-here-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 60rem) {
+  .start-here-cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.start-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.start-card:hover,
+.start-card:focus-visible {
+  border-color: var(--color-accent);
+  text-decoration: none;
+}
+
+.start-card__title {
+  font-size: 1rem;
+  margin: 0;
+  font-family: var(--font-serif);
+  color: var(--color-text);
+}
+
+.start-card__desc {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.start-card__arrow {
+  margin-top: auto;
+  font-size: 1.1rem;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* ---------- Latest reviews grid (1 → 2 → 3 cols) ---------- */
+.latest-reviews-grid {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-md) 0 0;
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 36rem) {
+  .latest-reviews-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 60rem) {
+  .latest-reviews-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.review-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease;
+}
+
+.review-card:hover {
+  border-color: var(--color-accent);
+}
+
+.review-card__link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  text-decoration: none;
+  color: var(--color-text);
+  height: 100%;
+}
+
+.review-card__brand {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.review-card__name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-family: var(--font-serif);
+  color: var(--color-text);
+}
+
+.review-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: var(--space-xs) 0 0;
+  font-size: 0.9rem;
+}
+
+.review-card__price {
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.review-card__cta {
+  margin-top: auto;
+  padding-top: var(--space-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-link);
+}
+
+/* ---------- Tier badge (compartido entre review-card y tier-list) ---------- */
+.tier-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid transparent;
+}
+
+.tier-badge--budget {
+  background: #e6f4ea;
+  color: #1f6f3c;
+  border-color: #b6dec4;
+}
+.tier-badge--mid {
+  background: #fef3e6;
+  color: #8a4b1a;
+  border-color: #f0d4b0;
+}
+.tier-badge--premium {
+  background: #efe4f6;
+  color: #5a2d83;
+  border-color: #d1b8e3;
+}
+.tier-badge--pro {
+  background: #1a1816;
+  color: #ffffff;
+  border-color: #1a1816;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tier-badge--budget {
+    background: rgba(109, 197, 145, 0.15);
+    color: #6dc591;
+    border-color: rgba(109, 197, 145, 0.3);
+  }
+  .tier-badge--mid {
+    background: rgba(209, 134, 71, 0.15);
+    color: #e0a574;
+    border-color: rgba(209, 134, 71, 0.3);
+  }
+  .tier-badge--premium {
+    background: rgba(181, 77, 138, 0.15);
+    color: #d188b3;
+    border-color: rgba(181, 77, 138, 0.3);
+  }
+  .tier-badge--pro {
+    background: #f3eee5;
+    color: #14110e;
+    border-color: #f3eee5;
+  }
+}
+
+/* ---------- Compare popular grid ---------- */
+.compare-popular-grid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-md);
+}
+
+@media (min-width: 36rem) {
+  .compare-popular-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 60rem) {
+  .compare-popular-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.compare-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid #3e6fb5;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.compare-card:hover,
+.compare-card:focus-visible {
+  text-decoration: none;
+  transform: translateX(2px);
+}
+
+.compare-card__title {
+  font-size: 1.05rem;
+  margin: 0;
+  font-family: var(--font-serif);
+  color: var(--color-text);
+}
+
+.compare-card__framing {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.compare-card__arrow {
+  margin-top: auto;
+  font-size: 1.1rem;
+  color: #3e6fb5;
+  font-weight: 700;
+}
+
+/* ---------- Tier list (by price tier section) ---------- */
+.tier-list {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: 1fr;
+  margin-top: var(--space-md);
+}
+
+@media (min-width: 48rem) {
+  .tier-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.tier-group {
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.tier-group__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tier-group__range {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.tier-group__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.tier-group__links a {
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.tier-group__links a:hover,
+.tier-group__links a:focus-visible {
+  text-decoration: underline;
+}
+
+/* ---------- Methodology banner (home variant) ---------- */
+/*
+ * Border-left sutil, fondo neutral, CTA inline. Variante home — la versión
+ * existente (.methodology-note) la usan páginas de detalle.
+ */
+.methodology-banner-home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: var(--space-2xl) 0 0;
+  padding: var(--space-lg);
+  background: var(--color-surface-alt);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius);
+}
+
+@media (min-width: 40rem) {
+  .methodology-banner-home {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.methodology-banner-home p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  max-width: 60ch;
+}
+
+.methodology-banner-home p strong {
+  color: var(--color-text);
+}
+
+.methodology-banner-home__cta {
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--color-link);
+}
+
+.methodology-banner-home__cta:hover,
+.methodology-banner-home__cta:focus-visible {
+  text-decoration: underline;
+}
