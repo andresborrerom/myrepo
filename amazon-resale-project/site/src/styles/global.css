@@ -1828,6 +1828,26 @@ li {
   text-decoration: underline;
 }
 
+/* ---------- Glossary inline auto-links ---------- */
+/*
+ * Inyectados por scripts/autolink-glossary.mjs post-build. Estilo sutil que
+ * los distingue de nav links normales: border-bottom dotted en muted, sin
+ * underline sólido, cursor: help para señalar que es una definición.
+ */
+.glossary-link {
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--color-text-muted);
+  cursor: help;
+}
+
+.glossary-link:hover,
+.glossary-link:focus-visible {
+  color: var(--color-link);
+  border-bottom-color: var(--color-link);
+  text-decoration: none;
+}
+
 /* ---------- Glossary page ---------- */
 /*
  * Single-page glossary con 40-50 entries. Layout denso pero legible:

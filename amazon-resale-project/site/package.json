@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/autolink-glossary.mjs",
+    "build:noautolink": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "node --test test/*.spec.js"
