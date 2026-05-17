@@ -1,0 +1,80 @@
+---
+// Categories index — lista las 4 categorías del catalog. Linkeada desde
+// el footer nav entre Brands y Search.
+//
+// Cada card lista category display name + count de products + 1-line
+// description + link a la category page. Categorías con <3 products no
+// aparecen (filtro replica el de [slug].astro).
+
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { CATEGORY_META } from '../../data/category-pages';
+
+const all = await getCollection('products');
+
+const categoryCards = CATEGORY_META.map((category) => {
+  const count = all.filter((p) => p.data.type === category.type).length;
+  return { ...category, count };
+})
+  .filter((c) => c.count >= 3)
+  .sort((a, b) => b.count - a.count);
+
+const totalCategories = categoryCards.length;
+const totalProducts = categoryCards.reduce((sum, c) => sum + c.count, 0);
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Categories', url: '/categories/' },
+];
+
+const description = `Coffee equipment categories on Barista Path: ${totalCategories} categories spanning ${totalProducts} products. Espresso machines, grinders, brewers, and accessories with buying guides and head-to-head comparisons.`;
+
+// One-line descriptors para cada category card. Más conciso que el
+// `description` del data file (que es para <head>), pensado para
+// fits en la card en 1-2 líneas.
+const cardDescriptors: Record<string, string> = {
+  'espresso-machine': 'Pump, lever, and super-automatic machines from $119 entry levers through dual-boilers and the La Marzocco Linea Mini.',
+  grinder: 'Hand and electric burr grinders for espresso and filter coffee — Baratza, Eureka, Niche, Fellow, and more.',
+  brewer: 'Pour-over cones, immersion brewers, AeroPress, Moka pot, and the Moccamaster batch drip.',
+  accessory: 'Tampers, knock boxes, WDT tools, milk pitchers, scales, kettles, and cleaning supplies.',
+};
+---
+<Base
+  title="Coffee equipment categories"
+  description={description}
+  breadcrumbs={breadcrumbs}
+  showByline={false}
+>
+  <h1>Coffee equipment categories</h1>
+
+  <p class="lead">
+    Category pages group every product in the catalog by what it is — an espresso
+    machine, a grinder, a brewer, or an accessory. Each page combines a buying
+    guide, a price-tier breakdown, the full product list, and links to relevant
+    comparisons and best-of picks.
+  </p>
+
+  <p class="muted">
+    Use category pages when you know roughly what you want to buy ("an espresso
+    machine") but not which specific model. For known head-to-head decisions, the
+    individual <a href="/compare/breville-bambino-plus-vs-gaggia-classic-pro/">compare pages</a>
+    are usually faster.
+  </p>
+
+  <ul class="product-grid brand-grid">
+    {categoryCards.map((category) => (
+      <li class="product-card brand-card">
+        <h2>
+          <a href={`/categories/${category.slug}/`}>{category.displayName}</a>
+        </h2>
+        <p class="meta">
+          {category.count} {category.count === 1 ? 'product' : 'products'} in catalog
+        </p>
+        <p>{cardDescriptors[category.type]}</p>
+        <p>
+          <a href={`/categories/${category.slug}/`}>View {category.displayName} &rarr;</a>
+        </p>
+      </li>
+    ))}
+  </ul>
+</Base>

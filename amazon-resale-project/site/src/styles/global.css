@@ -719,6 +719,13 @@ li {
   content: 'Brand';
 }
 
+.related-link--category {
+  border-left-color: #2e7d4f;
+}
+.related-link--category::before {
+  content: 'Category';
+}
+
 /* ---------- Brand pages ---------- */
 /* Brand index/[slug] usan .product-grid pero queremos 3 columnas en
    desktop (no 4): los nombres y descriptions ocupan más ancho cómodo. */

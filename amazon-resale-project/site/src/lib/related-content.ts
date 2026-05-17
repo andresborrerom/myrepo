@@ -14,8 +14,9 @@ import { bestPages } from '../data/best-pages';
 import { comparePages } from '../data/compare-pages';
 import { reviewPages } from '../data/review-pages';
 import { brandMetaFor } from '../data/brand-pages';
+import { categoryMetaForType } from '../data/category-pages';
 
-export type RelatedKind = 'product' | 'best' | 'compare' | 'review' | 'brand';
+export type RelatedKind = 'product' | 'best' | 'compare' | 'review' | 'brand' | 'category';
 
 export interface RelatedLink {
   href: string;
@@ -113,11 +114,32 @@ export async function relatedForProduct(asin: string): Promise<RelatedLink[]> {
   const selfHref = `/products/${asin}/`;
   const out: RelatedLink[] = [];
 
-  // 0) Brand page link — solo si la brand del product tiene página propia
-  // (≥2 products en el catalog). Va primero para que aparezca arriba
-  // del bloque de related content.
+  // 0a) Category page link — siempre presente (todos los products tienen
+  // un type que matchea una category con >=3 products). Va primero para
+  // que aparezca arriba del bloque de related content; el usuario que
+  // está mirando un product probablemente quiere ver más del mismo type.
   const products = await loadProducts();
   const product = products.find((p) => p.data.asin === asin);
+  if (product) {
+    const categoryMeta = categoryMetaForType(product.data.type);
+    if (categoryMeta) {
+      pushUnique(
+        out,
+        [
+          {
+            href: `/categories/${categoryMeta.slug}/`,
+            title: `More ${categoryMeta.displayName.toLowerCase()}`,
+            kind: 'category',
+          },
+        ],
+        MAX_LINKS,
+        selfHref,
+      );
+    }
+  }
+
+  // 0b) Brand page link — solo si la brand del product tiene página propia
+  // (≥2 products en el catalog). Complementa el category link de arriba.
   if (product) {
     const brandMeta = brandMetaFor(product.data.brand);
     if (brandMeta) {
@@ -209,6 +231,27 @@ export async function relatedForBest(slug: string): Promise<RelatedLink[]> {
   }
   const dominantType = [...typeCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
 
+  // 0) Category page link — basado en el dominantType. Va primero para
+  // dar al usuario un escape hacia el hub de la categoría, complementa
+  // los best-of adjacentes que vienen después.
+  if (dominantType) {
+    const categoryMeta = categoryMetaForType(dominantType);
+    if (categoryMeta) {
+      pushUnique(
+        out,
+        [
+          {
+            href: `/categories/${categoryMeta.slug}/`,
+            title: `All ${categoryMeta.displayName.toLowerCase()} in our catalog`,
+            kind: 'category',
+          },
+        ],
+        MAX_LINKS,
+        selfHref,
+      );
+    }
+  }
+
   // 1) 1-2 adjacent best-of pages (same dominant product type).
   if (dominantType) {
     const adjacent: RelatedLink[] = [];
@@ -282,6 +325,32 @@ export async function relatedForCompare(slug: string): Promise<RelatedLink[]> {
   const asinMap = await bestPageAsins();
   const selfHref = `/compare/${slug}/`;
   const out: RelatedLink[] = [];
+
+  // 0) Category page link — solo si ambos products comparados son del
+  // mismo type (caso común: espresso machine vs espresso machine). Si
+  // son types distintos (cross-category compare), no agregamos category
+  // link porque no hay una sola category obvia.
+  const productsForCategory = await loadProducts();
+  const byAsinForCategory = new Map(productsForCategory.map((p) => [p.data.asin, p]));
+  const productA = byAsinForCategory.get(comp.asinA);
+  const productB = byAsinForCategory.get(comp.asinB);
+  if (productA && productB && productA.data.type === productB.data.type) {
+    const categoryMeta = categoryMetaForType(productA.data.type);
+    if (categoryMeta) {
+      pushUnique(
+        out,
+        [
+          {
+            href: `/categories/${categoryMeta.slug}/`,
+            title: `All ${categoryMeta.displayName.toLowerCase()} in our catalog`,
+            kind: 'category',
+          },
+        ],
+        MAX_LINKS,
+        selfHref,
+      );
+    }
+  }
 
   // 1) Up to 2 best-of pages covering asinA / asinB. Prefer one per ASIN.
   const bestMatchesA: RelatedLink[] = [];
