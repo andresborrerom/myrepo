@@ -338,6 +338,30 @@ Andrés.`
       'De tus cinco hijos.'
   },
   {
+    year: 2008,
+    fromId: 'andres',
+    title: 'La despedida del primogénito',
+    body:
+`Cuatro hombres en Las Vegas. Tú, Luis Fer, Cami y yo. La despedida de soltero del mayor — y la única juerga de los cuatro hombres Borrero que hemos logrado armar en décadas con tanta familia alrededor.
+
+Espectáculos por la noche. Desayunos con muelas de cangrejo del tamaño de un puño. Los casinos los usamos poco — esos los aprovecha el que va de paso. Nosotros íbamos a estar juntos, y eso era el plan completo. Una ronda de golf que jugamos bien, un par de thrills en las alturas que me hicieron reírme del susto, y la sensación de que estábamos haciendo algo que no se repite fácil.
+
+Pero la despedida de verdad empezó después. El cañón del Colorado, río abajo. Rápidos en esa balsa gigante, acampar a la intemperie, a veces en alguna cueva para sentir más la aventura. El agua del principio del paseo estaba helada — solo tú te bañaste, tan pulcro como siempre.
+
+La última noche con los gringos amables que se nos pegaron en el campamento, sacamos el aguardiente. Ellos no entendían una palabra de lo que decíamos. Y aún así se reían por ósmosis, viéndonos a los cuatro en el piso de la risa; "the chicken is ready!" y al piso otra vez… Esas risas no se planean — salieron porque éramos los cuatro, solos, sin nadie que cuidar, sin nadie a quien rendirle cuentas.
+
+A los gordos los salvaste de tener que subir caminando el cañón a donde no iban a pasar. En la misma caminata que te hice pegar en la cabeza contra una piedra por mis propios nervios.
+
+Río abajo viendo hacia las piedras sentía algo raro. Cada capa de roca son millones de años recordándonos que era un paseo hacia el pasado, el futuro sería diferente. No peor, pero diferente.
+
+Esa despedida no fue la típica de nadie. Y por eso mismo no se nos olvidó. Pero las giras se atravesaron — esposas, hijos, trabajos, océanos — y muchos años pasaron sin que lográramos volverla a armar. El año pasado por fin sí. Y desde éste queremos institucionalizarla.
+
+Mi propuesta: noviembre. Las fiestas panameñas dan los días. Y que la fiesta sea una sola — la de papa, Luis Fer, Cami y Pocho. Que se vuelva costumbre, padre mío. De esas pocas cosas que el calendario protege.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 2017,
     fromId: 'andres',
     title: 'El año en que llegó Pepe',
