@@ -40,6 +40,8 @@
 - ✅ **Search page client-side** (commit 8d0f597): nueva `/search/` con Fuse.js sobre 148 entries (productos + best-of + compare + review), 26.4KB gzip total, schema WebSite SearchAction ahora apunta a URL real (sitelinks-search-box ready cuando ganemos autoridad). **156 páginas total.**
 - ✅ **Quiz snapshot tests** (commit pendiente): scoring extraído a `src/lib/quiz-scoring.js` + 9 tests (7 escenarios canónicos + 2 sanity) — todos passing. CI workflow corre `npm test` antes de build. Previene regresiones cuando se tunee scoring después de feedback real.
 - ✅ **Search filter pills + Calculator v2 shareable URL** (commits 6193056 + último): pills por kind (Products/Best/Compare/Reviews/All) con URL state en `/search/`; Share button + URL serialization en `/tools/cost-per-cup-calculator/` para backlinks orgánicos desde Reddit/foros.
+- ✅ **Brand + Category + Glossary pages** (commits varios): nuevas estructuras para topical authority. **13 brand pages** (Breville, Gaggia, etc.), **4 category pages** con buying guides (espresso-machines, grinders, brewers, accessories), **1 glossary page** con 55 términos técnicos + internal linking contextual aplicado a 10 páginas key.
+- 📊 **Total páginas del sitio: 176** (de los 67 iniciales: +163%).
 
 ### Próximo hito objetivo
 
@@ -128,3 +130,4 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-15 | Home page redesign (40.7KB total) | 7 secciones, 19 internal links concentrados, mejor first impression |
 | 2026-05-15 | Search page + Quiz tests (156 páginas) | Fuse.js search client-side + 9 snapshot tests del quiz scoring |
 | 2026-05-15 | Search filter pills + Calculator v2 shareable URL | Pulido UX final: filtrar resultados de search por kind, calculator URL serializable para backlinks |
+| 2026-05-17 | Brand + Category + Glossary pages (176 páginas) | Topical authority: 13 brand + 4 category buying guides + 1 glossary (55 términos) |
