@@ -1,6 +1,23 @@
 # robots.txt — currently blocks ALL crawlers
 # Reason: soft launch with mock content. Switch to "Allow" when ready to index.
-# Toggle documented in amazon-resale-project/docs/deploy-setup.md.
+#
+# ============================================================================
+# CUANDO ESTEMOS LISTOS PARA INDEXAR (decisión documentada en
+# docs/deployment-to-revenue.md, Gate 1):
+#
+# Reemplazar User-agent/Disallow de abajo con:
+#
+#   User-agent: *
+#   Allow: /
+#
+#   Sitemap: https://baristapath.com/sitemap-index.xml
+#
+# Esto permite Google + otros bots crawlear + indexar todo el sitio.
+# Tras el cambio:
+#   1. Commit + push
+#   2. Cloudflare auto-redeploya
+#   3. Operador submit sitemap a Google Search Console (Gate 2 del runbook)
+# ============================================================================
 
 User-agent: *
 Disallow: /
