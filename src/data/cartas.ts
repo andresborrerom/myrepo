@@ -134,6 +134,38 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 1990,
+    fromId: 'andres',
+    title: 'Villeta',
+    body:
+`Tu primera finca, papa. Santa Ibáñez.
+
+Era todo lo tuyo. Un lago. Un chorro de la quebrada que caía sobre uno cuando uno se metía debajo. Un horno hueco para fogatas. Una cancha de fútbol. Y una casa de lata y barro — porque tú nunca quisiste comodidades en la finca; querías estar afuera, en el monte, oliendo lo que olía.
+
+Sembraste mil árboles ahí. Mil. Yo lo digo en una frase y suena chico; un día contémoslos.
+
+Tu paisajismo, padre mío, no se le da a cualquiera. Tú llegabas a un monte con potreros pelados y un mes después ese monte era una finca. No sé de dónde te salió el ojo, pero era el ojo de un arquitecto del aire libre. Veías lo que iba a estar antes de que estuviera.
+
+Trajiste 100 vacas. Las trajiste con su toro — uno de 1.5 toneladas que fue, de toda la manada, el único que nunca dio problemas. Estaba tranquilo, como tú. Sabía que no había que demostrar nada.
+
+Tenías planes que no alcanzaste a hacer: traer avestruces, traer búfalos. Yo me imaginaba la finca con avestruces y me daba risa. Pero conociéndote, lo habrías logrado.
+
+Los animales de la casa: los perros — Bernie, Valentina, Ranger — y los caballos. Socio era tuyo. Inga era de Carolina. Moro era mío… Cada uno con su nombre, su carácter, su manera de querer al jinete que tocaba.
+
+¡La crecida del río! ¿Te acuerdas? Cuando salimos solo los niños de paseo y subió el agua. Tú quedaste allá con la angustia de no saber. No pasó nada al final, pero esa angustia tuya es de las cosas que entiendo distinto ahora que soy papá.
+
+Villeta era lo más importante que tenías en Colombia, emocionalmente. Toda tu visión del futuro estaba sembrada en esos potreros. Era tu legado.
+
+Cuando la delincuencia llegó a extorsionarte, fue la gota. Tú no negociabas con eso — tu ética es lo único más grande que el sueño que tenías allá. Y te fuiste. Empezaste otra vez, esta vez al otro lado del mar.
+
+Te pido perdón, papa, por no haber seguido el sueño contigo. No fue desinterés ni desamor. Fue que el sueño no era el mío, y mi capacidad de estar ahí tampoco. Eso me ha pesado en silencio durante años — el ver que armaste algo tan grande y que ninguno de tus hijos pudo recogerlo. Lo siento.
+
+Ahora tienes tu suelo en España. Tercer intento, siempre encontrando un buen río en frente. Y esa misma mano que sembraba mil árboles en Villeta sigue sembrando ahí. Que los nietos te acompañen, papa. Que no se quede solo con tus hijos. Que Pepe, Martín, Lucía, Alejo, Valentina, Miranda, Aleria o Carlota — que alguno también se enamore de tu manera de mirar la tierra. Porque eso, padre mío, no debería desaparecer.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 2016,
     fromId: 'andres',
     title: 'UC Berkeley',

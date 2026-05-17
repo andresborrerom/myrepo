@@ -24,6 +24,7 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 - **Edificio Garden** (Cl 93 #5-25, Bogotá): obra del estudio Borrero y Sánchez Cía. Cuna de Andrés — nació ahí, vivió 20 años.
 - **La Cristalina**: finca familiar, era del abuelo Fernando Borrero Caicedo. A Alejandro le encantaba. Aparece en la carta 1979 — varios "casi accidentes" de Andrés ocurrieron allí (cayó de espaldas 2 pisos, etc.).
 - **Las Villas** (Melgar, Tolima): finca alquilada por Alejandro para vacaciones familiares en los 80. Acuatobogán, piscina, río Sumapaz al lado, mangos biches con sal, murciélagos de fruta en picada por la noche. A Luis Fer lo picó una abeja allí (descubrieron su alergia). A Maca Santos (amiga de Carolina) la picó un alacrán.
+- **Villeta — Santa Ibáñez** (Cundinamarca): **primera finca propia** de Alejandro. Su gran sueño en Colombia. Tuvo lago, chorro de quebrada, horno para fogatas, cancha de fútbol, casa de lata y barro (sin comodidades a propósito). Mil árboles sembrados. 100 vacas con un toro de 1.5 toneladas (el único tranquilo). Perros: Bernie, Valentina, Ranger. Caballos: Socio (Alejandro), Inga (Carolina), Moro (Andrés). Planes nunca realizados: traer avestruces, búfalos. La extorsión de la delincuencia fue la gota que derramó el vaso — Alejandro decidió irse del país en 1997.
 - **Cali**: el otro destino de vacaciones — donde toda la familia.
 - **Marbella, España**: residencia de Alejandro desde diciembre 1997.
 - **La Calera**: donde Andrés, Marce y Luchi se fueron a vivir en febrero 2013.
@@ -56,8 +57,14 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 ### De Alejandro
 - **Blackie (?)** — el que esperaba a Andrés cuando nació, nombre incierto
 - **Valentina** — perra de Villeta, "consentida" de Andrés cuando iba a visitarlo
+- **Ranger** — perro de Villeta
 - **Bernie** — pastor alemán, regalo de Bernardo Pérez en 1992. Juicioso, mandón aunque no era el más grande, mucha energía, "daba la vida por él". Acompañó a Alejandro en cabalgatas en Villeta y armando la finca en Marbella.
 - A Alejandro le encantan los perros pero **siempre los quiere afuera** ("son estorbo adentro"). Eterna contradicción con Andrés.
+
+### Caballos de Villeta
+- **Socio** — el de Alejandro
+- **Inga** — la de Carolina
+- **Moro** — el de Andrés
 
 ### De Andrés
 - **Scotchis** — poodle estándar negro de infancia, vecinos lo confundían con oveja
@@ -212,6 +219,7 @@ Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio esti
 | **1983** | **Las Villas** | **Andrés** | Vacaciones de niños en Melgar — acuatobogán, río Sumapaz, mango biche, murciélagos |
 | **1985** | **Mi entrada al San Carlos** | **Andrés** | Colegio, Padre Francis, "servicio", Andrés se considera sencillo en el lujo |
 | **1988** | **Guillermo Esquella y la selva viva** | **Andrés** | Las "juergas" en la selva con Guillermo Esquella, militar chileno, en los 80s |
+| **1990** | **Villeta** | **Andrés** | Santa Ibáñez, la primera finca de Alejandro; sueño truncado por la extorsión |
 | 1991 | El benjamín | Camilo | [pendiente] |
 | **1991** | **El año en que llegó Cami** | **Andrés** | Tras la separación del 86, llega el hermano del alma |
 | **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
