@@ -32,6 +32,7 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 
 ## Personajes secundarios (parientes y referencias)
 
+- **Elsa María**: segunda esposa de Alejandro, mamá de Camilo. Alejandro se separó de ella cuando Cami tenía 18 (≈2009). Tiene una tía en Wörms, Alemania, que recibió a la familia en el viaje a Europa de 1993.
 - **Tía Ceci**: hermana de la suegra de Andrés, es decir, tía de Marce. "Recatada".
 - **Suegrita** de Andrés (mamá de Marce): "alcahuetas" y "transparente". Vuela a la casa cuando la necesitan.
 
@@ -88,7 +89,7 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 | Luis Fernando Borrero | 16 ago 1973 | |
 | Alexandra Borrero | 20 ago 1975 | Vive en Mirador de la Cañada |
 | Carolina Borrero | 31 may 1977 | |
-| **Andrés Borrero** | 8 ago 1979 | Narrador de las cartas |
+| **Andrés Borrero** | 8 ago 1979 | Narrador de las cartas. Apodo: **"Pocho"** (en uso entre los 4 hombres Borrero) |
 | Camilo Borrero | 3 jul 1991 | "Cami" o "cachetón" — bogotano de nacimiento, andaluz de crecimiento (vive en Andalucía, España). Cascarrabias profesional. Andrés le dice "el Gato con Botas" por su acento. |
 
 ### Los 8 nietos (lista incompleta de fechas)
@@ -223,10 +224,12 @@ Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio esti
 | 1991 | El benjamín | Camilo | [pendiente] |
 | **1991** | **El año en que llegó Cami** | **Andrés** | Tras la separación del 86, llega el hermano del alma |
 | **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
+| **1993** | **Conocer Europa** | **Andrés** | Viaje familiar a Europa a los 14: París, Frankfurt, Madrid, Strasbourg, Worms. Cami bebé en París, Selva Negra, paletas Frac, tía desconocida de Elsa María en Wörms |
 | **1996** | **América de Cali** | **Andrés** | Hincha por legado, Camilo "cerdo mayor", el Pipa y la ética de papá |
 | 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |
 | 2000 | El año en que tu papá se volvió escuela | Los 5 hijos | Fundación FBC |
+| **2008** | **La despedida del primogénito** | **Andrés** | Despedida de soltero de LF: Las Vegas + Cañón del Colorado. Cuatro hombres Borrero. "The chicken is ready!", aguardiente con gringos amables, helicóptero para los gordos. Propuesta: institucionalizar reunión anual en noviembre |
 | **2012** | **Mayo del 2012** | **Andrés** | Conoce a Marce, fin del desorden, reflexión sobre matrimonio |
 | **2016** | **UC Berkeley** | **Andrés** | Boda con Marce, embarazo de Pepe, maestría Berkeley, nuevo trabajo inversiones |
 | **2017** | **El año en que llegó Pepe** | **Andrés** | Nacimiento de Pepe, "igual al abuelo" |

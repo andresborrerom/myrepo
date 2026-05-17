@@ -264,6 +264,35 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 1993,
+    fromId: 'andres',
+    title: 'Conocer Europa',
+    body:
+`Tenía catorce años.
+
+Nos llevaste a conocer Europa — los seis: tú, los cuatro grandes y Cami, que tenía dos años.
+
+Paris, Frankfurt, Madrid, Strasbourg, Worms. Un mes largo, varios países. El clima europeo me dejó loco — y la verdad nunca lo he terminado de entender. En París pasamos frío de verdad. Una semana después, en Madrid, nos ahogábamos del calor.
+
+París fue la primera parada. Los Campos Elíseos, la Torre Eiffel, el Arco de Triunfo, el Sena, Notre-Dame. Es la única vez que he visto París y, aunque pasaron más de treinta años, todavía la recuerdo bien — probablemente más bonita en mi memoria de catorce años que en la realidad de hoy.
+
+Una noche todos se fueron a un restaurante a comer arroz negro en tinta de calamar. Yo me quedé cuidando a Cami, el bebé. Y ese día Cami me salvó sin enterarse, porque a los catorce años yo no habría sabido apreciar arroz en tinta de calamar.
+
+De Estrasburgo recuerdo el desconcierto. Llegando a la "frontera alemana" nos topamos con una ciudad de nombre alemán que resultó estar en Francia: Strasbourg. Y además era una belleza — la primera de las grandes sorpresas estéticas del viaje. Ninguno de nosotros lo había estudiado en geografía, y entendimos en vivo que las fronteras europeas son más historia que línea.
+
+De Alemania me quedó la Selva Negra por encima de todo. El verde profundo, la carretera entre los árboles. Frankfurt me sorprendió por lo industrial — uno se imagina Alemania como castillos y aldeas, no como torres de oficinas. Y el tamaño de los policías alemanes… eso no se me olvida. Yo, a los catorce, mirándolos hacia arriba como si fueran torres. Y Wörms:  la casa de una tía desconocida de Elsa María, que nos recibió amablemente en un pueblo bonito donde a las nueve de la noche no se conseguía dónde comer.
+
+Después, España. Madrid, papá, fue amor a primera vista. Es la ciudad en la que más me gusta caminar del mundo — lo confirmé ese año y lo he confirmado cada vez que vuelvo. Algo tiene Madrid que el ojo no se cansa de mirar: las plazas, las terrazas, el ritmo de la gente.
+
+Pero el calor de Madrid esa semana fue salvaje. La salvación eran las paletas Frac de Magnum y la Coca-Cola helada — las recuerdo como si me las acabara de tomar.
+
+A los catorce conocí Europa. Como un niño muy afortunado, y con todos mis hermanos.
+
+Gracias de nuevo padre mío!
+Te adoro,
+Andrés`
+  },
+  {
     year: 1996,
     fromId: 'andres',
     title: 'América de Cali',
@@ -336,6 +365,30 @@ Andrés.`
       'el nombre de tu papá.\n\n' +
       'Tu padre no se fue. Se volvió escuela.\n\n' +
       'De tus cinco hijos.'
+  },
+  {
+    year: 2008,
+    fromId: 'andres',
+    title: 'La despedida del primogénito',
+    body:
+`Cuatro hombres en Las Vegas. Tú, Luis Fer, Cami y yo. La despedida de soltero del mayor — y la única juerga de los cuatro hombres Borrero que hemos logrado armar en décadas con tanta familia alrededor.
+
+Espectáculos por la noche. Desayunos con muelas de cangrejo del tamaño de un puño. Los casinos los usamos poco — esos los aprovecha el que va de paso. Nosotros íbamos a estar juntos, y eso era el plan completo. Una ronda de golf que jugamos bien, un par de thrills en las alturas que me hicieron reírme del susto, y la sensación de que estábamos haciendo algo que no se repite fácil.
+
+Pero la despedida de verdad empezó después. El cañón del Colorado, río abajo. Rápidos en esa balsa gigante, acampar a la intemperie, a veces en alguna cueva para sentir más la aventura. El agua del principio del paseo estaba helada — solo tú te bañaste, tan pulcro como siempre.
+
+La última noche con los gringos amables que se nos pegaron en el campamento, sacamos el aguardiente. Ellos no entendían una palabra de lo que decíamos. Y aún así se reían por ósmosis, viéndonos a los cuatro en el piso de la risa; "the chicken is ready!" y al piso otra vez… Esas risas no se planean — salieron porque éramos los cuatro, solos, sin nadie que cuidar, sin nadie a quien rendirle cuentas.
+
+A los gordos los salvaste de tener que subir caminando el cañón a donde no iban a pasar. En la misma caminata que te hice pegar en la cabeza contra una piedra por mis propios nervios.
+
+Río abajo viendo hacia las piedras sentía algo raro. Cada capa de roca son millones de años recordándonos que era un paseo hacia el pasado, el futuro sería diferente. No peor, pero diferente.
+
+Esa despedida no fue la típica de nadie. Y por eso mismo no se nos olvidó. Pero las giras se atravesaron — esposas, hijos, trabajos, océanos — y muchos años pasaron sin que lográramos volverla a armar. El año pasado por fin sí. Y desde éste queremos institucionalizarla.
+
+Mi propuesta: noviembre. Las fiestas panameñas dan los días. Y que la fiesta sea una sola — la de papa, Luis Fer, Cami y Pocho. Que se vuelva costumbre, padre mío. De esas pocas cosas que el calendario protege.
+
+Te adoro,
+Andrés.`
   },
   {
     year: 2017,
