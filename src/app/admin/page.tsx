@@ -1,7 +1,9 @@
 import PasswordGate from '@/components/PasswordGate';
 import AdminClient from './AdminClient';
+import CoberturaPanel from './CoberturaPanel';
 import { isAdminAuth } from '@/lib/auth';
 import { fetchAllAportesAdmin } from '@/lib/aportes-fetch';
+import { getCobertura } from '@/lib/cartas-fetch';
 
 export const metadata = { title: 'Admin' };
 export const dynamic = 'force-dynamic';
@@ -18,7 +20,15 @@ export default async function AdminPage() {
   }
 
   // Admin ve TODO (incluyendo flagged/pending) usando service_role server-side.
-  const aportes = await fetchAllAportesAdmin();
+  const [aportes, cobertura] = await Promise.all([
+    fetchAllAportesAdmin(),
+    getCobertura()
+  ]);
 
-  return <AdminClient initialAportes={aportes} />;
+  return (
+    <div className="space-y-6 pb-10">
+      <CoberturaPanel data={cobertura} />
+      <AdminClient initialAportes={aportes} />
+    </div>
+  );
 }
