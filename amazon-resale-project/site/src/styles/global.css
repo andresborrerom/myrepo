@@ -726,6 +726,13 @@ li {
   content: 'Category';
 }
 
+.related-link--glossary {
+  border-left-color: #5c554c;
+}
+.related-link--glossary::before {
+  content: 'Glossary';
+}
+
 /* ---------- Brand pages ---------- */
 /* Brand index/[slug] usan .product-grid pero queremos 3 columnas en
    desktop (no 4): los nombres y descriptions ocupan más ancho cómodo. */
@@ -1818,5 +1825,124 @@ li {
 
 .methodology-banner-home__cta:hover,
 .methodology-banner-home__cta:focus-visible {
+  text-decoration: underline;
+}
+
+/* ---------- Glossary page ---------- */
+/*
+ * Single-page glossary con 40-50 entries. Layout denso pero legible:
+ * jump-nav arriba, secciones por category, <dl> con cada entry.
+ * Scroll-margin-top en las entries para que el anchor link no quede
+ * pegado al borde superior cuando se aterriza desde un link externo.
+ */
+.glossary-nav {
+  margin: var(--space-lg) 0;
+  padding: var(--space-md);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius);
+}
+
+.glossary-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-lg);
+}
+
+.glossary-nav a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.glossary-nav a:hover,
+.glossary-nav a:focus-visible {
+  text-decoration: underline;
+}
+
+.glossary-section {
+  scroll-margin-top: var(--space-md);
+}
+
+.glossary-section__intro {
+  margin-top: calc(var(--space-md) * -0.5);
+  margin-bottom: var(--space-lg);
+}
+
+.glossary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin: var(--space-md) 0;
+  padding: 0;
+}
+
+.glossary-entry {
+  scroll-margin-top: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.glossary-entry:target {
+  border-left-color: var(--color-accent);
+  background: var(--color-surface-alt);
+}
+
+.glossary-entry dt {
+  display: block;
+}
+
+.glossary-entry dd {
+  margin: 0;
+  padding: 0;
+}
+
+.glossary-entry__term {
+  font-size: 1.1rem;
+  margin: 0;
+  font-family: var(--font-serif);
+}
+
+.glossary-entry__anchor {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.glossary-entry__anchor:hover,
+.glossary-entry__anchor:focus-visible {
+  text-decoration: underline;
+  color: var(--color-link);
+}
+
+.glossary-entry__aliases {
+  font-size: 0.8rem;
+  margin: 2px 0 var(--space-sm);
+}
+
+.glossary-entry__definition {
+  margin: var(--space-sm) 0 0;
+}
+
+.glossary-entry__context {
+  margin: var(--space-sm) 0 0;
+  font-size: 0.93rem;
+}
+
+.glossary-entry__related {
+  margin: var(--space-sm) 0 0;
+  font-size: 0.875rem;
+}
+
+.glossary-entry__related a {
+  text-decoration: none;
+}
+
+.glossary-entry__related a:hover,
+.glossary-entry__related a:focus-visible {
   text-decoration: underline;
 }

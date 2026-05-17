@@ -11,6 +11,13 @@ export interface BestPage {
   slug: string;
   title: string;
   intro: string;
+  /**
+   * Versión HTML opcional de intro — cuando está presente, el template la
+   * renderiza con set:html en lugar de intro. Habilita inline links a
+   * /glossary/#<slug> y otras páginas internas. El contenido es
+   * authored-by-us (no XSS risk).
+   */
+  introHtml?: string;
   description: string;
   filter: (p: ProductData) => boolean;
   sort?: (a: ProductData, b: ProductData) => number;
@@ -50,6 +57,10 @@ export const bestPages: BestPage[] = [
     title: 'Best Espresso Machines Under $500',
     intro:
       'Under $500 is the price zone where home espresso transitions from "barely drinkable" to "actually good." The picks below balance build quality, temperature control, and upgrade potential.',
+    // introHtml: linkea PID y thermoblock al glossary. Cap 2 links — el
+    // intro es corto y over-linking se ve raro arriba del fold.
+    introHtml:
+      'Under $500 is the price zone where home espresso transitions from "barely drinkable" to "actually good." The picks below balance build quality, <a href="/glossary/#pid-controller">temperature control</a>, and upgrade potential — most options at this tier use a <a href="/glossary/#thermoblock">thermoblock</a> heater rather than a full boiler.',
     description:
       'Hand-picked espresso machines under $500 with PID, real steam wands, and serviceable parts. Ranked by build quality and shot consistency.',
     filter: (p) => p.type === 'espresso-machine' && p.price < 500,
@@ -60,6 +71,8 @@ export const bestPages: BestPage[] = [
     title: 'Best Coffee Grinders Under $200',
     intro:
       'A quality grinder matters more than a quality espresso machine — even a $200 grinder can outperform a $1,500 machine paired with a blade grinder. The picks here cover both espresso and filter use.',
+    introHtml:
+      'A quality grinder matters more than a quality espresso machine — even a $200 <a href="/glossary/#burr">burr grinder</a> can outperform a $1,500 machine paired with a blade grinder. The picks here cover both espresso and filter use, with notes on <a href="/glossary/#retention">retention</a> and adjustment for each.',
     description:
       'Best burr grinders under $200 for espresso and filter coffee. Includes electric and hand grinders, ranked by particle distribution and value.',
     filter: (p) => p.type === 'grinder' && p.price < 200,
@@ -164,6 +177,8 @@ export const bestPages: BestPage[] = [
     title: 'Best Espresso Machines Under $1,000 With PID',
     intro:
       'PID temperature control under $1,000 is no longer rare — but implementations differ. Some are factory PIDs on single thermocoils; others are real prosumer single-boiler PIDs with 58mm commercial groups. The picks here flag which is which.',
+    introHtml:
+      '<a href="/glossary/#pid-controller">PID</a> temperature control under $1,000 is no longer rare — but implementations differ. Some are factory PIDs on <a href="/glossary/#thermoblock">single thermocoils</a>; others are real prosumer <a href="/glossary/#single-boiler">single-boiler</a> PIDs with 58mm commercial <a href="/glossary/#group-head">groups</a>. The picks here flag which is which.',
     description:
       'PID-equipped espresso machines under $1,000 — from Breville thermojet to Lelit Anna and Rancilio Silvia. Compared on temperature stability and upgrade path.',
     filter: (p) =>
@@ -187,6 +202,8 @@ export const bestPages: BestPage[] = [
     title: 'Best Espresso Machines Under $700 With 58mm Portafilter',
     intro:
       'A 58mm commercial portafilter unlocks the broadest aftermarket: bottomless baskets, precision tampers, puck screens, dosing funnels. The picks here are all sub-$700 machines that ship with the standard 58mm group, not Breville\'s 54mm or De\'Longhi\'s 51mm.',
+    introHtml:
+      'A 58mm commercial <a href="/glossary/#portafilter">portafilter</a> unlocks the broadest aftermarket: <a href="/glossary/#bottomless-portafilter">bottomless baskets</a>, precision <a href="/glossary/#calibrated-tamper">tampers</a>, <a href="/glossary/#puck-screen">puck screens</a>, dosing funnels. The picks here are all sub-$700 machines that ship with the standard 58mm <a href="/glossary/#group-head">group</a>, not Breville\'s 54mm or De\'Longhi\'s 51mm.',
     description:
       'Sub-$700 espresso machines with commercial 58mm portafilters — Gaggia, Rancilio, Lelit, and lever options compared.',
     filter: (p) =>
@@ -206,6 +223,8 @@ export const bestPages: BestPage[] = [
     title: 'Best Coffee Grinders Under $500 With Stepless Adjustment',
     intro:
       'Stepless adjustment is the unlock for serious espresso dialing — you can move in fractions of a step instead of jumping between fixed positions. Under $500, options span budget single-dose, mid-range flat-burr, and Wilfa\'s filter-focused entry pick.',
+    introHtml:
+      '<a href="/glossary/#stepless-adjustment">Stepless adjustment</a> is the unlock for serious espresso dialing — you can move in fractions of a step instead of jumping between fixed positions. Under $500, options span budget <a href="/glossary/#single-dosing">single-dose</a>, mid-range <a href="/glossary/#flat-burr">flat-burr</a>, and Wilfa\'s filter-focused entry pick.',
     description:
       'Stepless burr grinders under $500 for precise espresso dialing — Wilfa Svart, Sette 270, and DF64 compared.',
     filter: (p) =>
@@ -648,6 +667,8 @@ export const bestPages: BestPage[] = [
     title: 'Best Single-Dose Coffee Grinders',
     intro:
       'Single-dose grinders are designed for users who switch beans frequently — light roast in the morning, dark in the afternoon, decaf at night. They retain near-zero grounds between doses, so each bean change starts clean. The picks here range $200 to $800.',
+    introHtml:
+      '<a href="/glossary/#single-dosing">Single-dose grinders</a> are designed for users who switch beans frequently — <a href="/glossary/#light-roast">light roast</a> in the morning, <a href="/glossary/#dark-roast">dark</a> in the afternoon, decaf at night. They have near-zero <a href="/glossary/#retention">retention</a> between doses, so each bean change starts clean. The picks here range $200 to $800.',
     description:
       'Best single-dose grinders — Fellow Opus, Fellow Ode Gen 2, DF64, and Niche Zero compared for low-retention espresso and filter workflows.',
     filter: (p) =>

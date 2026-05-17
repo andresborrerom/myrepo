@@ -233,7 +233,9 @@ void CATEGORY_META;
     <Byline updatedAt={updatedAt} />
 
     <section class="category-lead">
-      {category.intro.map((paragraph) => <p>{paragraph}</p>)}
+      {category.introHtml
+        ? category.introHtml.map((paragraph) => <p set:html={paragraph} />)
+        : category.intro.map((paragraph) => <p>{paragraph}</p>)}
     </section>
 
     <section class="section">
@@ -303,7 +305,9 @@ void CATEGORY_META;
       {category.buyingGuideTopics.map((topic) => (
         <>
           <h3>{topic.heading}</h3>
-          {topic.body.map((paragraph) => <p>{paragraph}</p>)}
+          {topic.bodyHtml
+            ? topic.bodyHtml.map((paragraph) => <p set:html={paragraph} />)
+            : topic.body.map((paragraph) => <p>{paragraph}</p>)}
         </>
       ))}
     </section>

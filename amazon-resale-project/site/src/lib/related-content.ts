@@ -16,7 +16,7 @@ import { reviewPages } from '../data/review-pages';
 import { brandMetaFor } from '../data/brand-pages';
 import { categoryMetaForType } from '../data/category-pages';
 
-export type RelatedKind = 'product' | 'best' | 'compare' | 'review' | 'brand' | 'category';
+export type RelatedKind = 'product' | 'best' | 'compare' | 'review' | 'brand' | 'category' | 'glossary';
 
 export interface RelatedLink {
   href: string;

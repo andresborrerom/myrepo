@@ -159,7 +159,11 @@ void bestPages;
 >
   <h1>{page.title}</h1>
   <Byline updatedAt={updatedAt} />
-  <p class="lead">{page.intro}</p>
+  {page.introHtml ? (
+    <p class="lead" set:html={page.introHtml} />
+  ) : (
+    <p class="lead">{page.intro}</p>
+  )}
 
   {matches.length === 0 ? (
     <p>No products match this criteria yet. Check back as the catalog grows.</p>

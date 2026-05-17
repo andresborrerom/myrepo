@@ -21,6 +21,14 @@ export interface CategoryBuyingGuideTopic {
   heading: string;
   /** Párrafos del topic — cada string es un <p>. */
   body: string[];
+  /**
+   * Versión HTML opcional de body — cuando está presente, el template la
+   * renderiza con set:html en lugar de body, permitiendo inline links a
+   * /glossary/#<slug> y otras páginas. Usado para internal linking
+   * contextual desde buying guides al glossary. El contenido es
+   * authored-by-us (no XSS risk).
+   */
+  bodyHtml?: string[];
 }
 
 export interface CategoryFaq {
@@ -41,6 +49,12 @@ export interface CategoryMeta {
   description: string;
   /** 2-3 párrafos editorial — array de strings, cada uno un <p>. */
   intro: string[];
+  /**
+   * Versión HTML opcional de intro — cuando está presente, el template la
+   * renderiza con set:html en lugar de intro. Habilita inline links al
+   * glossary y otras páginas internas.
+   */
+  introHtml?: string[];
   /** Buying guide topics. 3-4 sub-secciones. */
   buyingGuideTopics: CategoryBuyingGuideTopic[];
   /** FAQ entries — 4-5 head-term Q&A. */
@@ -60,6 +74,17 @@ export const CATEGORY_META: CategoryMeta[] = [
       'The right architecture depends on whether you want to control extraction variables yourself or have the machine handle them — and on how much counter space you can dedicate to a single appliance. A manual lever pulls genuine 9-bar shots in 8 inches of width with no power outlet; a prosumer dual-boiler asks for 14+ inches and a 1500W circuit.',
       'Within pump machines, the meaningful divisions are boiler architecture (thermoblock, single boiler, heat exchanger, dual boiler), portafilter size (51mm and 54mm proprietary vs the 58mm commercial standard), and PID temperature control. Most cup-quality differences between sub-$2,000 machines come from those three variables more than from headline features.',
     ],
+    // introHtml habilita inline links al glossary en los tres párrafos
+    // del lead. Reemplaza intro cuando está presente. Mantenemos `intro`
+    // sin tocar como fallback y para uso en JSON-LD/meta (donde el HTML
+    // sobra). Términos linkeados: 9 bar pressure, steam wand, boiler
+    // architectures (thermoblock, single boiler, heat exchanger, dual
+    // boiler), group head, PID controller.
+    introHtml: [
+      'Espresso machines compress hot water through finely-ground coffee at roughly <a href="/glossary/#nine-bar-pressure">9 bars of pressure</a>. The category spans manual lever machines (no electricity, no pump, you provide the force), semi-automatic pump machines with a separate <a href="/glossary/#steam-wand">steam wand</a>, and super-automatic bean-to-cup units that grind, dose, brew, and texture milk on a single button.',
+      'The right architecture depends on whether you want to control extraction variables yourself or have the machine handle them — and on how much counter space you can dedicate to a single appliance. A manual lever pulls genuine 9-bar shots in 8 inches of width with no power outlet; a prosumer dual-boiler asks for 14+ inches and a 1500W circuit.',
+      'Within pump machines, the meaningful divisions are <a href="/glossary/#boiler">boiler architecture</a> (<a href="/glossary/#thermoblock">thermoblock</a>, <a href="/glossary/#single-boiler">single boiler</a>, <a href="/glossary/#heat-exchanger">heat exchanger</a>, <a href="/glossary/#dual-boiler">dual boiler</a>), <a href="/glossary/#group-head">portafilter size</a> (51mm and 54mm proprietary vs the 58mm commercial standard), and <a href="/glossary/#pid-controller">PID temperature control</a>. Most cup-quality differences between sub-$2,000 machines come from those three variables more than from headline features.',
+    ],
     buyingGuideTopics: [
       {
         heading: 'What to look for',
@@ -67,6 +92,14 @@ export const CATEGORY_META: CategoryMeta[] = [
           'PID temperature control is the highest-impact specification under $1,000 — it keeps brew water within ±1°C of target across consecutive shots, which removes one of the largest sources of cup variation. Below the PID tier, brew temperature drifts shot to shot and you compensate by adjusting grind, which only partially recovers the loss.',
           'Portafilter size determines your aftermarket. The 58mm commercial standard has every imaginable basket, tamper, distributor, and bottomless option built for it first. Breville\'s 54mm and De\'Longhi La Specialista\'s 51mm work fine out of the box but lock you into smaller aftermarket catalogs at slightly higher per-unit prices.',
           'For households making two or more milk drinks back to back, dual-boiler architecture (separate brew and steam circuits) removes the wait between shot and milk. For single-cup households, a single-boiler PID does the same work for $600-1,500 less — you just wait 30 seconds between brewing and steaming.',
+        ],
+        // Internal linking contextual al glossary: PID, portafilter,
+        // bottomless, dual boiler, single boiler. Cap deliberado en
+        // ~5 links por topic para no over-linkear.
+        bodyHtml: [
+          '<a href="/glossary/#pid-controller">PID temperature control</a> is the highest-impact specification under $1,000 — it keeps brew water within ±1°C of target across consecutive shots, which removes one of the largest sources of cup variation. Below the PID tier, brew temperature drifts shot to shot and you compensate by adjusting grind, which only partially recovers the loss.',
+          '<a href="/glossary/#portafilter">Portafilter</a> size determines your aftermarket. The 58mm commercial standard has every imaginable basket, tamper, distributor, and <a href="/glossary/#bottomless-portafilter">bottomless</a> option built for it first. Breville\'s 54mm and De\'Longhi La Specialista\'s 51mm work fine out of the box but lock you into smaller aftermarket catalogs at slightly higher per-unit prices.',
+          'For households making two or more milk drinks back to back, <a href="/glossary/#dual-boiler">dual-boiler</a> architecture (separate brew and steam circuits) removes the wait between shot and milk. For <a href="/glossary/#single-boiler">single-cup households, a single-boiler PID</a> does the same work for $600-1,500 less — you just wait 30 seconds between brewing and steaming.',
         ],
       },
       {
@@ -127,6 +160,11 @@ export const CATEGORY_META: CategoryMeta[] = [
       'Burr geometry shapes the particle distribution: flat burrs tend toward bimodal distributions perceived as cleaner and more separated in the cup; conicals produce a slightly wider distribution often described as heavier-bodied. Both pull excellent espresso. Pick by retention, footprint, and budget more than by geometry alone.',
       'Retention — the grams of coffee a grinder keeps inside between sessions — matters for single-dose workflows where you switch beans often. Under 1g is excellent; 1-3g is normal for hopper-fed designs; over 5g is a problem only if you weigh dose-in. For one-bean households running a single hopper, retention is usually irrelevant.',
     ],
+    introHtml: [
+      'A grinder is often the higher-impact upgrade in a home coffee setup. The two questions that decide everything else: <a href="/glossary/#burr">burr type</a> (<a href="/glossary/#flat-burr">flat</a> vs <a href="/glossary/#conical-burr">conical</a>), and whether you grind on-demand for one shot or weigh out doses ahead of time. <a href="/glossary/#stepped-adjustment">Stepped</a> vs <a href="/glossary/#stepless-adjustment">stepless adjustment</a> matters for fine-tuning espresso; for filter coffee, stepped is fine.',
+      'Burr geometry shapes the particle distribution: flat burrs tend toward bimodal distributions perceived as cleaner and more separated in the cup; conicals produce a slightly wider distribution often described as heavier-bodied. Both pull excellent espresso. Pick by <a href="/glossary/#retention">retention</a>, footprint, and budget more than by geometry alone.',
+      '<a href="/glossary/#retention">Retention</a> — the grams of coffee a grinder keeps inside between sessions — matters for <a href="/glossary/#single-dosing">single-dose workflows</a> where you switch beans often. Under 1g is excellent; 1-3g is normal for hopper-fed designs; over 5g is a problem only if you weigh dose-in. For one-bean households running a single hopper, retention is usually irrelevant.',
+    ],
     buyingGuideTopics: [
       {
         heading: 'What to look for',
@@ -134,6 +172,11 @@ export const CATEGORY_META: CategoryMeta[] = [
           'For espresso specifically, you need fine adjustment in the espresso range (typically the first 5-15 steps from zero), low retention if you change beans, and a chassis that does not walk across the counter under load. The Baratza Encore ESP, Eureka Mignon series, and DF64 all meet these criteria at different price tiers.',
           'For filter coffee (V60, Chemex, AeroPress, drip), grind consistency matters more than fine adjustment. The Baratza Encore, Fellow Ode Gen 2, and Wilfa Svart cover this segment well. Filter coarseness is more forgiving than espresso fineness — a budget grinder that fails on espresso may still grind excellent pour-over.',
           'Stepless adjustment lets you move in fractions of a click for espresso dialing — the difference between an 18g/36g shot in 28 seconds and 32 seconds is often a quarter-step of grind. For Breville Bambino-class machines with built-in flow assistance, stepped is usable. For Gaggia Classic and above, stepless makes dialing meaningfully faster.',
+        ],
+        bodyHtml: [
+          'For espresso specifically, you need fine adjustment in the espresso range (typically the first 5-15 steps from zero), low <a href="/glossary/#retention">retention</a> if you change beans, and a chassis that does not walk across the counter under load. The Baratza Encore ESP, Eureka Mignon series, and DF64 all meet these criteria at different price tiers.',
+          'For filter coffee (<a href="/glossary/#pour-over">V60</a>, <a href="/glossary/#chemex">Chemex</a>, <a href="/glossary/#aeropress">AeroPress</a>, drip), grind consistency matters more than fine adjustment. The Baratza Encore, Fellow Ode Gen 2, and Wilfa Svart cover this segment well. Filter coarseness is more forgiving than espresso fineness — a budget grinder that fails on espresso may still grind excellent pour-over.',
+          '<a href="/glossary/#stepless-adjustment">Stepless adjustment</a> lets you move in fractions of a click for espresso dialing — the difference between an 18g/36g shot in 28 seconds and 32 seconds is often a quarter-step of grind. For Breville Bambino-class machines with built-in flow assistance, <a href="/glossary/#stepped-adjustment">stepped</a> is usable. For Gaggia Classic and above, stepless makes dialing meaningfully faster.',
         ],
       },
       {
@@ -192,6 +235,11 @@ export const CATEGORY_META: CategoryMeta[] = [
     intro: [
       'Coffee brewers in this catalog cover the non-espresso methods: pour-over cones (V60, Kalita Wave, Chemex), immersion devices (French press, AeroPress), stovetop pressure (Moka pot), and electric drip (Moccamaster). Each method extracts differently and produces a distinct cup profile.',
       'The two underlying axes are immersion vs percolation, and filter material. Immersion (French press, AeroPress) submerges grounds in water for a fixed time, producing fuller-bodied cups with more dissolved solids; percolation (pour-over, drip) flows water through a grounds bed, producing cleaner cups with less sediment. Paper filters retain oils and fines; metal filters pass both.',
+      'Brewer choice usually comes down to capacity (single cup vs batch), cleanup tolerance (paper is trivial, metal mesh requires care), and pour control. A $25 Hario V60 and a $45 Kalita Wave both produce excellent specialty-cafe coffee for one drink at a time; a $359 Moccamaster does the same job for 4-10 cups without skill.',
+    ],
+    introHtml: [
+      'Coffee brewers in this catalog cover the non-espresso methods: <a href="/glossary/#pour-over">pour-over</a> cones (V60, Kalita Wave, <a href="/glossary/#chemex">Chemex</a>), <a href="/glossary/#immersion-brewing">immersion</a> devices (French press, <a href="/glossary/#aeropress">AeroPress</a>), stovetop pressure (<a href="/glossary/#moka-pot">Moka pot</a>), and electric drip (Moccamaster). Each method extracts differently and produces a distinct cup profile.',
+      'The two underlying axes are <a href="/glossary/#percolation-vs-immersion">immersion vs percolation</a>, and filter material. Immersion (French press, AeroPress) submerges grounds in water for a fixed time, producing fuller-bodied cups with more dissolved solids; percolation (pour-over, drip) flows water through a grounds bed, producing cleaner cups with less sediment. Paper filters retain oils and fines; metal filters pass both.',
       'Brewer choice usually comes down to capacity (single cup vs batch), cleanup tolerance (paper is trivial, metal mesh requires care), and pour control. A $25 Hario V60 and a $45 Kalita Wave both produce excellent specialty-cafe coffee for one drink at a time; a $359 Moccamaster does the same job for 4-10 cups without skill.',
     ],
     buyingGuideTopics: [
@@ -260,6 +308,11 @@ export const CATEGORY_META: CategoryMeta[] = [
       'In total accessory budget terms, a first-year home espresso setup typically benefits more from $150-200 of accessories than from any single $200 upgrade elsewhere. The tamper alone eliminates shot-to-shot pressure variation; the knock box eliminates one of the biggest workflow frictions; the milk pitcher determines whether latte art is even possible.',
       'Sizing matters more in accessories than in machines. A 12oz milk pitcher fits Breville Bambino auto-frothing geometry and single-cup drinks; a 20oz pitcher handles two-drink batches. A 54mm tamper fits the entire Breville lineup; a 58mm tamper fits Gaggia, Rancilio, and most prosumer machines. Generic Amazon accessories often ship in one nominal size with loose tolerances; brand accessories (Normcore, Rattleware, Joe Frex) hold sizing to a quarter-millimeter.',
     ],
+    introHtml: [
+      'Coffee accessories cover the workflow gaps that most espresso machines and brewers leave open: a real <a href="/glossary/#calibrated-tamper">calibrated tamper</a> instead of the plastic stock one, a <a href="/glossary/#knock-box">knock box</a> for spent <a href="/glossary/#puck">pucks</a>, a <a href="/glossary/#milk-pitcher">milk pitcher</a> sized to your drink volume, a <a href="/glossary/#wdt">WDT tool</a> to break clumps before <a href="/glossary/#tamping">tamping</a>, cleaning powders for weekly maintenance, and scales precise enough to weigh shots in real time.',
+      'In total accessory budget terms, a first-year home espresso setup typically benefits more from $150-200 of accessories than from any single $200 upgrade elsewhere. The tamper alone eliminates shot-to-shot pressure variation; the knock box eliminates one of the biggest workflow frictions; the milk pitcher determines whether latte art is even possible.',
+      'Sizing matters more in accessories than in machines. A 12oz milk pitcher fits Breville Bambino auto-frothing geometry and single-cup drinks; a 20oz pitcher handles two-drink batches. A 54mm tamper fits the entire Breville lineup; a 58mm tamper fits Gaggia, Rancilio, and most prosumer machines. Generic Amazon accessories often ship in one nominal size with loose tolerances; brand accessories (Normcore, Rattleware, Joe Frex) hold sizing to a quarter-millimeter.',
+    ],
     buyingGuideTopics: [
       {
         heading: 'What to look for',
@@ -267,6 +320,12 @@ export const CATEGORY_META: CategoryMeta[] = [
           'A calibrated tamper sized to your basket is the single highest-ROI accessory. Stock tampers from Breville, Gaggia, and De\'Longhi are plastic, undersized, and inconsistent. A $40-65 spring-loaded tamper (Normcore at both 54mm and 58mm) removes tamping pressure variation entirely and is the cheapest upgrade with a visible effect on shot quality.',
           'For milk drinks, the pitcher size dictates the drink size. A 12oz pitcher fills a 6-8oz cappuccino with the right milk-to-coffee ratio; a 20oz pitcher fills two drinks back to back. The spout geometry (sharp competition cut vs rounded) determines latte art capability; the Rattleware 12oz and Joe Frex 20oz both ship with cafe-grade spouts.',
           'For dialed-in espresso workflows, a scale resolving to 0.1g is the second high-ROI accessory after the tamper. The Acaia Pearl S at $220 is the gold standard with auto-tare and shot-timer integration; budget options resolve the same 0.1g for $30 without the app integration.',
+          'Cleaning supplies are non-optional, not nice-to-have. Cafiza (alkaline) removes coffee oils via weekly backflushing; a descaler (citric or lactic acid) removes limescale every 3-6 months depending on water hardness. Skipping either accelerates machine failure.',
+        ],
+        bodyHtml: [
+          'A <a href="/glossary/#calibrated-tamper">calibrated tamper</a> sized to your basket is the single highest-ROI accessory. Stock tampers from Breville, Gaggia, and De\'Longhi are plastic, undersized, and inconsistent. A $40-65 spring-loaded tamper (Normcore at both 54mm and 58mm) removes <a href="/glossary/#tamping">tamping</a> pressure variation entirely and is the cheapest upgrade with a visible effect on shot quality.',
+          'For milk drinks, the <a href="/glossary/#milk-pitcher">milk pitcher</a> size dictates the drink size. A 12oz pitcher fills a 6-8oz cappuccino with the right milk-to-coffee ratio; a 20oz pitcher fills two drinks back to back. The spout geometry (sharp competition cut vs rounded) determines latte art capability; the Rattleware 12oz and Joe Frex 20oz both ship with cafe-grade spouts.',
+          'For dialed-in espresso workflows, a scale resolving to 0.1g is the second high-ROI accessory after the tamper — together they let you control <a href="/glossary/#brew-ratio">brew ratio</a> and <a href="/glossary/#yield">yield</a> precisely. The Acaia Pearl S at $220 is the gold standard with auto-tare and shot-timer integration; budget options resolve the same 0.1g for $30 without the app integration.',
           'Cleaning supplies are non-optional, not nice-to-have. Cafiza (alkaline) removes coffee oils via weekly backflushing; a descaler (citric or lactic acid) removes limescale every 3-6 months depending on water hardness. Skipping either accelerates machine failure.',
         ],
       },
@@ -283,6 +342,11 @@ export const CATEGORY_META: CategoryMeta[] = [
         body: [
           'Bare essentials (under $50 total): a basic tamper if your stock one is unusable, a small knock box, and Cafiza for cleaning. This is the absolute floor for a working espresso workflow.',
           'First-year recommended ($100-200 total): calibrated spring-loaded tamper ($40-65), knock box ($25-65), milk pitcher in your drink size ($22-38), WDT tool ($32-89), puck screen ($19), and cleaning supplies ($18). Coverage of the workflow gaps that ship with most starter machines.',
+          'Upgrade tier ($200+ total): replace any of the above with premium variants (Bplus WDT, Acaia Pearl S scale at $220, Fellow Stagg EKG kettle at $195 for pour-over). The marginal gains over the first-year tier are small but real — Acaia\'s auto-timer integration and Bplus\'s 0.35mm needles are the kind of detail that matters to users tracking every shot.',
+        ],
+        bodyHtml: [
+          'Bare essentials (under $50 total): a basic tamper if your stock one is unusable, a small <a href="/glossary/#knock-box">knock box</a>, and Cafiza for cleaning. This is the absolute floor for a working espresso workflow.',
+          'First-year recommended ($100-200 total): <a href="/glossary/#calibrated-tamper">calibrated spring-loaded tamper</a> ($40-65), <a href="/glossary/#knock-box">knock box</a> ($25-65), <a href="/glossary/#milk-pitcher">milk pitcher</a> in your drink size ($22-38), <a href="/glossary/#wdt">WDT tool</a> ($32-89), <a href="/glossary/#puck-screen">puck screen</a> ($19), and cleaning supplies ($18). Coverage of the workflow gaps that ship with most starter machines.',
           'Upgrade tier ($200+ total): replace any of the above with premium variants (Bplus WDT, Acaia Pearl S scale at $220, Fellow Stagg EKG kettle at $195 for pour-over). The marginal gains over the first-year tier are small but real — Acaia\'s auto-timer integration and Bplus\'s 0.35mm needles are the kind of detail that matters to users tracking every shot.',
         ],
       },
