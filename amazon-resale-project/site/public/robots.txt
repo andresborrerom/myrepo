@@ -1,23 +1,15 @@
-# robots.txt — currently blocks ALL crawlers
-# Reason: soft launch with mock content. Switch to "Allow" when ready to index.
+# robots.txt — INDEXING ENABLED (flipped 2026-05-17)
+# Sitio public-indexable. Soft launch terminado.
 #
-# ============================================================================
-# CUANDO ESTEMOS LISTOS PARA INDEXAR (decisión documentada en
-# docs/deployment-to-revenue.md, Gate 1):
+# Historial:
+# - 2026-05-13: creado como "Disallow: /" durante soft launch con mock content
+# - 2026-05-17: flipped a "Allow: /" tras decisión aggressive timeline en
+#   docs/deployment-to-revenue.md Gate 1
 #
-# Reemplazar User-agent/Disallow de abajo con:
-#
-#   User-agent: *
-#   Allow: /
-#
-#   Sitemap: https://baristapath.com/sitemap-index.xml
-#
-# Esto permite Google + otros bots crawlear + indexar todo el sitio.
-# Tras el cambio:
-#   1. Commit + push
-#   2. Cloudflare auto-redeploya
-#   3. Operador submit sitemap a Google Search Console (Gate 2 del runbook)
-# ============================================================================
+# Si querés re-bloquear (rare — emergency content audit): reemplazar
+# "Allow: /" con "Disallow: /".
 
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://baristapath.com/sitemap-index.xml
