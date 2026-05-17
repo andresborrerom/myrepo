@@ -13,6 +13,7 @@ import {
   type DaySlot
 } from '@/lib/cartas-fetch';
 import { isInsider } from '@/lib/auth';
+import RandomPickButton from './RandomPickButton';
 
 type FilledSlot = Extract<DaySlot, { type: 'anchored' } | { type: 'libre' }>;
 
@@ -56,7 +57,16 @@ export default async function CartasPage() {
         )}
       </header>
 
-      {todaySlot && todaySlot.type !== 'empty' && (
+      {!insider && dayIdx !== null && (
+        <RandomPickButton
+          releasedYears={CARTAS
+            .map((c) => c.year)
+            .filter((y) => y - BIRTH_YEAR <= dayIdx)
+            .sort((a, b) => a - b)}
+        />
+      )}
+
+      {todaySlot && todaySlot.type !== 'empty' && insider && (
         <CartaDeHoyCard slot={todaySlot as FilledSlot} />
       )}
 

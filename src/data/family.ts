@@ -46,7 +46,7 @@ export const FAMILY: Person[] = [
   // --- Nietos ---
   { id: 'alejo',        name: 'Alejo',        age: 16, role: 'nieto', parentId: 'luis-fernando' },
   { id: 'valentina',    name: 'Valentina',    age: 14, role: 'nieto', parentId: 'luis-fernando' },
-  { id: 'miranda',      name: 'Miranda',      age: 18, role: 'nieto', parentId: 'alexandra' },
+  { id: 'miranda',      name: 'Miranda',      age: 18, birthDate: '2007-09-07', role: 'nieto', parentId: 'alexandra' },
   { id: 'aleria',       name: 'Aleria',       age: 11, role: 'nieto', parentId: 'carolina' },
   { id: 'carlota',      name: 'Carlota',      age:  9, role: 'nieto', parentId: 'carolina' },
   { id: 'lucia',        name: 'Lucía',        age: 18, role: 'nieto', parentId: 'andres' },

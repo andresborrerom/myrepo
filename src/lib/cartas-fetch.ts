@@ -155,3 +155,62 @@ export async function getYearsCoverageWithDb() {
   }
   return years;
 }
+
+// Cobertura detallada año por año: cada año lista qué cartas existen
+// (DB + seed combinados, sin duplicar same year+author), con su autor,
+// fuente y si todavía es placeholder vacío.
+export type CoberturaItem = {
+  authorId: string;
+  source: 'db' | 'seed';
+  isPlaceholder: boolean;
+  title?: string;
+};
+
+export type CoberturaYear = {
+  year: number;
+  items: CoberturaItem[];
+};
+
+function isPlaceholderBody(body: string | null | undefined): boolean {
+  if (!body) return true;
+  const trimmed = body.trim();
+  if (trimmed === '') return true;
+  // Convención de seeds: '[Nombre llenará esta carta]'
+  if (/^\[.*llenará esta carta\]$/i.test(trimmed)) return true;
+  return false;
+}
+
+export async function getCobertura(): Promise<CoberturaYear[]> {
+  const dbAportes = await fetchPublishedAportes({ kinds: ['carta'] });
+  const out: CoberturaYear[] = [];
+
+  for (let y = BIRTH_YEAR; y <= TURNS_75_YEAR; y++) {
+    const items: CoberturaItem[] = [];
+
+    for (const a of dbAportes) {
+      if (a.year !== y) continue;
+      items.push({
+        authorId: a.from_id,
+        source: 'db',
+        isPlaceholder: isPlaceholderBody(a.body),
+        title: a.title || undefined
+      });
+    }
+    for (const seed of CARTAS) {
+      if (seed.year !== y) continue;
+      const dup = items.some(
+        (it) => it.source === 'db' && it.authorId === seed.fromId
+      );
+      if (dup) continue;
+      items.push({
+        authorId: seed.fromId,
+        source: 'seed',
+        isPlaceholder: isPlaceholderBody(seed.body),
+        title: seed.title
+      });
+    }
+
+    out.push({ year: y, items });
+  }
+  return out;
+}

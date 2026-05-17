@@ -52,28 +52,22 @@ export const CARTAS: Carta[] = [
       'De tus cinco hijos.'
   },
   {
-    year: 1974,
+    year: 1973,
     fromId: 'luis-fernando',
     title: 'El año que me hiciste papá tuyo',
     body: '[Luis Fernando llenará esta carta]'
   },
   {
-    year: 1976,
+    year: 1975,
     fromId: 'alexandra',
     title: 'Cuando llegué yo',
     body: '[Alexandra llenará esta carta]'
   },
   {
-    year: 1978,
+    year: 1977,
     fromId: 'carolina',
     title: 'La hija del medio',
     body: '[Carolina llenará esta carta]'
-  },
-  {
-    year: 1980,
-    fromId: 'andres',
-    title: 'Cuando me trajiste a casa',
-    body: '[Andrés llenará esta carta]'
   },
   {
     year: 1979,
@@ -116,6 +110,62 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 1988,
+    fromId: 'andres',
+    title: 'Guillermo Esquella y la selva viva',
+    body:
+`Tenías 4 hijos. Te ibas a la "juerga". La juerga no era fiesta ni trago ni turismo. Te ibas a la selva una o dos semanas, con Guillermo Esquella — un oficial militar chileno, veinte años mayor que tú — y desaparecías.
+
+Volvías con anécdotas que yo repetía después a amigos, novias, compañeros de servicio militar, y hoy las sigo contando, como si fueran leyenda:
+
+— La serpiente. La que te persiguió. Guillermo te gritaba "quédate quieto" para poder dispararle con la escopeta. Tú sin saber a qué le debías tener más miedo entre la serpiente y la escopeta de Guillermo.
+
+— Los mosquitos de las 5 de la tarde. Tan insoportables que ustedes preferían meterse al río, con pirañas, antes que aguantarlos. Eso solo se entiende habiéndolo vivido. Yo me lo imagino y me da risa de incredulidad y agradezco a Dios que no tuvieras una herida de la que no fueras consciente para alimentar a las pirañas.
+
+— La comunidad indígena. Conocieron una. Hasta hoy no sabes si eran amigables o caníbales. Con ustedes fueron amigables, eso al menos lo cuentas con seguridad. Yo prefiero no saber el resto.
+
+— Los piojos. Llegaste a Bogotá con la cabeza colonizada. Te tocó pasar por la peluquería y explicarle al peluquero dónde habías estado. Imagino la cara del peluquero. Imagino la tuya, padre mío, pidiendo dignidad mientras sacaban a la mano lo que vivía ahí.
+
+Y nos traías regalos. Yo recuerdo un esqueleto de piraña que ponías en la repisa. Yo iba a verlo muy seguido. Lo miraba mucho rato. Pensaba que tú habías estado en un lugar donde los peces tenían dientes de león, y eso era lo más fascinante del mundo. Mi papá había estado ahí. Y además, pescó una.
+
+Tu lema lo aprendí viéndote: ir tan cómodo como se pueda ir a cada lugar. A la selva no había nada más cómodo que dormir en el piso con Guillermo Esquella. Lo haces igual hoy, a tus 75 — no sacrificas comodidad si la hay, no lloras si no la hay. Te ajustas. Y tu espíritu de aventura sigue ahí, intacto, esperando la próxima juerga.
+
+Te adoro,
+Andrés.`
+  },
+  {
+    year: 1990,
+    fromId: 'andres',
+    title: 'Villeta',
+    body:
+`Tu primera finca, papa. Santa Ibáñez.
+
+Era todo lo tuyo. Un lago. Un chorro de la quebrada que caía sobre uno cuando uno se metía debajo. Un horno hueco para fogatas. Una cancha de fútbol. Y una casa de lata y barro — porque tú nunca quisiste comodidades en la finca; querías estar afuera, en el monte, oliendo lo que olía.
+
+Sembraste mil árboles ahí. Mil. Yo lo digo en una frase y suena chico; un día contémoslos.
+
+Tu paisajismo, padre mío, no se le da a cualquiera. Tú llegabas a un monte con potreros pelados y un mes después ese monte era una finca. No sé de dónde te salió el ojo, pero era el ojo de un arquitecto del aire libre. Veías lo que iba a estar antes de que estuviera.
+
+Trajiste 100 vacas. Las trajiste con su toro — uno de 1.5 toneladas que fue, de toda la manada, el único que nunca dio problemas. Estaba tranquilo, como tú. Sabía que no había que demostrar nada.
+
+Tenías planes que no alcanzaste a hacer: traer avestruces, traer búfalos. Yo me imaginaba la finca con avestruces y me daba risa. Pero conociéndote, lo habrías logrado.
+
+Los animales de la casa: los perros — Bernie, Valentina, Ranger — y los caballos. Socio era tuyo. Inga era de Carolina. Moro era mío… Cada uno con su nombre, su carácter, su manera de querer al jinete que tocaba.
+
+¡La crecida del río! ¿Te acuerdas? Cuando salimos solo los niños de paseo y subió el agua. Tú quedaste allá con la angustia de no saber. No pasó nada al final, pero esa angustia tuya es de las cosas que entiendo distinto ahora que soy papá.
+
+Villeta era lo más importante que tenías en Colombia, emocionalmente. Toda tu visión del futuro estaba sembrada en esos potreros. Era tu legado.
+
+Cuando la delincuencia llegó a extorsionarte, fue la gota. Tú no negociabas con eso — tu ética es lo único más grande que el sueño que tenías allá. Y te fuiste. Empezaste otra vez, esta vez al otro lado del mar.
+
+Te pido perdón, papa, por no haber seguido el sueño contigo. No fue desinterés ni desamor. Fue que el sueño no era el mío, y mi capacidad de estar ahí tampoco. Eso me ha pesado en silencio durante años — el ver que armaste algo tan grande y que ninguno de tus hijos pudo recogerlo. Lo siento.
+
+Ahora tienes tu suelo en España. Tercer intento, siempre encontrando un buen río en frente. Y esa misma mano que sembraba mil árboles en Villeta sigue sembrando ahí. Que los nietos te acompañen, papa. Que no se quede solo con tus hijos. Que Pepe, Martín, Lucía, Alejo, Valentina, Miranda, Aleria o Carlota — que alguno también se enamore de tu manera de mirar la tierra. Porque eso, padre mío, no debería desaparecer.
+
+Te adoro,
+Andrés.`
+  },
+  {
     year: 2016,
     fromId: 'andres',
     title: 'UC Berkeley',
@@ -140,7 +190,7 @@ Te adoro,
 Andrés.`
   },
   {
-    year: 1992,
+    year: 1991,
     fromId: 'camilo',
     title: 'El benjamín',
     body: '[Camilo llenará esta carta]'

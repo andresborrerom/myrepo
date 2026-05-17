@@ -8,6 +8,7 @@ import { getCartaAudioUrl } from '@/data/audios';
 import { getPerson } from '@/data/family';
 import { getCartasForYear, getDayIndex, type CartaFinal } from '@/lib/cartas-fetch';
 import { isInsider } from '@/lib/auth';
+import CartaGate from './CartaGate';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +22,6 @@ export default async function CartaPage({ params }: { params: { year: string } }
   const insider = isInsider();
   const dayIdx = getDayIndex();
   const dayOfYear = year - BIRTH_YEAR;
-  const isReleased = dayIdx !== null && dayOfYear <= dayIdx;
 
   // Posición en la rejilla — para "Carta 38 / 75"
   const sembradas = CARTAS.map((c) => c.year).sort((a, b) => a - b);
@@ -33,28 +33,7 @@ export default async function CartaPage({ params }: { params: { year: string } }
   const prevYear = sembradas.filter((y) => y < year).pop();
   const nextYear = sembradas.find((y) => y > year);
 
-  if (!insider && !isReleased) {
-    return (
-      <div className="bg-lino text-tinta min-h-dvh -mt-6 -mx-5 px-6 pt-12 pb-32">
-        <Link href="/cartas" className="font-mono text-[10px] tracking-widest text-grafito hover:text-tomate">
-          ← VOLVER AL ÍNDICE
-        </Link>
-        <div className="mt-12 text-center">
-          <p className="font-mono text-[10px] tracking-widest text-grafito">
-            CARTA SELLADA · AÑO {year}
-          </p>
-          <h1 className="mt-6 font-display text-3xl font-light italic text-tinta">
-            Esta carta llega después.
-          </h1>
-          <p className="mt-4 font-serif text-base italic text-grafito">
-            Te llegará el día {dayOfYear + 1} desde tu cumpleaños.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
+  const content = (
     <article className="carta-enter bg-lino text-tinta min-h-dvh -mt-6 -mx-5 px-6 pt-10 pb-32">
       {/* Cabecera tipo monografía */}
       <header className="space-y-1">
@@ -97,6 +76,17 @@ export default async function CartaPage({ params }: { params: { year: string } }
         ) : <span />}
       </footer>
     </article>
+  );
+
+  return (
+    <CartaGate
+      year={year}
+      insider={insider}
+      dayIdx={dayIdx}
+      dayOfYear={dayOfYear}
+    >
+      {content}
+    </CartaGate>
   );
 }
 

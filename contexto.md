@@ -24,6 +24,7 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 - **Edificio Garden** (Cl 93 #5-25, Bogotá): obra del estudio Borrero y Sánchez Cía. Cuna de Andrés — nació ahí, vivió 20 años.
 - **La Cristalina**: finca familiar, era del abuelo Fernando Borrero Caicedo. A Alejandro le encantaba. Aparece en la carta 1979 — varios "casi accidentes" de Andrés ocurrieron allí (cayó de espaldas 2 pisos, etc.).
 - **Las Villas** (Melgar, Tolima): finca alquilada por Alejandro para vacaciones familiares en los 80. Acuatobogán, piscina, río Sumapaz al lado, mangos biches con sal, murciélagos de fruta en picada por la noche. A Luis Fer lo picó una abeja allí (descubrieron su alergia). A Maca Santos (amiga de Carolina) la picó un alacrán.
+- **Villeta — Santa Ibáñez** (Cundinamarca): **primera finca propia** de Alejandro. Su gran sueño en Colombia. Tuvo lago, chorro de quebrada, horno para fogatas, cancha de fútbol, casa de lata y barro (sin comodidades a propósito). Mil árboles sembrados. 100 vacas con un toro de 1.5 toneladas (el único tranquilo). Perros: Bernie, Valentina, Ranger. Caballos: Socio (Alejandro), Inga (Carolina), Moro (Andrés). Planes nunca realizados: traer avestruces, búfalos. La extorsión de la delincuencia fue la gota que derramó el vaso — Alejandro decidió irse del país en 1997.
 - **Cali**: el otro destino de vacaciones — donde toda la familia.
 - **Marbella, España**: residencia de Alejandro desde diciembre 1997.
 - **La Calera**: donde Andrés, Marce y Luchi se fueron a vivir en febrero 2013.
@@ -48,14 +49,22 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
   - **Marbella** (España, desde 1997): la nueva finca, también con jardín, su segundo refugio
 - **Los caballos**: pasión propia. Cabalgaba en Villeta. Bernie (el pastor alemán) era su compañero en esas cabalgatas.
 - **Las piscinas**: en cada apartamento donde vivió, **se construía una piscina**. Marca personal — el agua siempre estaba presente en su casa.
+- **La selva — "la juerga"**: en los 80s, mientras tenía 4 hijos pequeños, se iba 1-2 semanas a la selva con **Guillermo Esquella** (oficial militar chileno, ~20 años mayor que él). Anécdotas legendarias: serpiente perseguidora, mosquitos brutales a las 5 PM (preferían meterse al río con pirañas), comunidad indígena de amigabilidad incierta, piojos al volver. Traía regalos como esqueletos de pirañas. Espíritu de aventura intacto a sus 75.
+- **Lema de Alejandro**: *"ir tan cómodo como se pueda ir a cada lugar"*. A la selva = dormir en el piso con Guillermo. No sacrifica comodidad si la hay, no llora si no la hay. Se ajusta.
 
 ## Perros (importante en el relato familiar)
 
 ### De Alejandro
 - **Blackie (?)** — el que esperaba a Andrés cuando nació, nombre incierto
 - **Valentina** — perra de Villeta, "consentida" de Andrés cuando iba a visitarlo
+- **Ranger** — perro de Villeta
 - **Bernie** — pastor alemán, regalo de Bernardo Pérez en 1992. Juicioso, mandón aunque no era el más grande, mucha energía, "daba la vida por él". Acompañó a Alejandro en cabalgatas en Villeta y armando la finca en Marbella.
 - A Alejandro le encantan los perros pero **siempre los quiere afuera** ("son estorbo adentro"). Eterna contradicción con Andrés.
+
+### Caballos de Villeta
+- **Socio** — el de Alejandro
+- **Inga** — la de Carolina
+- **Moro** — el de Andrés
 
 ### De Andrés
 - **Scotchis** — poodle estándar negro de infancia, vecinos lo confundían con oveja
@@ -203,17 +212,17 @@ Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio esti
 |---|---|---|---|
 | 1951 | El año que naciste | Andrés (colectiva) | Nacimiento en Cali |
 | 1963 | El año que no quisiste bajarte del avión | Los 5 hijos | Llegada de Cali a Bogotá a los 12 |
-| 1974 | El año que me hiciste papá tuyo | Luis Fernando | [pendiente] |
-| 1976 | Cuando llegué yo | Alexandra | [pendiente] |
-| 1978 | La hija del medio | Carolina | [pendiente] |
+| 1973 | El año que me hiciste papá tuyo | Luis Fernando | [pendiente] |
+| 1975 | Cuando llegué yo | Alexandra | [pendiente] |
+| 1977 | La hija del medio | Carolina | [pendiente] |
 | **1979** | **Llegó la felicidad a este mundo** | **Andrés** | Nacimiento de Andrés, mamá quería 2 hijos, casi-accidentes salvado por papá |
-| 1980 | Cuando me trajiste a casa | Andrés | [pendiente] |
 | **1983** | **Las Villas** | **Andrés** | Vacaciones de niños en Melgar — acuatobogán, río Sumapaz, mango biche, murciélagos |
 | **1985** | **Mi entrada al San Carlos** | **Andrés** | Colegio, Padre Francis, "servicio", Andrés se considera sencillo en el lujo |
-| **1986** | El año del pentacampeonato (renombrada a 1986) | — | Hito que la familia recordará en la carta del América de Cali |
+| **1988** | **Guillermo Esquella y la selva viva** | **Andrés** | Las "juergas" en la selva con Guillermo Esquella, militar chileno, en los 80s |
+| **1990** | **Villeta** | **Andrés** | Santa Ibáñez, la primera finca de Alejandro; sueño truncado por la extorsión |
+| 1991 | El benjamín | Camilo | [pendiente] |
 | **1991** | **El año en que llegó Cami** | **Andrés** | Tras la separación del 86, llega el hermano del alma |
 | **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
-| 1992 | El benjamín | Camilo | [pendiente] |
 | **1996** | **América de Cali** | **Andrés** | Hincha por legado, Camilo "cerdo mayor", el Pipa y la ética de papá |
 | 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |
