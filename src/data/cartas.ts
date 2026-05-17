@@ -264,6 +264,35 @@ Te adoro,
 Andrés.`
   },
   {
+    year: 1993,
+    fromId: 'andres',
+    title: 'Conocer Europa',
+    body:
+`Tenía catorce años.
+
+Nos llevaste a conocer Europa — los seis: tú, los cuatro grandes y Cami, que tenía dos años.
+
+Paris, Frankfurt, Madrid, Strasbourg, Worms. Un mes largo, varios países. El clima europeo me dejó loco — y la verdad nunca lo he terminado de entender. En París pasamos frío de verdad. Una semana después, en Madrid, nos ahogábamos del calor.
+
+París fue la primera parada. Los Campos Elíseos, la Torre Eiffel, el Arco de Triunfo, el Sena, Notre-Dame. Es la única vez que he visto París y, aunque pasaron más de treinta años, todavía la recuerdo bien — probablemente más bonita en mi memoria de catorce años que en la realidad de hoy.
+
+Una noche todos se fueron a un restaurante a comer arroz negro en tinta de calamar. Yo me quedé cuidando a Cami, el bebé. Y ese día Cami me salvó sin enterarse, porque a los catorce años yo no habría sabido apreciar arroz en tinta de calamar.
+
+De Estrasburgo recuerdo el desconcierto. Llegando a la "frontera alemana" nos topamos con una ciudad de nombre alemán que resultó estar en Francia: Strasbourg. Y además era una belleza — la primera de las grandes sorpresas estéticas del viaje. Ninguno de nosotros lo había estudiado en geografía, y entendimos en vivo que las fronteras europeas son más historia que línea.
+
+De Alemania me quedó la Selva Negra por encima de todo. El verde profundo, la carretera entre los árboles. Frankfurt me sorprendió por lo industrial — uno se imagina Alemania como castillos y aldeas, no como torres de oficinas. Y el tamaño de los policías alemanes… eso no se me olvida. Yo, a los catorce, mirándolos hacia arriba como si fueran torres. Y Wörms:  la casa de una tía desconocida de Elsa María, que nos recibió amablemente en un pueblo bonito donde a las nueve de la noche no se conseguía dónde comer.
+
+Después, España. Madrid, papá, fue amor a primera vista. Es la ciudad en la que más me gusta caminar del mundo — lo confirmé ese año y lo he confirmado cada vez que vuelvo. Algo tiene Madrid que el ojo no se cansa de mirar: las plazas, las terrazas, el ritmo de la gente.
+
+Pero el calor de Madrid esa semana fue salvaje. La salvación eran las paletas Frac de Magnum y la Coca-Cola helada — las recuerdo como si me las acabara de tomar.
+
+A los catorce conocí Europa. Como un niño muy afortunado, y con todos mis hermanos.
+
+Gracias de nuevo padre mío!
+Te adoro,
+Andrés`
+  },
+  {
     year: 1996,
     fromId: 'andres',
     title: 'América de Cali',

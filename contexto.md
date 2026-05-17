@@ -32,6 +32,7 @@ Documento vivo con la historia familiar para que las cartas que escribimos junto
 
 ## Personajes secundarios (parientes y referencias)
 
+- **Elsa María**: segunda esposa de Alejandro, mamá de Camilo. Alejandro se separó de ella cuando Cami tenía 18 (≈2009). Tiene una tía en Wörms, Alemania, que recibió a la familia en el viaje a Europa de 1993.
 - **Tía Ceci**: hermana de la suegra de Andrés, es decir, tía de Marce. "Recatada".
 - **Suegrita** de Andrés (mamá de Marce): "alcahuetas" y "transparente". Vuela a la casa cuando la necesitan.
 
@@ -223,6 +224,7 @@ Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio esti
 | 1991 | El benjamín | Camilo | [pendiente] |
 | **1991** | **El año en que llegó Cami** | **Andrés** | Tras la separación del 86, llega el hermano del alma |
 | **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
+| **1993** | **Conocer Europa** | **Andrés** | Viaje familiar a Europa a los 14: París, Frankfurt, Madrid, Strasbourg, Worms. Cami bebé en París, Selva Negra, paletas Frac, tía desconocida de Elsa María en Wörms |
 | **1996** | **América de Cali** | **Andrés** | Hincha por legado, Camilo "cerdo mayor", el Pipa y la ética de papá |
 | 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |
