@@ -9,12 +9,12 @@ Artefactos operativos listos para copy-paste a las herramientas correspondientes
 3. [`03-cuestionario-aplicacion.md`](./03-cuestionario-aplicacion.md) — Formulario Tally de 10 preguntas. Copy + lógica condicional.
 4. [`04-prompt-cualificacion.md`](./04-prompt-cualificacion.md) — System prompt + casos de prueba + emails de routing según tier (A/B/C).
 
-## Mid funnel (pendientes)
+## Mid funnel
 
-- `05-script-llamada-diagnostico.md` — Guion de la llamada de 45 min con Andrés.
-- `06-propuesta.md` — Plantilla de propuesta firmable en Documenso (4 páginas).
-- `07-email-propuesta.md` — Email que acompaña el envío de propuesta.
-- `08-contrato.md` — Contrato base de servicios (con disclaimer de revisar con abogado mercantil colegiado).
+5. [`05-script-llamada-diagnostico.md`](./05-script-llamada-diagnostico.md) — Guion de la llamada de 45 min con Andrés. 7 bloques + respuestas a objeciones comunes.
+6. [`06-propuesta.md`](./06-propuesta.md) — Plantilla de propuesta firmable en Documenso (4 páginas + firma). Variables para reemplazo automático por cliente. Fórmula de honorarios.
+7. [`07-email-propuesta.md`](./07-email-propuesta.md) — Email principal + seguimientos día 4, día 12 y post-vencimiento.
+8. [`08-contrato.md`](./08-contrato.md) — Contrato base de prestación de servicios. **REQUIERE revisión por abogado mercantil colegiado en España antes de uso con clientes reales.** 14 cláusulas + anexo de briefing.
 
 ## Bottom funnel y post-venta (pendientes)
 
@@ -25,3 +25,7 @@ Artefactos operativos listos para copy-paste a las herramientas correspondientes
 ## Orden recomendado de trabajo
 
 Top of funnel primero (lo que acabás de tener). Eso te permite **empezar a recolectar leads y validar la oferta antes de gastar tiempo en propuestas, contratos y workflow operativo**. Cuando tengas 5-10 aplicaciones reales del cuestionario, recién tiene sentido pulir el mid y bottom funnel.
+
+## Bloqueador legal antes de cobrar el primer euro
+
+El **contrato (`08-contrato.md`) NO es usable tal cual**. Debe pasar por abogado mercantil colegiado en España (~1 000-1 500 €, 5-7 días hábiles) antes de firmarlo con un cliente real. Es la inversión legal más alta del modelo y debe hacerse antes de cerrar la primera operación, no después.
