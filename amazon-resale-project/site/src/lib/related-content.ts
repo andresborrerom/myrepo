@@ -17,6 +17,7 @@ import { brandMetaFor } from '../data/brand-pages';
 import { categoryMetaForType } from '../data/category-pages';
 import { howToPages, howTosForProduct } from '../data/how-to-pages';
 import { troubleshootPages, troubleshootsForProduct } from '../data/troubleshoot-pages';
+import { GLOSSARY_DETAILED } from '../data/glossary-detailed';
 
 export type RelatedKind =
   | 'product'
@@ -26,6 +27,7 @@ export type RelatedKind =
   | 'brand'
   | 'category'
   | 'glossary'
+  | 'glossary-detailed'
   | 'how-to'
   | 'troubleshoot';
 
@@ -690,6 +692,110 @@ export async function relatedForReview(slug: string): Promise<RelatedLink[]> {
     }
   }
   pushUnique(out, altReviewMatches.slice(0, 2), MAX_LINKS, selfHref);
+
+  return finalize(out);
+}
+
+// ---------------------------------------------------------------
+// GLOSSARY DETAILED PAGE
+// ---------------------------------------------------------------
+// 1-2 best-of pages (declaradas en el data file), 1-2 how-to guides
+// que mencionan el término, 1-2 troubleshoot pages relacionadas, 1-2
+// otras páginas detalladas del glossary (via relatedTermSlugs si
+// alguno tiene su propia detailed page), 1-2 product pages de los
+// examples. El propósito: dar al user paths para profundizar después
+// de leer la definición.
+export async function relatedForGlossaryDetailed(slug: string): Promise<RelatedLink[]> {
+  const page = GLOSSARY_DETAILED.find((p) => p.slug === slug);
+  if (!page) return [];
+  const selfHref = `/glossary/${slug}/`;
+  const out: RelatedLink[] = [];
+
+  // 1) Best-of pages declaradas en data (1-2 max).
+  if (page.relatedBestSlugs) {
+    const bestMatches: RelatedLink[] = [];
+    for (const bSlug of page.relatedBestSlugs) {
+      const b = bestPages.find((bp) => bp.slug === bSlug);
+      if (b) {
+        bestMatches.push({
+          href: `/best/${b.slug}/`,
+          title: b.title,
+          kind: 'best',
+        });
+      }
+    }
+    pushUnique(out, bestMatches.slice(0, 2), MAX_LINKS, selfHref);
+  }
+
+  // 2) How-to pages relacionadas.
+  if (page.relatedHowToSlugs) {
+    const htMatches: RelatedLink[] = [];
+    for (const htSlug of page.relatedHowToSlugs) {
+      const ht = howToPages.find((h) => h.slug === htSlug);
+      if (ht) {
+        htMatches.push({
+          href: `/how-to/${ht.slug}/`,
+          title: ht.title,
+          kind: 'how-to',
+        });
+      }
+    }
+    pushUnique(out, htMatches.slice(0, 2), MAX_LINKS, selfHref);
+  }
+
+  // 3) Troubleshoot pages relacionadas.
+  if (page.relatedTroubleshootSlugs) {
+    const tsMatches: RelatedLink[] = [];
+    for (const tsSlug of page.relatedTroubleshootSlugs) {
+      const ts = troubleshootPages.find((t) => t.slug === tsSlug);
+      if (ts) {
+        tsMatches.push({
+          href: `/troubleshoot/${ts.slug}/`,
+          title: ts.title,
+          kind: 'troubleshoot',
+        });
+      }
+    }
+    pushUnique(out, tsMatches.slice(0, 2), MAX_LINKS, selfHref);
+  }
+
+  // 4) Otras detailed pages del glossary (max 2) si alguno de los
+  // relatedTermSlugs tiene su propia página dedicada.
+  const detailedMatches: RelatedLink[] = [];
+  const detailedSlugs = new Set(GLOSSARY_DETAILED.map((p) => p.slug));
+  for (const termSlug of page.relatedTermSlugs) {
+    if (detailedSlugs.has(termSlug) && termSlug !== slug) {
+      const other = GLOSSARY_DETAILED.find((p) => p.slug === termSlug);
+      if (other) {
+        // baseEntry da el display name canónico
+        // (importamos GLOSSARY al top — el findTerm helper estaría duplicado).
+        detailedMatches.push({
+          href: `/glossary/${other.slug}/`,
+          title: other.h1,
+          kind: 'glossary-detailed',
+        });
+      }
+    }
+  }
+  pushUnique(out, detailedMatches.slice(0, 2), MAX_LINKS, selfHref);
+
+  // 5) Product pages de los examples (max 2) — links a productos que
+  // ilustran el término. Útil para "lectura adicional concreta" después
+  // de la definición abstracta.
+  const products = await loadProducts();
+  const byAsin = new Map(products.map((p) => [p.data.asin, p]));
+  const productMatches: RelatedLink[] = [];
+  for (const ex of page.examples) {
+    const prod = byAsin.get(ex.asin);
+    if (prod) {
+      productMatches.push({
+        href: `/products/${prod.data.asin}/`,
+        title: `${prod.data.name} — Specs, Pros & Cons`,
+        kind: 'product',
+      });
+    }
+  }
+  pushUnique(out, productMatches.slice(0, 2), MAX_LINKS, selfHref);
 
   return finalize(out);
 }

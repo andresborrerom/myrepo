@@ -1,0 +1,241 @@
+---
+// Per-term glossary page template — /glossary/[slug]/.
+//
+// Genera una página dedicada por cada entry de GLOSSARY_DETAILED. Estas
+// páginas existen para servir queries "what is X" donde el user quiere
+// una respuesta única + depth en lugar del index multi-entry.
+//
+// Estructura:
+//   1. Breadcrumb (Base) + H1 + Byline + Updated
+//   2. TL;DR / definition box (1-2 sentences highlighted)
+//   3. In-depth sections (300-600 palabras)
+//   4. Real-world examples (2-4 products del catalog)
+//   5. Common questions FAQ (4-6)
+//   6. Related glossary terms (links a anchors o páginas dedicadas)
+//   7. Related guides (how-to / troubleshoot / best-of mencionados en data)
+//
+// Schema markup:
+//   - DefinedTerm JSON-LD referenciando /glossary/ como inDefinedTermSet
+//   - FAQPage con las Q&A
+//   - BreadcrumbList (Home > Glossary > [Term]) vía Base
+//
+// Anti-gray-hat: definiciones HONESTAS. Cuando un término es debated
+// (flat vs conical), reflejamos el debate sin posicionar.
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
+import {
+  GLOSSARY_DETAILED,
+  detailedSlugSet,
+  type GlossaryDetailedPage,
+} from '../../data/glossary-detailed.ts';
+import { GLOSSARY, findTerm } from '../../data/glossary.ts';
+import { relatedForGlossaryDetailed } from '../../lib/related-content';
+
+type Product = CollectionEntry<'products'>;
+
+export async function getStaticPaths() {
+  const all = await getCollection('products');
+  const byAsin = new Map(all.map((p) => [p.data.asin, p]));
+
+  return GLOSSARY_DETAILED.map((page) => {
+    // Resolver products referenced en examples (validamos que existan; si un
+    // ASIN falla acá el build rompe con un error claro en vez de renderizar
+    // links rotos en producción).
+    const examplesResolved = page.examples.map((ex) => {
+      const product = byAsin.get(ex.asin);
+      if (!product) {
+        throw new Error(
+          `[glossary-detailed/${page.slug}] ASIN ${ex.asin} no existe en src/content/products/.`,
+        );
+      }
+      return { ...ex, product };
+    });
+    return {
+      params: { slug: page.slug },
+      props: { page, examplesResolved },
+    };
+  });
+}
+
+interface ExampleResolved {
+  asin: string;
+  note: string;
+  product: Product;
+}
+
+interface Props {
+  page: GlossaryDetailedPage;
+  examplesResolved: ExampleResolved[];
+}
+
+const { page, examplesResolved } = Astro.props as Props;
+const related = await relatedForGlossaryDetailed(page.slug);
+const updatedAt = new Date(page.updatedAt);
+
+// ---------- Schema markup ----------
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://baristapath.com';
+const glossaryIndexUrl = `${siteUrl}/glossary/`;
+const thisPageUrl = `${siteUrl}/glossary/${page.slug}/`;
+
+// Recuperar la entry base del glossary (term, aliases) — es el contrato:
+// cada GLOSSARY_DETAILED debe tener su par en GLOSSARY.
+const baseEntry = findTerm(page.slug);
+if (!baseEntry) {
+  throw new Error(
+    `[glossary-detailed/${page.slug}] No matching entry en src/data/glossary.ts. `
+    + `Cada GLOSSARY_DETAILED slug debe existir en GLOSSARY.`,
+  );
+}
+
+// DefinedTerm JSON-LD. inDefinedTermSet apunta al /glossary/ index (donde
+// vive el DefinedTermSet completo) para que Google entienda la relación.
+const definedTermSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  '@id': thisPageUrl,
+  name: baseEntry.term,
+  description: page.tldr,
+  url: thisPageUrl,
+  inDefinedTermSet: glossaryIndexUrl,
+  ...(baseEntry.aliases && baseEntry.aliases.length > 0
+    ? { alternateName: baseEntry.aliases }
+    : {}),
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: page.faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Glossary', url: '/glossary/' },
+  { name: baseEntry.term, url: `/glossary/${page.slug}/` },
+];
+
+// Para "Related glossary terms": preferimos la página dedicada si existe,
+// fallback al anchor del index. Esto mantiene el internal linking siempre
+// optimizando para la versión más rica del destino.
+const detailedSet = detailedSlugSet();
+function glossaryHref(slug: string): string {
+  if (detailedSet.has(slug)) return `/glossary/${slug}/`;
+  return `/glossary/#${slug}`;
+}
+
+// Reference imported arrays to satisfy unused-import linting.
+void GLOSSARY;
+---
+<Base
+  title={page.title}
+  description={page.description}
+  ogType="article"
+  breadcrumbs={breadcrumbs}
+  jsonLd={[definedTermSchema, faqSchema]}
+  updatedAt={updatedAt}
+>
+  <article class="glossary-detailed-page">
+    <p class="muted topic-label">Glossary &middot; {baseEntry.term}</p>
+    <h1>{page.h1}</h1>
+    <Byline updatedAt={updatedAt} />
+
+    {baseEntry.aliases && baseEntry.aliases.length > 0 && (
+      <p class="glossary-detailed__aliases muted">
+        Also called: {baseEntry.aliases.join(', ')}
+      </p>
+    )}
+
+    <aside class="glossary-detailed__tldr" aria-label="Short answer">
+      <p class="glossary-detailed__tldr-label">In one paragraph</p>
+      <p class="glossary-detailed__tldr-body">{page.tldr}</p>
+    </aside>
+
+    {page.inDepth.map((section) => (
+      <section class="section glossary-detailed__section">
+        <h2>{section.heading}</h2>
+        <div set:html={section.body} />
+      </section>
+    ))}
+
+    {examplesResolved.length > 0 && (
+      <section class="section glossary-detailed__examples">
+        <h2>Real-world examples from our catalog</h2>
+        <p class="muted">
+          Products in our catalog that illustrate this term in practice — each linked
+          to its full specs and our editorial notes.
+        </p>
+        <ul class="glossary-detailed__examples-list">
+          {examplesResolved.map((ex) => (
+            <li class="glossary-detailed__example">
+              <p class="glossary-detailed__example-product">
+                <a href={`/products/${ex.product.data.asin}/`}>
+                  <strong>{ex.product.data.name}</strong>
+                </a>
+                {' '}&middot;{' '}
+                <span class="muted">${ex.product.data.price}</span>
+              </p>
+              <p class="glossary-detailed__example-note">{ex.note}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="section faq">
+      <h2>Common questions</h2>
+      {page.faqs.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </section>
+
+    {page.relatedTermSlugs.length > 0 && (
+      <section class="section glossary-detailed__related-terms">
+        <h2>Related glossary terms</h2>
+        <ul class="glossary-detailed__related-terms-list">
+          {page.relatedTermSlugs.map((slug) => {
+            const t = findTerm(slug);
+            if (!t) return null;
+            return (
+              <li>
+                <a href={glossaryHref(slug)}>{t.term}</a>
+                {' '}<span class="muted">— {t.definition.split('.')[0]}.</span>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    )}
+
+    <p class="update-cadence muted">
+      <strong>Last reviewed:</strong>{' '}
+      <time datetime={updatedAt.toISOString()}>
+        {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+      </time>.
+      {' '}We update glossary pages when the term shifts in common usage, when new
+      catalog products change the practical examples, or when community consensus
+      moves on a debated point.
+    </p>
+
+    {related.length > 0 && (
+      <section class="section related-content" aria-labelledby="related-heading">
+        <h2 id="related-heading">Where to read this term in context</h2>
+        <ul>
+          {related.map((link) => (
+            <li class={`related-link related-link--${link.kind}`}>
+              <a href={link.href}>{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Base>

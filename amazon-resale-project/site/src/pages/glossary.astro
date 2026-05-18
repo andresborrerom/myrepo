@@ -30,8 +30,10 @@ import {
   termsByCategory,
   findTerm,
 } from '../data/glossary.ts';
+import { detailedSlugSet } from '../data/glossary-detailed.ts';
 
 const grouped = termsByCategory();
+const detailedSet = detailedSlugSet();
 
 // updatedAt: usamos la fecha en que se publicó esta versión del glossary.
 // No tiene una fuente de truth de catálogo como products, así que la
@@ -101,10 +103,13 @@ const breadcrumbs = [
 const description = `Coffee equipment glossary: ${GLOSSARY.length} short, authoritative definitions of espresso, grinder, brewing, and technique terms — PID, group head, WDT, brew ratio, pour-over, and more.`;
 
 // Helper para imprimir el link a un related term inline en el body.
+// Si el related term tiene página dedicada, linkeamos a /glossary/[slug]/
+// (destino más rico) — sino al anchor del index.
 function relatedTermLink(slug: string): { href: string; term: string } | null {
   const t = findTerm(slug);
   if (!t) return null;
-  return { href: `#${t.slug}`, term: t.term };
+  const href = detailedSet.has(slug) ? `/glossary/${slug}/` : `#${slug}`;
+  return { href, term: t.term };
 }
 ---
 <Base
@@ -163,6 +168,16 @@ function relatedTermLink(slug: string): { href: string; term: string } | null {
                 <dt>
                   <h3 class="glossary-entry__term">
                     <a href={`#${t.slug}`} class="glossary-entry__anchor" aria-label={`Permalink to ${t.term}`}>{t.term}</a>
+                    {detailedSet.has(t.slug) && (
+                      <>
+                        {' '}
+                        <a
+                          href={`/glossary/${t.slug}/`}
+                          class="glossary-entry__readmore"
+                          aria-label={`Read the full page on ${t.term}`}
+                        >Read more &rarr;</a>
+                      </>
+                    )}
                   </h3>
                   {t.aliases && t.aliases.length > 0 && (
                     <p class="glossary-entry__aliases muted">

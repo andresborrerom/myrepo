@@ -27,6 +27,7 @@ const __dirname = path.dirname(__filename);
 const SITE_ROOT = path.resolve(__dirname, '..');
 const DIST_DIR = path.join(SITE_ROOT, 'dist');
 const GLOSSARY_TS = path.join(SITE_ROOT, 'src/data/glossary.ts');
+const GLOSSARY_DETAILED_TS = path.join(SITE_ROOT, 'src/data/glossary-detailed.ts');
 
 // ---------------------------------------------------------------------------
 // 1. Parse glossary.ts (regex; sin deps de TS loader).
@@ -99,6 +100,33 @@ function unwrapTsString(raw) {
   // raw incluye las comillas; quita primera y última, des-escapa \' y \\.
   const inner = raw.slice(1, -1);
   return inner.replace(/\\(.)/g, '$1');
+}
+
+// ---------------------------------------------------------------------------
+// 1b. Parse glossary-detailed.ts — extrae solo los slugs que tienen página
+// dedicada. Estos enlazan a /glossary/[slug]/ en lugar de /glossary/#slug.
+//
+// Si glossary-detailed.ts no existe (toggle off, primera vez), devuelve un
+// Set vacío y todo cae al comportamiento anchor-based legacy.
+// ---------------------------------------------------------------------------
+
+async function loadDetailedSlugs() {
+  let source;
+  try {
+    source = await fs.readFile(GLOSSARY_DETAILED_TS, 'utf8');
+  } catch {
+    return new Set();
+  }
+  // Estructura del file: export const GLOSSARY_DETAILED: GlossaryDetailedPage[] = [...]
+  // con entries que arrancan con `slug: '<slug>',`. Mismo parser que glossary.ts.
+  const slugs = new Set();
+  const STR = "'(?:\\\\.|[^'\\\\])*'";
+  const slugRegex = new RegExp(`slug:\\s*(${STR}),`, 'g');
+  let m;
+  while ((m = slugRegex.exec(source)) !== null) {
+    slugs.add(unwrapTsString(m[1]));
+  }
+  return slugs;
 }
 
 // ---------------------------------------------------------------------------
@@ -209,15 +237,33 @@ function buildSkipZoneRegex() {
 
 const SKIP_ZONE_REGEX = buildSkipZoneRegex();
 
-function transformHtml(html, matchers, stats) {
+function transformHtml(html, matchers, stats, detailedSlugs) {
+  // Pre-processing: rewrite manual links que apunten a /glossary/#slug si
+  // ese slug ahora tiene página dedicada. Mantiene retrocompatibilidad —
+  // los templates pueden seguir usando /glossary/#slug y este script los
+  // upgrade a /glossary/[slug]/ cuando aplica. Cualquier link que apunte
+  // a un slug SIN página dedicada se deja como anchor (correct comportamiento).
+  html = html.replace(
+    /href="\/glossary\/#([a-z0-9-]+)"/g,
+    (full, slug) => (detailedSlugs.has(slug) ? `href="/glossary/${slug}/"` : full),
+  );
+
   // Idempotencia: pre-poblamos linkedSlugs con slugs ya presentes en el HTML
   // (ya sea de un run previo del autolink, o de links manuales del template
-  // hacia /glossary/#foo). Esto garantiza que re-correr el script no agrega
-  // links nuevos.
+  // hacia /glossary/#foo o /glossary/<slug>/). Esto garantiza que re-correr
+  // el script no agrega links nuevos.
+  //
+  // Detectamos AMBOS formatos:
+  //   /glossary/#slug   (anchor del index, terms sin página dedicada)
+  //   /glossary/slug/   (página dedicada, después del rewrite arriba)
   const linkedSlugs = new Set();
-  const existingHrefRegex = /href="\/glossary\/#([a-z0-9-]+)"/g;
+  const existingAnchorRegex = /href="\/glossary\/#([a-z0-9-]+)"/g;
   let existing;
-  while ((existing = existingHrefRegex.exec(html)) !== null) {
+  while ((existing = existingAnchorRegex.exec(html)) !== null) {
+    linkedSlugs.add(existing[1]);
+  }
+  const existingDetailedRegex = /href="\/glossary\/([a-z0-9-]+)\/"/g;
+  while ((existing = existingDetailedRegex.exec(html)) !== null) {
     linkedSlugs.add(existing[1]);
   }
 
@@ -230,17 +276,17 @@ function transformHtml(html, matchers, stats) {
   SKIP_ZONE_REGEX.lastIndex = 0;
   while ((m = SKIP_ZONE_REGEX.exec(html)) !== null) {
     const textChunk = html.slice(lastIndex, m.index);
-    result += processTextChunk(textChunk, matchers, linkedSlugs, stats);
+    result += processTextChunk(textChunk, matchers, linkedSlugs, stats, detailedSlugs);
     result += m[0]; // protected zone — pasa tal cual
     lastIndex = m.index + m[0].length;
   }
   // Tail del HTML (después del último tag — raro pero posible).
-  result += processTextChunk(html.slice(lastIndex), matchers, linkedSlugs, stats);
+  result += processTextChunk(html.slice(lastIndex), matchers, linkedSlugs, stats, detailedSlugs);
 
   return { html: result, linkedCount: linkedSlugs.size, linkedSlugs };
 }
 
-function processTextChunk(chunk, matchers, linkedSlugs, stats) {
+function processTextChunk(chunk, matchers, linkedSlugs, stats, detailedSlugs) {
   if (!chunk || chunk.length === 0) return chunk;
 
   // Ranges donde insertamos un <a>...</a> en este chunk. Cualquier match
@@ -284,7 +330,14 @@ function processTextChunk(chunk, matchers, linkedSlugs, stats) {
 
     if (!validMatch) continue;
 
-    const anchor = `<a href="/glossary/#${matcher.slug}" class="glossary-link">${validMatch.text}</a>`;
+    // Priority: si el slug tiene página dedicada (existe en
+    // GLOSSARY_DETAILED), enlazamos a /glossary/<slug>/ — destino más rico
+    // que el anchor del index. Fallback al anchor para slugs que solo viven
+    // en el index page.
+    const href = detailedSlugs.has(matcher.slug)
+      ? `/glossary/${matcher.slug}/`
+      : `/glossary/#${matcher.slug}`;
+    const anchor = `<a href="${href}" class="glossary-link">${validMatch.text}</a>`;
     working = working.slice(0, validMatch.start) + anchor + working.slice(validMatch.end);
 
     // Shift ranges existentes que estén después del insert, y registrar el nuevo.
@@ -354,7 +407,11 @@ async function main() {
 
   const glossaryEntries = await loadGlossaryTerms();
   const matchers = buildMatchers(glossaryEntries);
-  console.log(`[autolink-glossary] Loaded ${glossaryEntries.length} glossary entries → ${matchers.length} matcher patterns.`);
+  const detailedSlugs = await loadDetailedSlugs();
+  console.log(
+    `[autolink-glossary] Loaded ${glossaryEntries.length} glossary entries → ${matchers.length} matcher patterns. `
+    + `${detailedSlugs.size} terms link to dedicated /glossary/[slug]/ pages, rest fall back to /glossary/#slug.`,
+  );
 
   const allFiles = await walkHtmlFiles(DIST_DIR);
   const stats = {
@@ -373,9 +430,13 @@ async function main() {
 
     try {
       const original = await fs.readFile(file.full, 'utf8');
-      const { html, linkedCount } = transformHtml(original, matchers, stats);
+      const { html } = transformHtml(original, matchers, stats, detailedSlugs);
 
-      if (linkedCount > 0 && html !== original) {
+      // Write si el HTML cambió por CUALQUIER motivo:
+      //   - autolink agregó nuevos links (linkedCount > 0), o
+      //   - el rewrite cambió un href manual /glossary/#slug → /glossary/slug/.
+      // Ambos casos se reflejan en html !== original.
+      if (html !== original) {
         // Write atómico per file: si el rename falla, el archivo original
         // queda intacto. fs.writeFile no es estrictamente atómico pero es lo
         // suficientemente seguro para builds — y si crashea, el build se

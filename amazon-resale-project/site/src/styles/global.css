@@ -2189,3 +2189,129 @@ li {
 .glossary-entry__related a:focus-visible {
   text-decoration: underline;
 }
+
+/* Read more → link en el index page, junto al H3 del término — solo visible
+ * en entries que tienen página dedicada (/glossary/[slug]/). */
+.glossary-entry__readmore {
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-link);
+  margin-left: 0.5em;
+  white-space: nowrap;
+}
+
+.glossary-entry__readmore:hover,
+.glossary-entry__readmore:focus-visible {
+  text-decoration: underline;
+}
+
+/* ---------- Glossary detailed pages (/glossary/[slug]/) ---------- */
+/*
+ * Páginas dedicadas para los head terms más buscados. Diseño: TL;DR box
+ * arriba (highlighted), secciones in-depth, examples del catalog, FAQ,
+ * related terms. Más prosa que el index page.
+ */
+.glossary-detailed-page .topic-label {
+  margin-bottom: var(--space-xs);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.glossary-detailed__aliases {
+  font-size: 0.9rem;
+  margin: var(--space-xs) 0 var(--space-md);
+}
+
+.glossary-detailed__tldr {
+  background: var(--color-surface-alt);
+  border-left: 4px solid var(--color-link);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius);
+  margin: var(--space-lg) 0;
+}
+
+.glossary-detailed__tldr-label {
+  margin: 0 0 var(--space-xs);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.glossary-detailed__tldr-body {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.glossary-detailed__section {
+  margin-top: var(--space-lg);
+}
+
+.glossary-detailed__examples-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-md) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.glossary-detailed__example {
+  padding: var(--space-md);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius);
+}
+
+.glossary-detailed__example-product {
+  margin: 0 0 var(--space-xs);
+}
+
+.glossary-detailed__example-product a {
+  text-decoration: none;
+}
+
+.glossary-detailed__example-product a:hover,
+.glossary-detailed__example-product a:focus-visible {
+  text-decoration: underline;
+}
+
+.glossary-detailed__example-note {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.glossary-detailed__related-terms-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-sm) 0 0;
+}
+
+.glossary-detailed__related-terms-list li {
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--color-border, #eee);
+}
+
+.glossary-detailed__related-terms-list li:last-child {
+  border-bottom: none;
+}
+
+.glossary-detailed__related-terms-list a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.glossary-detailed__related-terms-list a:hover,
+.glossary-detailed__related-terms-list a:focus-visible {
+  text-decoration: underline;
+}
+
+.related-link--glossary-detailed::before {
+  content: "Glossary · ";
+  color: var(--color-text-muted);
+  font-size: 0.9em;
+}
