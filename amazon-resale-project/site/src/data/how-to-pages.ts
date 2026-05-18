@@ -1121,3 +1121,32 @@ export function howToBySlug(slug: string): HowToPage | undefined {
 export function howTosForProduct(asin: string): HowToPage[] {
   return howToPages.filter((p) => p.productAsin === asin);
 }
+
+// Mapeo topic → product type: qué tipo de producto se beneficia de una guía
+// genérica con ese topic. Usado por el CTA "Owner help" del product page
+// para sugerir how-tos relevantes cuando NO hay guías product-specific.
+//
+// 'espresso-machine' es el bucket por default porque la mayoría de los
+// topics aplican a máquinas (descale, dial-in, milk, backflush, cleaning,
+// setup). 'grinder' solo cuando el topic es explícitamente sobre grinder.
+const HOW_TO_TOPIC_TO_PRODUCT_TYPE: Record<HowToPage['topic'], string[]> = {
+  descaling: ['espresso-machine'],
+  cleaning: ['espresso-machine', 'grinder', 'brewer'],
+  backflushing: ['espresso-machine'],
+  'dialing-in': ['espresso-machine'],
+  'milk-frothing': ['espresso-machine'],
+  'grinder-seasoning': ['grinder'],
+  setup: ['espresso-machine', 'grinder'],
+  'maintenance-routine': ['espresso-machine', 'grinder'],
+};
+
+// How-tos genéricos relevantes a un product type (no apuntan a un ASIN
+// específico). El caller filtra ya los directos antes para evitar dupes.
+// Orden: estable, según orden de declaración en `howToPages`.
+export function genericHowTosForType(type: string): HowToPage[] {
+  return howToPages.filter((p) => {
+    if (p.productAsin) return false;
+    const matches = HOW_TO_TOPIC_TO_PRODUCT_TYPE[p.topic];
+    return matches ? matches.includes(type) : false;
+  });
+}

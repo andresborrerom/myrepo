@@ -1347,6 +1347,70 @@ li {
   font-weight: 600;
 }
 
+/* ---------- Owner help CTA (product pages) ----------
+ * Box inline en product pages que apunta a how-to + troubleshoot pages
+ * relevantes. Border-left amber/yellow para diferenciarlo del methodology-note
+ * grey y de update-cadence (también accent orange). El visual cue invita a
+ * owners en research mode a profundizar en post-purchase content.
+ */
+.owner-help {
+  margin: var(--space-lg) 0;
+  padding: var(--space-md) var(--space-lg);
+  background: #fdf7e6;
+  border-left: 4px solid #d4a017;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .owner-help {
+    background: #2a2418;
+    border-left-color: #e0b53a;
+  }
+}
+
+.owner-help__heading {
+  margin: 0 0 var(--space-sm);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.owner-help__icon {
+  margin-right: var(--space-xs);
+}
+
+.owner-help__group + .owner-help__group {
+  margin-top: var(--space-sm);
+}
+
+.owner-help__subhead {
+  margin: 0 0 var(--space-xs);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.owner-help__list {
+  list-style: disc;
+  padding-left: var(--space-lg);
+  margin: 0;
+}
+
+.owner-help__list li {
+  margin: 0.15rem 0;
+}
+
+.owner-help__list a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.owner-help__list a:hover,
+.owner-help__list a:focus {
+  color: var(--color-accent);
+}
+
 /* ---------- Update cadence note ---------- */
 .update-cadence {
   margin-top: var(--space-xl);

@@ -1,0 +1,62 @@
+---
+// CTA inline para owners en research mode. Aparece en product pages
+// debajo del Verdict/Specs y antes del Related Content footer.
+//
+// Propósito: empujar al lector que ya posee (o está a punto de comprar) la
+// máquina hacia contenido de alta-conversion:
+//   - How-to pages: contienen affiliate accessories (descaler, WDT, tampers).
+//   - Troubleshoot pages: contienen replacement parts y diagnostic flow.
+//
+// Reglas:
+//   - Máximo 2 how-to + 2 troubleshoot en el box.
+//   - Priorizar links product-specific (productAsin === asin) sobre genéricos.
+//   - Si NO hay ningún match (ni directo ni genérico relevante), no rendear
+//     el box — el caller debe verificar `hasContent` antes de incluir.
+//
+// Sin duplicación con Related Content section: aceptamos que un mismo link
+// pueda aparecer en ambos. El owner-help box es más prominent y categórico
+// ("for owners specifically"); related-content es más generic.
+
+import type { HowToPage } from '../data/how-to-pages';
+import type { TroubleshootPage } from '../data/troubleshoot-pages';
+
+interface Props {
+  howTos: HowToPage[];
+  troubleshoots: TroubleshootPage[];
+}
+
+const { howTos, troubleshoots } = Astro.props as Props;
+const hasContent = howTos.length > 0 || troubleshoots.length > 0;
+---
+{hasContent && (
+  <aside class="owner-help" aria-labelledby="owner-help-heading">
+    <h3 id="owner-help-heading" class="owner-help__heading">
+      <span class="owner-help__icon" aria-hidden="true">💡</span>
+      Need help with this machine?
+    </h3>
+    {howTos.length > 0 && (
+      <div class="owner-help__group">
+        <p class="owner-help__subhead">Common guides for owners:</p>
+        <ul class="owner-help__list">
+          {howTos.map((h) => (
+            <li>
+              <a href={`/how-to/${h.slug}/`}>{h.title} <span aria-hidden="true">&rarr;</span></a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+    {troubleshoots.length > 0 && (
+      <div class="owner-help__group">
+        <p class="owner-help__subhead">Common issues fixed here:</p>
+        <ul class="owner-help__list">
+          {troubleshoots.map((t) => (
+            <li>
+              <a href={`/troubleshoot/${t.slug}/`}>{t.title} <span aria-hidden="true">&rarr;</span></a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </aside>
+)}

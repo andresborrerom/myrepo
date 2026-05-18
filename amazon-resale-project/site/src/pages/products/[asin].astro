@@ -4,19 +4,82 @@ import Base from '../../layouts/Base.astro';
 import { relatedForProduct } from '../../lib/related-content';
 import AffiliateButton from '../../components/AffiliateButton.astro';
 import Byline from '../../components/Byline.astro';
+import OwnerHelp from '../../components/OwnerHelp.astro';
+import {
+  howToPages,
+  howTosForProduct,
+  genericHowTosForType,
+  type HowToPage,
+} from '../../data/how-to-pages';
+import {
+  troubleshootPages,
+  troubleshootsForProduct,
+  genericTroubleshootsForType,
+  type TroubleshootPage,
+} from '../../data/troubleshoot-pages';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
+  // Map ASIN → brand para resolver matching by-brand de how-to/troubleshoot
+  // pages que apuntan a otro product de la misma brand (e.g. Bambino guide
+  // surface en Bambino Plus product page).
+  const asinToBrand = new Map(products.map((p) => [p.data.asin, p.data.brand]));
   return products.map((product) => ({
     params: { asin: product.data.asin },
-    props: { product },
+    props: { product, asinToBrand },
   }));
 }
 
-const { product } = Astro.props;
+const { product, asinToBrand } = Astro.props;
 const { data, body } = product;
 const { Content } = await product.render();
 const related = await relatedForProduct(data.asin);
+
+// ----- Owner help CTA: matching de how-to + troubleshoot pages relevantes ---
+// Prioridad: directos (productAsin === data.asin) → mismo brand → genéricos
+// de mismo type. Cap: 2 how-to + 2 troubleshoot. Si total === 0, el componente
+// OwnerHelp omite el render del box (no render vacío).
+
+const productBrand = data.brand;
+
+// Helpers para de-dupe por slug al mergear directos + brand + genéricos.
+function dedupeBySlug<T extends { slug: string }>(items: T[]): T[] {
+  const seen = new Set<string>();
+  const out: T[] = [];
+  for (const item of items) {
+    if (seen.has(item.slug)) continue;
+    seen.add(item.slug);
+    out.push(item);
+  }
+  return out;
+}
+
+// How-tos de mismo brand: targetean OTRO product del catalog que comparte
+// brand con el actual. Útil cuando el product no tiene how-to directo pero
+// sí lo tiene un sibling (e.g. Bambino Plus reusing Bambino guide).
+const sameBrandHowTos: HowToPage[] = howToPages.filter((h) => {
+  if (!h.productAsin) return false;
+  if (h.productAsin === data.asin) return false;
+  return asinToBrand.get(h.productAsin) === productBrand;
+});
+
+const sameBrandTroubleshoots: TroubleshootPage[] = troubleshootPages.filter((t) => {
+  if (!t.productAsin) return false;
+  if (t.productAsin === data.asin) return false;
+  return asinToBrand.get(t.productAsin) === productBrand;
+});
+
+const ownerHelpHowTos = dedupeBySlug([
+  ...howTosForProduct(data.asin),
+  ...sameBrandHowTos,
+  ...genericHowTosForType(data.type),
+]).slice(0, 2);
+
+const ownerHelpTroubleshoots = dedupeBySlug([
+  ...troubleshootsForProduct(data.asin),
+  ...sameBrandTroubleshoots,
+  ...genericTroubleshootsForType(data.type),
+]).slice(0, 2);
 
 // Amazon Associates tag placeholder — replace PLACEHOLDER-20 once the
 // Associates account is approved and the production tag string is provided.
@@ -165,6 +228,8 @@ const breadcrumbs = [
     </section>
 
     <p class="muted">Last updated: {data.updated_at.toISOString().slice(0, 10)}</p>
+
+    <OwnerHelp howTos={ownerHelpHowTos} troubleshoots={ownerHelpTroubleshoots} />
 
     {related.length > 0 && (
       <section class="section related-content" aria-labelledby="related-heading">

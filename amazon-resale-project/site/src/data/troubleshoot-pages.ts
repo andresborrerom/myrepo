@@ -1089,3 +1089,32 @@ export function troubleshootBySlug(slug: string): TroubleshootPage | undefined {
 export function troubleshootsForProduct(asin: string): TroubleshootPage[] {
   return troubleshootPages.filter((p) => p.productAsin === asin);
 }
+
+// Mapeo category → product type: qué tipo de producto se beneficia de
+// una página de troubleshoot genérica con esa category. Usado por el
+// CTA "Owner help" del product page para sugerir troubleshoots
+// relevantes cuando NO hay páginas product-specific.
+//
+// Casi todas las categories aplican a espresso-machines. 'grinder' es
+// la única exclusiva de grinders.
+const TROUBLESHOOT_CATEGORY_TO_PRODUCT_TYPE: Record<TroubleshootPage['category'], string[]> = {
+  'no-water': ['espresso-machine'],
+  'no-steam': ['espresso-machine'],
+  leaking: ['espresso-machine'],
+  'no-heat': ['espresso-machine'],
+  modification: ['espresso-machine'],
+  technique: ['espresso-machine'],
+  grinder: ['grinder'],
+  electrical: ['espresso-machine'],
+};
+
+// Troubleshoots genéricos relevantes a un product type (no apuntan a un
+// ASIN específico). El caller filtra ya los directos antes para evitar
+// dupes. Orden: estable, según orden de declaración en `troubleshootPages`.
+export function genericTroubleshootsForType(type: string): TroubleshootPage[] {
+  return troubleshootPages.filter((p) => {
+    if (p.productAsin) return false;
+    const matches = TROUBLESHOOT_CATEGORY_TO_PRODUCT_TYPE[p.category];
+    return matches ? matches.includes(type) : false;
+  });
+}
