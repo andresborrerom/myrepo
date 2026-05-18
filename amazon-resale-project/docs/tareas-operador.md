@@ -1,7 +1,7 @@
 ---
 title: Tareas del operador — Amazon Resale Project
 author: Claude (Amazon Resale Project)
-date: 2026-05-13
+date: 2026-05-17
 geometry: margin=2cm
 fontsize: 11pt
 colorlinks: true
@@ -10,101 +10,89 @@ colorlinks: true
 # Tareas del operador — Amazon Resale Project
 
 **Fecha de emisión:** 2026-05-13
-**Próxima revisión:** tras cada hito o cada 1-2 semanas
+**Última revisión:** 2026-05-17
 **Branch del proyecto:** `claude/amazon-resale-project-t7o0P`
 
 ---
 
 ## Resumen ejecutivo
 
-Tu trabajo manual total estimado a 6 meses: **≈8 horas**, distribuidas
-en bloques chicos. La mayoría del trabajo lo hago yo (Claude) y los
-agentes. Vos te concentrás en lo que requiere tus credenciales, tu
-juicio estratégico, o reuniones humanas.
+Tu trabajo manual total estimado a 6 meses sigue siendo **≈8 horas**.
+La mayoría del trabajo lo hago yo (Claude) y los agentes. Vos te
+concentrás en credenciales, juicio estratégico, o reuniones humanas.
 
-Las tareas están ordenadas por urgencia. Las marcadas **bloqueante**
-detienen el build del sitio hasta que se resuelvan.
+**Estado al 2026-05-17**:
+- Bloque A (validaciones iniciales) — **COMPLETADO** ✅
+- Sitio live en `https://baristapath.com` con 236 páginas, indexable.
+- Pinterest app submitted, Trial pendiente review.
+- robots.txt flipped — Google empieza a crawlear.
+- Email Routing creado (`hello@baristapath.com` → gmail).
+
+Lo que queda es Bloques B-F, abajo en orden.
 
 ---
 
-## Bloque A — esta semana (≈75 min)
+## ~~Bloque A — pre-launch (COMPLETADO 2026-05-14)~~
 
-**Plazo: 2026-05-20.** Las tres tareas se pueden hacer desde el celular o
-desktop, en cualquier orden.
+✅ **A1. Pinterest Business + API developer app** — submitted, Trial pendiente
+✅ **A2. Volúmenes Ubersuggest** — VERDE, issue #20 cerrado
+✅ **A3. allintitle KGR sample** — VERDE, issue #21 cerrado
 
-### A1. Aplicar a Pinterest Business + API developer (≈30 min)
+---
 
-**Por qué urgente:** la aprobación de Standard API de Pinterest puede
-tardar 1-3 semanas. Si la queremos lista para mes 2 cuando arranque
-el agente de pinning, hay que arrancar el reloj ya.
+## Bloque B — esta semana (≈45 min) — **NUEVO POST-FLIP**
+
+### B1. Google Search Console — submit sitemap (≈15 min) — **CRÍTICO**
+
+Sin esto, Google no va a crawlear nuestro sitio aunque robots.txt
+permita. Es el switch que arranca el reloj de indexing (2-4 semanas).
 
 **Pasos:**
 
-1. Crear cuenta Pinterest Business en `pinterest.com/business/create`
-   (gratis). Email puede ser el mismo del proyecto.
-2. Ir a `developers.pinterest.com` → "Create app". Llenar:
-   - Nombre app: nombre del proyecto cuando lo elijamos, o algo
-     genérico como "Coffee Equipment Reviews" (cambiable después).
-   - Descripción: *"Programmatic content site for coffee equipment
-     reviews and comparisons, distributing curated pins from articles
-     linking back to source."*
-   - Categoría: Marketing / E-commerce.
-3. Solicitar acceso a **Standard API**. El Trial API es automático;
-   Standard requiere review humano de Pinterest.
-4. Esperar email de aprobación.
+1. Abrir `https://search.google.com/search-console` en PC.
+2. Add property → "URL prefix" → `https://baristapath.com/`
+3. Verification:
+   - Elegir **DNS record** verification
+   - Google da un TXT record
+   - En Cloudflare dashboard → DNS → Add record TXT con valor de Google
+   - Vuelta a Search Console → Verify
+4. Sidebar izquierdo → **Sitemaps** → ingresar `sitemap-index.xml` → Submit
+5. Done. A partir de acá Google empieza a crawlear.
 
-**Output:** comment en issue (a abrir) con screenshot de la app + estado
-actual (Trial / pendiente Standard / aprobado Standard).
+### B2. Amazon Associates US — aplicar (≈30 min)
 
----
-
-### A2. Validar volúmenes de 15 keywords coffee con Ubersuggest (≈30 min) — **bloqueante**
-
-**Por qué bloqueante:** sin volúmenes reales no podemos comprometer
-500-1000 páginas a este nicho. Los agentes no pudieron hacerlo (anti-bot
-en todas las herramientas free).
+**No esperar a tener tráfico.** Tenemos 236 páginas de contenido
+original, califica como sitio activo.
 
 **Pasos:**
 
-1. Ir a `https://neilpatel.com/ubersuggest/`, login con cuenta Google.
-2. Correr las 15 keywords listadas en el issue #20 del repo. Free tier
-   permite 3 búsquedas/día sin login, ~7 con login.
-3. Anotar volumen, KD (keyword difficulty), CPC por cada una.
-4. Si Ubersuggest se queda corto, usar **Google Keyword Planner**
-   (requiere cuenta Google Ads, gratis si no creás campañas activas).
+1. Abrir `https://affiliate-program.amazon.com` en PC.
+2. Sign up → asociate tu cuenta amazon.com.
+3. Website URL: `https://baristapath.com`. Topics: "Coffee equipment
+   reviews and comparisons". Traffic source: SEO.
+4. **Tax interview**: cuando pregunten "Do you perform services in the
+   United States?" respondé **"No"**. Esto produce 0% withholding sin
+   necesidad de treaty.
+5. Submit. Aprobación condicional típicamente 1-7 días.
 
-**Output:** comment en issue #20 con la tabla completa. 12 de 15 alcanza.
+### B3. Pinterest — check Trial status (≈5 min)
 
-**Criterio verde/amarillo/rojo:** definido en el issue.
+Cuando recibás email de Pinterest confirmando Trial activo:
 
----
+1. Login `developers.pinterest.com` → app "Coffee Equipment Pin Publisher"
+2. Editar Company website + Privacy URL: `https://baristapath.com` y
+   `https://baristapath.com/privacy/` (en lugar del `.pages.dev`).
+3. Solicitar **Standard API**. Review humano 1-3 semanas.
 
-### A3. Sample KGR allintitle de 10 long-tails (≈15 min) — **bloqueante**
+### B4. Cloudflare Web Analytics token (≈5 min) — opcional pero útil
 
-**Por qué bloqueante:** validar que el patrón KGR (allintitle <10 +
-volumen bajo = rankeable en 2-8 semanas) funciona en este nicho.
-Sin esto no escalamos a 500+ páginas con confianza.
+Para ver tráfico real:
 
-**Pasos:**
-
-1. Abrir Google (desktop preferible, móvil sirve).
-2. Para cada keyword del issue #21, pegar `allintitle:"<keyword>"`
-   (con las comillas) en la barra de búsqueda.
-3. Anotar el "About X results" que aparece arriba de los resultados.
-   Si Google muestra menos de 10 resultados, anotar el número exacto.
-
-**Output:** comment en issue #21 con tabla allintitle por keyword.
-
----
-
-## Bloque B — mes 1 (≈30 min)
-
-### B1. Aceptar aprobación Pinterest Standard API (≈10 min)
-
-**Plazo:** mes 1 (esperar email de Pinterest).
-**Acción:** copiar `client_id` + `client_secret` a un gestor seguro
-(1Password, Bitwarden, etc.). Avisarme para configurarlos como GitHub
-Actions Secret en el repo.
+1. Cloudflare dashboard → zone `baristapath.com` → **Analytics & Logs**
+   → **Web Analytics** → Add site
+2. Pegar `baristapath.com` → genera un beacon token
+3. Pasarme el token (es público, no es secret) → lo inyecto en
+   `Base.astro` y deploya
 
 ---
 
@@ -112,102 +100,85 @@ Actions Secret en el repo.
 
 ### C1. Suscribir Keepa API (≈20 min)
 
-**Plazo:** inicio mes 2, tras validar build de Astro con datos mockeados.
+**Plazo:** inicio mes 2 (~jul 2026), tras validar build con datos
+mockeados.
+
 **Pasos:**
 
 1. Crear cuenta en `keepa.com`.
-2. Suscribir plan: API entry tier (€19 + €49 ≈ $76 USD/mes).
+2. Suscribir plan API entry tier (€19 + €49 ≈ $76 USD/mes).
 3. Pagar con tarjeta de crédito del proyecto.
-4. Copiar la API key, avisarme para configurar como Actions Secret.
+4. Copiar API key, pasármela para configurar como Actions Secret.
 
 ---
 
-## Bloque D — mes 3 (≈2-3 h)
+## Bloque D — mes 3 (~30 min, tras aprobación Associates)
 
-### D1. Aplicar a Amazon Associates US (≈30 min)
+### D1. Replace affiliate tag (≈5 min)
 
-**Plazo:** cuando el sitio tenga ≥30 páginas publicadas + idealmente
-≥500 visitas/mes documentadas en Search Console.
+Cuando Amazon Associates te apruebe conditionalmente:
 
-**Pasos detallados:** ver `research/amazon-associates-from-panama.md`.
+1. Recibís tu tracking tag (e.g. `baristapath-20`).
+2. Me lo pasás. Hago grep + replace de `PLACEHOLDER-20` en todos los
+   templates.
+3. Build + push, CF redeploya. A partir de acá cada click cuenta.
 
-**Crítico:** en el tax interview responder **"No"** a *"Do you perform
-services in the United States?"*. Esto produce 0% withholding sin
-necesidad de tax treaty. **No marcar treaty benefits** (Panamá no tiene).
+### D2. Abrir cuenta Payoneer (≈30-45 min) — solo si payouts crecen
 
-### D2. Abrir cuenta Payoneer (≈30-45 min)
-
-**Plazo:** mes 3, una vez aplicado a Associates (en paralelo está bien).
+**Plazo:** una vez Associates aprobado y empieza a generar revenue.
 **Pasos detallados:** ver `research/payment-receivers-panama.md`.
-**Documentos:** pasaporte colombiano + comprobante de domicilio panameño
-<3 meses + datos de cuenta bancaria USD panameña.
+**Documentos:** pasaporte CO + comprobante domicilio PA <3 meses +
+datos cuenta bancaria USD panameña.
 
-### D3. Configurar Amazon Associates pago como Gift Card (≈5 min)
+**Alternativa inicial**: configurar Amazon Associates pago como Gift
+Card si los payouts iniciales son <$200/mo. Reinvertimos en proyecto.
 
-**Plazo:** inmediatamente tras aprobación Associates condicional.
-**Por qué:** los primeros payouts (<$200/mes) los reinvertimos en
-productos coffee para reseñas auténticas. Cero fees, cero KYC.
+### D3. Verificar comisión Kitchen en Associates Central (≈5 min)
 
-### D4. Verificar cuenta bancaria nómina (≈15 min)
-
-**Plazo:** mes 3.
-**Acción:** llamar a tu banco panameño, preguntar si tu cuenta nómina
-USD acepta transferencias de terceros y cuál es el fee de inbound wire
-desde Payoneer. Si no acepta, abrir cuenta corriente USD adicional sin
-flag de nómina.
+Una vez Associates activa, login → Operating Agreement → Schedule of
+Fees. Capturar tabla actual para "Kitchen" + "Outdoor Recreation".
+Postear en issue #19. Si Kitchen <3%, abrimos ADR de re-evaluación.
 
 ---
 
-## Bloque E — mes 4 (≈10 min)
+## Bloque E — antes de mes 6 (≈1-2 h)
 
-### E1. Verificar comisión Kitchen en Amazon Associates Central (≈5 min)
-
-**Plazo:** una vez aprobada la cuenta Associates.
-**Pasos:** login → Operating Agreement → Schedule of Fees. Capturar
-la tabla para Kitchen y Outdoor Recreation. Postear en issue #19.
-
-**Si Kitchen <3%:** se abre ADR de re-evaluación de vertical (puede
-implicar pivot a outdoor cooking).
-
----
-
-## Bloque F — antes de mes 6 (≈1-2 h)
-
-### F1. Cita con contador panameño (≈1-2 h)
+### E1. Cita con contador panameño (≈1-2 h)
 
 **Plazo:** antes de que entren payouts reales (mes 5-6).
-**Tema:** tributación local de comisiones de Amazon Associates pagadas
+**Tema:** tributación local de comisiones Amazon Associates pagadas
 por entidad US a residente panameño. Régimen territorial: en principio
 fuente extranjera no gravada, pero hay matices cuando el trabajo se
 hace localmente. Pedir opinión escrita.
 **Cómo encontrarlo:** contador con experiencia en e-commerce
-internacional + affiliates. Recomendaciones de comunidad expat o de
-la firma que te hizo la residencia.
+internacional + affiliates. Recomendaciones de comunidad expat o
+firma que te hizo la residencia.
 
 ---
 
 ## Tabla consolidada de plazos
 
-| Bloque | Tarea | Tiempo | Plazo |
-|---|---|---|---|
-| A1 | Pinterest Business + API app | 30 min | 2026-05-20 |
-| A2 | Volúmenes Ubersuggest | 30 min | 2026-05-20 |
-| A3 | allintitle sample | 15 min | 2026-05-20 |
-| B1 | Aceptar Pinterest API approval | 10 min | Mes 1 |
-| C1 | Suscribir Keepa | 20 min | Inicio mes 2 |
-| D1 | Aplicar Amazon Associates | 30 min | Mes 3 |
-| D2 | Abrir Payoneer | 45 min | Mes 3 |
-| D3 | Config Associates Gift Card | 5 min | Mes 3 |
-| D4 | Verificar banco | 15 min | Mes 3 |
-| E1 | Verificar Kitchen commission | 5 min | Mes 4 |
-| F1 | Contador panameño | 1-2 h | Antes mes 6 |
-|  | **Total** | **≈8 h** | **6 meses** |
+| Bloque | Tarea | Tiempo | Plazo | Estado |
+|---|---|---|---|---|
+| A1 | Pinterest Business + API | 30 min | 2026-05-20 | ✅ |
+| A2 | Volúmenes Ubersuggest | 30 min | 2026-05-20 | ✅ |
+| A3 | allintitle sample | 15 min | 2026-05-20 | ✅ |
+| **B1** | **Google Search Console submit** | **15 min** | **Esta semana** | **Pendiente** |
+| **B2** | **Aplicar Amazon Associates** | **30 min** | **Esta semana** | **Pendiente** |
+| **B3** | **Pinterest Trial → Standard request** | **5 min** | **Cuando Trial active** | **Pendiente** |
+| B4 | CF Web Analytics token | 5 min | Cuando puedas | Pendiente |
+| C1 | Suscribir Keepa | 20 min | Inicio mes 2 (jul) | Futuro |
+| D1 | Replace affiliate tag | 5 min | Tras Associates approve | Futuro |
+| D2 | Abrir Payoneer (si revenue >$200) | 45 min | Mes 3-4 | Futuro |
+| D3 | Verificar Kitchen commission | 5 min | Tras Associates activa | Futuro |
+| E1 | Contador panameño | 1-2 h | Antes mes 6 (oct) | Futuro |
+|  | **Total** | **≈8 h** | **6 meses** | |
 
 ---
 
 ## Reglas de actualización
 
 - Estos tiempos se revisan cada vez que haya avance significativo.
-- La versión más actualizada vive en `progreso.md` (raíz del proyecto).
-  Lo abrimos al inicio de cada sesión.
+- Versión actualizada en `progreso.md` (raíz del proyecto). Se abre al
+  inicio de cada sesión.
 - Si algún plazo se mueve, Claude lo registra en commit con razón.
