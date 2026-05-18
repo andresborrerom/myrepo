@@ -15,6 +15,7 @@ Esta carpeta es el cuaderno de bitácora del proyecto. No hay código todavía �
 7. [`07-roadmap-90dias.md`](./07-roadmap-90dias.md) — plan accionable día 1 a día 90.
 8. [`08-nichos-investigados.md`](./08-nichos-investigados.md) — 4 nichos con competidores reales, ventaja injusta y techo de ingresos. ⭐ **Recomendación documentada.**
 9. [`09-marca-naming.md`](./09-marca-naming.md) — 10 nombres candidatos + paleta + tono de voz para el nicho recomendado.
+10. [`10-automatizacion.md`](./10-automatizacion.md) — Qué se automatiza y qué no por producto, stack concreto, roadmap de cuándo automatizar qué.
 
 ## Código
 
