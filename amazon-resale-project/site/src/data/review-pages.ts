@@ -76,6 +76,22 @@ const ASIN = {
   timemoreC2: 'B086DM2MS3',
   staggEkg: 'B0BVYGZG6T',
   aeropress: 'B0047BIWSK',
+  // Accessories — agregadas en pasada de review pages tipo "is [accessory] worth it for X"
+  acaiaPearlS: 'B0BC4FQDD1',
+  bellmanPitcher20: 'B07PXNZX5J',
+  bplusWdt: 'B09QV3RTBN',
+  cafelatKnockTube: 'B07GBYVN3T',
+  esproToroid: 'B00U6OFEX2',
+  joefrexKnockBox: 'B005MMJZ22',
+  joefrexPitcher20: 'B003YFI56C',
+  normcorePuckScreen: 'B08T9MZKVR',
+  normcoreTamper54: 'B07XGRMK4P',
+  normcoreTamper58: 'B07XGYLW2H',
+  normcoreWdt: 'B08L5C9QZD',
+  rattlewareKnockBox: 'B0006H4VOA',
+  rattlewarePitcher12: 'B0006H4VR6',
+  rattlewareThermometer: 'B0006H4VKQ',
+  urnexCafiza: 'B00LWLBQH2',
 } as const;
 
 export const reviewPages: ReviewPage[] = [
@@ -1214,5 +1230,779 @@ export const reviewPages: ReviewPage[] = [
     title: 'Is the Eureka Mignon Silenzio Worth It for Apartments?',
     description:
       'Verdict on the Eureka Silenzio quiet grinder for thin-walled apartments. Noise comparison vs Specialita, hand-grinder alternative, and pairing with Bambino-class machines.',
+  },
+
+  // ============================================================
+  // Accessories — pasada para cerrar gap de related content en
+  // best-of pages de accessories (knock boxes, tampers, WDT,
+  // milk pitchers, scales, descaler).
+  // ============================================================
+
+  // ----- Joe Frex Mini Knock Box -----
+  {
+    slug: 'is-joe-frex-knock-box-mini-worth-it-for-budget-setups',
+    productAsin: ASIN.joefrexKnockBox,
+    useCase: 'budget setups',
+    verdict: 'yes',
+    rating: 4.0,
+    verdictSummary:
+      'Yes. At $24, the Joe Frex Mini is the cheapest knock box from a real coffee-tools brand worth recommending — below that price the market is unbranded plastic with inconsistent quality. For a sub-$200 Bambino or Dedica setup, it is the right tier of accessory.',
+    nails: [
+      'Lowest price from a real coffee-tools brand — undercuts unbranded boxes on quality control',
+      'Rubber rim around the knock bar absorbs impact and keeps mornings quiet',
+      'Compact 4-inch height slides under most drip trays and shallow cabinets',
+    ],
+    fallsShort: [
+      'ABS plastic body discolors with espresso oil within 4-6 months',
+      '10-puck capacity needs emptying every 3-4 days for two-drink households',
+      'Knock bar is shorter than premium boxes — off-angle strikes miss',
+    ],
+    worthItFor: [
+      'Buyers pairing it with a sub-$200 machine where a $60 knock box would look out of scale',
+      'Single-cup households who empty the box weekly',
+      'First-time espresso buyers testing the hobby before committing',
+    ],
+    skipIf: [
+      'You make 2+ drinks daily — go straight to a Rattleware or Espro for less refill friction',
+      'You want a 10-year accessory — the ABS plastic does not age well',
+    ],
+    alternativeAsins: [ASIN.rattlewareKnockBox, ASIN.esproToroid, ASIN.cafelatKnockTube],
+    faqItems: [
+      {
+        question: 'How long does the Joe Frex Mini last?',
+        answer:
+          'Based on reported user experience, 2-4 years of daily use before the plastic body looks scuffed and the rubber rim hardens. The internal knock bar typically outlasts the body.',
+      },
+      {
+        question: 'Joe Frex Mini or the unbranded $12 knock box on Amazon?',
+        answer:
+          'Joe Frex every time. Unbranded boxes routinely show up with loose knock bars, sharp rubber-rim seams, or plastic that cracks within months. The $12 saved is not worth the QC roulette.',
+      },
+      {
+        question: 'Will it fit under a Breville Bambino drip tray?',
+        answer:
+          'Yes — at 4 inches tall it slides under the Bambino, Bambino Plus, and Dedica drip trays without lifting the machine. Heavier prosumer machines (Gaggia, Silvia) sit higher, so the box can stay on the counter beside the machine.',
+      },
+    ],
+    title: 'Is the Joe Frex Mini Knock Box Worth It for Budget Setups?',
+    description:
+      'Verdict on the $24 Joe Frex Mini knock box for sub-$200 espresso setups. ABS plastic longevity, capacity trade-offs, and when to step up to a Rattleware or Espro.',
+  },
+
+  // ----- Rattleware Short Knock Box -----
+  {
+    slug: 'is-rattleware-knock-box-worth-it-for-gaggia-classic-owners',
+    productAsin: ASIN.rattlewareKnockBox,
+    useCase: 'Gaggia Classic owners',
+    verdict: 'yes',
+    rating: 4.4,
+    verdictSummary:
+      'Yes. The Rattleware Short is the default budget knock box across most home espresso setups, and the Gaggia Classic Pro is its natural pairing — stainless body, low 4.5-inch profile that fits beside the Gaggia footprint, and a price-to-capacity ratio nothing in the unbranded tier matches.',
+    nails: [
+      'Stainless steel shell shrugs off espresso oils where ABS plastic discolors',
+      'Removable rubber knock bar absorbs the impact of a heavy 58mm portafilter cleanly',
+      '4.5-inch profile sits comfortably beside the Gaggia without dominating the counter',
+    ],
+    fallsShort: [
+      'Knock bar threads loosen after several months of vigorous knocking — needs occasional re-tightening',
+      'Round base lacks the slip-resistant ring of the Espro Toroid — slides when knocked hard',
+      '12-puck capacity is tight for two-drink-a-day households',
+    ],
+    worthItFor: [
+      'Gaggia Classic Pro owners pulling 1-2 shots per day',
+      'Buyers who want the proven design without paying Espro premium',
+      'Households where the box lives permanently next to the machine, not in a drawer',
+    ],
+    skipIf: [
+      'You make 3+ drinks per day — the 12-puck capacity becomes annoying',
+      'You want a noise-dampened silicone exterior — the Cafelat Knock Tube is quieter',
+    ],
+    alternativeAsins: [ASIN.esproToroid, ASIN.cafelatKnockTube, ASIN.joefrexKnockBox],
+    faqItems: [
+      {
+        question: 'How often will I empty a Rattleware with a Gaggia Classic?',
+        answer:
+          'Roughly once a week at one drink per day, twice a week at two. The 12-puck capacity assumes you knock pucks cleanly without leaving partial pucks behind, which Gaggia owners tend to do well thanks to the 58mm basket geometry.',
+      },
+      {
+        question: 'Is the threaded knock bar really a problem?',
+        answer:
+          'Based on reported user experience, yes after 6-12 months of daily use — but it is a 30-second fix with pliers or a drop of thread-locker. Not a deal-breaker, just a known maintenance touch.',
+      },
+      {
+        question: 'Rattleware Short or Espro Toroid for a Gaggia?',
+        answer:
+          'Rattleware if you want the budget pick and accept the 12-puck capacity. Espro Toroid ($65) if you make 2+ drinks daily and want the slip-resistant base — the extra $37 buys 8 more pucks of capacity and noticeably better counter stability.',
+      },
+    ],
+    title: 'Is the Rattleware Knock Box Worth It for Gaggia Classic Owners?',
+    description:
+      'Honest verdict on the Rattleware Short knock box paired with a Gaggia Classic Pro. Capacity, durability, threaded knock bar, and Espro Toroid alternative.',
+  },
+
+  // ----- Espro Toroid Knock Box -----
+  {
+    slug: 'is-espro-toroid-knock-box-worth-it-for-daily-espresso',
+    productAsin: ASIN.esproToroid,
+    useCase: 'daily espresso',
+    verdict: 'yes',
+    rating: 4.5,
+    verdictSummary:
+      'Yes. For households pulling 2-4 shots per day, the Toroid is the clear upgrade pick over budget Rattleware-class boxes — 20-puck capacity, slip-resistant silicone base, and a toroidal shape that distributes impact without rocking the box on the counter.',
+    nails: [
+      '20-puck capacity comfortably covers a week of two-shot-a-day households',
+      'Toroid shape spreads impact around the curve — the box does not walk during hard knocks',
+      'Non-slip silicone base ring is the feature missing from cheaper alternatives',
+    ],
+    fallsShort: [
+      '5.5-inch height does not slide under most drip trays — lives on the counter',
+      'Silicone base ring discolors from espresso splash within the first year',
+      'Empty weight is noticeable for users moving the box between counter and sink daily',
+    ],
+    worthItFor: [
+      'Households making 2-4 espresso drinks per day',
+      'Owners of mid-tier machines (Gaggia, Silvia, Bambino Plus, Lelit Anna) on finished countertops',
+      'Users who knock pucks hard and want a box that stays put',
+    ],
+    skipIf: [
+      'You pull one drink a day — the Rattleware Short is half the price and enough',
+      'You need a box that fits under a drip tray — go Cafelat Knock Tube or Rattleware Short',
+    ],
+    alternativeAsins: [ASIN.rattlewareKnockBox, ASIN.cafelatKnockTube, ASIN.joefrexKnockBox],
+    faqItems: [
+      {
+        question: 'Is 20 pucks really enough for daily espresso?',
+        answer:
+          'For most two-drink-a-day households, yes — a week between emptying. For three-or-four-drink households or entertaining patterns, plan on emptying twice a week. Either way, the capacity buffer is the main reason to pay over a Rattleware.',
+      },
+      {
+        question: 'Will the silicone base ring discolor permanently?',
+        answer:
+          'Based on reported user experience, yes — espresso oils stain silicone within months and the discoloration is not removable. Cosmetic only; the function is unaffected.',
+      },
+      {
+        question: 'Espro Toroid or Cafelat Knock Tube?',
+        answer:
+          'Toroid if you want the wider stable footprint and short profile. Knock Tube if your counter has depth but limited horizontal space — it is taller (8.5 inches) but narrower and silicone-wrapped for quieter knocks.',
+      },
+    ],
+    title: 'Is the Espro Toroid Knock Box Worth It for Daily Espresso?',
+    description:
+      'Verdict on the $65 Espro Toroid knock box for 2-4 drinks per day. Stability, capacity vs Rattleware, and when the Cafelat Knock Tube is the better alternative.',
+  },
+
+  // ----- Cafelat Knock Tube -----
+  {
+    slug: 'is-cafelat-knock-tube-worth-it-for-small-kitchen',
+    productAsin: ASIN.cafelatKnockTube,
+    useCase: 'small kitchen',
+    verdict: 'depends',
+    rating: 3.6,
+    verdictSummary:
+      'Depends on which dimension you are short on. The Knock Tube stacks 25 pucks of capacity into a 4.5-inch diameter footprint — best in class for narrow counters. But at 8.5 inches tall, it does not fit under any drip tray or wall cabinet, so vertical clearance becomes the new constraint.',
+    nails: [
+      '4.5-inch diameter footprint is unmatched for narrow counters',
+      'Silicone exterior absorbs impact almost silently — best apartment knock box',
+      '25-puck capacity is double most short boxes; emptying every 1-2 weeks',
+    ],
+    fallsShort: [
+      '8.5-inch height does not fit under drip trays or shallow wall cabinets',
+      'Vertical tube is harder to clean than open-top boxes — requires a bottle brush',
+      'Silicone exterior attracts dust and stray grounds; never looks pristine',
+    ],
+    worthItFor: [
+      'Apartments with deep counters but limited horizontal width',
+      'Households where morning espresso noise matters (sleeping partners, thin walls)',
+      'Owners willing to keep the tube on the counter exposed, not tucked away',
+    ],
+    skipIf: [
+      'Your counter has wall cabinets above and under 8.5 inches of clearance — the tube will not fit',
+      'You want a box you can rinse out in under 10 seconds — Rattleware or Espro are easier to clean',
+    ],
+    alternativeAsins: [ASIN.rattlewareKnockBox, ASIN.esproToroid, ASIN.joefrexKnockBox],
+    faqItems: [
+      {
+        question: 'How loud is the Cafelat Knock Tube vs a stainless box?',
+        answer:
+          'Based on reported user experience, meaningfully quieter — the silicone outer shell absorbs the metallic clang that defines stainless knock boxes. For 6 AM apartment use, the difference is the reason to pay $55 over $28 for a Rattleware.',
+      },
+      {
+        question: 'Can I store it in a cabinet between uses?',
+        answer:
+          'Yes, but the tall profile makes a cabinet awkward — most owners leave it on the counter. The silicone exterior is the visual compromise: it does not look as clean as a polished stainless box.',
+      },
+      {
+        question: 'Does the 25-puck capacity actually fit 25 pucks?',
+        answer:
+          'In practice closer to 20 — pucks stack unevenly inside the tube and the top 4-5 puck "headroom" gets messy fast. Still 60% more capacity than a Rattleware Short, just not literally 25.',
+      },
+    ],
+    title: 'Is the Cafelat Knock Tube Worth It for a Small Kitchen?',
+    description:
+      'Verdict on the Cafelat Knock Tube for narrow apartment counters. Footprint vs vertical clearance, noise dampening, and when a short Rattleware or Espro Toroid wins.',
+  },
+
+  // ----- Bellman 20oz Pitcher -----
+  {
+    slug: 'is-bellman-milk-pitcher-worth-it-for-beginners-learning-microfoam',
+    productAsin: ASIN.bellmanPitcher20,
+    useCase: 'beginners learning microfoam',
+    verdict: 'yes',
+    rating: 4.3,
+    verdictSummary:
+      'Yes. The pre-drilled thermometer mount is the single feature that distinguishes a beginner-friendly pitcher from a competition-style one — and the Bellman is one of the cheapest 20oz pitchers that includes it. For the first 2-3 months of microfoam practice, it removes the guessing game around 60-65C.',
+    nails: [
+      'Pre-drilled thermometer mount accepts a Rattleware-style clip-on dial',
+      '20oz capacity covers two drinks at once or one large 12oz latte',
+      'Heavier gauge stainless resists dents from steam wand contact',
+    ],
+    fallsShort: [
+      'Wider spout produces a softer pour — less precise than a 12oz latte-art pitcher',
+      '20oz is oversized for single 6oz cappuccinos; you waste milk steaming for one drink',
+      'Single-walled — hot to grip without a towel during long sessions',
+    ],
+    worthItFor: [
+      'First-year home baristas who have not yet developed temperature hand-feel',
+      'Two-person households batching milk for two drinks',
+      'Beginners on Bambino-class machines where steam wand power is moderate',
+    ],
+    skipIf: [
+      'You already know when milk hits 60-65C by touch — skip the thermometer mount premium',
+      'You only ever steam for one drink — a 12oz Rattleware is the right size',
+    ],
+    alternativeAsins: [ASIN.rattlewarePitcher12, ASIN.joefrexPitcher20, ASIN.rattlewareThermometer],
+    faqItems: [
+      {
+        question: 'How long before I outgrow the thermometer?',
+        answer:
+          'Based on reported user experience, most home baristas remove the thermometer after 1-3 months — by then the hand-feel signal (pitcher bottom uncomfortable to hold) is reliable. The mount remains useful as backup.',
+      },
+      {
+        question: 'Bellman 20oz or Joe Frex 20oz?',
+        answer:
+          'Bellman if you want the thermometer mount and are learning. Joe Frex if you already know temperature by feel and want a tighter spout for latte art at the 20oz size. Joe Frex is also $10 cheaper.',
+      },
+      {
+        question: 'Can I do latte art with the Bellman?',
+        answer:
+          'Basic hearts and tulips yes; rosettas and fine detail are harder due to the wider spout. For art-focused practice, supplement with a 12oz Rattleware once basics are covered.',
+      },
+    ],
+    title: 'Is the Bellman 20oz Pitcher Worth It for Beginners Learning Microfoam?',
+    description:
+      'Verdict on the Bellman 20oz milk pitcher for first-year home baristas. Thermometer mount, capacity vs 12oz competition pitchers, and Joe Frex alternative.',
+  },
+
+  // ----- Rattleware 12oz Latte Art Pitcher -----
+  {
+    slug: 'is-rattleware-12oz-pitcher-worth-it-for-latte-art',
+    productAsin: ASIN.rattlewarePitcher12,
+    useCase: 'latte art',
+    verdict: 'yes',
+    rating: 4.6,
+    verdictSummary:
+      'Yes. The Rattleware 12oz is the default latte-art pitcher in most specialty coffee shops — sharp narrow spout, no rivets to trap milk, and the right size calibrated to a single 6-8oz drink. At $22 it is also one of the cheapest entry points into competition-grade pouring.',
+    nails: [
+      'Sharp narrow spout produces a controllable stream for rosettas and tulip stacks',
+      'Single-piece stainless steel with no internal rivets to trap milk',
+      '12oz capacity matches one 6oz cappuccino or 8oz latte exactly',
+    ],
+    fallsShort: [
+      'Single-walled — gets hot during long steaming, needs a towel grip',
+      'Spout edge dents easily from contact with steam wand',
+      'No graduated markings inside; measuring is by eye',
+    ],
+    worthItFor: [
+      'Solo drinkers focused on latte art technique',
+      'Anyone moving past basic hearts who wants the right tool for rosettas',
+      'Owners of machines with strong steam wands (Silvia, modded Gaggia, Mara X)',
+    ],
+    skipIf: [
+      'You make two drinks at once regularly — a 20oz pitcher batches better',
+      'You are still learning microfoam temperature — the Bellman 20oz with thermometer mount is more forgiving',
+    ],
+    alternativeAsins: [ASIN.bellmanPitcher20, ASIN.joefrexPitcher20, ASIN.rattlewareThermometer],
+    faqItems: [
+      {
+        question: 'Why is the 12oz size the standard for latte art?',
+        answer:
+          'Because it forces the right milk-to-drink ratio. With 6oz of cold milk filling the pitcher just below the spout, you end at roughly 11-12oz steamed milk — the right amount for one cappuccino or latte without surplus to dump.',
+      },
+      {
+        question: 'How does the spout compare to no-name pitchers?',
+        answer:
+          'Most no-name 12oz pitchers have rounded or wider spouts that produce a fat, diffuse pour. The Rattleware spout is cut narrower and sharper — the difference is immediately visible the first time you pour a rosetta.',
+      },
+      {
+        question: 'Will it dent if I drop it once?',
+        answer:
+          'The spout edge yes, the body usually no. Dents do not affect function but ruin the pour pattern. Most cafe owners replace dented pitchers within a year; at $22 the replacement cost is low.',
+      },
+    ],
+    title: 'Is the Rattleware 12oz Pitcher Worth It for Latte Art?',
+    description:
+      'Verdict on the Rattleware 12oz milk pitcher for latte art practice. Spout geometry, why 12oz is the standard, and Bellman 20oz alternative for batching.',
+  },
+
+  // ----- Joe Frex 20oz Pitcher -----
+  {
+    slug: 'is-joe-frex-milk-pitcher-worth-it-for-milk-drink-prep',
+    productAsin: ASIN.joefrexPitcher20,
+    useCase: 'milk drink prep',
+    verdict: 'depends',
+    rating: 3.7,
+    verdictSummary:
+      'Depends on whether you need the thermometer mount. The Joe Frex 20oz has a tighter spout than the Bellman 20oz (better for latte art at this volume) and costs $10 less — but it omits the thermometer hole. For users past the beginner-microfoam stage, the Joe Frex is the smarter buy; for users still learning, the Bellman wins.',
+    nails: [
+      'Tapered spout pours cleaner latte-art lines than the Bellman at the same 20oz capacity',
+      'Polished interior with no rivets or seams that trap milk residue',
+      '$10 cheaper than the Bellman 20oz with similar build quality',
+    ],
+    fallsShort: [
+      'No thermometer mount hole — users must rely on hand-feel or external probe',
+      'No fill-line markings means measuring milk by eye',
+      'Single-walled gets hot during steaming, requires a towel grip',
+    ],
+    worthItFor: [
+      'Intermediate home baristas past the temperature-learning stage',
+      'Two-drink households who also want better latte-art control than the Bellman',
+      'Buyers who use a separate probe thermometer or just measure by hand-feel',
+    ],
+    skipIf: [
+      'You are still learning microfoam — the Bellman 20oz thermometer mount is worth $10',
+      'You only steam for one drink — a 12oz Rattleware fits better',
+    ],
+    alternativeAsins: [ASIN.bellmanPitcher20, ASIN.rattlewarePitcher12, ASIN.rattlewareThermometer],
+    faqItems: [
+      {
+        question: 'How much does the missing thermometer mount actually matter?',
+        answer:
+          'For the first 1-3 months of microfoam practice, a lot — a thermometer is the only objective signal you have. After that, the hand-feel signal (pitcher uncomfortable to hold) takes over and the mount becomes irrelevant. Most experienced home baristas would not pay extra for one.',
+      },
+      {
+        question: 'Joe Frex 20oz or Rattleware 12oz?',
+        answer:
+          'Joe Frex if you make two drinks at once regularly or want one pitcher for all milk drinks. Rattleware 12oz if you only ever do solo drinks and want the sharpest spout for latte art. Many serious home baristas own both.',
+      },
+      {
+        question: 'Is the spout actually better than the Bellman for latte art?',
+        answer:
+          'Based on reported user experience, modestly yes — the Joe Frex spout is cut narrower, which produces a thinner controllable stream. The Bellman spout is wider for easier general pouring but worse for fine detail.',
+      },
+    ],
+    title: 'Is the Joe Frex 20oz Pitcher Worth It for Milk Drink Prep?',
+    description:
+      'Honest verdict on the Joe Frex 20oz milk pitcher vs the Bellman 20oz. Spout geometry, thermometer mount trade-off, and when to choose the Rattleware 12oz instead.',
+  },
+
+  // ----- Rattleware Milk Thermometer -----
+  {
+    slug: 'is-rattleware-milk-thermometer-worth-it-for-first-time-espresso-buyers',
+    productAsin: ASIN.rattlewareThermometer,
+    useCase: 'first-time espresso buyers',
+    verdict: 'depends',
+    rating: 3.3,
+    verdictSummary:
+      'Depends on how long you plan to use it. As a temporary training aid for the first 1-3 months, yes — $14 to avoid scalded milk is cheap insurance. As a permanent fixture, no — analog dial lag and the existence of hand-feel make it irrelevant after the learning phase.',
+    nails: [
+      '5-inch probe reaches the bottom of any 12oz or 20oz pitcher',
+      'Wide 0-220F dial range covers cold prep through target steaming zones',
+      'Cheapest reliable way to avoid overheating milk in the first month',
+    ],
+    fallsShort: [
+      'Analog dial lags real temperature by 2-3 seconds — needs anticipation, not real-time reading',
+      'Requires a pitcher with a pre-drilled thermometer hole (Bellman, some Joe Frex sizes)',
+      'Most experienced baristas remove the thermometer within 3 months; long-term value is low',
+    ],
+    worthItFor: [
+      'Absolute beginners on their first espresso machine who have never steamed milk',
+      'Users with hearing or sensory limitations who cannot rely on hand-feel reliably',
+      'Households where multiple users at different skill levels share the machine',
+    ],
+    skipIf: [
+      'Your pitcher has no thermometer mount hole — the clip will not attach securely',
+      'You already steam milk competently — hand-feel is faster and more accurate than the dial',
+    ],
+    alternativeAsins: [ASIN.bellmanPitcher20, ASIN.rattlewarePitcher12, ASIN.joefrexPitcher20],
+    faqItems: [
+      {
+        question: 'How long will I actually use the thermometer?',
+        answer:
+          'Based on reported user experience, 1-3 months. After that, the pitcher exterior becoming uncomfortable to hold is a faster and more reliable temperature cue than reading a lagging dial.',
+      },
+      {
+        question: 'Can I just dip it into the pitcher without the clip?',
+        answer:
+          'You can, but free-floating gives unstable readings as you move the pitcher. The clip-on design is the reason to buy a probe thermometer over a kitchen instant-read.',
+      },
+      {
+        question: 'Is the dial lag really that bad?',
+        answer:
+          'It is a learnable trade-off — stop steaming 3-4 degrees before your target reading and the lag works in your favor. But the lag is the main reason experienced baristas abandon dial thermometers for digital probes or just hand-feel.',
+      },
+    ],
+    title: 'Is the Rattleware Milk Thermometer Worth It for First-Time Espresso Buyers?',
+    description:
+      'Verdict on the $14 Rattleware milk thermometer for new home baristas. Why it earns its money for 3 months and why most users remove it after that.',
+  },
+
+  // ----- Normcore WDT Tool -----
+  {
+    slug: 'is-normcore-wdt-tool-worth-it-for-gaggia-classic-owners',
+    productAsin: ASIN.normcoreWdt,
+    useCase: 'Gaggia Classic owners',
+    verdict: 'yes',
+    rating: 4.6,
+    verdictSummary:
+      'Yes. The Normcore WDT is one of the cheapest accessories with a visible cup-quality effect — particularly for Gaggia Classic owners running single-dose grinders that produce clumpy doses. At $32 it is the consensus value pick over $80-150 alternatives that deliver marginal improvement.',
+    nails: [
+      'Eight 0.4mm needles produce the right balance of redistribution without compaction',
+      'Magnetic walnut stand keeps the tool upright between shots — small but daily-use feature',
+      'Visibly reduces channeling on Gaggia 58mm bottomless extractions',
+    ],
+    fallsShort: [
+      'Walnut handle stains with espresso oils over time',
+      'Magnetic base attracts coffee grounds — needs occasional wiping',
+      'Needles bend permanently if dropped on hard tile or stone',
+    ],
+    worthItFor: [
+      'Gaggia Classic owners with any grinder that produces clumps on espresso settings',
+      'Single-dose grinder users (DF64, Niche, JX-Pro) where clumping is endemic',
+      'Anyone running light roasts where channeling is more common',
+    ],
+    skipIf: [
+      'You run a Specialita or Niche-class doser and never see clumps — the effect is small',
+      'You only use the Gaggia for medium-dark milk-drink espresso with the stock pressurized basket',
+    ],
+    alternativeAsins: [ASIN.bplusWdt, ASIN.normcorePuckScreen, ASIN.normcoreTamper58],
+    faqItems: [
+      {
+        question: 'Will the Normcore WDT actually improve my Gaggia shots?',
+        answer:
+          'If you currently see channeling (sprays, gushers, asymmetric bottomless extractions), yes — visibly. If your shots already pull evenly with no channeling, the improvement is smaller. The tool is most valuable for single-dose workflows and light roasts.',
+      },
+      {
+        question: 'Normcore WDT or Bplus WDT for a Gaggia?',
+        answer:
+          'Normcore. The Bplus is 3x the price for marginal needle-diameter and build improvements. Most Gaggia owners cannot taste the difference; the $57 saved goes further toward a better grinder.',
+      },
+      {
+        question: 'Do I need a WDT tool if I use a real grinder?',
+        answer:
+          'You benefit from one if your grinder produces clumps — most single-dose grinders do, regardless of price. Even Niche Zero outputs benefit from a quick WDT pass. The exception is dosing-style grinders that hopper-feed straight into the basket.',
+      },
+    ],
+    title: 'Is the Normcore WDT Tool Worth It for Gaggia Classic Owners?',
+    description:
+      'Verdict on the $32 Normcore WDT distribution tool for Gaggia Classic Pro users. Channeling reduction, when WDT matters, and Bplus alternative compared.',
+  },
+
+  // ----- Bplus WDT Tool (NO verdict) -----
+  {
+    slug: 'is-bplus-wdt-tool-worth-it-for-budget-setups',
+    productAsin: ASIN.bplusWdt,
+    useCase: 'budget setups',
+    verdict: 'no',
+    rating: 2.4,
+    verdictSummary:
+      'No. The Bplus Stirrer is a fine tool, but at $89 it is three times the price of the Normcore WDT for marginal cup-quality improvement. For a sub-$1,000 espresso setup, the $57 difference is better spent on a basket upgrade or grinder calibration tool — the Normcore captures 95% of the WDT benefit.',
+    nails: [
+      'Machined anodized aluminum body is genuinely premium build',
+      'Free-rotating head produces a smoother stirring motion than fixed-head WDT',
+      '0.35mm needles are slightly finer than the Normcore 0.4mm',
+    ],
+    fallsShort: [
+      'Three times the price of the Normcore for marginal cup difference',
+      '0.35mm needles bend more easily than 0.4mm if dropped',
+      'The premium pricing only makes sense paired with a $1,500+ prosumer setup',
+    ],
+    worthItFor: [
+      'Owners of $2,000+ prosumer machines treating the workflow as a daily ritual',
+      'Users who already own every other accessory and want the last 5% refinement',
+      'Buyers who value machined aluminum aesthetics as part of the workspace',
+    ],
+    skipIf: [
+      'Your total espresso setup costs under $1,500 — the Normcore WDT is the correct answer',
+      'You drop tools occasionally — the 0.35mm needles bend permanently',
+      'You measure cup quality by taste rather than equipment tier — the upgrade is inaudible',
+    ],
+    alternativeAsins: [ASIN.normcoreWdt, ASIN.normcorePuckScreen, ASIN.normcoreTamper58],
+    faqItems: [
+      {
+        question: 'Can I taste the difference between the Bplus and the Normcore?',
+        answer:
+          'Honestly no — based on reported user experience and side-by-side bottomless comparisons, the cup difference is below the threshold most home palates can reliably detect. The Bplus produces marginally more even distribution; the cup outcome with both is essentially equivalent given good grinder and tamp.',
+      },
+      {
+        question: 'Is there any budget-setup case for the Bplus?',
+        answer:
+          'Only if you specifically value the machined aluminum aesthetic and magnetic stand integration in a workspace context. As a cup-quality investment in a budget setup, no — the math does not work.',
+      },
+      {
+        question: 'What should I spend the $57 difference on instead?',
+        answer:
+          'A Normcore puck screen ($19) plus a 58mm calibrated tamper ($65 Normcore) — together they buy you more measurable shot-quality improvement than upgrading from Normcore WDT to Bplus WDT ever will.',
+      },
+    ],
+    title: 'Is the Bplus WDT Tool Worth It for Budget Setups?',
+    description:
+      'Honest no verdict on the $89 Bplus WDT distribution tool for sub-$1,500 espresso setups. Why the Normcore WDT is the smarter spend and where the $57 belongs.',
+  },
+
+  // ----- Normcore 54mm Tamper -----
+  {
+    slug: 'is-normcore-54mm-tamper-worth-it-for-breville-bambino-owners',
+    productAsin: ASIN.normcoreTamper54,
+    useCase: 'Breville Bambino owners',
+    verdict: 'yes',
+    rating: 4.7,
+    verdictSummary:
+      'Yes. The Breville stock plastic tamper is one of the most-criticized parts of the entire Bambino lineup, and replacing it with a calibrated 54mm tamper is the cheapest upgrade with a directly visible effect on shot quality. The Normcore is one of the very few quality 54mm options at this price.',
+    nails: [
+      'Spring-loaded 30-lb mechanism eliminates the #1 beginner tamping inconsistency',
+      '54mm sizing is the exact fit for every current Breville basket (Bambino, Express, Pro, Touch)',
+      'Replaces a notoriously inadequate stock tamper for cheaper than most flat 58mm tampers',
+    ],
+    fallsShort: [
+      'Spring tension is fixed at 30 lb — not adjustable per user preference',
+      'Heavier than the Breville stock tamper — short learning curve for new users',
+      'Only fits 54mm Breville baskets; not transferable if you upgrade to a 58mm machine',
+    ],
+    worthItFor: [
+      'Bambino, Bambino Plus, Barista Express, Barista Pro, Barista Touch Impress, Infuser owners',
+      'Beginners who want shot-to-shot tamping consistency without months of practice',
+      'Anyone who has noticed channeling or asymmetric extractions on stock tamping',
+    ],
+    skipIf: [
+      'You will upgrade to a 58mm prosumer machine within 6 months — buy the 58mm Normcore now',
+      'You already tamp consistently with a calibrated flat 54mm tamper — the upgrade is small',
+    ],
+    alternativeAsins: [ASIN.normcoreTamper58, ASIN.normcoreWdt, ASIN.normcorePuckScreen],
+    faqItems: [
+      {
+        question: 'How much does the Normcore tamper actually improve Bambino shots?',
+        answer:
+          'Based on reported user experience, the improvement is visible from week one — fewer channels in bottomless extractions, more even crema distribution. The stock plastic tamper is genuinely bad; replacing it is the highest-impact accessory upgrade for a Bambino.',
+      },
+      {
+        question: 'Why 54mm and not 58mm?',
+        answer:
+          'Breville uses a proprietary 54mm basket across its current lineup. A 58mm commercial tamper is too large and will not seat correctly. The 54mm Normcore matches the basket dimension exactly.',
+      },
+      {
+        question: 'Is the 30-lb spring too much or too little?',
+        answer:
+          '30 lb is the specialty-coffee consensus and slightly above the original Reg Barber recommendation of 25-30 lb. For Breville 54mm baskets, it produces a properly compressed puck without excess force. Most users adapt within a week.',
+      },
+    ],
+    title: 'Is the Normcore 54mm Tamper Worth It for Breville Bambino Owners?',
+    description:
+      'Verdict on the $58 Normcore 54mm calibrated tamper as a Breville Bambino upgrade. Stock tamper replacement, spring-load benefit, and 58mm alternative if upgrading later.',
+  },
+
+  // ----- Normcore 58mm Tamper -----
+  {
+    slug: 'is-normcore-58mm-tamper-worth-it-for-gaggia-classic-owners',
+    productAsin: ASIN.normcoreTamper58,
+    useCase: 'Gaggia Classic owners',
+    verdict: 'yes',
+    rating: 4.5,
+    verdictSummary:
+      'Yes. The Gaggia Classic Pro ships with a flimsy stock tamper that no serious owner keeps past week one. The Normcore 58.5mm calibrated tamper is the standard upgrade — proper basket fit, 30-lb spring eliminates inconsistency, and the price is half of premium flat tampers without losing cup quality.',
+    nails: [
+      '58.5mm diameter is the correct commercial fit for the Gaggia 58mm basket',
+      'Spring mechanism eliminates the most common source of shot-to-shot variation',
+      'Replaces the stock tamper for half the price of premium machined alternatives',
+    ],
+    fallsShort: [
+      'Heavier than flat tampers — wrist fatigue on heavy entertaining days',
+      'Spring tension fixed at 30 lb — not adjustable per personal preference',
+      'No personal-pressure customization that flat-tamper purists value',
+    ],
+    worthItFor: [
+      'Gaggia Classic Pro and Evo Pro owners replacing the stock tamper',
+      'Lelit Anna, Lelit Mara X, Profitec Pro 300, Rancilio Silvia, ECM Classika owners',
+      'Beginners learning espresso who want consistency before personal-style customization',
+    ],
+    skipIf: [
+      'You already own a flat tamper and have consistent technique — spring tampers are a sidegrade',
+      'You prefer the tactile feedback of a flat tamper for learning purposes',
+    ],
+    alternativeAsins: [ASIN.normcoreWdt, ASIN.normcorePuckScreen, ASIN.normcoreTamper54],
+    faqItems: [
+      {
+        question: 'Is the spring tamper actually better than a quality flat tamper?',
+        answer:
+          'For consistency, yes — measurably. For ceiling cup quality with perfect technique, no — a flat tamper in skilled hands produces equivalent results. The spring tamper trade is consistency for ceiling, which most home baristas accept gladly.',
+      },
+      {
+        question: 'Why 58.5mm and not 58mm?',
+        answer:
+          'The 0.5mm oversize accounts for basket wall thickness and produces a flush seal against the basket interior. A true 58mm tamper leaves a small gap around the edge where channeling starts. 58.5mm is the specialty-coffee standard for 58mm baskets.',
+      },
+      {
+        question: 'Will I outgrow the Normcore as I improve?',
+        answer:
+          'Many home baristas eventually buy a premium flat tamper (Pesado, Decent) at $100-200 for personal-pressure tuning. The Normcore remains the right starting point — most owners keep it as a backup or daily driver indefinitely.',
+      },
+    ],
+    title: 'Is the Normcore 58mm Tamper Worth It for Gaggia Classic Owners?',
+    description:
+      'Verdict on the Normcore 58.5mm calibrated tamper as a Gaggia Classic upgrade. Stock tamper replacement, spring mechanism, and when a flat tamper makes more sense.',
+  },
+
+  // ----- Normcore Puck Screen -----
+  {
+    slug: 'is-normcore-puck-screen-worth-it-for-daily-espresso',
+    productAsin: ASIN.normcorePuckScreen,
+    useCase: 'daily espresso',
+    verdict: 'depends',
+    rating: 3.5,
+    verdictSummary:
+      'Depends on what problem you are trying to solve. If you see channeling on light roasts or want to reduce shower screen cleaning frequency, yes — at $19 it is cheap insurance. If your shots already pull evenly and you maintain the machine weekly, no — the cup effect is subtle to inaudible.',
+    nails: [
+      '150-micron 5-layer mesh distributes preinfusion water evenly across the bed',
+      'Keeps the shower screen visibly cleaner — extends maintenance interval',
+      '$19 is the cheapest puck screen worth recommending; half the price of Saint Anthony or Bplus',
+    ],
+    fallsShort: [
+      'Cup-quality effect is subtle; most users report 5-10% extraction improvement at best',
+      'Adds an extra step to every shot — tamp, place screen, lock in',
+      'Clogs over time and requires a Cafiza soak monthly',
+    ],
+    worthItFor: [
+      'Daily espresso drinkers with channeling issues on light roasts',
+      'Owners who hate shower screen cleaning and want a longer maintenance interval',
+      'Users running 58mm prosumer machines (Gaggia, Lelit, Profitec, Rancilio)',
+    ],
+    skipIf: [
+      'You drink medium-dark roasts only and see no channeling — the puck screen will not help',
+      'You already have a clean workflow with WDT, proper tamp, and a good grinder',
+      'You hate adding steps to your shot routine',
+    ],
+    alternativeAsins: [ASIN.normcoreWdt, ASIN.normcoreTamper58, ASIN.urnexCafiza],
+    faqItems: [
+      {
+        question: 'Will a puck screen fix channeling on my Bambino?',
+        answer:
+          'Partly — channeling has multiple causes (grind distribution, tamp evenness, basket condition, water flow). A puck screen addresses the water-flow side, but if your tamp is uneven or grind is clumpy, fix those first. The Normcore WDT and a calibrated tamper deliver bigger gains.',
+      },
+      {
+        question: 'How often do I need to replace the puck screen?',
+        answer:
+          'Based on reported user experience, 1-3 years of daily use before the mesh deforms. Monthly Cafiza soaks extend life substantially. Replacement at $19 is cheap when the time comes.',
+      },
+      {
+        question: 'Does the puck screen affect taste?',
+        answer:
+          'Marginally and inconsistently. The cup-quality argument is weaker than the workflow-cleanliness argument. Most experienced users buy the screen for the maintenance benefit and accept the cup effect as a small bonus.',
+      },
+    ],
+    title: 'Is the Normcore Puck Screen Worth It for Daily Espresso?',
+    description:
+      'Honest verdict on the $19 Normcore 58.5mm puck screen. When channeling reduction is real, when the cup effect is inaudible, and shower-screen maintenance benefits.',
+  },
+
+  // ----- Acaia Pearl S (NO verdict) -----
+  {
+    slug: 'is-acaia-pearl-s-worth-it-for-budget-setups',
+    productAsin: ASIN.acaiaPearlS,
+    useCase: 'budget setups',
+    verdict: 'no',
+    rating: 2.6,
+    verdictSummary:
+      'No. The Acaia Pearl S is a genuinely excellent scale — but at $220 it is wildly out of scale for a sub-$1,000 espresso setup. A $30 timer-capable kitchen scale covers 90% of the use case for budget builds, and the Pearl S premium is only justifiable once the machine and grinder are themselves prosumer-tier.',
+    nails: [
+      '0.1g resolution with 50ms response is the specialty-coffee standard',
+      'Bluetooth app integration lets you save and replay recipes',
+      'USB-C rechargeable, weeks of battery life per charge',
+    ],
+    fallsShort: [
+      '$220 for a kitchen scale is hard to justify on a budget setup where the machine costs less',
+      '2kg max capacity limits use beyond coffee — narrower than a $30 kitchen scale',
+      'App requirement for advanced features adds friction for users who just want a number',
+    ],
+    worthItFor: [
+      'Owners of $2,000+ prosumer setups treating espresso as a craft',
+      'Recipe developers who want to save and replay session data',
+      'Pour-over competitors and serious recipe-tuning enthusiasts',
+    ],
+    skipIf: [
+      'Your machine cost under $1,000 — buy a $30 Timemore Black Mirror or similar',
+      'You do not develop recipes, you follow them — a stopwatch and basic scale suffice',
+      'You hate apps and just want a number on a display',
+    ],
+    alternativeAsins: [ASIN.timemoreC2, ASIN.staggEkg, ASIN.urnexCafiza],
+    faqItems: [
+      {
+        question: 'What scale should I actually buy for a budget setup?',
+        answer:
+          'A $30-50 timer-capable kitchen scale with 0.1g resolution covers the use case. Timemore Black Mirror Basic ($55), Hario V60 drip scale ($55), or any kitchen scale with auto-off disabled. The Acaia premium does not pay back at this tier.',
+      },
+      {
+        question: 'When does the Pearl S start making sense?',
+        answer:
+          'Roughly when your machine + grinder total $2,500+. At that tier, the workflow refinement, the recipe app, and the build quality justify the premium. Below that, the math does not work — the gap funds a real grinder upgrade.',
+      },
+      {
+        question: 'Is the cheaper Acaia Lunar a better fit?',
+        answer:
+          'The Lunar ($249) is even more expensive than the Pearl S despite being smaller — it is the espresso-platform variant. For budget setups, neither Acaia is the right call. Stick with Timemore or basic kitchen scales until the rest of the setup justifies the spend.',
+      },
+    ],
+    title: 'Is the Acaia Pearl S Worth It for Budget Setups?',
+    description:
+      'Honest no verdict on the $220 Acaia Pearl S scale for sub-$1,000 espresso setups. Why a $30 kitchen scale covers the use case and when the Acaia tier starts paying back.',
+  },
+
+  // ----- Urnex Cafiza Descaler -----
+  {
+    slug: 'is-urnex-cafiza-worth-it-for-breville-bambino-owners',
+    productAsin: ASIN.urnexCafiza,
+    useCase: 'Breville Bambino owners',
+    verdict: 'yes',
+    rating: 4.7,
+    verdictSummary:
+      'Yes — with one important clarification. Cafiza is a backflush cleaner (removes coffee oils), not a descaler (removes limescale). For Breville Bambino owners, Cafiza handles the weekly backflush maintenance; you also need a separate citric or lactic acid descaler every 3-6 months for the boiler.',
+    nails: [
+      'NSF-certified for food contact; the same product specialty cafes use',
+      '566g jar lasts roughly a full year of weekly backflushing — about 30 cents per cleaning',
+      'Alkaline formula removes coffee oils from group head, gaskets, and brew lines',
+    ],
+    fallsShort: [
+      'Cafiza is a cleaner, not a descaler — does not remove limescale (separate product needed)',
+      'Requires a blind 54mm basket for Bambino — Breville sells one as a $15 accessory',
+      'Bambino Plus auto-frother cleaning needs the dedicated Breville cleaning tablets, not Cafiza',
+    ],
+    worthItFor: [
+      'Breville Bambino, Bambino Plus, Barista Express, Barista Pro, Touch Impress, Dual Boiler owners',
+      'Anyone with a 58mm prosumer machine doing weekly backflush maintenance',
+      'Buyers replacing more-expensive proprietary cleaning powders with the cafe standard',
+    ],
+    skipIf: [
+      'You own a super-automatic (Magnifica, Oracle Touch) — those use proprietary tablet cycles',
+      'You only need a descaler — buy a citric acid descaler, not Cafiza',
+    ],
+    alternativeAsins: [ASIN.normcoreWdt, ASIN.normcoreTamper54, ASIN.normcorePuckScreen],
+    faqItems: [
+      {
+        question: 'How often should I backflush my Bambino with Cafiza?',
+        answer:
+          'Specialty-coffee consensus is weekly for daily users — most service techs recommend it. Less-frequent users (one drink every few days) can stretch to every 2-3 weeks. The Bambino owner manual recommends monthly but real-world coffee oils accumulate faster.',
+      },
+      {
+        question: 'Cafiza or the Breville-branded cleaning tablets?',
+        answer:
+          'Cafiza for backflushing the group head — much cheaper per use ($0.30 vs $1-2 per tablet) and the same active ingredient class. Breville tablets are required for the Bambino Plus auto-frother cycle, which Cafiza cannot replace.',
+      },
+      {
+        question: 'Do I need both Cafiza and a descaler?',
+        answer:
+          'Yes for any machine you plan to keep more than a year. Cafiza handles coffee oils (weekly); a citric or lactic acid descaler handles limescale (every 3-6 months, depending on water hardness). They are not interchangeable products despite both being maintenance powders.',
+      },
+    ],
+    title: 'Is Urnex Cafiza Worth It for Breville Bambino Owners?',
+    description:
+      'Verdict on Urnex Cafiza cleaning powder for Breville Bambino, Bambino Plus, and Barista lineups. Backflush vs descaling distinction, Breville tablet alternative.',
   },
 ];
