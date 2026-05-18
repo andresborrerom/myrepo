@@ -44,7 +44,8 @@
 - ✅ **Autolink glossary post-build** (commit último): script `scripts/autolink-glossary.mjs` que enlaza primera mención de cada term en cada page automáticamente. **+1,029 glossary links** across 172 HTML files / 42 unique terms. Build cost +0.5s. Idempotente, nested-anchor-safe, word-boundary correct con guiones.
 - 🚀 **robots.txt FLIPPED a Allow** (2026-05-17): sitio public-indexable. Sitemap referenciado en robots.txt. Soft launch terminado. Gate 1 del runbook `docs/deployment-to-revenue.md` resuelto.
 - ✅ **15 accessory reviews nuevas** (commit e4085dc): catalog gap cerrado. 9 yes / 4 depends / 2 no (Bplus WDT overpriced, Acaia Pearl S no justified sub-$1k). Llena Related Content de 10-11 best-of accessory-related que estaban vacías.
-- 📊 **Total páginas del sitio: 191** (de los 67 iniciales: +185%).
+- ✅ **How-to + Troubleshooting content vein**: 2 templates nuevos (`/how-to/[slug]`, `/troubleshoot/[slug]`) + 1 guides index + 24 pages (12 each). Anti-gray-hat estricto: OPV mod con warranty caveat, Cafiza ≠ Dezcal disclaimer, channeling explícito como technique no hardware. 9/12 troubleshoot pages NO recomiendan affiliate parts (DIY genuino).
+- 📊 **Total páginas del sitio: 216** (de los 67 iniciales: +222%).
 
 ### Próximo hito objetivo
 
@@ -137,3 +138,4 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-17 | Autolink glossary post-build | +1,029 glossary links across 172 HTML files / 42 unique terms, idempotente |
 | 2026-05-17 | **robots.txt FLIPPED a Allow** | Sitio public-indexable. Gate 1 del deployment-to-revenue runbook resuelto. |
 | 2026-05-17 | +15 accessory reviews (191 páginas) | Catalog gap cerrado; 11 best-of accessory-related ahora con Related Content |
+| 2026-05-17 | +25 how-to + troubleshoot pages (216 páginas) | Nueva vein post-purchase intent. Anti-gray-hat estricto en troubleshoot. |
