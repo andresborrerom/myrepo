@@ -17,6 +17,7 @@ Esta carpeta es el cuaderno de bitácora del proyecto. No hay código todavía �
 9. [`09-marca-naming.md`](./09-marca-naming.md) — 10 nombres candidatos + paleta + tono de voz para el nicho recomendado.
 10. [`10-automatizacion.md`](./10-automatizacion.md) — Qué se automatiza y qué no por producto, stack concreto, roadmap de cuándo automatizar qué.
 11. [`11-flujo-captura-cierre.md`](./11-flujo-captura-cierre.md) — Manual operativo del producto 2: 15 etapas desde awareness a referido, con owner, herramienta, plantilla y métrica por etapa.
+12. [`plantillas/`](./plantillas/) — Artefactos operativos copy-paste-ready. Top of funnel completo (PDF lead magnet, 5 emails nurture, cuestionario Tally, prompt cualificación Claude). Mid/bottom funnel pendiente.
 
 ## Código
 
