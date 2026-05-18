@@ -48,7 +48,8 @@
 - ✅ **Per-term glossary pages** (commit 18a8d60): 12 páginas dedicadas para head terms del glossary (PID, burr types, boiler types, group head, pre-infusion, WDT, channeling, extraction, etc.). Autolink prioriza dedicated > anchor. Anti-gray-hat en debates contenciosos (PID worth it depends, flat vs conical sin posición). Links autolink subieron de 1,074 → 1,224.
 - ✅ **Glossary tier 2** (commit bc7684d): 8 páginas dedicadas adicionales (crema, e61-group, opv, thermojet, specialty-grade, single-dosing, flat-burr, conical-burr). Crema myth desmitificado; E61 trade-offs explícitos; OPV con warranty caveat; flat vs conical reconocen blind taste indistinguibility.
 - ✅ **Inline CTAs en product pages** (commit 700dbf2): componente `OwnerHelp.astro` con border-left amber. 41/64 product pages muestran 2 how-to + 2 troubleshoot relevantes (espresso machines + grinders). 23/64 skipean correctamente (accessories + brewers sin guides aún). +870 bytes promedio peso.
-- 📊 **Total páginas del sitio: 236** (de los 67 iniciales: +252%).
+- ✅ **Generic how-to/troubleshoot para brewers + accessories** (commit 2ecc48b): +8 pages cubren cleaning + kettle descale + pour-over grind + knock-box + WDT + Moka mistakes + French press grit + puck screen. **Coverage CTA ahora 64/64** product pages (full). Anti-gray-hat estricto.
+- 📊 **Total páginas del sitio: 244** (de los 67 iniciales: +264%).
 
 ### Próximo hito objetivo
 
@@ -145,3 +146,4 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-17 | +12 per-term glossary pages (228 páginas) | Dedicated pages para top head terms; autolink prioriza dedicated > anchor |
 | 2026-05-17 | +8 glossary tier 2 pages (236 páginas) | crema, e61, opv, thermojet, specialty-grade, single-dosing, flat/conical-burr |
 | 2026-05-17 | Inline CTAs en product pages | OwnerHelp box: 41/64 product pages con how-to + troubleshoot relevantes, 23/64 skip correcto |
+| 2026-05-17 | +8 generic guides para brewers + accessories (244 páginas) | CTA coverage 41/64 → 64/64 (full). Anti-gray-hat: WDT > puck screen, técnica > hardware. |
