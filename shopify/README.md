@@ -16,6 +16,7 @@ Esta carpeta es el cuaderno de bitácora del proyecto. No hay código todavía �
 8. [`08-nichos-investigados.md`](./08-nichos-investigados.md) — 4 nichos con competidores reales, ventaja injusta y techo de ingresos. ⭐ **Recomendación documentada.**
 9. [`09-marca-naming.md`](./09-marca-naming.md) — 10 nombres candidatos + paleta + tono de voz para el nicho recomendado.
 10. [`10-automatizacion.md`](./10-automatizacion.md) — Qué se automatiza y qué no por producto, stack concreto, roadmap de cuándo automatizar qué.
+11. [`11-flujo-captura-cierre.md`](./11-flujo-captura-cierre.md) — Manual operativo del producto 2: 15 etapas desde awareness a referido, con owner, herramienta, plantilla y métrica por etapa.
 
 ## Código
 
@@ -27,7 +28,8 @@ Esta carpeta es el cuaderno de bitácora del proyecto. No hay código todavía �
 |---|---|
 | Modelo de negocio | ✅ Producto digital / servicio (acompañamiento de alto ticket) |
 | Investigación de nichos | ✅ Hecha, con recomendación |
-| Nicho concreto elegido | ⏳ Pendiente de discusión con Cami |
+| Nicho concreto elegido | ✅ Confirmado — inmobiliario España para inversores LATAM |
+| Cami adentro | ✅ Sí, confirmado 2026-05-18 |
 | Jurisdicción fiscal | ⏳ Pendiente (ver `03-fiscal.md`) |
 | Marca + dominio | ⏳ Top 3 propuesto, validar dominios |
 | Landing de waitlist | ✅ Construido, falta deploy + Supabase |
@@ -39,4 +41,5 @@ Esta carpeta es el cuaderno de bitácora del proyecto. No hay código todavía �
 - **2026-05-18** — Modelo: producto digital / servicio (no físico, no dropshipping, no POD).
 - **2026-05-18** — Estructura: dos socios, uno en Panamá (Andrés) y uno en España (Cami).
 - **2026-05-18** — Cuaderno de bitácora vive en este repo (`myrepo/shopify/`) por simplicidad. Se separará a su propio repo cuando empiece código.
-- **2026-05-18** — Recomendación tentativa de nicho: **Inmobiliario España para inversores LATAM** (ver `08-nichos-investigados.md`). Pendiente confirmar con Cami.
+- **2026-05-18** — Recomendación tentativa de nicho: **Inmobiliario España para inversores LATAM** (ver `08-nichos-investigados.md`).
+- **2026-05-18** — Cami confirma estar adentro. Nicho B queda fijo. Avanzamos a diseño de operación.
