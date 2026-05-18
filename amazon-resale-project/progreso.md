@@ -45,7 +45,8 @@
 - 🚀 **robots.txt FLIPPED a Allow** (2026-05-17): sitio public-indexable. Sitemap referenciado en robots.txt. Soft launch terminado. Gate 1 del runbook `docs/deployment-to-revenue.md` resuelto.
 - ✅ **15 accessory reviews nuevas** (commit e4085dc): catalog gap cerrado. 9 yes / 4 depends / 2 no (Bplus WDT overpriced, Acaia Pearl S no justified sub-$1k). Llena Related Content de 10-11 best-of accessory-related que estaban vacías.
 - ✅ **How-to + Troubleshooting content vein**: 2 templates nuevos (`/how-to/[slug]`, `/troubleshoot/[slug]`) + 1 guides index + 24 pages (12 each). Anti-gray-hat estricto: OPV mod con warranty caveat, Cafiza ≠ Dezcal disclaimer, channeling explícito como technique no hardware. 9/12 troubleshoot pages NO recomiendan affiliate parts (DIY genuino).
-- 📊 **Total páginas del sitio: 216** (de los 67 iniciales: +222%).
+- ✅ **Per-term glossary pages** (commit 18a8d60): 12 páginas dedicadas para head terms del glossary (PID, burr types, boiler types, group head, pre-infusion, WDT, channeling, extraction, etc.). Autolink prioriza dedicated > anchor. Anti-gray-hat en debates contenciosos (PID worth it depends, flat vs conical sin posición). Links autolink subieron de 1,074 → 1,224.
+- 📊 **Total páginas del sitio: 228** (de los 67 iniciales: +240%).
 
 ### Próximo hito objetivo
 
@@ -139,3 +140,4 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-17 | **robots.txt FLIPPED a Allow** | Sitio public-indexable. Gate 1 del deployment-to-revenue runbook resuelto. |
 | 2026-05-17 | +15 accessory reviews (191 páginas) | Catalog gap cerrado; 11 best-of accessory-related ahora con Related Content |
 | 2026-05-17 | +25 how-to + troubleshoot pages (216 páginas) | Nueva vein post-purchase intent. Anti-gray-hat estricto en troubleshoot. |
+| 2026-05-17 | +12 per-term glossary pages (228 páginas) | Dedicated pages para top head terms; autolink prioriza dedicated > anchor |
