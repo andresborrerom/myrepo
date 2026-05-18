@@ -54,7 +54,9 @@ export interface TroubleshootPage {
     | 'modification'
     | 'technique'
     | 'grinder'
-    | 'electrical';
+    | 'electrical'
+    | 'brewer-technique'
+    | 'accessory-technique';
   /** Frase tipo search query, e.g. "Bambino not pumping water". */
   problem: string;
   /** 1-2 sentence TL;DR de la causa más común. */
@@ -1068,6 +1070,289 @@ export const troubleshootPages: TroubleshootPage[] = [
     updatedAt: '2026-05-15',
     relatedHowToSlugs: ['how-to-season-grinder-burrs'],
   },
+  // ============================================================
+  // BREWER GENERICS — Moka pot, French press
+  // ============================================================
+  {
+    slug: 'moka-pot-common-mistakes',
+    title: 'Common Moka pot mistakes — why your stovetop espresso tastes burnt or weak',
+    description:
+      'The 6 mistakes that ruin Moka pot coffee: wrong water level, fine grind, high heat, packed basket, and what to fix in what order — without buying a new pot.',
+    category: 'brewer-technique',
+    problem: 'Moka pot coffee tastes bitter, burnt, or watery — and is wildly inconsistent from one brew to the next on the same beans and same pot.',
+    tldrFix:
+      'The Moka pot is not espresso and the high-heat / fine-grind / packed-basket combination most people try is exactly what makes it bitter. Medium grind, water below the safety valve, low-to-medium heat, never tamp.',
+    diagnostics: [
+      'How fine are you grinding? Espresso fine = too fine for Moka. Should be closer to a medium grind, halfway between drip and espresso.',
+      'How much water are you putting in? It should be BELOW the safety valve (the small brass dot on the boiler interior), not at or above it.',
+      'How is your heat? If your stove is on high and the Moka is hissing / sputtering aggressively, you are extracting too fast at too high a temperature.',
+      'Are you packing the basket like espresso? Moka grounds should be level and loose — never tamped.',
+      'Are you waiting too long after the coffee comes up? Once the upper chamber is mostly full, take the pot off the heat immediately; the residual brew turns bitter.',
+      'How old are your beans? Stale beans (>6 weeks past roast) make the Moka taste flat and bitter regardless of technique.',
+    ],
+    causes: [
+      {
+        cause: 'Grind too fine (most common mistake)',
+        explanation:
+          'New owners assume "stovetop espresso" means espresso-fine grind. In a Moka, fine grind chokes water flow, raises pressure above safe operating range, and over-extracts the grounds. The result: harsh, bitter coffee plus stress on the safety valve.',
+        fix:
+          '<p>Use a medium grind — finer than drip coffee but coarser than espresso. Visually similar to coarse table salt. If your grinder has numbered settings, use whatever setting you use for pour over, or 1-2 steps finer. A burr grinder (even a budget one like the Baratza Encore) produces the consistency the Moka needs; blade grinders make muddy Moka.</p>',
+      },
+      {
+        cause: 'Water above the safety valve',
+        explanation:
+          'The safety valve is the brass dot on the inside wall of the boiler — usually about 2/3 of the way up. Filling above it means the pot operates at a higher pressure than designed and water steam-extracts through the basket too aggressively. Worse: if the valve clogs (it happens with hard water), an overfilled pot can rupture.',
+        fix:
+          '<p>Fill cold water to <strong>just below</strong> the safety valve. Cold water, not hot. Hot pre-heated water shortens the time the grounds spend at the right brewing temperature and gives the bitter, hot-water-through-grounds taste many owners attribute to "burnt" coffee.</p>',
+      },
+      {
+        cause: 'Heat too high',
+        explanation:
+          'Maximum heat seems intuitive — boil faster, drink sooner — but the Moka extracts well only at moderate temperatures. High heat forces water through the grounds too fast (under-extracted on flavor compounds, over-extracted on bitter ones) and the metal pot transfers heat into the coffee already in the upper chamber, scorching it.',
+        fix:
+          '<p>Low to medium heat. On a gas stove, the flame should not extend beyond the base of the pot. On induction or electric, around level 4-5 of 9. The pot should hiss gently, not sputter or spray. Total brew time: 4-5 minutes from heat-on to coffee filling the upper chamber.</p>',
+      },
+      {
+        cause: 'Tamping the basket (do not do this)',
+        explanation:
+          'Some YouTube videos show packing or tamping the Moka basket. This is wrong. The Moka basket is designed for a level, loose dose. Tamping creates the same flow restriction as too-fine a grind: bitter, harsh, possibly dangerous pressure.',
+        fix:
+          '<p>Fill the basket level with loose grounds. A slight mound is fine; tap the side of the basket once to settle. Do NOT press, compact, or tamp. The grounds should feel loose if you press your finger into them.</p>',
+      },
+      {
+        cause: 'Leaving the pot on the heat too long',
+        explanation:
+          'Once the upper chamber is 80% full and you hear gurgling/sputtering, the remaining water that comes through is mostly steam — it extracts harsh, bitter compounds from the already-exhausted grounds. This is the "burnt" taste many owners report.',
+        fix:
+          '<p>Watch the pot. When the upper chamber is roughly 2/3 to 3/4 full, take the pot off the heat immediately. You can run cold water over the base of the bottom chamber to stop the brew — this is a known technique and does not damage the pot.</p>',
+      },
+      {
+        cause: 'Stale beans or wrong roast',
+        explanation:
+          'Moka pots work best with darker roasts (medium-dark to dark) that are 1-4 weeks past roast date. Light roasts and very fresh beans (within 5 days of roast) produce sour, thin Moka because the brew time is too short to extract the denser cell walls of light roasts.',
+        fix:
+          '<p>Use beans 1-4 weeks post-roast, medium-dark to dark roast. Italian-style espresso blends or any "espresso roast" works well. If you only have light roast, try grinding 1 step finer to compensate — it helps but is not a perfect fix.</p>',
+      },
+    ],
+    whenToEscalate:
+      'The Moka pot itself rarely "fails" in ways that need escalation — the gasket (a rubber ring inside the upper chamber) hardens and needs replacing every 1-2 years of regular use ($2-5, screws in by hand), and the safety valve can clog with mineral deposits in hard-water areas. If the pot is hissing through the safety valve (steam escaping from the side of the boiler), the gasket is worn or the valve is clogged — replace the gasket and descale the pot with a vinegar soak (acceptable here, since the Moka boiler is aluminum and only sees vinegar briefly).',
+    replacementParts: [
+      {
+        item: 'Replacement gasket (Bialetti, sized to your model)',
+        note:
+          'Sizes are by cup count (3-cup, 6-cup, etc.). Bialetti-branded gaskets are $3-5 and last 1-2 years. Generic gaskets work but harden faster.',
+      },
+      {
+        item: 'Replacement filter plate',
+        note:
+          'The thin perforated metal disk that sits between the basket and the upper chamber. Replace if torn or warped. $3-5.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Is the Moka pot really espresso?',
+        answer:
+          'No. Espresso is brewed at 9 bar of pressure; the Moka operates at 1.5-2 bar. The Moka produces strong, concentrated coffee with some crema-like foam on dark roasts, but it is its own brewing method — closer to a strong drip than to espresso. Calling it "stovetop espresso" is marketing, not engineering. Calibrate your expectations and the Moka becomes a great brewer.',
+      },
+      {
+        question: 'Can I use the Moka pot on an induction stove?',
+        answer:
+          'Classic aluminum Bialettis are NOT induction-compatible. Stainless steel Mokas (Bialetti Venus, Alessi 9090) and induction-specific adapter disks both work. If you bought an aluminum Moka and have induction, you need either an adapter disk ($15) or a different stainless model.',
+      },
+      {
+        question: 'My Moka pot is hissing from the side — is it dangerous?',
+        answer:
+          'Probably not dangerous immediately, but you should stop using it until you replace the gasket. The hiss means steam is escaping past the seal between upper and lower chambers — usually a hardened gasket. The safety valve will release any genuinely dangerous overpressure before the pot ruptures, but consistent hissing means the seal is failing and brew quality suffers.',
+      },
+      {
+        question: 'Why does my friend say "never wash with soap" — is that real?',
+        answer:
+          'Half-real. Aluminum Mokas (the classic Bialetti) do develop a thin oil patina over time that some baristas argue contributes to flavor. Soap strips the patina but does not damage the pot. The real reason to skip soap: aluminum holds soap residue in micro-scratches, which transfers to the next brew. Rinse with hot water and a soft sponge; reserve soap for monthly deep cleans if at all. Stainless Mokas tolerate soap without issue.',
+      },
+    ],
+    updatedAt: '2026-05-15',
+  },
+  {
+    slug: 'french-press-grit-in-cup',
+    title: 'French press: how to stop grit and sediment in your cup',
+    description:
+      'Grit in French press coffee is usually a grind problem, not a press problem. The grind size, plunge technique, and decant timing fixes — without buying a new grinder if you do not need to.',
+    category: 'brewer-technique',
+    problem: 'French press coffee has fine sediment or "grit" settling at the bottom of the cup, sometimes making the last sips muddy and unpleasant.',
+    tldrFix:
+      'Grit is almost always caused by grinding too fine or by stirring the coffee bed during the press. Coarsen the grind to chunky kosher-salt size and plunge slowly and steadily. Buying a fancier French press will not fix grit; technique will.',
+    diagnostics: [
+      'How fine are you grinding? French press needs coarser than drip — closer to chunky kosher salt or cracked pepper. Espresso-fine ground in a French press produces a sediment puddle.',
+      'How fast are you plunging? Plunging fast and hard pushes fines through gaps between the mesh and the carafe wall. Slow plunges hold them back.',
+      'Are you stirring the bed before plunging? Some recipes call for it, but it disturbs the settled fines and they end up in the cup.',
+      'Are you pouring the last 1-2 cm out of the press? That bottom layer is mostly sediment regardless of grind. Decant or leave it behind.',
+      'How fresh is your grinder mesh? Worn French press meshes have gaps that let fines through. Hold the mesh up to light — visible bend or torn weave = replace.',
+    ],
+    causes: [
+      {
+        cause: 'Grind too fine (most common)',
+        explanation:
+          'French press relies on a 50-100 micron metal mesh to hold grounds back. Grounds finer than 100 microns slip through. Most home grinders (and especially blade grinders) produce a range of particle sizes; if the median grind is fine, a lot of particles are below the mesh threshold and end up in the cup.',
+        fix:
+          '<p>Set your grinder coarser. On a Baratza Encore: setting 28-32. On a Comandante: 30-36 clicks. Visually, the grounds should look like chunky kosher salt — distinct grains, not powdery. If you do not have a grinder that goes that coarse, the issue is the grinder, not the press.</p><p>Note: this does NOT mean you need an expensive grinder. A budget burr grinder (Encore, 1Zpresso Q2) goes coarse enough. The grinder upgrade only matters if you do not have a burr grinder at all — blade grinders cannot produce the consistency French press needs.</p>',
+      },
+      {
+        cause: 'Plunging too fast',
+        explanation:
+          'A fast, forceful plunge pushes water (and the fines suspended in it) past the edges of the mesh where it meets the carafe wall. The seal is never perfect — even a new French press has tiny gaps — and pressure forces fines through.',
+        fix:
+          '<p>Plunge slowly. 15-30 seconds from top to bottom is the target. If you feel resistance, do not push harder — stop, lift slightly, then continue. A slow plunge lets fines drift down into the bed rather than getting pushed past the mesh.</p>',
+      },
+      {
+        cause: 'Stirring the bed before plunging',
+        explanation:
+          'Some recipes (James Hoffmann\'s "ultimate French press" included) call for stirring during brew. The trade-off is that stirring suspends fines that would otherwise settle. If you stir AND plunge immediately, you will get more grit than if you stirred and waited 4-5 minutes for fines to settle.',
+        fix:
+          '<p>Two approaches: (1) Stir during brew, but wait the full 4-5 minute settle time before plunging slowly. (2) Skip the stir entirely — pour water, wait 4 minutes, plunge slowly. Both work; pick one and be consistent.</p>',
+      },
+      {
+        cause: 'Pouring to the bottom of the carafe',
+        explanation:
+          'The bottom 1-2 cm of any French press is a sediment layer. Even with perfect grind and technique, fines that DID make it past the mesh settle there during the steep. If you pour the entire press into a cup, the last 30 ml is concentrated sediment.',
+        fix:
+          '<p>Either: (a) decant the press into a separate carafe immediately after plunging, leaving the bottom 1 cm behind, or (b) when serving, stop pouring before the press is fully empty. The leftover at the bottom is sediment-heavy and not worth drinking.</p>',
+      },
+      {
+        cause: 'Worn or torn mesh filter',
+        explanation:
+          'After 1-3 years of daily use, the spiral metal mesh on a French press stretches and develops gaps where it meets the cross-plate. Fines slip through the gaps. This is a degradation issue, not a defect.',
+        fix:
+          '<p>Disassemble the plunger. Hold the mesh up to a strong light — gaps or bends are visible. Replacement meshes for Bodum, Espro, and other major brands are $5-15 and a 30-second install. Skip the "premium replacement" upsells; the OEM mesh is fine.</p>',
+      },
+    ],
+    whenToEscalate:
+      'There is no service escalation for a French press — it is a passive brewer with no moving parts beyond the plunger. If the carafe (glass) cracks, replace it ($10-25 for Bodum, more for Espro). If the cross-plate or spiral bends, replace the plunger assembly. There is no scenario where buying a more expensive French press (e.g. Espro double-filter) is the correct fix to a grit problem — the double-filter helps but technique fixes the issue at $0 first.',
+    replacementParts: [
+      {
+        item: 'Replacement French press mesh filter (model-specific)',
+        note:
+          'Bodum, Frieling, Espro, and Bialetti all sell replacement meshes for $5-15. Match your model. Generic meshes labeled "fits all 8-cup French presses" are usually a poor fit and create more gaps than they fix.',
+      },
+      {
+        item: 'Replacement glass carafe',
+        note:
+          'For Bodum Chambord and similar: $10-25 from Bodum directly. Universal "fits Bodum 8-cup" replacements work and are usually $10-15 on Amazon.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Will buying an Espro press fix my grit problem?',
+        answer:
+          'It will help — Espro double-filter presses use two layers of mesh that catch more fines. But if your grind is too fine, an Espro will still pass some grit. Fix the technique first ($0), then upgrade the press if you still want even cleaner cups. The order matters: hardware upgrades on top of bad technique are wasted money.',
+      },
+      {
+        question: 'Do I need a fancy grinder for French press?',
+        answer:
+          'No. Any burr grinder that goes coarse enough works. Baratza Encore ($170), 1Zpresso Q2 ($100), even the Hario Skerton hand grinder ($40) all produce acceptable French press grind. The trap is buying a blade grinder ($15-30) — those genuinely cannot do French press well, and the grit will continue no matter what press you use.',
+      },
+      {
+        question: 'How long should I steep French press coffee?',
+        answer:
+          '4 minutes is the standard (James Hoffmann recipe and Bodum manual). Some brewers steep 5-6 minutes for darker roasts. Beyond 6 minutes you are over-extracting and the cup turns harsh. Use a timer — eyeballing it varies more than you would think.',
+      },
+      {
+        question: 'My French press has been making gritty coffee for months — did I damage it somehow?',
+        answer:
+          'Almost certainly not. French presses do not "degrade" in a way that introduces grit unless the mesh is torn (visible) or stretched (visible if you compare to a new one). The grit is almost always a grind or technique issue that has been there the whole time and just feels worse now that you noticed.',
+      },
+    ],
+    updatedAt: '2026-05-15',
+  },
+  // ============================================================
+  // ACCESSORY GENERICS — Puck screen channeling
+  // ============================================================
+  {
+    slug: 'puck-screen-not-helping-channeling',
+    title: 'My puck screen is not helping with channeling — what is actually wrong',
+    description:
+      'When a puck screen does not fix espresso channeling: why the screen is rarely the cause, what to check first (WDT, tamp, basket fit), and the cases where the screen actually helps.',
+    category: 'accessory-technique',
+    problem: 'You bought a puck screen expecting it to fix channeling and uneven extraction, but shots still channel and the screen has not made a noticeable difference.',
+    tldrFix:
+      'Channeling is almost always a distribution and tamping problem, not a top-of-puck water-jet problem. A puck screen helps with one specific thing — protecting the puck from the shower screen jet during preinfusion — but cannot fix uneven density inside the puck. Fix WDT and tamp first.',
+    diagnostics: [
+      'Are you using a WDT tool before tamping? If not, distribute first — WDT is 10x higher ROI than a puck screen for channeling.',
+      'Is your tamp level? Look at the puck after the shot — tilted means uneven tamp.',
+      'Does your basket match your portafilter (54mm vs 58mm) and is the dose in spec (typically 18-20g for an 18g double)?',
+      'Is the puck screen sitting flat on top of the puck, or is it floating / tilted? A tilted screen is worse than no screen.',
+      'Did you pull a shot with a bottomless portafilter to confirm visually that channeling is still happening?',
+      'How old is your shower screen behind the screen? A clogged or warped shower screen creates the very problem a puck screen is supposed to mitigate.',
+    ],
+    causes: [
+      {
+        cause: 'Channeling is NOT a top-of-puck problem (most common misconception)',
+        explanation:
+          'A puck screen sits on top of the coffee bed and diffuses the initial water jet from the shower screen. That is genuinely useful — but it only addresses ONE failure mode (a strong jet pitting the top of the puck during preinfusion). Most channeling is caused by uneven density INSIDE the puck (from clumping or uneven tamp), not by the water jet on top. No screen can fix internal puck density.',
+        fix:
+          '<p>Before assuming the screen does not work, confirm what is actually causing your channeling. Pull a shot with a bottomless portafilter — if you see side spritzers or jets coming off the bottom of the basket, you have an internal distribution problem. The fixes are WDT (see how-to-use-wdt-tool) and a level tamp, both of which cost nothing extra and matter 10x more than a puck screen.</p><p>A puck screen with no WDT will not fix channeling. WDT with no puck screen will fix most of it.</p>',
+      },
+      {
+        cause: 'Puck screen sitting unevenly on the bed',
+        explanation:
+          'If the puck surface is not flat (because the tamp was uneven, or because the bed was not settled after WDT), the puck screen sits at an angle. The screen then tilts during pressure buildup, and instead of diffusing the water it directs the jet onto one part of the puck — making channeling slightly worse than no screen.',
+        fix:
+          '<p>After WDT, tap the basket on the counter 1-2 times to settle the bed. Tamp level (verify by eye that the tamp is flat, not tilted). Place the puck screen on top, flat. The screen should not rock when pressed lightly with a finger.</p>',
+      },
+      {
+        cause: 'Puck screen as a substitute for technique fixes',
+        explanation:
+          'Marketing for puck screens often frames them as "fix channeling" devices. They are not. They are a marginal improvement on top of correct technique. Buying a $25 puck screen and skipping the $20 WDT tool is the wrong order of operations.',
+        fix:
+          '<p>The hierarchy of fixes for channeling, in order of impact: (1) WDT tool ($15-25) — eliminates most channeling. (2) Level tamp — free, just technique. (3) Correct dose for your basket — free. (4) Precision basket (VST, IMS) — $25-40. (5) Puck screen — $15-25, marginal additional help. If you have not done 1-3 yet, stop buying accessories and do those first.</p>',
+      },
+      {
+        cause: 'Shower screen behind the puck screen is dirty or warped',
+        explanation:
+          'Some owners add a puck screen because their actual shower screen is no longer flat or is partially clogged. The puck screen masks the symptom but the real fix is the shower screen.',
+        fix:
+          '<p>Remove the puck screen. Remove the shower screen from the group head (usually one or two screws, machine-dependent). Soak in Cafiza overnight, scrub gently, rinse, dry. If it is warped (visibly not flat) or perforated unevenly, replace it — shower screens are $5-15 for most machines. With a clean, flat shower screen, the puck screen reverts to a marginal improvement; without one, it is doing your shower screen\'s job badly.</p>',
+      },
+    ],
+    whenToEscalate:
+      'There is no escalation path for puck screens — they are passive accessories with no moving parts. If you have done WDT, level tamping, correct dose, and a clean shower screen and you STILL channel, the issue is likely the grinder (producing too many fines) or stale beans. At that point, neither a puck screen nor any other accessory is the fix. Buying an espresso grinder upgrade or fresher beans is.',
+    replacementParts: [
+      {
+        item: 'WDT tool (the actual fix for most channeling)',
+        affiliateAsin: 'B09QV3RTBN',
+        note:
+          'Highest-ROI accessory for channeling. If you do not own one already, this is the next purchase, not another puck screen.',
+      },
+      {
+        item: 'Replacement shower screen for your machine',
+        note:
+          'Model-specific — $5-15. Check your machine\'s service manual for the part number. Soak the old one in Cafiza first to see if cleaning suffices; replace if visibly warped.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Should I buy a puck screen at all?',
+        answer:
+          'After you have WDT and a level tamp dialed in, yes — a puck screen is a marginal improvement that also keeps the shower screen cleaner (less coffee residue on the screen between cleanings). Buying it FIRST, before WDT and technique, is the wrong order and will not fix the channeling you are trying to fix.',
+      },
+      {
+        question: 'Does a thicker / fancier puck screen work better?',
+        answer:
+          'Slightly. Thicker mesh (1.7mm vs 0.8mm) diffuses water marginally more. In blind tests on home setups, most owners cannot tell the difference once technique is correct. The marketing around premium puck screens is far ahead of the measurable shot quality difference.',
+      },
+      {
+        question: 'My puck screen sticks to the shower screen and is hard to clean. Normal?',
+        answer:
+          'Yes, very common. Coffee oils glue the screen to the shower screen between shots. Wipe the puck screen with a damp microfiber after every session, and soak it in Cafiza solution weekly. If it is sticking enough to be annoying daily, you may not be cleaning the shower screen often enough either.',
+      },
+      {
+        question: 'If WDT is so much more important, why do so many videos recommend puck screens?',
+        answer:
+          'Affiliate marketing. Puck screens are $15-25 and have a high impulse-purchase rate; WDT tools are similar price but seem more obscure to new owners. The community consensus on r/espresso and home-barista is unambiguous: WDT first, screen later if at all.',
+      },
+    ],
+    updatedAt: '2026-05-15',
+    relatedHowToSlugs: ['how-to-use-wdt-tool'],
+  },
 ];
 
 // Index helpers — para internal linking y agrupamiento.
@@ -1080,6 +1365,8 @@ export const TROUBLESHOOT_CATEGORIES: Record<TroubleshootPage['category'], strin
   technique: 'Technique',
   grinder: 'Grinders',
   electrical: 'Electrical',
+  'brewer-technique': 'Brewer technique',
+  'accessory-technique': 'Accessory technique',
 };
 
 export function troubleshootBySlug(slug: string): TroubleshootPage | undefined {
@@ -1106,6 +1393,8 @@ const TROUBLESHOOT_CATEGORY_TO_PRODUCT_TYPE: Record<TroubleshootPage['category']
   technique: ['espresso-machine'],
   grinder: ['grinder'],
   electrical: ['espresso-machine'],
+  'brewer-technique': ['brewer'],
+  'accessory-technique': ['accessory'],
 };
 
 // Troubleshoots genéricos relevantes a un product type (no apuntan a un

@@ -51,7 +51,12 @@ export interface HowToPage {
     | 'milk-frothing'
     | 'grinder-seasoning'
     | 'setup'
-    | 'maintenance-routine';
+    | 'maintenance-routine'
+    | 'brew-technique'
+    | 'accessory-use'
+    | 'brewer-cleaning'
+    | 'kettle-descaling'
+    | 'pour-over-technique';
   /** Intro short (1-3 paragraphs). HTML permitido. */
   intro: string;
   /** ISO date. Updated at == última vez que revisamos el contenido. */
@@ -106,6 +111,7 @@ const ASIN = {
   delonghiDedica: 'B00OBH4UQA',
   comandante: 'B07HF93NS6',
   staggEkg: 'B0BVYGZG6T',
+  normcorePuckScreen: 'B08T9MZKVR',
 } as const;
 
 export const howToPages: HowToPage[] = [
@@ -1099,6 +1105,403 @@ export const howToPages: HowToPage[] = [
       },
     ],
   },
+  // ============================================================
+  // BREWER GENERICS — cleaning, kettle descaling, pour-over grind
+  // ============================================================
+  {
+    slug: 'how-to-clean-manual-brewers',
+    title: 'How to clean AeroPress, pour over, and French press brewers',
+    description:
+      'Universal cleaning routine for manual brewers: what immersion (AeroPress, French press) and percolation (V60, Chemex, Kalita) brewers each need, and what daily vs. monthly looks like.',
+    topic: 'brewer-cleaning',
+    intro:
+      '<p>Manual brewers fall into two camps for cleaning purposes. Immersion brewers (AeroPress, French press, Clever Dripper) steep coffee for several minutes, so oils and fines coat the inside of the chamber and the filter housing. Percolation brewers (Hario V60, Chemex, Kalita Wave) only see water for 2-4 minutes and most of the residue stays in the paper filter — but the cone, glass, and any reusable mesh accumulate oil and stain.</p><p>The result: immersion brewers need a more thorough rinse after each use. Percolation brewers can survive a quick rinse most days, then a deeper monthly clean. Neither needs descaling (no boiler), neither needs special detergent for normal use.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '10 minutes',
+    needs: [
+      {
+        item: 'Hot water (boiler kettle is fine)',
+        note: 'No detergent for daily cleaning — coffee oils rinse off with hot water.',
+      },
+      {
+        item: 'Mild, fragrance-free dish soap (for monthly deep clean only)',
+        note: 'Strongly scented soaps leave residue that you will taste in the next brew. Skip dish soap day-to-day and reserve it for monthly cleaning.',
+      },
+      {
+        item: 'Soft-bristle brush or non-scratch sponge',
+        note: 'Avoid steel wool on plastic AeroPress chambers — micro-scratches collect oils and become hard to clean later.',
+      },
+      {
+        item: 'Cafiza or oxygen-cleaner powder (monthly, for stained glass / mesh)',
+        affiliateAsin: 'B00LWLBQH2',
+        note: 'Cafiza is overkill for daily cleaning but works well for a monthly soak on Chemex carafes and reusable mesh filters that have stained.',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Daily — immersion brewers (AeroPress, French press)',
+        body: '<p><strong>AeroPress:</strong> Eject the puck into the trash or compost, rinse the chamber and plunger under hot tap water. Wipe the rubber seal with a damp cloth — coffee oils sit on the seal and turn rancid if left for days. Air-dry inverted.</p><p><strong>French press:</strong> Dump spent grounds (do not pour down the sink — they clog drains). Disassemble the plunger fully (mesh filter, spiral plate, cross plate) and rinse each part separately. The mesh traps the most oil; a soft brush helps. Reassemble only when fully dry.</p>',
+      },
+      {
+        heading: 'Daily — percolation brewers (V60, Chemex, Kalita)',
+        body: '<p>Lift the wet filter cone and discard the paper filter with grounds (compost works for unbleached filters). Rinse the dripper and the receiving carafe with hot water. Wipe dry with a microfiber if you store it on display — air-drying water spots on glass Chemex is a cosmetic issue, not a brewing one.</p><p>If you use a reusable metal mesh filter (Able Kone, etc.), give it a quick brush under running water. Fines lodge in the mesh and slow flow rates over time.</p>',
+      },
+      {
+        heading: 'Weekly — full disassembly and soap',
+        body: '<p>Once a week, take everything apart and wash with a small drop of mild dish soap and a soft brush. Rinse 3+ times to clear all soap residue. Strong-smelling soap is the most common reason a clean brewer still tastes off — the soap smell transfers to the brew.</p><p>For AeroPress: pay attention to the rubber seal. If it has hardened, cracked, or stained dark, replace it ($5 from AeroPress directly or generic on Amazon). A stiff seal causes pressure leaks and uneven extraction.</p>',
+      },
+      {
+        heading: 'Monthly — deep clean for glass and mesh',
+        body: '<p>For stained Chemex carafes or yellowed mesh filters: dissolve 1 tsp Cafiza or oxygen-cleaner powder in 500 ml hot water, pour into the carafe / soak the mesh for 15-20 minutes. The brown stain lifts off without scrubbing. Rinse 3-4 times with clean water until no powder residue remains.</p><p>This is the only step where a dedicated coffee cleaner earns its place on a manual brewer. Day-to-day, plain hot water is enough.</p>',
+      },
+      {
+        heading: 'Storage between uses',
+        body: '<p>Store fully dry. Damp brewers — especially the AeroPress chamber pressed against its plunger and the inside of a sealed French press — grow mildew within a few days. Air-dry on a rack or upside down on a clean towel. For French presses, leave the plunger out of the carafe overnight.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Putting the AeroPress rubber seal in a dishwasher — high heat and detergent harden the rubber and you will need a replacement seal within a year.',
+      'Soaking the Chemex collar (wood + leather tie) — the wood swells and the leather darkens. Detach the collar before any soak.',
+      'Using scented or "antibacterial" dish soap on any brewer. The fragrance transfers to the next brew.',
+      'Storing a French press fully assembled while still damp. Mildew grows in the spiral filter plate within 3-5 days in a humid kitchen.',
+    ],
+    faqs: [
+      {
+        question: 'Can I put my AeroPress / V60 / Chemex in the dishwasher?',
+        answer:
+          'The plastic AeroPress is rated dishwasher-safe top rack, but the rubber seal degrades faster with dishwasher heat — hand-wash extends its life by 2-3x. Plastic V60s are dishwasher-safe. Glass and ceramic V60s and Chemex carafes (with the collar removed) are dishwasher-safe. Hand wash extends life of all of them.',
+      },
+      {
+        question: 'My French press metal mesh is stained brown. Is that bad?',
+        answer:
+          'Cosmetic, not functional. The stain is coffee oil oxidation and does not affect taste if the mesh is clean of grounds. If it bothers you, soak the disassembled mesh in Cafiza solution for 20 minutes — it lifts off.',
+      },
+      {
+        question: 'Does an AeroPress need to be cleaned differently from a French press?',
+        answer:
+          'Yes — the AeroPress has a rubber plunger seal that hardens with heat and detergent, so hand-wash it gently with cool-to-warm water. The French press has a stainless mesh that tolerates hot water and brushes without issue. Both are immersion brewers but the materials differ.',
+      },
+      {
+        question: 'How often should I replace the AeroPress rubber seal?',
+        answer:
+          'When it stops sealing — usually 1-3 years of daily use, sooner if dishwashed. Symptoms: water leaks past the plunger during press, or the seal feels brittle/cracked. Genuine AeroPress seals are $5; ignore the cheaper aftermarket ones, they harden faster.',
+      },
+    ],
+  },
+  {
+    slug: 'how-to-descale-kettle-for-pour-over',
+    title: 'How to descale a gooseneck kettle or auto-drip brewer',
+    description:
+      'Descaling routine for gooseneck kettles (Fellow Stagg EKG, Bonavita) and auto-drip brewers (Moccamaster): when to do it, what solution, and how to avoid the residual citric taste.',
+    topic: 'kettle-descaling',
+    intro:
+      '<p>Electric gooseneck kettles and auto-drip brewers (Moccamaster, Bonavita) develop limescale on the heating element in the same way an espresso machine does — except you can usually see it because the inside is accessible. White flakes in your brewed coffee, slower boil times, and a knocking sound during heat-up are the three signals.</p><p>Stovetop kettles need this too but it is simpler: any acidic descaler in the pot, simmer 10 minutes, rinse. Electric and auto-drip have heating elements with sensors that complicate the routine slightly — but only slightly.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '20 minutes',
+    needs: [
+      {
+        item: 'Citric acid descaler or food-grade citric acid powder',
+        affiliateAsin: 'B00LWLBQH2',
+        note: 'Urnex Dezcal is overkill but works; food-grade citric acid (1 tbsp per 500 ml water) does the same chemistry at a fraction of the cost. Skip vinegar — leaves a lingering smell that takes 5+ rinses to clear.',
+      },
+      {
+        item: 'Filtered water for the rinse cycle',
+        note: 'Re-introducing hard tap water immediately negates the descale. If you are descaling, you presumably have hard water — descale and then commit to filtered water going forward.',
+      },
+      {
+        item: 'Soft cloth for the kettle interior',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Cool and empty the kettle / brewer',
+        body: '<p>Unplug. If hot, wait until the body is barely warm to the touch. Pour out any leftover water. For auto-drip brewers (Moccamaster), empty the carafe too — the descale solution will run through and fill it.</p>',
+      },
+      {
+        heading: 'Mix the descaler solution',
+        body: '<p>For a 1 L kettle: 1 tbsp food-grade citric acid OR 1 sachet Urnex Dezcal in 750 ml of cool filtered water. Stir until dissolved. Pour into the kettle (or into the water tank of an auto-drip).</p><p>Do not exceed the dosage — stronger does not descale faster, it just requires more rinse cycles to remove.</p>',
+      },
+      {
+        heading: 'Heat to a full boil (kettle) or run a brew cycle (auto-drip)',
+        body: '<p><strong>Kettle:</strong> Bring the solution to a full boil. Switch off. Let it sit covered for 15 minutes. The contact time is what does most of the descaling work; the boil just speeds up the reaction.</p><p><strong>Auto-drip (Moccamaster):</strong> Run a normal brew cycle with the solution. When it finishes, do not pour it out — turn the warmer plate off, leave the solution in the carafe and the brew basket, and let it sit for 15 minutes. Some Moccamaster owners then pour the solution back into the water tank and run a second cycle for stubborn scale.</p>',
+      },
+      {
+        heading: 'Discard solution and inspect',
+        body: '<p>Pour out the descaler. Look at the heating element / inside surface — scale should be visibly reduced. If heavy flakes remain, repeat with a fresh batch of solution. Some kettles need 2 cycles the first time after a year of no descaling.</p><p>Wipe the inside gently with a soft cloth. Do not use anything abrasive on the heating element.</p>',
+      },
+      {
+        heading: 'Rinse — at least 2 cycles with clean filtered water',
+        body: '<p>Refill with clean filtered water to the MAX line. <strong>Kettle:</strong> boil and discard. Repeat at least once. Smell the water before pouring out — if it has any citrus / acidic note, run another cycle. <strong>Auto-drip:</strong> run 2 full brew cycles with clean water through the empty basket. Discard.</p><p>This is the step most owners shortcut — and then the next brew tastes weirdly citric. Two rinse cycles minimum; three is safer.</p>',
+      },
+      {
+        heading: 'Set a maintenance interval',
+        body: '<p>For hard water (>10 grains/gallon): every 1-2 months. For filtered or soft water: every 6 months. Marking the date on the kettle base or the carafe with a small sticker is easier than remembering — most owners forget until the kettle gets noticeably slow.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Using white vinegar — the acetic smell takes 5+ rinse cycles to clear and lingers in the rubber seal of auto-drip carafes. Citric acid is the equivalent chemistry without the smell.',
+      'Skipping the rinse cycles. Residual citric acid in your morning brew tastes harsh and acidic — easy to confuse with "bad coffee" when it is actually descaler residue.',
+      'Descaling a hot kettle immediately after use. Thermal shock weakens the heating element seal. Wait until the kettle is barely warm.',
+      'Forgetting to descale the Moccamaster brew basket and shower head. The whole water path scales up, not just the boiler — soak removable parts in the same solution after the cycle.',
+    ],
+    faqs: [
+      {
+        question: 'How do I know when my kettle needs descaling?',
+        answer:
+          'Three signs: visible white flakes in the boiled water, audible knocking or thunking during heat-up (scale insulates the heating element, causing uneven heat transfer), or boil time increasing by more than 20% versus when the kettle was new. Any one of these = time to descale.',
+      },
+      {
+        question: 'Can I use the same descaler for my kettle and my espresso machine?',
+        answer:
+          'Yes — citric or lactic acid descalers (Urnex Dezcal, etc.) work for both. The dose may differ; follow the product instructions for the appliance. Vinegar is to be avoided for both.',
+      },
+      {
+        question: 'Does the Moccamaster have an auto-descale cycle?',
+        answer:
+          'No — unlike many super-automatic espresso machines, the Moccamaster has no electronic descale mode. You run the descaler through manually as a normal brew cycle. Technivorm recommends every 100 brews for hard water.',
+      },
+      {
+        question: 'Will descaling damage my kettle if I do it too often?',
+        answer:
+          'Over time, very frequent descaling (every week) can erode the protective oxide layer on the heating element. Stick to every 1-6 months depending on water hardness. There is no benefit to descaling on a "preventive" schedule when no scale has built up.',
+      },
+    ],
+  },
+  {
+    slug: 'how-to-dial-grind-pour-over',
+    title: 'How to dial in grind size for pour over (V60, Chemex, Kalita)',
+    description:
+      'How to find the right grind size for pour over: target brew time, what too coarse and too fine taste like, and the single-variable adjustment process that converges in 3-5 brews.',
+    topic: 'pour-over-technique',
+    intro:
+      '<p>Pour-over coffee is more forgiving than espresso but less forgiving than people assume. The difference between a balanced V60 and a thin, sour or harsh, bitter cup is often one or two grinder clicks. The good news: once you have a starting recipe, you only re-dial when the bean changes — beans are the dominant variable, the brewer is not.</p><p>The dial-in process is identical across V60, Chemex, and Kalita. Target a brew time, observe whether the actual time is over or under, adjust grind in one direction, repeat. The only difference between brewers is that Chemex uses a thicker paper filter which slows flow — so for the same bean you grind coarser on Chemex than on V60.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '15 minutes',
+    needs: [
+      {
+        item: 'A grinder with usable medium-coarse settings',
+        note: 'Most burr grinders work. Blade grinders cannot produce a consistent particle distribution and pour-over will be muddy.',
+      },
+      {
+        item: '0.1 g scale',
+      },
+      {
+        item: 'Timer',
+        note: 'Phone is fine.',
+      },
+      {
+        item: 'Gooseneck kettle (for controlled pour)',
+        affiliateAsin: 'B0BVYGZG6T',
+        note: 'A normal kettle works too — the gooseneck just makes the pour easier to control. If you already have a kettle, skip this until you are comfortable with the rest of the process.',
+      },
+      {
+        item: 'Fresh beans (5-30 days post-roast)',
+        note: 'Beans outside this window will not dial in cleanly. Buy fresh first, then dial.',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Pick a target brew time for your brewer',
+        body: '<p>Standard starting targets, total brew time (first pour to last drip):</p><ul><li><strong>V60 (15 g dose):</strong> 2:30 to 3:00</li><li><strong>V60 (30 g dose):</strong> 3:30 to 4:00</li><li><strong>Chemex (6 cup, 40 g dose):</strong> 4:30 to 5:30</li><li><strong>Kalita Wave 185 (25 g dose):</strong> 3:30 to 4:00</li></ul><p>These are ranges, not laws. Stick with one target for your dial-in session.</p>',
+      },
+      {
+        heading: 'Use a 1:16 starting ratio',
+        body: '<p>Coffee-to-water ratio for pour over: 1:15 to 1:17 is the typical range. Start at 1:16 — for 20 g of coffee, that is 320 g of water. Variation by ±1 changes strength but not whether the grind is right.</p>',
+      },
+      {
+        heading: 'Brew with your existing grind setting',
+        body: '<p>Whatever grind you have now, use it as the starting point. Set the kettle to 200°F (96°C), wet the filter, dose your coffee, level the bed. Pour in your usual schedule (bloom + 2-3 main pours typical). Start the timer when water first touches the grounds, stop it when the last drip falls.</p>',
+      },
+      {
+        heading: 'Read the result by time and taste',
+        body: '<p>Three outcomes:</p><ul><li><strong>Brew finished too fast</strong> (e.g. 2:00 on a V60 target of 2:45): grind is too coarse. The cup will taste thin, sour, watery.</li><li><strong>Brew finished too slow</strong> (e.g. 4:00 on the same target): grind is too fine. The cup will taste muddy, bitter, harsh.</li><li><strong>Brew finished in target</strong>: taste it. Balanced = done. Sour-leaning = grind slightly finer. Bitter-leaning = grind slightly coarser.</li></ul>',
+      },
+      {
+        heading: 'Adjust one click at a time',
+        body: '<p>Move the grinder 1 step finer or coarser. Brew again with the same dose, ratio, water temp, and pour schedule. Time and taste. Repeat. Most dial-ins converge in 3-5 brews; novel beans on a familiar grinder converge in 2.</p><p>Resist the temptation to change multiple variables. Same pour schedule, same dose, same water temp — only grind changes.</p>',
+      },
+      {
+        heading: 'Lock the recipe; re-dial only when the bean ages or changes',
+        body: '<p>Once a recipe lands, note the grinder setting plus the bean + roast date. As the bag ages past 3 weeks, you may need 1 step coarser as CO₂ off-gasses. New bag of the same bean from a new roast date = re-dial from scratch (faster the second time).</p>',
+      },
+    ],
+    commonMistakes: [
+      'Changing dose, water temp, and grind on the same brew. With three variables moving you have no signal — fix two, change one.',
+      'Dialing in with stale beans (>6 weeks past roast). The grind window narrows so much that nothing tastes good. Get fresh beans first.',
+      'Confusing slow brew time with strong coffee. A slow drip can be over-extracted and bitter, not "strong." Strength = ratio. Time tells you about extraction.',
+      'Using boiling water from a kettle just off the heat. 212°F over-extracts most light-roast pour over. Aim for 195-205°F (90-96°C).',
+    ],
+    faqs: [
+      {
+        question: 'Do I really need a gooseneck kettle for pour over?',
+        answer:
+          'No, especially when you are starting. A regular kettle pour with practice works for V60 and Chemex. The gooseneck makes the bloom and concentric pour easier to control, which improves consistency once you have the rest dialed in. Add it after you have nailed grind and ratio.',
+      },
+      {
+        question: 'What grind setting on my Comandante / Encore should I start with?',
+        answer:
+          'Comandante for V60: 22-26 clicks. Chemex: 28-32. Baratza Encore for V60: setting 18-22. Chemex: 22-26. These are starting points only — your bean and water will shift you ±2 from there.',
+      },
+      {
+        question: 'My pour over tastes muddy. Is that the grind?',
+        answer:
+          'Often, yes — too fine creates fines that clog the filter, slow the brew, and over-extract. Try 1 step coarser. If muddy persists at a coarse grind, the issue is fines from a low-quality grinder, not the dial-in.',
+      },
+      {
+        question: 'How do I know when to stop dialing in and just enjoy the cup?',
+        answer:
+          'When two consecutive brews land in the target time window and taste balanced (not sour, not bitter, not flat). Beyond that, micro-adjustments are diminishing returns — you are tasting the bean, not the dial-in.',
+      },
+    ],
+  },
+  // ============================================================
+  // ACCESSORY GENERICS — knock box, WDT
+  // ============================================================
+  {
+    slug: 'how-to-use-knock-box',
+    title: 'How to use a knock box without scratching your portafilter',
+    description:
+      'Knock box technique: where to position it, how hard to strike, and the common mistakes that bend portafilter ears or chip the rubber knock bar.',
+    topic: 'accessory-use',
+    intro:
+      '<p>A knock box looks simple — a container with a rubber-padded bar across the top where you tap out spent espresso pucks. The mistake most new owners make is treating it as a strength exercise. The puck is held in by friction against the basket walls; a moderate knock against the bar is enough to release it. Hitting harder bends portafilter ears, splits the rubber, or sprays grounds.</p><p>Knock box selection matters less than you would think. The cheapest plastic boxes work; the upgrade to a metal box with rubber feet is about durability and counter stability, not function. Drawer-mounted knock boxes solve a counter-space problem but introduce a hygiene problem (grounds trapped in a closed drawer get musty).</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '5 minutes',
+    needs: [
+      {
+        item: 'A knock box with a sturdy rubber knock bar',
+        affiliateAsin: 'B005MMJZ22',
+        note: 'Mini knock boxes (counter-top) work for home setups; full-size only matters if you are pulling 10+ shots a day. Look for a knock bar that is replaceable — the rubber wears in 1-2 years.',
+      },
+      {
+        item: 'A stable counter surface',
+        note: 'Knock boxes with non-slip rubber feet are worth the extra $5. Otherwise the box slides on smooth counters and you end up gripping it with your free hand, which slows the workflow.',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Position the knock box close to the machine',
+        body: '<p>Within arm reach of the group head, between you and the sink. The workflow is: pull shot, lift portafilter, walk 2 steps with a heavy steaming basket, knock, rinse, dry, reload. Each extra step is friction in the routine and weekly cleanings get skipped because the workflow is fiddly.</p>',
+      },
+      {
+        heading: 'Hold the portafilter at the right angle',
+        body: '<p>The portafilter handle pointing roughly 45 degrees above the knock bar. The spouts (or bottomless face) angled away from you. Grip near the handle base — not at the end. You want leverage but not a windup.</p>',
+      },
+      {
+        heading: 'Knock the basket edge — not the portafilter body',
+        body: '<p>Strike the rubber bar with the rim of the basket, not the portafilter body. The basket edge is steel, designed to take impact. The portafilter body is the part with ears that bend if struck repeatedly. A single firm tap usually releases the puck; if it does not, a second tap rather than escalating force.</p><p>Listen for the puck dropping. If it does not, the puck is wet and stuck — use a spoon or finger to push it out, do not hit harder.</p>',
+      },
+      {
+        heading: 'Inspect and wipe the basket',
+        body: '<p>After the puck drops, peer into the basket. Residual grounds at the bottom (the "dry layer" some pucks leave) just need a tap on the bar to dislodge. Wipe the basket dry with a microfiber cloth before reloading — water in the basket affects the next shot.</p>',
+      },
+      {
+        heading: 'Empty the knock box before it is overflowing',
+        body: '<p>Spent grounds stay wet for 1-2 days. A knock box at the top of its capacity weighs significantly more than empty and the rubber bar can detach if you knock against an overfull box. Empty into compost or trash daily — used coffee grounds make decent compost feedstock.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Hitting the portafilter body against the knock bar instead of the basket rim. Bends the ears over time, eventually preventing lock-in. The ears are not easily repairable — you replace the whole portafilter.',
+      'Using too much force on a stuck puck. Wet pucks need to be pushed out with a finger or spoon, not knocked harder. Splitting the knock bar is a common DIY repair on cheap knock boxes.',
+      'Letting the knock box overflow. Heavy + wet = the box tips or the knock bar pops off mid-knock.',
+      'Storing a sealed knock box (drawer-mounted, lid on) with grounds inside for more than a day. Mildew develops within 48 hours in a humid kitchen.',
+    ],
+    faqs: [
+      {
+        question: 'Are expensive knock boxes worth it?',
+        answer:
+          'Slightly. The $40-80 metal-body knock boxes (Joe Frex, Espro, Cafelat) have stiffer rubber bars and non-slip feet that improve workflow marginally. The cheapest $15 plastic boxes work fine; you pay for durability and counter aesthetics, not function.',
+      },
+      {
+        question: 'Can I use a regular trash can instead of a knock box?',
+        answer:
+          'Technically yes, but you will damage your portafilter against the rigid trash can rim. The knock box bar is a rubberized cushion specifically there to prevent that. If you cannot justify $15 for a knock box, wrap a sturdy rubber band around the rim of a tin can — better than nothing.',
+      },
+      {
+        question: 'My knock bar is splitting. Can I replace just the bar?',
+        answer:
+          'On Joe Frex, Cafelat, and most $30+ knock boxes — yes, the bar is a $5-10 replacement part. On the cheapest plastic models the bar is glued in place; replace the whole unit at that point.',
+      },
+      {
+        question: 'Where should I put the knock box if my counter is small?',
+        answer:
+          'A drawer-mounted knock box (slides into a built-in drawer) keeps the counter clear but requires daily emptying for hygiene. Mini counter-top knock boxes (4-5 inches across) take little space. Avoid the under-machine knock-box drawer setups — the rubber bar tends to crack from the constant flexing.',
+      },
+    ],
+  },
+  {
+    slug: 'how-to-use-wdt-tool',
+    title: 'How to use a WDT tool: Weiss Distribution Technique step by step',
+    description:
+      'How to use a WDT tool correctly: needle depth, stir pattern, when WDT helps vs. when it does not, and the technique mistakes that make WDT pointless.',
+    topic: 'accessory-use',
+    intro:
+      '<p>WDT (Weiss Distribution Technique) is the single highest-ROI accessory for home espresso after a scale. The idea: ground coffee falling from a grinder lands in clumps and uneven piles inside the basket. A few fine needles stirred gently through the grounds break up the clumps and even the density across the basket. Water then flows evenly through the puck during extraction, not through whichever pocket has the least resistance.</p><p>The technique is simple and the tool is $15-25. The mistake most owners make is treating WDT like a strong mix — stirring aggressively, going too deep, or compacting the grounds before tamping. Done right, WDT is light, fast, and consistent.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '5 minutes',
+    needs: [
+      {
+        item: 'A WDT tool with fine needles (0.3-0.4 mm diameter)',
+        affiliateAsin: 'B09QV3RTBN',
+        note: 'B Plus and Normcore both work. Needle diameter matters more than handle material — thicker needles (>0.5 mm) push grounds aside rather than separate them, and the result is incomplete declumping.',
+      },
+      {
+        item: 'A basket the right size for your portafilter',
+        note: '54mm for Breville Bambino / Touch line; 58mm for prosumer machines. Stock baskets work; precision baskets (VST, IMS) work better but WDT improves both.',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Dose into the basket as usual',
+        body: '<p>Grind directly into the basket (or use a dosing funnel / cup if your grinder retains poorly). The grounds will land in clumps and uneven mounds — that is exactly what WDT will fix. Do not pre-tamp or shake the basket to settle the grounds before WDT; you want them loose for the stir.</p>',
+      },
+      {
+        heading: 'Lower the needles in, vertical',
+        body: '<p>Hold the WDT tool perpendicular to the basket. Lower the needles until the tips just touch the basket bottom, then lift 1-2 mm so they are not dragging on the steel mesh. The needles go through the full depth of the bed.</p>',
+      },
+      {
+        heading: 'Stir in a slow, controlled pattern',
+        body: '<p>30-60 seconds of stirring. The exact pattern matters less than coverage: small circles working outward from the center, then a few diagonal sweeps to break up edge clumps. Move the tool, not just the needles — you want every cubic millimeter of the bed touched.</p><p>The stir should be gentle. You are separating clumps, not whisking the grounds. Aggressive stirring throws grounds out of the basket and packs the bed unevenly.</p>',
+      },
+      {
+        heading: 'Lift the tool straight up and tap the basket',
+        body: '<p>Lift the WDT tool vertically out of the basket. Any grounds clinging to the needles, tap them back into the basket. Then tap the bottom of the portafilter on the counter or palm 1-2 times — this settles the surface flat without compressing.</p><p>Do not skip the tap. WDT leaves the surface bumpy; the tap evens it for an even tamp.</p>',
+      },
+      {
+        heading: 'Tamp level and lock in',
+        body: '<p>Tamp with 15-20 lbs of even downward pressure. The puck should be level and dense. Lock the portafilter into the group head and pull as normal.</p><p>If you pull with a bottomless portafilter, compare to your pre-WDT extractions: the difference is dramatic. Before WDT you see spritzers and uneven streams; after WDT you should see a single steady column from the basket center.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Stirring too aggressively — throws grounds out of the basket, creates static, and ironically reintroduces uneven density. Slow and steady wins.',
+      'Using needles thicker than 0.5 mm. They push grounds aside rather than separate clumps. Look for 0.3-0.4 mm needles, ideally 6-8 of them.',
+      'Pre-tamping or tapping the basket BEFORE WDT. Compresses the clumps so the needles cannot break them up. WDT first, then settle, then tamp.',
+      'Treating WDT as a tamping replacement. The WDT distributes; the tamp levels and densifies. You need both — neither replaces the other.',
+    ],
+    faqs: [
+      {
+        question: 'Do I actually need WDT or is it overhyped?',
+        answer:
+          'For home espresso with home grinders (which all clump to some degree), WDT is essentially mandatory if you want consistent shots. The community consensus on r/espresso and home-barista has held for 3+ years. The exception: high-end commercial grinders (Mythos, Mahlkönig EK43) produce so little clumping that pro baristas can skip WDT — but no home grinder is in that category.',
+      },
+      {
+        question: 'Can I use a paperclip or sewing needle as a DIY WDT tool?',
+        answer:
+          'For a single test, yes. As a daily tool, no — single-needle DIY tools take 3-4x longer to stir the basket evenly, and the inconsistency adds variance to your shots. A real WDT tool with 6-8 needles is $15-25 and pays itself off in saved time within a month.',
+      },
+      {
+        question: 'How deep should the WDT needles go?',
+        answer:
+          'Full depth of the puck, just shy of touching the basket mesh. The clumps at the bottom of the basket matter as much as the ones at the top — partial-depth WDT only fixes half the problem.',
+      },
+      {
+        question: 'My shots still channel after WDT — what am I doing wrong?',
+        answer:
+          'Three most likely causes: (1) the WDT needles are too thick (>0.5 mm), so clumps are not actually breaking up; (2) the tamp is uneven (one side lower) — easy to spot by looking at the puck after the shot; (3) the dose is wrong for the basket. Channeling almost always traces back to one of these. See our channeling-fix-espresso troubleshoot for the full diagnostic.',
+      },
+    ],
+    relatedTroubleshootSlugs: ['channeling-fix-espresso'],
+  },
 ];
 
 // Index helpers — para internal linking y para que el index combinado
@@ -1112,6 +1515,11 @@ export const HOW_TO_TOPICS: Record<HowToPage['topic'], string> = {
   'grinder-seasoning': 'Grinder seasoning',
   setup: 'Setup',
   'maintenance-routine': 'Maintenance routines',
+  'brew-technique': 'Brew technique',
+  'accessory-use': 'Accessory use',
+  'brewer-cleaning': 'Brewer cleaning',
+  'kettle-descaling': 'Kettle descaling',
+  'pour-over-technique': 'Pour-over technique',
 };
 
 export function howToBySlug(slug: string): HowToPage | undefined {
@@ -1138,6 +1546,11 @@ const HOW_TO_TOPIC_TO_PRODUCT_TYPE: Record<HowToPage['topic'], string[]> = {
   'grinder-seasoning': ['grinder'],
   setup: ['espresso-machine', 'grinder'],
   'maintenance-routine': ['espresso-machine', 'grinder'],
+  'brew-technique': ['brewer'],
+  'accessory-use': ['accessory'],
+  'brewer-cleaning': ['brewer'],
+  'kettle-descaling': ['brewer', 'accessory'],
+  'pour-over-technique': ['brewer'],
 };
 
 // How-tos genéricos relevantes a un product type (no apuntan a un ASIN
