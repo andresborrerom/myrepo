@@ -4,6 +4,12 @@ Tienda Shopify de **producto digital / servicio** montada entre Andrés (Panamá
 
 Esta carpeta es el cuaderno de bitácora del proyecto. No hay código todavía — primero alineamos negocio, fiscal y operaciones; el código (tema Shopify, integraciones, landing) viene después.
 
+## Navegación rápida
+
+Abrí [`index.html`](./index.html) en el navegador para ver el dashboard del proyecto con todas las secciones renderizadas en una sola vista, timeline a 12 semanas y próximas acciones.
+
+Para servirlo localmente: `python3 -m http.server` desde esta carpeta y abrí `http://localhost:8000/index.html`. Si lo abrís sin servidor, los `.md` se enlazan abajo y se renderizan en GitHub directamente.
+
 ## Lectura sugerida (en orden)
 
 1. [`01-plan-negocio.md`](./01-plan-negocio.md) — visión, unit economics, qué significa "20k€/mes" en clientes y precio.
@@ -12,7 +18,7 @@ Esta carpeta es el cuaderno de bitácora del proyecto. No hay código todavía �
 4. [`04-operaciones.md`](./04-operaciones.md) — quién hace qué entre los dos, husos horarios, rituales.
 5. [`05-stack.md`](./05-stack.md) — Shopify + apps + integraciones; cuándo Shopify NO es la mejor opción.
 6. [`06-marketing.md`](./06-marketing.md) — canales de adquisición y embudo.
-7. [`07-roadmap-90dias.md`](./07-roadmap-90dias.md) — plan accionable día 1 a día 90.
+7. [`07-roadmap-90dias.md`](./07-roadmap-90dias.md) — Plan accionable con fechas reales: lun 18 may → sáb 16 ago 2026. Hitos por semana, owners, presupuesto total e indicadores de éxito.
 8. [`08-nichos-investigados.md`](./08-nichos-investigados.md) — 4 nichos con competidores reales, ventaja injusta y techo de ingresos. ⭐ **Recomendación documentada.**
 9. [`09-marca-naming.md`](./09-marca-naming.md) — 10 nombres candidatos + paleta + tono de voz para el nicho recomendado.
 10. [`10-automatizacion.md`](./10-automatizacion.md) — Qué se automatiza y qué no por producto, stack concreto, roadmap de cuándo automatizar qué.

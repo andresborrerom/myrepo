@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyecto — Inmobiliario España para LATAM</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --bg-sidebar: #f5f5f4;
+    --bg-card: #ffffff;
+    --border: #e7e5e4;
+    --text: #1c1917;
+    --text-muted: #78716c;
+    --accent: #1c1917;
+    --accent-soft: #f5f5f4;
+    --green: #16a34a;
+    --amber: #ca8a04;
+    --red: #dc2626;
+    --code-bg: #f5f5f4;
+    --link: #1d4ed8;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: 100vh;
+  }
+  /* Sidebar */
+  aside {
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 20px 16px;
+  }
+  aside h1 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin: 0 0 4px 0;
+    font-weight: 600;
+  }
+  aside h2 {
+    font-size: 17px;
+    margin: 0 0 24px 0;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  aside .section {
+    margin-top: 22px;
+  }
+  aside .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin: 0 0 8px 8px;
+  }
+  aside ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  aside li a {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: background 0.1s;
+  }
+  aside li a:hover {
+    background: var(--accent-soft);
+  }
+  aside li a.active {
+    background: var(--accent);
+    color: white;
+  }
+  aside li a .num {
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    margin-right: 6px;
+    font-size: 12px;
+  }
+  aside li a.active .num {
+    color: rgba(255,255,255,0.7);
+  }
+  aside .home-link {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  aside .footer-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 32px;
+    padding: 12px;
+    background: var(--bg-card);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  /* Main */
+  main {
+    overflow-y: auto;
+    padding: 40px 60px 80px 60px;
+  }
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .breadcrumb {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+  /* Dashboard */
+  .dashboard-header {
+    margin-bottom: 32px;
+  }
+  .dashboard-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+  }
+  .dashboard-header .subtitle {
+    font-size: 17px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .stat-card .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .stat-card .value {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .stat-card .desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  .status-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .status-block h3 {
+    margin: 0 0 14px 0;
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .status-block ul {
+    margin: 0;
+    padding-left: 22px;
+  }
+  .status-block li {
+    margin-bottom: 6px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-right: 6px;
+  }
+  .badge.done { background: #dcfce7; color: #166534; }
+  .badge.in-progress { background: #fef3c7; color: #854d0e; }
+  .badge.pending { background: #fee2e2; color: #991b1b; }
+  /* Markdown content */
+  .md-content h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.02em;
+  }
+  .md-content h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 36px 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: -0.01em;
+  }
+  .md-content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 28px 0 10px 0;
+  }
+  .md-content h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 20px 0 8px 0;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .md-content p {
+    margin: 0 0 14px 0;
+  }
+  .md-content ul, .md-content ol {
+    margin: 0 0 14px 0;
+    padding-left: 24px;
+  }
+  .md-content li {
+    margin-bottom: 4px;
+  }
+  .md-content blockquote {
+    border-left: 3px solid var(--text-muted);
+    margin: 18px 0;
+    padding: 4px 18px;
+    color: var(--text-muted);
+    background: var(--bg-sidebar);
+    border-radius: 0 6px 6px 0;
+  }
+  .md-content blockquote p {
+    margin: 8px 0;
+  }
+  .md-content code {
+    background: var(--code-bg);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  }
+  .md-content pre {
+    background: var(--code-bg);
+    padding: 14px 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 16px 0;
+    border: 1px solid var(--border);
+  }
+  .md-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 13px;
+  }
+  .md-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .md-content th, .md-content td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+  }
+  .md-content th {
+    background: var(--bg-sidebar);
+    font-weight: 600;
+  }
+  .md-content a {
+    color: var(--link);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .md-content a:hover {
+    border-bottom-color: var(--link);
+  }
+  .md-content hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+  .md-content strong { font-weight: 700; }
+  .md-content img { max-width: 100%; height: auto; }
+  /* Loading */
+  .loading {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 60px 0;
+    font-size: 14px;
+  }
+  .error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 16px;
+    border-radius: 6px;
+    border: 1px solid #fca5a5;
+  }
+  /* Responsive */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    aside {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: 280px;
+      transform: translateX(-100%);
+      transition: transform 0.2s;
+      z-index: 10;
+    }
+    aside.open { transform: translateX(0); }
+    main { padding: 24px 20px 80px 20px; }
+    .menu-toggle { display: block !important; }
+  }
+  .menu-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 11;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menu-toggle">Menú</button>
+<div class="layout">
+  <aside id="sidebar">
+    <h1>Proyecto</h1>
+    <h2>Inmobiliario España<br>para inversores LATAM</h2>
+
+    <a href="#dashboard" class="home-link" data-doc="dashboard">Dashboard</a>
+
+    <div class="section">
+      <div class="section-title">Estrategia</div>
+      <ul>
+        <li><a href="#01" data-doc="01-plan-negocio.md"><span class="num">01</span>Plan de negocio</a></li>
+        <li><a href="#02" data-doc="02-producto-nicho.md"><span class="num">02</span>Producto y nicho</a></li>
+        <li><a href="#03" data-doc="03-fiscal.md"><span class="num">03</span>Fiscal</a></li>
+        <li><a href="#04" data-doc="04-operaciones.md"><span class="num">04</span>Operaciones</a></li>
+        <li><a href="#05" data-doc="05-stack.md"><span class="num">05</span>Stack tecnológico</a></li>
+        <li><a href="#06" data-doc="06-marketing.md"><span class="num">06</span>Marketing</a></li>
+        <li><a href="#07" data-doc="07-roadmap-90dias.md"><span class="num">07</span>Roadmap 90 días</a></li>
+        <li><a href="#08" data-doc="08-nichos-investigados.md"><span class="num">08</span>Nichos investigados</a></li>
+        <li><a href="#09" data-doc="09-marca-naming.md"><span class="num">09</span>Marca y naming</a></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Operación</div>
+      <ul>
+        <li><a href="#10" data-doc="10-automatizacion.md"><span class="num">10</span>Automatización</a></li>
+        <li><a href="#11" data-doc="11-flujo-captura-cierre.md"><span class="num">11</span>Flujo captura → cierre</a></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Plantillas — Top of funnel</div>
+      <ul>
+        <li><a href="#p01" data-doc="plantillas/01-pdf-8-errores.md"><span class="num">P1</span>PDF "8 errores"</a></li>
+        <li><a href="#p02" data-doc="plantillas/02-nurture-emails.md"><span class="num">P2</span>Emails de nurture</a></li>
+        <li><a href="#p03" data-doc="plantillas/03-cuestionario-aplicacion.md"><span class="num">P3</span>Cuestionario aplicación</a></li>
+        <li><a href="#p04" data-doc="plantillas/04-prompt-cualificacion.md"><span class="num">P4</span>Prompt cualificación IA</a></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Plantillas — Mid funnel</div>
+      <ul>
+        <li><a href="#p05" data-doc="plantillas/05-script-llamada-diagnostico.md"><span class="num">P5</span>Script llamada</a></li>
+        <li><a href="#p06" data-doc="plantillas/06-propuesta.md"><span class="num">P6</span>Propuesta</a></li>
+        <li><a href="#p07" data-doc="plantillas/07-email-propuesta.md"><span class="num">P7</span>Email propuesta</a></li>
+        <li><a href="#p08" data-doc="plantillas/08-contrato.md"><span class="num">P8</span>Contrato base</a></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Plantillas — Bottom funnel</div>
+      <ul>
+        <li><a href="#p09" data-doc="plantillas/09-plantilla-notion-cliente.md"><span class="num">P9</span>Notion del cliente</a></li>
+        <li><a href="#p10" data-doc="plantillas/10-emails-cierre-y-retainer.md"><span class="num">P10</span>Cierre y retainer</a></li>
+        <li><a href="#p11" data-doc="plantillas/11-email-referidos.md"><span class="num">P11</span>Referidos</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-note">
+      Última actualización: 2026-05-18. Equipo: Andrés (LATAM) + Cami (España). Nicho confirmado.
+    </div>
+  </aside>
+
+  <main>
+    <div class="content" id="content">
+      <div class="loading">Cargando...</div>
+    </div>
+  </main>
+</div>
+
+<script>
+const DASHBOARD_HTML = `
+  <div class="dashboard-header">
+    <h1>Proyecto inmobiliario España para LATAM</h1>
+    <p class="subtitle">Dashboard del proyecto. Estado actual, métricas objetivo y plan a 90 días.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="label">Equipo</div>
+      <div class="value">2</div>
+      <div class="desc">Andrés + Cami</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Nicho</div>
+      <div class="value">Confirmado</div>
+      <div class="desc">Inmobiliario España LATAM</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Documentos</div>
+      <div class="value">22</div>
+      <div class="desc">11 docs + 11 plantillas</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Día actual</div>
+      <div class="value">D-0</div>
+      <div class="desc">18 mayo 2026</div>
+    </div>
+  </div>
+
+  <div class="status-block">
+    <h3>Hecho</h3>
+    <ul>
+      <li><span class="badge done">Done</span> Investigación de nichos y elección</li>
+      <li><span class="badge done">Done</span> Plan de negocio, fiscal preliminar, stack, marketing, automatización</li>
+      <li><span class="badge done">Done</span> Marca y naming (top 3 candidatos)</li>
+      <li><span class="badge done">Done</span> Flujo operativo del producto 2 mapeado (15 etapas)</li>
+      <li><span class="badge done">Done</span> 11 plantillas redactadas (PDF lead magnet, 5 emails nurture, cuestionario, prompt IA, script llamada, propuesta, email propuesta, contrato base, Notion del cliente, emails cierre y retainer, sistema referidos)</li>
+      <li><span class="badge done">Done</span> Landing v1 construida en Next.js</li>
+      <li><span class="badge done">Done</span> Roadmap a 90 días con fechas reales (18 may - 16 ago 2026)</li>
+    </ul>
+  </div>
+
+  <div class="status-block">
+    <h3>Roadmap a 90 días — vista compacta</h3>
+    <table style="font-size: 13px;">
+      <thead>
+        <tr><th>Semana</th><th>Fechas</th><th>Foco</th><th>Hito</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>S1</td><td>18-24 may</td><td>Kickoff + marca + dominio</td><td>Dominio + abogado contactado</td></tr>
+        <tr><td>S2</td><td>25-31 may</td><td>Estructura legal y fiscal</td><td>Entidad en constitución</td></tr>
+        <tr><td>S3</td><td>1-7 jun</td><td>Setup técnico</td><td>Stack probado end-to-end</td></tr>
+        <tr><td>S4</td><td>8-14 jun</td><td>PDF + contrato revisado</td><td>Sistema listo para captar</td></tr>
+        <tr><td>S5</td><td>15-21 jun</td><td>Encendido Google Ads 30€/día</td><td>Primer tráfico real</td></tr>
+        <tr><td>S6</td><td>22-28 jun</td><td>Iterar funnel + blog</td><td>15-30 emails capturados</td></tr>
+        <tr><td>S7</td><td>29 jun-5 jul</td><td>Primeras llamadas</td><td>1-2 propuestas enviadas</td></tr>
+        <tr><td>S8</td><td>6-12 jul</td><td>Cierre ciclo mes 2</td><td>0-1 firma, decisión de ajuste</td></tr>
+        <tr><td>S9</td><td>13-19 jul</td><td>Onboarding primer cliente</td><td>Briefing y búsqueda activa</td></tr>
+        <tr><td>S10</td><td>20-26 jul</td><td>Escalar ads + YouTube</td><td>2-3 clientes en pipeline</td></tr>
+        <tr><td>S11</td><td>27 jul-2 ago</td><td>Pulir operativa</td><td>Sistema robusto</td></tr>
+        <tr><td>S12</td><td>3-9 ago</td><td>Retrospectiva + plan Q4</td><td>Primer ciclo cerrado</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 13px; color: var(--text-muted); margin-top: 12px;">Ver <a href="#07">07 — Roadmap 90 días</a> para detalle día a día y hitos por semana.</p>
+  </div>
+
+  <div class="status-block">
+    <h3>Próximas 5 acciones (semana del 18 mayo)</h3>
+    <ul>
+      <li><span class="badge in-progress">Now</span> Lun 18: kickoff los dos (90 min) revisando el index</li>
+      <li><span class="badge pending">Mar</span> Mar 19: decidir marca final entre los 3 candidatos</li>
+      <li><span class="badge pending">Mié</span> Mié 20: comprar dominio + reservar handles sociales</li>
+      <li><span class="badge pending">Jue</span> Jue 21: contactar 3 abogados mercantiles colegiados</li>
+      <li><span class="badge pending">Vie</span> Vie 22: reunión de seguimiento + agendar abogado semana 2</li>
+    </ul>
+  </div>
+
+  <div class="status-block">
+    <h3>Inversión total estimada en 90 días</h3>
+    <ul>
+      <li>Constitución entidad + notario: <strong>500-1 000 €</strong></li>
+      <li>Abogado mercantil (consulta + revisión contrato): <strong>1 000-1 500 €</strong></li>
+      <li>Asesor fiscal (consulta inicial): <strong>150-300 €</strong></li>
+      <li>Dominio + handles + hosting + email: <strong>100-200 €</strong></li>
+      <li>Herramientas SaaS 3 meses: <strong>200-400 €</strong></li>
+      <li>Google Ads 3 meses: <strong>2 500-4 500 €</strong></li>
+      <li>Diseño PDF y materiales: <strong>100-200 €</strong></li>
+      <li>Imprevistos: <strong>500 €</strong></li>
+      <li><strong>Total: ~5 000-8 600 €</strong></li>
+      <li>Punto de equilibrio: <strong>1-2 contratos firmados con primer plazo cobrado</strong> (4 500-9 000 €)</li>
+    </ul>
+  </div>
+
+  <div class="status-block">
+    <h3>Métricas objetivo del funnel (en cruise)</h3>
+    <ul>
+      <li>Visita → email capture: <strong>5-8%</strong></li>
+      <li>Email → aplicación: <strong>15-20%</strong></li>
+      <li>Aplicación → cualificado tier A/B: <strong>40-50%</strong></li>
+      <li>Cualificado → llamada agendada: <strong>70%+</strong></li>
+      <li>Llamada → propuesta: <strong>60-70%</strong></li>
+      <li>Propuesta → firma: <strong>40-50%</strong></li>
+      <li>Cliente firmado → retainer activo: <strong>45%</strong></li>
+      <li><strong>Resultado: 2-4 clientes/mes en cruise, 10-25k€ MRR producto 2</strong></li>
+    </ul>
+  </div>
+
+  <div class="status-block">
+    <h3>Cómo usar este dashboard</h3>
+    <ul>
+      <li>Sidebar izquierda: navegar entre las 22 secciones del proyecto.</li>
+      <li>Cada documento se renderiza inline en esta vista.</li>
+      <li>Hash URL: cada documento tiene su propio enlace (ej: <code>#07</code>, <code>#p06</code>).</li>
+      <li>Click en "Dashboard" para volver a esta vista en cualquier momento.</li>
+    </ul>
+  </div>
+`;
+
+const contentEl = document.getElementById('content');
+const sidebar = document.getElementById('sidebar');
+const menuToggle = document.getElementById('menu-toggle');
+
+menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+function setActive(hash) {
+  document.querySelectorAll('aside a').forEach(a => a.classList.remove('active'));
+  const active = document.querySelector(`aside a[href="${hash}"]`);
+  if (active) active.classList.add('active');
+}
+
+async function loadDoc(path) {
+  contentEl.innerHTML = '<div class="loading">Cargando documento...</div>';
+  try {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`No se pudo cargar ${path} (HTTP ${res.status})`);
+    const md = await res.text();
+    const html = marked.parse(md);
+    contentEl.innerHTML = `
+      <div class="breadcrumb">Proyecto / ${path}</div>
+      <div class="md-content">${html}</div>
+    `;
+    window.scrollTo(0, 0);
+    document.querySelector('main').scrollTo(0, 0);
+  } catch (e) {
+    contentEl.innerHTML = `
+      <div class="breadcrumb">Proyecto / ${path}</div>
+      <div class="error">
+        <strong>Error cargando documento.</strong><br>
+        ${e.message}<br><br>
+        Si abriste este index.html directamente desde el sistema de archivos, algunos navegadores bloquean fetch() en file://. Soluciones:
+        <ul>
+          <li>Servir la carpeta con un servidor local: <code>python3 -m http.server</code> y abrir <code>http://localhost:8000/index.html</code></li>
+          <li>Usar la extensión "Live Server" en VS Code</li>
+          <li>O navegar directamente al archivo: <a href="${path}">${path}</a></li>
+        </ul>
+      </div>
+    `;
+  }
+}
+
+function showDashboard() {
+  contentEl.innerHTML = DASHBOARD_HTML;
+  window.scrollTo(0, 0);
+  document.querySelector('main').scrollTo(0, 0);
+}
+
+function route() {
+  const hash = window.location.hash || '#dashboard';
+  setActive(hash);
+  const link = document.querySelector(`aside a[href="${hash}"]`);
+  if (!link || link.dataset.doc === 'dashboard') {
+    showDashboard();
+  } else {
+    loadDoc(link.dataset.doc);
+  }
+  if (window.innerWidth <= 900) sidebar.classList.remove('open');
+}
+
+window.addEventListener('hashchange', route);
+window.addEventListener('DOMContentLoaded', route);
+</script>
+</body>
+</html>
