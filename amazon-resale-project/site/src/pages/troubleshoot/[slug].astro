@@ -1,0 +1,237 @@
+---
+// Troubleshoot page template: problem-solving content para owners de
+// productos del catalog que tienen un issue ("Bambino not pumping water",
+// "Gaggia leaking", etc).
+//
+// Estructura:
+//   1. H1 (phrasing natural) + Byline
+//   2. TL;DR fix box arriba (causa más común, 1-2 sentences)
+//   3. Diagnostic checklist ordenado
+//   4. Cause analysis (cada causa con explanation + fix)
+//   5. When to escalate / give up DIY (anti-gray-hat)
+//   6. Replacement parts (si aplica)
+//   7. FAQ
+//   8. Related content
+//
+// Schema: FAQPage + WebPage (no hay HowTo nativo para troubleshooting).
+//
+// Editorial constraints (CLAUDE.md, anti-gray-hat):
+// - Causes ordenadas por probabilidad real (frecuencia en threads
+//   consolidados), no por upsell potential.
+// - whenToEscalate honesto: warranty machines NO se abren.
+// - Replacement parts solo donde son la solución real; si fix es DIY
+//   sin parts, no empujamos parts.
+// - OPV mods etc. tratados como modification, no fix.
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import {
+  troubleshootPages,
+  type TroubleshootPage,
+  TROUBLESHOOT_CATEGORIES,
+} from '../../data/troubleshoot-pages';
+import { relatedForTroubleshoot } from '../../lib/related-content';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import Byline from '../../components/Byline.astro';
+import { author } from '../../data/author';
+
+type Product = CollectionEntry<'products'>;
+
+export async function getStaticPaths() {
+  const { troubleshootPages: pages } = await import('../../data/troubleshoot-pages');
+  const all = await getCollection('products');
+  const byAsin = new Map(all.map((p) => [p.data.asin, p]));
+
+  return pages.map((page) => {
+    const product = page.productAsin ? byAsin.get(page.productAsin) : undefined;
+    const partsResolved = (page.replacementParts ?? []).map((part) => ({
+      ...part,
+      product: part.affiliateAsin ? byAsin.get(part.affiliateAsin) : undefined,
+    }));
+    return {
+      params: { slug: page.slug },
+      props: { page, product, partsResolved },
+    };
+  });
+}
+
+interface PartResolved {
+  item: string;
+  affiliateAsin?: string;
+  note?: string;
+  product?: Product;
+}
+
+interface Props {
+  page: TroubleshootPage;
+  product: Product | undefined;
+  partsResolved: PartResolved[];
+}
+
+const { page, product, partsResolved } = Astro.props as Props;
+const related = await relatedForTroubleshoot(page.slug);
+const updatedAt = new Date(page.updatedAt);
+
+// FAQPage schema — the only Google-supported schema for troubleshooting
+// content. WebPage is added as the wrapping type.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: page.faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+// WebPage schema con dateModified — ayuda a Google a entender que es un
+// recurso de troubleshooting actualizado, no un thread viejo.
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: page.title,
+  description: page.description,
+  author: {
+    '@type': 'Person',
+    name: author.name,
+    url: author.url,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Coffee Equipment Reviews',
+  },
+  dateModified: updatedAt.toISOString().slice(0, 10),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Guides', url: '/guides/' },
+  { name: page.title, url: `/troubleshoot/${page.slug}/` },
+];
+
+const categoryLabel = TROUBLESHOOT_CATEGORIES[page.category];
+
+void troubleshootPages;
+---
+<Base
+  title={page.title}
+  description={page.description}
+  ogType="article"
+  breadcrumbs={breadcrumbs}
+  jsonLd={[webPageSchema, faqSchema]}
+  updatedAt={updatedAt}
+>
+  <article class="troubleshoot-page">
+    <p class="muted topic-label">Troubleshoot &middot; {categoryLabel}</p>
+    <h1>{page.title}</h1>
+    <Byline updatedAt={updatedAt} />
+
+    <p class="lead">{page.problem}</p>
+
+    <aside class="tldr-box" aria-labelledby="tldr-heading">
+      <h2 id="tldr-heading" class="tldr-box__title">TL;DR fix</h2>
+      <p class="tldr-box__body">{page.tldrFix}</p>
+    </aside>
+
+    {product && (
+      <p class="meta muted">
+        <strong>Applies to:</strong>{' '}
+        <a href={`/products/${product.data.asin}/`}>{product.data.name}</a>
+      </p>
+    )}
+
+    <section class="section troubleshoot-diagnostics">
+      <h2>Diagnostic checklist</h2>
+      <p class="muted">Run through these before opening anything — half of all "broken machine" reports resolve at one of these steps.</p>
+      <ol class="diagnostic-list">
+        {page.diagnostics.map((step: string) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="section troubleshoot-causes">
+      <h2>Possible causes and fixes</h2>
+      <p class="muted">Ordered by probability based on community-reported frequency. Try the first cause first.</p>
+      {page.causes.map((cause, idx) => (
+        <article class="cause-block" id={`cause-${idx + 1}`}>
+          <h3>
+            <span class="cause-rank">#{idx + 1}</span>
+            {cause.cause}
+          </h3>
+          <p class="cause-explanation">{cause.explanation}</p>
+          <div class="cause-fix">
+            <h4>Fix</h4>
+            <div set:html={cause.fix} />
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <section class="section troubleshoot-escalate">
+      <h2>When to stop DIY and call service</h2>
+      <p>{page.whenToEscalate}</p>
+    </section>
+
+    {partsResolved.length > 0 && (
+      <section class="section troubleshoot-parts">
+        <h2>Replacement parts and supplies</h2>
+        <ul class="parts-list">
+          {partsResolved.map((part) => (
+            <li class="parts-item">
+              <p class="parts-item__name"><strong>{part.item}</strong></p>
+              {part.note && <p class="parts-item__note muted">{part.note}</p>}
+              {part.product && (
+                <p class="parts-item__cta">
+                  <a href={`/products/${part.product.data.asin}/`}>
+                    {part.product.data.name}
+                  </a>
+                  {' '}&middot; ${part.product.data.price}
+                  {' '}
+                  <AffiliateButton
+                    asin={part.product.data.asin}
+                    productName={part.product.data.name}
+                    variant="secondary"
+                  />
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="section faq">
+      <h2>Frequently Asked Questions</h2>
+      {page.faqs.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </section>
+
+    <p class="update-cadence">
+      <strong>Last reviewed:</strong>{' '}
+      <time datetime={updatedAt.toISOString()}>
+        {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+      </time>.
+      {' '}We update troubleshoot guides when the manufacturer publishes new
+      service documentation, when a recurring failure pattern shifts in the
+      community, or when a fix becomes obsolete (e.g. a new model rev).
+    </p>
+
+    {related.length > 0 && (
+      <section class="section related-content" aria-labelledby="related-heading">
+        <h2 id="related-heading">Related guides</h2>
+        <ul>
+          {related.map((link) => (
+            <li class={`related-link related-link--${link.kind}`}>
+              <a href={link.href}>{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Base>

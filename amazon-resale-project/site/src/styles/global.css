@@ -733,6 +733,229 @@ li {
   content: 'Glossary';
 }
 
+.related-link--how-to {
+  border-left-color: #1f7a8c;
+}
+.related-link--how-to::before {
+  content: 'How-to';
+}
+
+.related-link--troubleshoot {
+  border-left-color: #b87333;
+}
+.related-link--troubleshoot::before {
+  content: 'Troubleshoot';
+}
+
+/* ---------- How-to / Troubleshoot templates ----------
+   Templates introducidas para capturar post-purchase intent:
+   - .topic-label: pequeño tag arriba del H1 ("How-to · Descaling").
+   - .needs-list / .parts-list: items con CTA secundaria opcional.
+   - .step-list: pasos numerados con badge de número.
+   - .mistakes-list: bullet warning de errores comunes.
+   - .tldr-box: aside arriba en troubleshoot pages con el fix más probable.
+   - .cause-block: cards de causa-explanation-fix en troubleshoot.
+   - .guides-list / .guides-group: index combinado de guides. */
+.topic-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--space-xs);
+}
+
+.needs-list,
+.parts-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-md) 0 0;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.needs-item,
+.parts-item {
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius);
+}
+
+.needs-item__name,
+.parts-item__name {
+  margin: 0 0 var(--space-xs);
+}
+
+.needs-item__note,
+.parts-item__note {
+  margin: 0 0 var(--space-xs);
+  font-size: 0.9rem;
+}
+
+.needs-item__cta,
+.parts-item__cta {
+  margin: var(--space-xs) 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.9rem;
+}
+
+.step-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-lg) 0;
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.step-item {
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.step-item h3 {
+  margin: var(--space-xs) 0 var(--space-sm);
+}
+
+.step-number {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.step-body p {
+  margin-bottom: var(--space-sm);
+}
+
+.mistakes-list {
+  margin: var(--space-md) 0 0;
+  padding-left: 1.25rem;
+}
+
+.mistakes-list li {
+  margin-bottom: var(--space-sm);
+}
+
+/* TL;DR box en troubleshoot pages — visualmente similar al VerdictBox
+   pero con tono "respuesta rápida". Gris-amarillento sutil. */
+.tldr-box {
+  margin: var(--space-lg) 0;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid #d4a017;
+  border-radius: var(--radius);
+}
+
+.tldr-box__title {
+  font-size: 1rem;
+  margin: 0 0 var(--space-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.tldr-box__body {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+/* Cause blocks: cada cause es una mini-card con rank, explanation, fix. */
+.diagnostic-list {
+  margin: var(--space-md) 0 0;
+  padding-left: 1.5rem;
+}
+
+.diagnostic-list li {
+  margin-bottom: var(--space-sm);
+}
+
+.cause-block {
+  margin: var(--space-lg) 0;
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.cause-block h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: 0;
+}
+
+.cause-rank {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #b87333;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.cause-explanation {
+  color: var(--color-text);
+}
+
+.cause-fix {
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px dashed var(--color-border);
+}
+
+.cause-fix h4 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-xs);
+}
+
+/* Guides index (combinado how-to + troubleshoot). */
+.guides-group {
+  margin: var(--space-lg) 0;
+}
+
+.guides-group__heading {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.guides-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.guides-list__item {
+  padding: var(--space-sm) 0;
+}
+
+.guides-list__item a {
+  font-weight: 600;
+}
+
+.guides-list__item p {
+  margin: var(--space-xs) 0 0;
+  font-size: 0.9rem;
+}
+
 /* ---------- Brand pages ---------- */
 /* Brand index/[slug] usan .product-grid pero queremos 3 columnas en
    desktop (no 4): los nombres y descriptions ocupan más ancho cómodo. */

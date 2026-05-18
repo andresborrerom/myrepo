@@ -15,8 +15,19 @@ import { comparePages } from '../data/compare-pages';
 import { reviewPages } from '../data/review-pages';
 import { brandMetaFor } from '../data/brand-pages';
 import { categoryMetaForType } from '../data/category-pages';
+import { howToPages, howTosForProduct } from '../data/how-to-pages';
+import { troubleshootPages, troubleshootsForProduct } from '../data/troubleshoot-pages';
 
-export type RelatedKind = 'product' | 'best' | 'compare' | 'review' | 'brand' | 'category' | 'glossary';
+export type RelatedKind =
+  | 'product'
+  | 'best'
+  | 'compare'
+  | 'review'
+  | 'brand'
+  | 'category'
+  | 'glossary'
+  | 'how-to'
+  | 'troubleshoot';
 
 export interface RelatedLink {
   href: string;
@@ -158,7 +169,28 @@ export async function relatedForProduct(asin: string): Promise<RelatedLink[]> {
     }
   }
 
-  // 1) Up to 3 best-of pages where this product appears.
+  // 1) Up to 2 how-to pages for the product (high-intent post-purchase
+  // content: "now that you own this, here is how to descale it"). Empujadas
+  // antes que best/compare porque un owner que ya compró el producto se
+  // beneficia más de la guía que de otro comparison.
+  const howToMatches: RelatedLink[] = howTosForProduct(asin).map((h) => ({
+    href: `/how-to/${h.slug}/`,
+    title: h.title,
+    kind: 'how-to' as const,
+  }));
+  pushUnique(out, howToMatches.slice(0, 2), MAX_LINKS, selfHref);
+
+  // 2) Up to 2 troubleshoot pages for the product. Owners que aterrizan en
+  // el product page pueden estar researching un problema más que considerando
+  // la compra — surface los troubleshoot links explícitamente.
+  const tsMatches: RelatedLink[] = troubleshootsForProduct(asin).map((t) => ({
+    href: `/troubleshoot/${t.slug}/`,
+    title: t.title,
+    kind: 'troubleshoot' as const,
+  }));
+  pushUnique(out, tsMatches.slice(0, 2), MAX_LINKS, selfHref);
+
+  // 3) Up to 2 best-of pages where this product appears.
   const bestMatches: RelatedLink[] = [];
   for (const page of bestPages) {
     const asins = asinMap.get(page.slug);
@@ -170,9 +202,9 @@ export async function relatedForProduct(asin: string): Promise<RelatedLink[]> {
       });
     }
   }
-  pushUnique(out, bestMatches.slice(0, 3), MAX_LINKS, selfHref);
+  pushUnique(out, bestMatches.slice(0, 2), MAX_LINKS, selfHref);
 
-  // 2) Up to 2 compare pages where this ASIN is involved.
+  // 4) Up to 2 compare pages where this ASIN is involved.
   const compareMatches: RelatedLink[] = [];
   for (const comp of comparePages) {
     if (comp.asinA === asin || comp.asinB === asin) {
@@ -190,7 +222,7 @@ export async function relatedForProduct(asin: string): Promise<RelatedLink[]> {
   }
   pushUnique(out, compareMatches.slice(0, 2), MAX_LINKS, selfHref);
 
-  // 3) Up to 2 reviews where the product is the subject or an alternative.
+  // 5) Up to 2 reviews where the product is the subject or an alternative.
   const reviewMatches: RelatedLink[] = [];
   for (const r of reviewPages) {
     if (r.productAsin === asin || r.alternativeAsins.includes(asin)) {
@@ -202,6 +234,150 @@ export async function relatedForProduct(asin: string): Promise<RelatedLink[]> {
     }
   }
   pushUnique(out, reviewMatches.slice(0, 2), MAX_LINKS, selfHref);
+
+  return finalize(out);
+}
+
+// ---------------------------------------------------------------
+// HOW-TO PAGE
+// ---------------------------------------------------------------
+// 1 product page (si la guía es product-specific), 1-2 troubleshoot pages
+// relacionadas, 1-2 how-to pages adicionales (mismo topic o mismo product).
+export async function relatedForHowTo(slug: string): Promise<RelatedLink[]> {
+  const page = howToPages.find((p) => p.slug === slug);
+  if (!page) return [];
+  const selfHref = `/how-to/${slug}/`;
+  const out: RelatedLink[] = [];
+
+  const products = await loadProducts();
+  const byAsin = new Map(products.map((p) => [p.data.asin, p]));
+
+  // 1) Product page link si aplica.
+  if (page.productAsin) {
+    const subject = byAsin.get(page.productAsin);
+    if (subject) {
+      pushUnique(
+        out,
+        [
+          {
+            href: `/products/${subject.data.asin}/`,
+            title: `${subject.data.name} — Specs, Pros & Cons`,
+            kind: 'product',
+          },
+        ],
+        MAX_LINKS,
+        selfHref,
+      );
+    }
+  }
+
+  // 2) Troubleshoot pages explícitamente relacionadas (declaradas en la data).
+  if (page.relatedTroubleshootSlugs) {
+    const explicitTs: RelatedLink[] = [];
+    for (const tsSlug of page.relatedTroubleshootSlugs) {
+      const ts = troubleshootPages.find((t) => t.slug === tsSlug);
+      if (ts) {
+        explicitTs.push({
+          href: `/troubleshoot/${ts.slug}/`,
+          title: ts.title,
+          kind: 'troubleshoot',
+        });
+      }
+    }
+    pushUnique(out, explicitTs.slice(0, 2), MAX_LINKS, selfHref);
+  }
+
+  // 3) Otras how-to pages del mismo topic (descaling, dialing-in, etc).
+  const sameTopic: RelatedLink[] = howToPages
+    .filter((h) => h.slug !== slug && h.topic === page.topic)
+    .slice(0, 2)
+    .map((h) => ({ href: `/how-to/${h.slug}/`, title: h.title, kind: 'how-to' }));
+  pushUnique(out, sameTopic, MAX_LINKS, selfHref);
+
+  // 4) Si la guía es product-specific, otros productos del mismo brand pueden
+  // tener guías similares (e.g. "how to descale Bambino" → Bambino Plus guide).
+  if (page.productAsin) {
+    const subject = byAsin.get(page.productAsin);
+    if (subject) {
+      const sameBrandHowTos: RelatedLink[] = howToPages
+        .filter((h) => {
+          if (h.slug === slug) return false;
+          if (!h.productAsin) return false;
+          const other = byAsin.get(h.productAsin);
+          return other?.data.brand === subject.data.brand;
+        })
+        .slice(0, 2)
+        .map((h) => ({ href: `/how-to/${h.slug}/`, title: h.title, kind: 'how-to' as const }));
+      pushUnique(out, sameBrandHowTos, MAX_LINKS, selfHref);
+    }
+  }
+
+  return finalize(out);
+}
+
+// ---------------------------------------------------------------
+// TROUBLESHOOT PAGE
+// ---------------------------------------------------------------
+// 1 product page (si product-specific), 1-2 how-to pages relacionadas
+// (prevention guides), 1-2 troubleshoot pages adicionales.
+export async function relatedForTroubleshoot(slug: string): Promise<RelatedLink[]> {
+  const page = troubleshootPages.find((p) => p.slug === slug);
+  if (!page) return [];
+  const selfHref = `/troubleshoot/${slug}/`;
+  const out: RelatedLink[] = [];
+
+  const products = await loadProducts();
+  const byAsin = new Map(products.map((p) => [p.data.asin, p]));
+
+  // 1) Product page link.
+  if (page.productAsin) {
+    const subject = byAsin.get(page.productAsin);
+    if (subject) {
+      pushUnique(
+        out,
+        [
+          {
+            href: `/products/${subject.data.asin}/`,
+            title: `${subject.data.name} — Specs, Pros & Cons`,
+            kind: 'product',
+          },
+        ],
+        MAX_LINKS,
+        selfHref,
+      );
+    }
+  }
+
+  // 2) How-to pages explícitamente relacionadas (prevención del problema).
+  if (page.relatedHowToSlugs) {
+    const explicitHowTos: RelatedLink[] = [];
+    for (const htSlug of page.relatedHowToSlugs) {
+      const ht = howToPages.find((h) => h.slug === htSlug);
+      if (ht) {
+        explicitHowTos.push({
+          href: `/how-to/${ht.slug}/`,
+          title: ht.title,
+          kind: 'how-to',
+        });
+      }
+    }
+    pushUnique(out, explicitHowTos.slice(0, 2), MAX_LINKS, selfHref);
+  }
+
+  // 3) Otras troubleshoot pages del mismo product o misma category.
+  const sameProduct: RelatedLink[] = page.productAsin
+    ? troubleshootPages
+        .filter((t) => t.slug !== slug && t.productAsin === page.productAsin)
+        .slice(0, 2)
+        .map((t) => ({ href: `/troubleshoot/${t.slug}/`, title: t.title, kind: 'troubleshoot' as const }))
+    : [];
+  pushUnique(out, sameProduct, MAX_LINKS, selfHref);
+
+  const sameCategory: RelatedLink[] = troubleshootPages
+    .filter((t) => t.slug !== slug && t.category === page.category)
+    .slice(0, 2)
+    .map((t) => ({ href: `/troubleshoot/${t.slug}/`, title: t.title, kind: 'troubleshoot' as const }));
+  pushUnique(out, sameCategory, MAX_LINKS, selfHref);
 
   return finalize(out);
 }

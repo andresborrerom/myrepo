@@ -1,0 +1,233 @@
+---
+// How-to page template: tutoriales paso-a-paso para tareas post-purchase
+// (descaling, dialing in, cleaning, milk frothing, etc.).
+//
+// Estructura:
+//   1. H1 + Byline + Intro
+//   2. What you'll need (con AffiliateButton donde aplica)
+//   3. Steps numerados con sub-headings
+//   4. Common mistakes
+//   5. FAQ
+//   6. Related content (how-to/troubleshoot helper)
+//
+// Schema: HowTo JSON-LD (https://schema.org/HowTo) — Google soporta rich
+// snippets para HowTo con steps, supply, tool, etc.
+// Adicional: FAQPage para las FAQs.
+//
+// Editorial constraints (CLAUDE.md, anti-gray-hat):
+// - Steps basados en docs del fabricante + consenso comunitario.
+// - Affiliate links solo cuando el item es la herramienta correcta.
+// - Cuando un mistake puede dañar hardware, lo flagueamos.
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import {
+  howToPages,
+  type HowToPage,
+  toIsoDuration,
+  HOW_TO_TOPICS,
+} from '../../data/how-to-pages';
+import { relatedForHowTo } from '../../lib/related-content';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import Byline from '../../components/Byline.astro';
+import { author } from '../../data/author';
+
+type Product = CollectionEntry<'products'>;
+
+export async function getStaticPaths() {
+  const { howToPages: pages } = await import('../../data/how-to-pages');
+  const all = await getCollection('products');
+  const byAsin = new Map(all.map((p) => [p.data.asin, p]));
+
+  return pages.map((page) => {
+    // Resolver producto principal opcional.
+    const product = page.productAsin ? byAsin.get(page.productAsin) : undefined;
+    // Resolver products referenced en needs (para mostrar nombre en cada item).
+    const needsResolved = page.needs.map((need) => ({
+      ...need,
+      product: need.affiliateAsin ? byAsin.get(need.affiliateAsin) : undefined,
+    }));
+    return {
+      params: { slug: page.slug },
+      props: { page, product, needsResolved },
+    };
+  });
+}
+
+interface NeedResolved {
+  item: string;
+  affiliateAsin?: string;
+  note?: string;
+  product?: Product;
+}
+
+interface Props {
+  page: HowToPage;
+  product: Product | undefined;
+  needsResolved: NeedResolved[];
+}
+
+const { page, product, needsResolved } = Astro.props as Props;
+const related = await relatedForHowTo(page.slug);
+const updatedAt = new Date(page.updatedAt);
+
+// HowTo JSON-LD schema. Google docs:
+// https://developers.google.com/search/docs/appearance/structured-data/how-to
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: page.title,
+  description: page.description,
+  totalTime: toIsoDuration(page.totalTime),
+  // supply = consumibles, tool = re-usables. Para simpleza listamos todo
+  // como supply (el spec lo acepta y Google no penaliza).
+  supply: page.needs.map((n) => ({
+    '@type': 'HowToSupply',
+    name: n.item,
+  })),
+  step: page.steps.map((s, idx) => ({
+    '@type': 'HowToStep',
+    position: idx + 1,
+    name: s.heading,
+    // text se renderiza en el rich snippet — strip HTML tags para que el
+    // text sea legible si Google lo muestra como string puro.
+    text: s.body.replace(/<[^>]+>/g, ''),
+  })),
+  author: {
+    '@type': 'Person',
+    name: author.name,
+    url: author.url,
+  },
+  dateModified: updatedAt.toISOString().slice(0, 10),
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: page.faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Guides', url: '/guides/' },
+  { name: page.title, url: `/how-to/${page.slug}/` },
+];
+
+const topicLabel = HOW_TO_TOPICS[page.topic];
+
+// Reference imported pages array to satisfy unused-import linting.
+void howToPages;
+---
+<Base
+  title={page.title}
+  description={page.description}
+  ogType="article"
+  breadcrumbs={breadcrumbs}
+  jsonLd={[howToSchema, faqSchema]}
+  updatedAt={updatedAt}
+>
+  <article class="how-to-page">
+    <p class="muted topic-label">How-to &middot; {topicLabel}</p>
+    <h1>{page.title}</h1>
+    <Byline updatedAt={updatedAt} />
+
+    <div class="lead" set:html={page.intro} />
+
+    <p class="meta muted">
+      <strong>Time required:</strong> {page.totalTime}
+      {product && (
+        <>
+          {' '}&middot; <strong>Applies to:</strong>{' '}
+          <a href={`/products/${product.data.asin}/`}>{product.data.name}</a>
+        </>
+      )}
+    </p>
+
+    <section class="section how-to-needs">
+      <h2>What you'll need</h2>
+      <ul class="needs-list">
+        {needsResolved.map((need) => (
+          <li class="needs-item">
+            <p class="needs-item__name">
+              <strong>{need.item}</strong>
+            </p>
+            {need.note && <p class="needs-item__note muted">{need.note}</p>}
+            {need.product && (
+              <p class="needs-item__cta">
+                <a href={`/products/${need.product.data.asin}/`}>
+                  {need.product.data.name}
+                </a>
+                {' '}&middot; ${need.product.data.price}
+                {' '}
+                <AffiliateButton
+                  asin={need.product.data.asin}
+                  productName={need.product.data.name}
+                  variant="secondary"
+                />
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section how-to-steps">
+      <h2>Step-by-step</h2>
+      <ol class="step-list">
+        {page.steps.map((step, idx) => (
+          <li class="step-item" id={`step-${idx + 1}`}>
+            <span class="step-number">Step {idx + 1}</span>
+            <h3>{step.heading}</h3>
+            <div class="step-body" set:html={step.body} />
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="section how-to-mistakes">
+      <h2>Common mistakes to avoid</h2>
+      <ul class="mistakes-list">
+        {page.commonMistakes.map((mistake: string) => (
+          <li>{mistake}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section faq">
+      <h2>Frequently Asked Questions</h2>
+      {page.faqs.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </section>
+
+    <p class="update-cadence">
+      <strong>Last reviewed:</strong>{' '}
+      <time datetime={updatedAt.toISOString()}>
+        {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+      </time>.
+      {' '}We update this guide when the manufacturer publishes new
+      maintenance documentation or when community consensus on best practice
+      shifts.
+    </p>
+
+    {related.length > 0 && (
+      <section class="section related-content" aria-labelledby="related-heading">
+        <h2 id="related-heading">Related guides</h2>
+        <ul>
+          {related.map((link) => (
+            <li class={`related-link related-link--${link.kind}`}>
+              <a href={link.href}>{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Base>

@@ -1,0 +1,149 @@
+---
+// Guides index — single hub que lista todos los how-to + troubleshoot
+// pages. Diseño: dos secciones grandes (How-to, Troubleshoot), cada una
+// agrupada por topic/category. Footer linkea acá como "Guides".
+//
+// Decisión: usamos UN index combinado en lugar de dos separados (/how-to/
+// y /troubleshoot/). Justificación:
+//   - User mental model: "I need help" no distingue "tutorial" vs "fix".
+//   - Reduce noise en footer nav (1 link "Guides" en vez de 2).
+//   - SEO: una sola URL hub bien linkeada gana más authority que dos hubs
+//     a medio camino.
+//
+// Schema: ItemList enumerando todas las páginas.
+
+import Base from '../../layouts/Base.astro';
+import { howToPages, HOW_TO_TOPICS, type HowToPage } from '../../data/how-to-pages';
+import {
+  troubleshootPages,
+  TROUBLESHOOT_CATEGORIES,
+  type TroubleshootPage,
+} from '../../data/troubleshoot-pages';
+
+// Agrupar how-to por topic, troubleshoot por category.
+// Map preserva insertion order — usamos el orden declarado en HOW_TO_TOPICS
+// / TROUBLESHOOT_CATEGORIES para ordenar las secciones.
+const howToByTopic = new Map<HowToPage['topic'], HowToPage[]>();
+for (const topic of Object.keys(HOW_TO_TOPICS) as Array<HowToPage['topic']>) {
+  const matches = howToPages.filter((p) => p.topic === topic);
+  if (matches.length > 0) howToByTopic.set(topic, matches);
+}
+
+const troubleshootByCategory = new Map<
+  TroubleshootPage['category'],
+  TroubleshootPage[]
+>();
+for (const cat of Object.keys(TROUBLESHOOT_CATEGORIES) as Array<
+  TroubleshootPage['category']
+>) {
+  const matches = troubleshootPages.filter((p) => p.category === cat);
+  if (matches.length > 0) troubleshootByCategory.set(cat, matches);
+}
+
+// updatedAt: max de todas las pages — refleja la última vez que se tocó
+// cualquier guía.
+const allDates = [
+  ...howToPages.map((p) => new Date(p.updatedAt).getTime()),
+  ...troubleshootPages.map((p) => new Date(p.updatedAt).getTime()),
+];
+const updatedAt = new Date(Math.max(...allDates));
+
+// ItemList schema para los hubs — Google trata esto como un sitemap parcial.
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Coffee equipment guides — how-to and troubleshooting',
+  itemListElement: [
+    ...howToPages.map((p, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      url: `/how-to/${p.slug}/`,
+      name: p.title,
+    })),
+    ...troubleshootPages.map((p, idx) => ({
+      '@type': 'ListItem',
+      position: howToPages.length + idx + 1,
+      url: `/troubleshoot/${p.slug}/`,
+      name: p.title,
+    })),
+  ],
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Guides', url: '/guides/' },
+];
+
+const totalHowTo = howToPages.length;
+const totalTroubleshoot = troubleshootPages.length;
+
+const description = `Coffee equipment guides: ${totalHowTo} how-to tutorials and ${totalTroubleshoot} troubleshooting guides for espresso machines, grinders, and accessories — descaling, dialing in, leak fixes, and more.`;
+---
+<Base
+  title="Coffee equipment guides — how-to and troubleshooting"
+  description={description}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[itemListSchema]}
+  updatedAt={updatedAt}
+>
+  <article class="guides-index">
+    <h1>Coffee equipment guides</h1>
+    <p class="lead">
+      Post-purchase guides for owners of espresso machines, grinders, and
+      accessories: how-to tutorials for routine tasks (descaling, dialing
+      in, milk frothing) and troubleshooting guides for common problems
+      (no water, leaks, grinder retention).
+    </p>
+
+    <p class="muted">
+      {totalHowTo} how-to guides &middot; {totalTroubleshoot} troubleshooting
+      guides. Updated as new failure patterns appear in community reports or
+      when manufacturers ship new firmware or guidance.
+    </p>
+
+    <section class="section guides-section">
+      <h2>How-to guides</h2>
+      <p class="muted">Step-by-step tutorials for routine maintenance and skill-building.</p>
+      {Array.from(howToByTopic.entries()).map(([topic, pages]) => (
+        <div class="guides-group">
+          <h3 class="guides-group__heading">{HOW_TO_TOPICS[topic]}</h3>
+          <ul class="guides-list">
+            {pages.map((p) => (
+              <li class="guides-list__item">
+                <a href={`/how-to/${p.slug}/`}>{p.title}</a>
+                <p class="muted">{p.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <section class="section guides-section">
+      <h2>Troubleshooting guides</h2>
+      <p class="muted">When something is wrong with a machine or shot — diagnostic checklists and fixes.</p>
+      {Array.from(troubleshootByCategory.entries()).map(([cat, pages]) => (
+        <div class="guides-group">
+          <h3 class="guides-group__heading">{TROUBLESHOOT_CATEGORIES[cat]}</h3>
+          <ul class="guides-list">
+            {pages.map((p) => (
+              <li class="guides-list__item">
+                <a href={`/troubleshoot/${p.slug}/`}>{p.title}</a>
+                <p class="muted">{p.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+
+    <p class="update-cadence">
+      <strong>Last updated:</strong>{' '}
+      <time datetime={updatedAt.toISOString()}>
+        {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+      </time>.
+      {' '}New guides are added as we cover additional products or as
+      recurring questions emerge in owner communities.
+    </p>
+  </article>
+</Base>
