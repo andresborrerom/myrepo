@@ -1198,6 +1198,932 @@ export const GLOSSARY_DETAILED: GlossaryDetailedPage[] = [
     relatedBestSlugs: ['best-kettle-for-pour-over', 'best-grinder-for-pour-over-under-300'],
     updatedAt: '2026-05-18',
   },
+
+  // ===================================================================
+  // TIER 2 — segunda tanda de head terms (mayo 2026).
+  //
+  // Criterio de selección:
+  //   - Búsqueda clara "what is X" con masa real.
+  //   - Profundidad para 600-1200 palabras sin rellenar.
+  //   - Anclaje en al menos un best/how-to/troubleshoot existente.
+  //   - Anti-gray-hat: debates honestos, sin marketing copy.
+  // ===================================================================
+
+  // -------------------------------------------------------------------
+  // 13. CREMA — el myth más extendido del nicho. Tratamiento honesto:
+  //     NO es indicador de calidad isolado. Crema abundante puede venir
+  //     de robusta blends, dark roasts stale, o presión alta sobre puck
+  //     malo. La función del entry es desmitificar, no reforzar.
+  // -------------------------------------------------------------------
+  {
+    slug: 'crema',
+    title: 'What is crema in espresso? — Coffee Equipment Reviews',
+    description:
+      'Crema is the foam on top of an espresso shot. It is not a reliable quality indicator on its own. Plain explanation of what it is, what it tells you, and what it does not.',
+    h1: 'What is crema in espresso?',
+    tldr:
+      'Crema is the reddish-brown foam on top of a freshly-pulled espresso shot, formed by CO2 escaping from the coffee and emulsifying with extracted oils. It indicates a fresh roast and that pressure built correctly — but it is not a reliable indicator of shot quality on its own.',
+    inDepth: [
+      {
+        heading: 'What crema actually is',
+        body:
+          '<p>When coffee beans are roasted, they trap CO2 inside their cellular structure. Grinding releases some of it; brewing under pressure releases the rest. As the gas escapes through the puck during a shot, it carries dissolved oils, melanoidins (the brown roast compounds), and surfactant proteins with it. Once the liquid is in the cup, the gas-oil-protein mixture stabilizes as a thin foam — that is crema.</p>'
+          + '<p>The color (golden to reddish-brown) comes from the suspended oils and melanoidins; the texture (thick or thin) comes from how much CO2 the beans had and how well the pressure built up. Fresh beans have lots of CO2 and produce more crema; beans that have been ground or sitting in an open bag for a week have less.</p>',
+      },
+      {
+        heading: 'Why crema is a poor quality signal',
+        body:
+          '<p>This is where most home baristas go wrong. Crema is a sign that <em>something</em> happened correctly, but it does not tell you whether the shot tastes good. Several common situations produce abundant crema with a bad cup:</p>'
+          + '<ul>'
+          + '<li><strong>Robusta blends</strong> — robusta beans naturally produce more crema than arabica. Italian supermarket espresso blends (Lavazza Rossa, many cafe-style blends) include robusta partly for the visual crema. They also tend toward harsh, rubbery flavors that specialty drinkers reject.</li>'
+          + '<li><strong>Very dark roasts</strong> — heavy roasting produces lots of CO2 and breaks down cell walls, so even bad-tasting dark roasts can pour with thick orange crema.</li>'
+          + '<li><strong>Pressurized portafilter baskets</strong> — the dual-wall baskets that ship with most entry machines force fake crema by passing the shot through a small orifice. The result looks like crema and is mostly air bubbles.</li>'
+          + '<li><strong>Channeling with good beans</strong> — a channel-y shot from fresh, well-roasted beans can still produce a layer of crema, hiding the underlying defect.</li>'
+          + '</ul>'
+          + '<p>Conversely, modern light-roasted specialty coffee often produces <em>less</em> crema — the beans have shorter degas times, the roast develops fewer melanoidins, and the shot is intentionally pulled longer (1:2.5-1:3) to extract enough. A pale, thin-cremad shot from a Ethiopian single origin pulled by a competent barista can be the best espresso in the room.</p>',
+      },
+      {
+        heading: 'What crema actually tells you',
+        body:
+          '<p>A few things, if you read it carefully:</p>'
+          + '<ul>'
+          + '<li><strong>No crema at all</strong> — likely stale beans (more than 4-6 weeks post-roast), or the machine failed to reach pressure (broken OPV, pump issue, etc.).</li>'
+          + '<li><strong>Big white bubbles dissolving fast</strong> — pressurized basket, not real crema.</li>'
+          + '<li><strong>Pale, watery shot with no crema and bright stripes underneath</strong> — likely a manual lever where the user pulled too gently, or a clogged group.</li>'
+          + '<li><strong>Tiger striping (dark and light streaks in the crema)</strong> — used to be considered "perfect espresso" in older guides. Today most specialty baristas note it correlates with dark roast + robusta blends; not a quality marker by itself.</li>'
+          + '</ul>'
+          + '<p>The reliable quality indicators are taste, mouthfeel, and shot time. Crema is a useful telltale but never the lead metric.</p>',
+      },
+      {
+        heading: 'How long crema should last',
+        body:
+          '<p>A "well-built" crema sits on the surface for 1-3 minutes before dissolving back into the liquid. Crema that disappears in 30 seconds is fragile (low oil content, often stale or under-extracted); crema that persists past 5 minutes is suspect (extra-thick robusta or fake from a pressurized basket).</p>'
+          + '<p>If you are drinking the espresso straight, the crema texture is part of the experience — bitter and slightly acrid by itself, but it integrates into the body as you sip. If you are pouring milk for a latte or cappuccino, stir the crema into the espresso first; pouring milk on top of intact crema produces a layered, unbalanced drink.</p>',
+      },
+    ],
+    examples: [
+      {
+        asin: 'B07VFZHRYC',
+        note:
+          'The Breville Bambino Plus produces visually generous crema partly because it ships with a pressurized "dual-wall" basket. Swap to a single-wall basket and the crema thins out — but the shot starts to taste like real coffee instead of foamed concentrate.',
+      },
+      {
+        asin: 'B073FNT7T8',
+        note:
+          'The Flair Classic Signature is a manual lever — crema volume depends entirely on user pressure technique and bean freshness. A useful counter-example because crema variability is exposed without software smoothing it out.',
+      },
+      {
+        asin: 'B07RZD5VQB',
+        note:
+          'The Cafelat Robot, also a manual lever, often produces thinner crema than pump machines at the same recipe — not because the shot is worse, but because the pressure profile is gentler. Good machine for unlearning the "more crema is better" instinct.',
+      },
+      {
+        asin: 'B083TQR8BV',
+        note:
+          'The Gaggia Classic Pro is sometimes critiqued for "thin crema" out of the box. Most of the time the cause is the included pressurized basket — swap to a single-wall and pair with fresh beans and the crema reads normal, but the shot quality is what changes.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Is more crema better?',
+        answer:
+          'No. Crema volume correlates with bean freshness, roast level, and pressurization, but not with shot quality. Light-roasted specialty coffee often produces less crema than a stale dark-roasted blend, while tasting dramatically better.',
+      },
+      {
+        question: 'Why does my espresso have no crema?',
+        answer:
+          'Most common cause: stale beans (more than 4-6 weeks post-roast, or pre-ground for more than a week). Second most common: the machine failed to reach 9 bar (broken OPV, pump issue, or wrong basket type). Third: the beans were roasted very light and just produce less crema by nature.',
+      },
+      {
+        question: 'Why is my crema bright orange and full of big bubbles?',
+        answer:
+          'You are likely using a pressurized portafilter basket (the one with a single hole in the bottom plate, ships standard with most entry machines). It forces crema by aerating the shot. Real crema from a single-wall basket has finer bubbles and a deeper reddish-brown color.',
+      },
+      {
+        question: 'Does robusta really produce more crema?',
+        answer:
+          'Yes. Robusta beans contain about twice the chlorogenic acid and significantly more solids that contribute to crema stability. Italian commercial blends often include 10-30% robusta partly for the visual effect. Specialty roasters generally avoid robusta because of the flavor cost.',
+      },
+      {
+        question: 'Should I stir the crema into the espresso before drinking?',
+        answer:
+          'For tasting, yes — most professional cupping and dialing-in is done after stirring. For visual presentation (latte art, photography), leave it on top. Drinking straight, it is preference: stirring distributes the flavor; not stirring gives a layered tasting experience as the crema bitter notes hit first.',
+      },
+      {
+        question: 'Can I judge a cafe by their crema?',
+        answer:
+          'Only loosely. A pale or non-existent crema usually means stale beans, which is a real red flag. But abundant crema only tells you the beans are fresh enough to produce gas — not whether the roast is good, the grind is right, or the barista pulled a balanced shot.',
+      },
+    ],
+    relatedTermSlugs: ['extraction', 'nine-bar-pressure', 'pre-infusion', 'bottomless-portafilter'],
+    relatedHowToSlugs: ['how-to-dial-in-espresso'],
+    updatedAt: '2026-05-18',
+  },
+
+  // -------------------------------------------------------------------
+  // 14. E61 GROUP HEAD — arquitectura prosumer.
+  //
+  // Honest: explicar lineage histórico (Faema 1961) sin treat as best-ever.
+  // Trade-offs: longer warmup, heavier, higher cost.
+  // -------------------------------------------------------------------
+  {
+    slug: 'e61-group',
+    title: 'What is an E61 group head? — Coffee Equipment Reviews',
+    description:
+      'E61 is a passively-heated 58mm brew group designed by Faema in 1961, now an open standard on most prosumer HX and dual-boiler machines. Plain explanation of how it works, its trade-offs, and which machines use it.',
+    h1: 'What is an E61 group head?',
+    tldr:
+      'The E61 group head is a passively-heated 58mm brew group designed by Faema in 1961. Water circulates by thermosiphon through the group body, keeping it at brew temperature once warmed up. It is the de-facto open standard on most Italian prosumer heat-exchanger and dual-boiler machines today.',
+    inDepth: [
+      {
+        heading: 'A 1961 design still in production',
+        body:
+          '<p>When Faema launched their E61 machine in 1961, the group head it carried was a leap forward: it integrated a thermosiphon loop that circulated hot water through the brass group body whenever the machine was on, keeping the group itself at brew temperature without an electric heater. Combined with a pre-infusion chamber and a three-position lever for mechanical activation, the design solved several problems at once.</p>'
+          + '<p>Faema never patented the group head architecture as a closed standard, and over time most Italian prosumer manufacturers adopted the same basic design — same dimensions, same lever mechanism, same internal flow path. Today an "E61 machine" means a machine using this group, made by ECM, Rocket, Lelit, Profitec, Bezzera, Quick Mill, Izzo, and many others.</p>',
+      },
+      {
+        heading: 'How the thermosiphon works',
+        body:
+          '<p>Inside an E61 group there is a small loop of plumbing connected to the boiler. Hot water rises from the boiler, travels through the group body, and falls back to the boiler as it cools. The natural convection runs continuously while the machine is on. After 20-40 minutes of warmup, the heavy brass body of the group is fully heat-soaked — sitting at brew temperature with very high thermal mass, so a shot does not cool the group meaningfully.</p>'
+          + '<p>The mechanical lever has three positions: down (off / brew complete), middle (pre-infusion, water at line pressure 1-2 bar), and up (full pump pressure to 9 bar). Lifting the lever opens the mushroom valve inside the group, allowing line-pressure water onto the puck before you commit to full pressure.</p>',
+      },
+      {
+        heading: 'What E61 buys you',
+        body:
+          '<ul>'
+          + '<li><strong>Excellent thermal stability</strong> once warmed up — large brass mass means shot-to-shot drift is minimal.</li>'
+          + '<li><strong>Mechanical pre-infusion</strong> built-in, no software or aftermarket parts.</li>'
+          + '<li><strong>Cross-brand serviceability</strong> — most E61 parts (gaskets, screens, mushroom valves, dispersion blocks) are commodity items shared across manufacturers. A 1990s E61 group accepts modern aftermarket parts; modern groups accept 1990s parts. This is unusual in any consumer category and a real long-term value driver.</li>'
+          + '<li><strong>Aesthetic consistency</strong> — the chrome dome and three-position lever are visual shorthand for "serious espresso machine," which matters for some buyers.</li>'
+          + '</ul>',
+      },
+      {
+        heading: 'The real trade-offs',
+        body:
+          '<p>E61 is not "best group head ever made" — it is a specific design with specific costs:</p>'
+          + '<ul>'
+          + '<li><strong>Long warmup</strong> — 20-40 minutes for full thermal soak. Some owners run smart plugs on a timer; others accept the morning ritual. Either way, instant-coffee speed is not on the menu.</li>'
+          + '<li><strong>Weight and footprint</strong> — the brass mass that gives stability also means a typical E61 machine weighs 15-25 kg and sits 35-45 cm deep on the counter.</li>'
+          + '<li><strong>Cost floor</strong> — the cheapest reliable E61 machines start around $1,200 (Rocket Appartamento, Lelit Anna). Below that, "E61-style" machines often cut corners on the thermosiphon implementation.</li>'
+          + '<li><strong>Saturated groups beat it on paper</strong> — La Marzocco saturated groups (where the group is integral with the brew boiler) have even higher thermal stability than E61. But saturated-group machines start around $3,500+.</li>'
+          + '</ul>',
+      },
+      {
+        heading: 'When E61 is the right answer',
+        body:
+          '<p>E61 makes sense when (a) you are buying in the $1,200-3,000 prosumer range, (b) you value cross-brand parts availability for 10+ year ownership, (c) the morning warmup window does not bother you, and (d) you want mechanical pre-infusion without software dependencies. For users below $1,000 or those wanting instant warmup, E61 is not the answer — a saturated thermoblock with PID (Breville Bambino) or a single-boiler with PID (ECM Classika PID, Lelit Anna) gets you to better shots faster.</p>',
+      },
+    ],
+    examples: [
+      {
+        asin: 'B08FZB7N9V',
+        note:
+          'The Lelit Mara X PL62X pairs a classic E61 group with electronic temperature management on the HX coil — a smart modernization that keeps the mechanical pre-infusion feel while reducing the cooling-flush variable.',
+      },
+      {
+        asin: 'B01N6DZJVQ',
+        note:
+          'The Rocket Appartamento is the canonical entry-level E61 HX machine — Italian-made, all the cross-brand parts compatibility, designed specifically for smaller home kitchens.',
+      },
+      {
+        asin: 'B07D8YHHG9',
+        note:
+          'The Profitec Pro 300 is a compact dual-boiler with full E61 — German-made, prosumer build, full E61 thermal mass at a relatively small footprint.',
+      },
+      {
+        asin: 'B09F2HFGHN',
+        note:
+          'The Rancilio Silvia Pro X uses a 58mm group similar in lineage to E61 but with their own modifications — a useful counter-example for understanding what E61 specifically brings versus other 58mm prosumer designs.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Why does E61 take so long to warm up?',
+        answer:
+          'The group body is a 2-3 kg block of brass that has to reach brew temperature throughout via passive thermosiphon from the boiler. With cold brass and cold water, 20-40 minutes is typical. Once warm, the thermal mass is the entire point — shots stay stable through cup after cup.',
+      },
+      {
+        question: 'Can I leave my E61 machine on all the time?',
+        answer:
+          'Many owners do. Power draw at steady state is roughly 50-100W depending on machine — comparable to leaving a couple of incandescent bulbs on. A smart plug with a morning schedule is the most common middle ground: machine on 30 minutes before you wake up, off after breakfast.',
+      },
+      {
+        question: 'Is E61 really an "open standard"?',
+        answer:
+          'Functionally yes, legally no — there is no formal standards body. Faema never enforced patents on the design and the Italian prosumer industry converged on the same architecture. The result is wide parts compatibility but not a guaranteed contract. Always double-check part dimensions for your specific machine.',
+      },
+      {
+        question: 'Is E61 better than a saturated group?',
+        answer:
+          'No, but cheaper. Saturated groups (La Marzocco, some ECM models) have higher thermal stability because the group is the brew boiler. E61 is the sweet spot for $1,200-3,000 prosumer machines; saturated is for $3,500+ commercial-grade home machines.',
+      },
+      {
+        question: 'Can I add flow control to an E61 machine?',
+        answer:
+          'Yes. The most popular mod is replacing the brew lever with a "flow control" lever that has a needle valve, letting the user manually throttle pressure during the shot for pressure profiling. Aftermarket kits (Naked Portafilter, BPlus, Pesado) sell for $150-300 and install in 30 minutes.',
+      },
+      {
+        question: 'Why is the chrome dome on top of the group?',
+        answer:
+          'It is the cap of the thermosiphon loop. Water rises from the boiler into the dome, then falls down through the group body and back to the boiler. The dome shape is functional (it provides volume for the loop turnaround) but has become an aesthetic signature of the category.',
+      },
+    ],
+    relatedTermSlugs: ['group-head', 'heat-exchanger', 'dual-boiler', 'pre-infusion', 'portafilter'],
+    relatedBestSlugs: ['best-prosumer-espresso-machine-under-2000', 'best-dual-boiler-espresso-machine'],
+    updatedAt: '2026-05-18',
+  },
+
+  // -------------------------------------------------------------------
+  // 15. OPV (Over-Pressure Valve).
+  //
+  // Anti-gray-hat MUY explícito: warning sobre warranty void si user
+  // modifica antes de garantía expirar. NO push de OPV mod como
+  // universal "must do".
+  // -------------------------------------------------------------------
+  {
+    slug: 'opv',
+    title: 'What is an OPV (over-pressure valve) in an espresso machine? — Coffee Equipment Reviews',
+    description:
+      'OPV caps brew pressure by venting excess water back to the tank. Plain explanation of what it does, why some users mod it, and the warranty and safety trade-offs.',
+    h1: 'What is an OPV (over-pressure valve)?',
+    tldr:
+      'An OPV (over-pressure valve) is a spring-loaded valve that caps the brew pressure inside an espresso machine. When the pump pushes harder than the valve\'s set point, the valve opens and bleeds excess water back to the tank, keeping puck pressure at the target (usually 9-10 bar).',
+    inDepth: [
+      {
+        heading: 'Why an OPV exists',
+        body:
+          '<p>Vibratory pumps in entry and mid-tier espresso machines are advertised at 15 bar or 20 bar — much higher than the 9 bar that espresso actually wants on the puck. The reason is that pump pressure is the unloaded maximum; under flow restriction (which is exactly what a tamped puck creates), pressure ramps quickly and would exceed safe levels without something to cap it.</p>'
+          + '<p>The OPV is that cap. It is essentially a spring pressing against a ball or piston that blocks an outlet to the tank. Below the target pressure, the spring keeps the outlet closed and all water goes to the group head. Above the target, the spring compresses, the outlet opens, and excess water flows back to the tank instead of the puck. The user sees a steady 9 bar at the group regardless of what the pump is trying to do.</p>',
+      },
+      {
+        heading: 'Factory settings vs the "OPV mod"',
+        body:
+          '<p>Most prosumer machines ship with OPV set to roughly 9-10 bar at the factory. Some entry machines (most famously the Gaggia Classic Pro pre-2023) shipped with OPVs set as high as 12-15 bar — measurably too high. This produced visible "stripes" or channeling and noticeably bitter shots until users discovered they could adjust the spring tension to drop the setpoint.</p>'
+          + '<p>The "OPV mod" became one of the most-discussed modifications in the Gaggia Classic community: open the case, find the OPV, loosen the spring screw by a quarter turn or so, and recheck pressure with a blind basket and a portafilter gauge. Done correctly, it produces a measurable cleaner-tasting shot. Done incorrectly, it produces an under-pressured shot or, in rare cases, a leaking valve.</p>',
+      },
+      {
+        heading: 'The warranty problem (read this first)',
+        body:
+          '<p>Opening the case of an espresso machine voids the manufacturer warranty on most brands. Gaggia, Rancilio, Breville, and De\'Longhi all treat enclosure breach as warranty-voiding unless done by an authorized service center. If your machine is still under warranty (1-2 years for most consumer brands, longer for some prosumer), modifying the OPV before the warranty expires means you are trading $50-200 of expected shot improvement against potentially thousands of dollars of repair coverage.</p>'
+          + '<p>Our editorial position: do not mod OPV during warranty unless the factory pressure is genuinely defective (12+ bar verified by a portafilter gauge) and the manufacturer refuses to address it. After warranty expires, the calculus changes — the mod is well-documented for popular machines and reversible if done conservatively.</p>',
+      },
+      {
+        heading: 'Pressure profiling and "low-pressure" extraction',
+        body:
+          '<p>Beyond simple OPV adjustment, some users go further: replacing the OPV with an adjustable needle valve for pressure profiling, or installing a paddle valve to manually throttle pressure during the shot. The pressure-profiling community generally targets 6-7 bar rather than 9, claiming cleaner extraction with less channeling.</p>'
+          + '<p>This is an active debate. Some blind tastings show preference for lower pressure; some show no difference. The most defensible position is that the optimal pressure depends on the bean, the basket, and the grind — not that any specific number is universally better. Pressure profiling is worth experimenting with, but not because someone told you 9 bar is wrong.</p>',
+      },
+      {
+        heading: 'When you can ignore OPV entirely',
+        body:
+          '<p>Most users never need to think about OPV. If your shots taste balanced, your puck knocks out cleanly, and your machine is under warranty, leave the valve alone. The OPV is a problem-solving tool for specific complaints (overpressure symptoms, repeatable bitterness despite good puck prep) and a tinkering surface for users who enjoy modifying their machine. It is not a "must do" upgrade.</p>',
+      },
+    ],
+    examples: [
+      {
+        asin: 'B083TQR8BV',
+        note:
+          'The Gaggia Classic Pro is the most-modded OPV machine in the home category. The mod community is active and well-documented, but the mod also voids warranty — most owners wait until year three before opening the case.',
+      },
+      {
+        asin: 'B0B5BC5VXM',
+        note:
+          'The Gaggia Classic Evo Pro ships with a lower-set OPV from the factory (closer to 9-10 bar) than the older Gaggia Classic Pro. Useful as a counter-example: when manufacturer addresses the issue at factory, the aftermarket mod becomes unnecessary.',
+      },
+      {
+        asin: 'B0BQYMTBNL',
+        note:
+          'The Rancilio Silvia V6 ships with factory OPV at roughly 10 bar — not a candidate for the mod for most users. Different platform philosophy: ship correct from the factory, no aftermarket adjustment expected.',
+      },
+      {
+        asin: 'B01N6DZJVQ',
+        note:
+          'The Rocket Appartamento (and most Italian prosumer machines) ship with OPV correctly set and use rotary pumps in higher-tier siblings. OPV adjustment is a non-conversation in the prosumer segment.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Should I do the OPV mod on my machine?',
+        answer:
+          'Only if (a) your machine is out of warranty, (b) you have evidence the factory OPV is set too high (measure with a portafilter pressure gauge first), and (c) you are comfortable opening the case and adjusting a spring screw with verification. Otherwise, no — the upside is real but small, and the warranty cost is real and large.',
+      },
+      {
+        question: 'How do I check what pressure my OPV is set to?',
+        answer:
+          'Buy a portafilter pressure gauge ($30-50) and screw it in like a blind basket. Run the machine on a "shot" cycle — the gauge reads the static pressure when no water is flowing. If it reads 9-10 bar, you are fine. If it reads 12+ bar, the OPV may be set high.',
+      },
+      {
+        question: 'Will modding OPV void my warranty?',
+        answer:
+          'On most brands (Gaggia, Breville, De\'Longhi, Rancilio), yes — opening the case voids the warranty. Some prosumer brands explicitly allow user OPV adjustment within a documented range; check your manual. When in doubt, contact the manufacturer before opening.',
+      },
+      {
+        question: 'Can the OPV fail and cause problems?',
+        answer:
+          'Yes. A stuck-closed OPV will overpressure the puck (sour, fast shots, possible group damage). A stuck-open OPV will under-pressure (watery shots, no crema). Failure is rare but happens after years of use; replacement OPV valves are commodity parts available from most prosumer parts suppliers.',
+      },
+      {
+        question: 'Is 9 bar really the right pressure?',
+        answer:
+          'It is the conventional target, dating back to commercial espresso machine design from the 1950s. Some modern baristas argue 6-7 bar produces cleaner extraction, and pressure profiling lets you ramp through different pressures during the shot. There is no single "correct" pressure — 9 bar is a safe, well-tested default rather than an optimum.',
+      },
+      {
+        question: 'How is OPV different from a 3-way solenoid valve?',
+        answer:
+          'OPV regulates brew pressure during the shot. A 3-way solenoid valve vents the puck back to the drip tray when the shot ends, leaving a dry puck. Different valves, different jobs — many machines have both.',
+      },
+    ],
+    relatedTermSlugs: ['nine-bar-pressure', 'pre-infusion', 'solenoid-valve', 'extraction'],
+    relatedBestSlugs: ['best-espresso-machine-under-500'],
+    relatedTroubleshootSlugs: ['gaggia-classic-opv-mod', 'channeling-fix-espresso'],
+    updatedAt: '2026-05-18',
+  },
+
+  // -------------------------------------------------------------------
+  // 16. THERMOJET.
+  //
+  // Factual — marketing name de Breville para un thermoblock variant.
+  // Pros/cons sin defender ni atacar el brand.
+  // -------------------------------------------------------------------
+  {
+    slug: 'thermojet',
+    title: 'What is the Breville ThermoJet heating system? — Coffee Equipment Reviews',
+    description:
+      'ThermoJet is Breville\'s branded thermoblock-style heater, marketed for its 3-second warmup. Plain explanation of how it differs from a boiler and where the trade-offs land.',
+    h1: 'What is the Breville ThermoJet heating system?',
+    tldr:
+      'ThermoJet is Breville\'s branded thermoblock-style heater, used in the Bambino, Bambino Plus, Barista Pro, and other Breville machines. It heats water on demand instead of holding a tank of hot water, reaching brew temperature in roughly 3 seconds from cold. It is a thermoblock variant, not a boiler equivalent.',
+    inDepth: [
+      {
+        heading: 'What ThermoJet actually is',
+        body:
+          '<p>ThermoJet is a brand name. The underlying technology is a thermoblock — a metal block (usually aluminum) with a thin water passage drilled through it and a heating element bonded to the outside. When you trigger a shot, water flows through the passage and the heater warms it as it passes. Unlike a traditional thermoblock that warms a slug of water, ThermoJet is engineered for very fast response time and tight inlet/outlet temperature control via Breville\'s firmware.</p>'
+          + '<p>The "3-second warmup" marketing claim is real but specific: from machine power-on, ThermoJet can heat its small internal volume to brew temperature in about that time. It does not mean the machine is fully ready in 3 seconds — the group head, portafilter, and basket still need to heat-soak, which Breville handles with a 15-30 second post-power-on routine on most ThermoJet machines.</p>',
+      },
+      {
+        heading: 'How ThermoJet differs from a traditional boiler',
+        body:
+          '<p>A boiler holds a tank of water at brew temperature continuously, which gives it large thermal mass. A thermoblock (including ThermoJet) heats water as it passes, which gives it small thermal mass. The trade-offs are:</p>'
+          + '<ul>'
+          + '<li><strong>Warmup speed</strong> — ThermoJet wins decisively. A boilered machine takes 5-25 minutes to reach stability; ThermoJet is shot-ready in under 30 seconds.</li>'
+          + '<li><strong>Standby power</strong> — ThermoJet wins. There is no tank of hot water to maintain.</li>'
+          + '<li><strong>Shot-to-shot temperature stability</strong> — boilers win. Pulling shot two while still hot from shot one drifts more on ThermoJet than on a boilered machine.</li>'
+          + '<li><strong>Long-pull stability</strong> — boilers win. A 45-second shot of light roast pulled at temperature drifts cooler on ThermoJet because the heater can struggle to keep up with continuous flow.</li>'
+          + '<li><strong>Steam capability</strong> — boilered machines (especially dual boilers) win for steaming. ThermoJet steams milk acceptably but with less steam volume than a dedicated steam boiler.</li>'
+          + '</ul>',
+      },
+      {
+        heading: 'Breville\'s compensation strategy',
+        body:
+          '<p>Breville pairs ThermoJet with several software features that compensate for the lower thermal mass: programmed pre-infusion (saturates the puck slowly to give the heater time to catch up), shot temperature presets, and post-shot purge cycles that re-stabilize the heater between shots. The combination delivers shot-to-shot quality that is closer to a boilered machine than the raw architecture would suggest.</p>'
+          + '<p>This is why a Breville Bambino Plus (ThermoJet) pulls shots at home that compete with boilered single-boiler machines at the same price. The hardware has limits, but the software-and-hardware system is well-engineered. It is not magic — it is competent engineering with honest trade-offs.</p>',
+      },
+      {
+        heading: 'When ThermoJet is the right call',
+        body:
+          '<p>ThermoJet makes sense when (a) you want espresso ready quickly without waiting for warmup, (b) you pull one or two shots in a session rather than running a coffee shop at home, (c) you value low standby power and small footprint, and (d) you are buying under $700. Above $1,000, the boilered alternatives (Lelit Anna, ECM Classika PID, prosumer single-boilers) start to dominate for users who prioritize shot-to-shot consistency over warmup time.</p>'
+          + '<p>ThermoJet is not the right call if you (a) need to pull 5+ back-to-back shots, (b) are dialing very light roasts where 0.5°C precision matters, or (c) want commercial-grade steam pressure for latte art at scale.</p>',
+      },
+    ],
+    examples: [
+      {
+        asin: 'B07VFZHRYC',
+        note:
+          'The Breville Bambino Plus is the smallest ThermoJet machine in the Breville lineup. The combination of fast warmup, software pre-infusion, and auto-frother makes it one of the best-selling sub-$500 espresso machines.',
+      },
+      {
+        asin: 'B07QGCS2KW',
+        note:
+          'The Breville Barista Pro is a step up — same ThermoJet heater, but adds an integrated grinder, manual steam wand, and a larger user interface. Useful as the canonical "Breville ThermoJet plus grinder" product.',
+      },
+      {
+        asin: 'B0BTBHC9JV',
+        note:
+          'The Breville Barista Touch Impress also uses ThermoJet but layers on assisted tamping and a touch screen. Same thermal architecture, more guidance for beginners.',
+      },
+      {
+        asin: 'B00CH9182U',
+        note:
+          'The Breville Barista Express predates ThermoJet — it uses a traditional thermocoil. A useful comparison: same brand, similar size, older heating tech. Owners can compare warmup time and shot consistency directly.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Is ThermoJet a boiler?',
+        answer:
+          'No. ThermoJet is a thermoblock — it heats water on demand instead of holding a tank of hot water at temperature. The "Jet" branding refers to the fast warmup, not to a tank-based architecture.',
+      },
+      {
+        question: 'Can a ThermoJet machine pull as good a shot as a boilered machine?',
+        answer:
+          'For one or two shots in a session, with medium roasts and reasonable puck prep, yes — at the price point Breville sells ThermoJet machines (under $1,000), shot quality is genuinely competitive. For demanding light-roast dialing or 5+ back-to-back shots, a boilered machine has measurable advantages.',
+      },
+      {
+        question: 'Why does my ThermoJet machine drift in temperature between shots?',
+        answer:
+          'Lower thermal mass than a boilered machine. After a hot shot, the heater carries some extra heat that shows up in the next shot. Breville mitigates this with software, but the architecture limits how completely the issue can be eliminated. A 30-60 second pause between back-to-back shots helps.',
+      },
+      {
+        question: 'How much faster is ThermoJet warmup vs a boilered machine?',
+        answer:
+          'Roughly an order of magnitude. Boilered single boilers take 5-15 minutes to stabilize; E61 prosumer machines take 20-40 minutes; ThermoJet machines are shot-ready in 15-30 seconds. The practical difference is "leave it on a timer" vs "press button when you want espresso."',
+      },
+      {
+        question: 'Does ThermoJet have PID?',
+        answer:
+          'Effectively yes — the firmware that controls ThermoJet flow-through temperature is PID-style closed-loop control. Marketing rarely uses the "PID" label for ThermoJet because the architecture is different from a thermistor-on-a-boiler implementation. The result is similar tight temperature control during the shot itself.',
+      },
+      {
+        question: 'Can I replace a broken ThermoJet element?',
+        answer:
+          'Authorized Breville service centers replace ThermoJet assemblies as a unit. Aftermarket parts exist but are scarce, and the assembly is integrated more tightly than a removable boiler. Most owners with a failed ThermoJet on an out-of-warranty machine evaluate whether to repair or replace the whole machine.',
+      },
+    ],
+    relatedTermSlugs: ['thermoblock', 'pid-controller', 'boiler', 'pre-infusion'],
+    relatedBestSlugs: ['best-espresso-machine-under-500', 'best-espresso-machine-for-small-kitchen'],
+    relatedHowToSlugs: ['how-to-dial-in-espresso-bambino-plus'],
+    updatedAt: '2026-05-18',
+  },
+
+  // -------------------------------------------------------------------
+  // 17. SPECIALTY GRADE COFFEE.
+  //
+  // Usar definition del SCA (≥80 points). No claim arbitrario.
+  // -------------------------------------------------------------------
+  {
+    slug: 'specialty-grade',
+    title: 'What is specialty grade coffee? — Coffee Equipment Reviews',
+    description:
+      'Specialty grade coffee scores 80+ on the Specialty Coffee Association\'s 100-point cupping scale. Plain explanation of how the grading works, what it does and does not promise, and where to find it.',
+    h1: 'What is specialty grade coffee?',
+    tldr:
+      'Specialty grade coffee is green coffee that has been cupped by a certified Q grader and scored 80 points or higher on the Specialty Coffee Association\'s 100-point scale. The grade indicates absence of major defects and presence of positive flavor attributes — it is the industry threshold that separates "specialty" from "commodity" coffee.',
+    inDepth: [
+      {
+        heading: 'The 80-point threshold',
+        body:
+          '<p>The Specialty Coffee Association (SCA) developed a 100-point cupping protocol in the early 2000s that became the global standard for evaluating green coffee. Trained Q graders (certified by the Coffee Quality Institute, CQI) score samples on ten attributes — fragrance/aroma, flavor, aftertaste, acidity, body, balance, uniformity, clean cup, sweetness, and overall — with up to 10 points each.</p>'
+          + '<p>Coffees scoring 80 or higher are classified as "specialty." Coffees scoring below 80 are "commercial" or "commodity" grade. The 80-point line is the most widely-used quality threshold in the green coffee trade, used by buyers, exporters, certifications, and competition rules. Within specialty, scores cluster: 80-84 is "very good," 85-89 is "excellent," and 90+ is "outstanding" (rare in commercial volumes).</p>',
+      },
+      {
+        heading: 'What specialty grade does promise',
+        body:
+          '<ul>'
+          + '<li><strong>No more than 5 defects</strong> per 350g sample, counted by a defect-classification system that distinguishes "primary" defects (full black beans, sour beans, foreign matter) from "secondary" defects (insect-damaged, broken, etc.).</li>'
+          + '<li><strong>No primary defects at all</strong> in a specialty-grade sample.</li>'
+          + '<li><strong>Positive flavor attributes</strong> in detectable presence — sweetness, acidity, distinct flavor notes — rather than just absence of bad ones.</li>'
+          + '<li><strong>Consistent moisture content</strong> (10-12% for properly processed greens) and proper preparation (drying, sorting, bagging).</li>'
+          + '</ul>'
+          + '<p>The grade is assigned to green coffee — before roasting. A specialty-grade green bean is the input; what the roaster does with it determines whether you taste those positive attributes in the cup.</p>',
+      },
+      {
+        heading: 'What specialty grade does not promise',
+        body:
+          '<p>This is where most marketing gets fuzzy. The 80+ score does not promise:</p>'
+          + '<ul>'
+          + '<li><strong>Anything about the roast.</strong> A bag of specialty-grade green roasted dark and shipped 12 weeks ago will taste like burnt commodity coffee. Roast date and roast level matter as much as the green grade.</li>'
+          + '<li><strong>Anything about freshness.</strong> Pre-ground specialty-grade coffee in a supermarket bag is technically still specialty grade by green score, but the taste is unrecognizable.</li>'
+          + '<li><strong>Specific flavor characteristics.</strong> A 82-point Brazilian and a 86-point Ethiopian both qualify; the experiences are completely different.</li>'
+          + '<li><strong>Ethical sourcing.</strong> Specialty grade is a quality classification, not an ethics certification. Fair Trade, Direct Trade, organic, and other labels are separate. Most third-wave roasters use specialty-grade beans AND pay above-commodity prices, but the grade itself does not promise either.</li>'
+          + '</ul>',
+      },
+      {
+        heading: 'Where you actually see specialty grade',
+        body:
+          '<p>Roasters who source from specialty-grade greens almost always say so on their bag. Look for cupping scores (often printed: "87.5 points," "Q grader: J. Smith"), origin/farm specificity (single farms, named cooperatives), recent roast dates (within 4-8 weeks), and detailed processing info (washed, natural, honey). Generic supermarket coffee — even when labeled "premium" or "gourmet" — almost never makes specialty grade claims because most of it does not qualify.</p>'
+          + '<p>Direct-trade roasters (Counter Culture, Onyx, Black & White, Sey, La Cabra, dozens of regional roasters) source almost exclusively specialty-grade. Subscription services like Trade Coffee, Atlas Coffee Club, and Mistobox curate specialty-grade roasters. Cafes that flag themselves as "specialty" or "third-wave" generally serve specialty-grade beans.</p>',
+      },
+      {
+        heading: 'Does it taste better than commodity coffee?',
+        body:
+          '<p>Generally yes — but the gap is bigger than most casual drinkers expect. A well-roasted, fresh 84-point coffee tastes dramatically different from a commodity blend: cleaner, sweeter, with distinct origin character (florals from Ethiopia, chocolates from Brazil, fruits from Kenya) rather than uniform "coffee" flavor. The first time a casual drinker tastes a fresh specialty pour-over after years of supermarket coffee is usually a recalibration moment.</p>'
+          + '<p>That said, "better" depends on what you are after. If you want cream-and-sugar coffee that tastes the same every day, commodity coffee blends are engineered for that and do it well. Specialty coffee is for drinkers who want to taste origin, harvest, and processing variation — which is a feature for some and a chore for others.</p>',
+      },
+    ],
+    examples: [
+      {
+        asin: 'B0BC4FQDD1',
+        note:
+          'The 1Zpresso JX-Pro hand grinder is one of the most-recommended pour-over grinders for users brewing specialty-grade single origins. Pair-relevant rather than a bean itself, but typical of the "I bought specialty beans, now I need a grinder" upgrade path.',
+      },
+      {
+        asin: 'B0B7B6Z5DH',
+        note:
+          'The Fellow Ode Gen 2 is a single-dose home electric grinder built specifically for filter brewing of specialty-grade beans — flat burrs, low retention, designed for switching between origins.',
+      },
+      {
+        asin: 'B00005LM0L',
+        note:
+          'The Hario V60-02 is the canonical pour-over dripper for serving specialty-grade coffee in a way that showcases origin notes. Pairs naturally with the kind of single-origin specialty beans that score 85+.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Is "specialty coffee" the same as "specialty grade coffee"?',
+        answer:
+          'Mostly yes, in common usage. "Specialty grade" is the technical SCA classification (80+ points on green coffee); "specialty coffee" is the broader industry/cultural movement built around using specialty-grade beans, transparent sourcing, and skilled roasting. A specialty cafe serves specialty-grade coffee almost by definition.',
+      },
+      {
+        question: 'Who certifies a coffee as specialty grade?',
+        answer:
+          'A certified Q grader — a coffee professional who has passed the CQI Q certification (22 sensory and identification tests over 6 days). Q graders work for buyers, exporters, roasters, and competition organizers. Their cupping scores are the basis for the specialty designation.',
+      },
+      {
+        question: 'Is decaf coffee ever specialty grade?',
+        answer:
+          'Yes. Specialty-grade decaf exists (most often Swiss Water Process or sugar cane / ethyl acetate decaffeinated) and many third-wave roasters carry one or two decaf options. The decaffeination process itself does not disqualify a coffee from specialty grading.',
+      },
+      {
+        question: 'Does specialty grade mean expensive?',
+        answer:
+          'Usually more expensive than commodity ($16-25 per 12oz bag is typical vs $8-12 for commodity), but not crazy expensive. The pricing reflects (a) higher cost of green beans, (b) smaller-batch roasting, and (c) fresher inventory. The exception is rare microlots (Gesha, competition-grade Ethiopian) that command $30-100+ per bag.',
+      },
+      {
+        question: 'Can pre-ground coffee be specialty grade?',
+        answer:
+          'Technically yes — the grade is on the green bean, not the format. Practically, almost all specialty roasters sell whole bean only or recommend grinding fresh, because pre-ground specialty coffee loses most of its origin character within 1-2 weeks. The 80+ score is unchanged but the practical cup quality is diminished.',
+      },
+      {
+        question: 'Are subscription services specialty grade?',
+        answer:
+          'The reputable ones (Trade Coffee, Atlas Coffee Club, Mistobox, Bean Box) curate specialty-grade roasters and tell you the score. Some lower-cost subscriptions ship commodity-grade beans in fancy packaging — check the roast date and cupping notes on the bag rather than relying on marketing copy.',
+      },
+    ],
+    relatedTermSlugs: ['q-grader', 'single-origin', 'blend', 'light-roast', 'medium-roast'],
+    relatedBestSlugs: ['best-espresso-machine-for-light-roasts', 'best-grinder-for-pour-over-under-300'],
+    updatedAt: '2026-05-18',
+  },
+
+  // -------------------------------------------------------------------
+  // 18. SINGLE DOSING GRINDERS.
+  //
+  // Explicar trade-offs honestamente. NO universal endorsement.
+  // -------------------------------------------------------------------
+  {
+    slug: 'single-dosing',
+    title: 'What is single dosing in a coffee grinder? — Coffee Equipment Reviews',
+    description:
+      'Single dosing is a grinder workflow where you weigh exactly one shot of beans and grind that dose, instead of filling a hopper. Plain explanation of the workflow, who benefits, and the real costs.',
+    h1: 'What is single dosing in a coffee grinder?',
+    tldr:
+      'Single dosing is a grinder workflow where you weigh exactly one shot\'s worth of beans (typically 18g for espresso, 15-25g for filter) and grind only that dose, instead of filling a hopper with hundreds of grams of beans. The result: every session starts with fresh, properly-weighed coffee, and you can switch beans between shots.',
+    inDepth: [
+      {
+        heading: 'How single dosing actually works',
+        body:
+          '<p>The workflow:</p>'
+          + '<ol>'
+          + '<li>Weigh out one shot\'s worth of beans on a scale (18.0 grams for a standard double espresso).</li>'
+          + '<li>Drop the beans into the grinder hopper or chute (some grinders have a small "single dose" cup that replaces the hopper; others just take loose beans through the bean cap).</li>'
+          + '<li>Grind. The beans pass through the burrs and exit into the dosing cup or portafilter.</li>'
+          + '<li>Tap the grinder a few times to dislodge any retained grounds. On low-retention grinders, this can be skipped.</li>'
+          + '<li>Brew with that dose. The next session starts the same way.</li>'
+          + '</ol>'
+          + '<p>Compare with hopper-fed: dump 250g of beans into the hopper, grind a "dose by time" or "dose by weight" amount, walk away. The hopper holds beans for the next 12+ shots, but those beans sit exposed to air and lose freshness.</p>',
+      },
+      {
+        heading: 'Why people single-dose',
+        body:
+          '<ul>'
+          + '<li><strong>Bean switching</strong> — you can use a different coffee every shot without purging 30g of the old bean through the grinder first. Useful for cuppers, multi-bean households, and tasting flights.</li>'
+          + '<li><strong>Freshness</strong> — beans in a hopper start staling within 24-48 hours of contact with air. A single-dose workflow keeps the unground beans in a sealed bag or vacuum canister until the moment of grinding.</li>'
+          + '<li><strong>Dose accuracy</strong> — weighing each shot means your dose is exact every time, which improves shot consistency for users sensitive to ±0.5g variations.</li>'
+          + '<li><strong>Cleaner countertop</strong> — no permanent bean hopper means a more minimal grinder footprint, which matters in small kitchens.</li>'
+          + '</ul>',
+      },
+      {
+        heading: 'What single dosing actually costs you',
+        body:
+          '<p>Single dosing is not free. The real trade-offs:</p>'
+          + '<ul>'
+          + '<li><strong>Time per shot.</strong> Weighing in, weighing out, tapping for retention — single dosing adds 30-60 seconds vs a hopper-fed grinder. For one shot a day this is invisible; for a household making 4 shots back-to-back, it adds up.</li>'
+          + '<li><strong>Grinder selection matters more.</strong> Most hopper-fed grinders have 3-10g of retention by design — the beans in the hopper push the previous session\'s grounds through. Single dosing exposes that retention because you do not have hopper weight to mask it. Grinders explicitly designed for single dose (DF64, Niche Zero, Lagom P64) have under-1g retention.</li>'
+          + '<li><strong>Scale dependency.</strong> You need a precise scale (0.1g resolution) and the habit of using it every shot. Weighing fatigue is real.</li>'
+          + '<li><strong>Bean static and clumping.</strong> Single-dose grinders often need RDT (Ross Droplet Technique — a spritz of water on the beans before grinding) to reduce static. Hopper-fed grinders are less affected because the bean mass dampens static buildup.</li>'
+          + '<li><strong>Workflow rigidity.</strong> "Grab and pull" — drop a few beans in, no scale, go — is harder. Single dosing rewards discipline more than spontaneity.</li>'
+          + '</ul>',
+      },
+      {
+        heading: 'When single dosing makes sense',
+        body:
+          '<p>Single dosing makes sense when (a) you regularly use more than one bean and want to switch without purging, (b) you are dialing light roasts or specialty single origins where small dose variation matters, (c) you value freshness over speed, or (d) you genuinely enjoy the weighing-and-grinding ritual. It is a deliberate workflow choice, not a universal best practice.</p>'
+          + '<p>It does not make sense when you (a) drink one bean continuously for months at a time (a hopper just stores it), (b) need fast service for multiple drinks back-to-back, or (c) treat espresso as a quick utility rather than a hobby. A Eureka Mignon Specialita with hopper does great shots and takes 8 seconds; a Niche Zero with single dose takes 40 seconds and the cup is the same if you use the same beans.</p>',
+      },
+      {
+        heading: 'Grinders designed for single dose',
+        body:
+          '<p>The category exploded between 2018 and 2024. The most-discussed options:</p>'
+          + '<ul>'
+          + '<li><strong>Niche Zero</strong> — 63mm conical burrs, near-zero retention, sold direct from UK. The reference single-dose home electric.</li>'
+          + '<li><strong>DF64 / DF64 Gen 2</strong> — 64mm flat burrs, single-dose by design, much cheaper than Niche ($400-700 vs $700-900). Multiple OEM variants.</li>'
+          + '<li><strong>Fellow Ode Gen 2</strong> — 64mm flat burrs, single-dose, filter-focused (not designed for espresso). Sleek aesthetic for kitchen counters.</li>'
+          + '<li><strong>Lagom P64 / P100</strong> — premium tier, 64mm and 98mm flats, $1,200-2,500 for users who want top-end.</li>'
+          + '</ul>'
+          + '<p>You can also single-dose a hopper grinder by simply not filling the hopper — drop 18g in, grind, repeat. This works on some grinders better than others. Generally a grinder needs low retention and a workable bean drop path to make it usable; many traditional doser grinders fight you.</p>',
+      },
+    ],
+    examples: [
+      {
+        asin: 'B0BQS69C9G',
+        note:
+          'The DF64 Single Dose Grinder is the budget single-dose champion — 64mm flat burrs, sub-1g retention, single-dose hopper, around $400. The "you do not need to spend $900 on a Niche" entry point.',
+      },
+      {
+        asin: 'B08CXVZL8R',
+        note:
+          'The Niche Zero is the reference single-dose home electric — 63mm conical burrs, beautiful build, near-zero retention. The category-defining product for the workflow.',
+      },
+      {
+        asin: 'B0B7B6Z5DH',
+        note:
+          'The Fellow Ode Gen 2 is a single-dose grinder built specifically for filter coffee (V60, AeroPress, Chemex). Not the best for espresso, but a great example of single-dose workflow for non-espresso brewers.',
+      },
+      {
+        asin: 'B07YDPC1MK',
+        note:
+          'The Eureka Mignon Specialita is the counter-example: a hopper-fed grinder that you can single-dose by leaving the hopper empty, but it was not designed for the workflow. Retention is higher than single-dose-native grinders.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Do I have to single-dose to get great espresso?',
+        answer:
+          'No. Plenty of award-winning baristas use hopper-fed grinders. Single dosing is a freshness-and-flexibility workflow choice. Cup quality from a well-tuned hopper grinder (Eureka Atom, Mahlkonig E65S) matches single-dose grinders at the same price tier.',
+      },
+      {
+        question: 'What is retention and why does it matter for single dosing?',
+        answer:
+          'Retention is the grams of ground coffee a grinder keeps inside its chamber between sessions. For a hopper-fed grinder, retention does not matter much because the next session\'s beans push old grounds out. For single dosing, retention is the difference between getting fresh grounds in the cup and getting yesterday\'s grounds.',
+      },
+      {
+        question: 'How do I single-dose a hopper-fed grinder?',
+        answer:
+          'Remove the hopper or run it empty. Drop 18g of beans through the bean cap. Grind. Tap the grinder body and underside of the burrs to dislodge retention. Repeat. It works, but not as cleanly as a purpose-built single-dose grinder.',
+      },
+      {
+        question: 'Is single dosing wasteful?',
+        answer:
+          'No more than hopper-fed grinding. The beans are the same; the question is when they meet the burrs. Most single-dose workflows have similar or lower total bean waste because you do not purge between bean changes.',
+      },
+      {
+        question: 'Why do single-dose grinders need RDT (water spritz)?',
+        answer:
+          'Without bean mass in the hopper to dampen static buildup, single-dose grinders produce statically-charged grounds that stick to chutes, dosing cups, and counters. A single drop of water on the beans before grinding (using a fine-mist spray bottle) drops static dramatically and reduces clumping.',
+      },
+      {
+        question: 'Can I single-dose for both espresso and pour-over with one grinder?',
+        answer:
+          'Yes, if the grinder has a wide-enough grind range and acceptable retention at both ends. The Niche Zero, DF64, and Lagom P64 all do espresso and pour-over well. Espresso-only or filter-only grinders (Fellow Ode for filter, some Eureka models for espresso) lock you in.',
+      },
+    ],
+    relatedTermSlugs: ['retention', 'static', 'doser', 'rpm', 'flat-burr', 'conical-burr'],
+    relatedBestSlugs: ['best-grinder-under-500-with-low-retention', 'best-grinder-for-espresso'],
+    relatedTroubleshootSlugs: ['niche-zero-retention-issues'],
+    updatedAt: '2026-05-18',
+  },
+
+  // -------------------------------------------------------------------
+  // 19. FLAT BURR.
+  //
+  // Reconocer en FAQ que blind tasters no distinguen consistentemente.
+  // -------------------------------------------------------------------
+  {
+    slug: 'flat-burr',
+    title: 'What is a flat burr coffee grinder? — Coffee Equipment Reviews',
+    description:
+      'Flat burr grinders use two parallel disc-shaped burrs to crush beans. Plain explanation of how they differ from conicals, what flavor profile they tend toward, and how big the difference really is.',
+    h1: 'What is a flat burr coffee grinder?',
+    tldr:
+      'A flat burr grinder uses two parallel disc-shaped burrs that face each other; beans are crushed as they travel outward from the center to the edge of the burrs. Flat burrs are common in commercial grinders and prosumer home electrics, often associated with cleaner, more separated cup profiles.',
+    inDepth: [
+      {
+        heading: 'The flat burr geometry',
+        body:
+          '<p>A flat burr set consists of two ring-shaped metal discs with cutting teeth on one face. One burr is stationary; the other rotates. The two faces sit parallel to each other with a tiny gap (set by the grind adjustment) — typically 0.2-1.0 mm.</p>'
+          + '<p>Beans enter at the center of the burrs (through a hole in the upper burr), get pulled outward by centrifugal force as the bottom burr spins, and are crushed progressively as they travel toward the edge. By the time they exit, they have been reduced through several increasingly-fine cutting teeth. The grounds drop out the side of the burr chamber into the chute.</p>',
+      },
+      {
+        heading: 'How flat burr cup profile is described',
+        body:
+          '<p>The conventional wisdom in specialty coffee: flat burrs produce a more "separated" cup — meaning distinct, layered flavor notes you can pick out individually — and a "cleaner" mouthfeel with less mid-palate body. This is often phrased as flat burrs producing a "bimodal" particle distribution (two main particle size peaks instead of one) which extracts differently than conicals.</p>'
+          + '<p>The flavor description sounds confident, but the underlying data is mixed (see the next section). What we can say with confidence: flat burrs are the dominant choice in competition (most World Barista Championship competitors use flat-burr grinders), in third-wave cafes, and in light-roast-focused home setups. That preference is meaningful, even if the mechanism is debated.</p>',
+      },
+      {
+        heading: 'The honest take on flat vs conical',
+        body:
+          '<p>Several blind tastings — including ones conducted by James Hoffmann, Lance Hedrick, and the Specialty Coffee Association — have shown that even experienced tasters struggle to consistently identify which cup came from a flat burr vs a conical burr at the same grind setting and recipe. The differences exist, but they are smaller than the marketing copy suggests.</p>'
+          + '<p>What does correlate strongly with cup quality:</p>'
+          + '<ul>'
+          + '<li>Burr alignment (more on flats — misaligned flats are common and tank cup quality).</li>'
+          + '<li>Burr size (98mm beats 64mm beats 48mm, more so than flat vs conical).</li>'
+          + '<li>Burr sharpness (sharp beats dull, on either geometry).</li>'
+          + '<li>Bean freshness and roast level (overwhelms burr-geometry differences).</li>'
+          + '</ul>'
+          + '<p>So: do not buy a grinder based on "flat is better" or "conical is better." Buy based on retention, build quality, burr size, alignment quality, and the rest of the spec sheet. The flat-vs-conical axis is the smallest of the meaningful axes.</p>',
+      },
+      {
+        heading: 'Flat burrs in home grinders',
+        body:
+          '<p>The popular flat-burr home grinders fall into a few clusters:</p>'
+          + '<ul>'
+          + '<li><strong>Entry / mid ($300-600):</strong> DF64 (64mm flats, single-dose), Eureka Mignon Specialita (55mm flats, hopper-fed), Fellow Ode Gen 2 (64mm flats, filter-only).</li>'
+          + '<li><strong>Prosumer ($800-1,500):</strong> Eureka Atom 75 (75mm flats), Mahlkonig X54 (54mm flats), Eureka Atom Pro (espresso-focused).</li>'
+          + '<li><strong>High-end ($1,500-3,000):</strong> Lagom P64, Option-O Lagom Mini, Mahlkonig E65S/EK43-style.</li>'
+          + '</ul>'
+          + '<p>The size jump from 54mm to 64mm to 75mm to 98mm matters more than most flat-vs-conical comparisons. Larger burrs grind faster, run cooler, and tend to have wider workable ranges.</p>',
+      },
+      {
+        heading: 'Where flat burrs lose',
+        body:
+          '<p>Flat burrs are not universally better. Where conicals win:</p>'
+          + '<ul>'
+          + '<li>Footprint — conicals are typically more compact at the same burr capacity.</li>'
+          + '<li>Motor RPM — conicals can spin slower (300-700 RPM) and still deliver acceptable grind speed; flats often need 1,200+ RPM, which generates more heat.</li>'
+          + '<li>Dark roast / chocolate-forward profiles — many tasters prefer conicals for darker roasts where body and sweetness lead.</li>'
+          + '<li>Beginner-friendliness — conicals are less alignment-sensitive, meaning a budget conical is more likely to perform near its specs than a budget flat.</li>'
+          + '</ul>',
+      },
+    ],
+    examples: [
+      {
+        asin: 'B0BQS69C9G',
+        note:
+          'The DF64 has 64mm flat burrs — the budget flat-burr reference grinder. Popular as the "first serious flat" for home users coming from a hopper-fed conical.',
+      },
+      {
+        asin: 'B07YDPC1MK',
+        note:
+          'The Eureka Mignon Specialita uses 55mm flat burrs in a compact hopper-fed package — one of the best-selling prosumer flats in the home espresso category.',
+      },
+      {
+        asin: 'B0987X9P6L',
+        note:
+          'The Mahlkonig X54 Home Grinder is the home version of Mahlkonig\'s commercial line — 54mm flat burrs with stepless adjustment, German build, dual espresso-and-filter capability.',
+      },
+      {
+        asin: 'B0B7B6Z5DH',
+        note:
+          'The Fellow Ode Gen 2 uses 64mm flat burrs but is explicitly filter-only (no espresso fineness in the burr range). Useful example of flat-burr geometry applied to a non-espresso workflow.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Are flat burrs better than conical burrs?',
+        answer:
+          'On paper, the conventional wisdom says yes for cleaner, more-separated cup profiles and for light roasts. In practice, blind tasters often cannot reliably distinguish them at the same recipe — the difference exists but is smaller than other variables like burr alignment, burr size, and bean freshness.',
+      },
+      {
+        question: 'Why do most competitions use flat-burr grinders?',
+        answer:
+          'A combination of (a) larger burr sizes are typically flat in the commercial category (75-98mm), (b) the clarity profile flats lean toward suits competition cupping, and (c) industry inertia — once flat became the competition norm, equipment sponsors followed. It is real evidence of preference, not necessarily proof of superiority.',
+      },
+      {
+        question: 'How big a difference is flat vs conical in the cup?',
+        answer:
+          'Smaller than most marketing suggests. Blind tastings have repeatedly shown experienced tasters struggle to identify flat vs conical at matched recipes. The difference is real but secondary to burr size, alignment, freshness, and recipe choices.',
+      },
+      {
+        question: 'Do flat burrs run hotter than conical burrs?',
+        answer:
+          'Generally yes, at the same throughput. Flat burrs need higher RPM (1,200-1,600 typically for commercial) to move beans against centrifugal force, which generates more heat. Low-RPM flats exist (DF64 runs at 350 RPM) and mitigate the issue.',
+      },
+      {
+        question: 'Are flat burrs harder to align than conical burrs?',
+        answer:
+          'Yes. Flat burrs have two faces that must sit perfectly parallel; conical burrs are self-centering by geometry. Misaligned flats produce uneven grind distribution and inconsistent shots, and many budget flat grinders ship with misalignment from the factory. Premium flats (Lagom, Mahlkonig) are precisely-aligned but cost more.',
+      },
+      {
+        question: 'Can I have one grinder for both espresso and filter with flat burrs?',
+        answer:
+          'Yes, if the burr geometry and gear range support both. The Mahlkonig X54, DF64, and Eureka Mignon Specialita all do both. Some flat-burr filter grinders (Fellow Ode Gen 2) cannot go fine enough for espresso by design — check the spec.',
+      },
+    ],
+    relatedTermSlugs: ['conical-burr', 'burr', 'rpm', 'retention', 'single-dosing'],
+    relatedBestSlugs: ['best-grinder-for-espresso', 'best-grinder-under-500-with-stepless-adjustment'],
+    updatedAt: '2026-05-18',
+  },
+
+  // -------------------------------------------------------------------
+  // 20. CONICAL BURR.
+  //
+  // Reconocer en FAQ que blind tasters no distinguen consistentemente.
+  // -------------------------------------------------------------------
+  {
+    slug: 'conical-burr',
+    title: 'What is a conical burr coffee grinder? — Coffee Equipment Reviews',
+    description:
+      'Conical burr grinders use a cone-shaped inner burr nested in a ring-shaped outer burr. Plain explanation of how they work, where they show up, and how they compare to flat burrs.',
+    h1: 'What is a conical burr coffee grinder?',
+    tldr:
+      'A conical burr grinder uses a cone-shaped inner burr that nests inside a ring-shaped outer burr. Beans travel down and outward between the two burrs, getting crushed progressively as the gap narrows. Conicals are common in hand grinders and many popular home electrics, often associated with heavier-bodied, chocolatey cup profiles.',
+    inDepth: [
+      {
+        heading: 'The conical burr geometry',
+        body:
+          '<p>A conical burr set has two parts: an inner cone (the rotating burr in most home electrics; the rotating burr in hand grinders too, driven by the crank) and an outer ring with matching teeth on the inside surface. The cone sits inside the ring with a small gap between them.</p>'
+          + '<p>Beans drop into the top of the burr chamber and gravity pulls them down between the cone and ring. The teeth on each burr break the beans progressively as they travel downward and outward — the gap narrows toward the bottom of the burr, so beans get cracked first at the top and finished at the bottom. Grounds exit at the bottom of the burr ring into the chute.</p>',
+      },
+      {
+        heading: 'How conical burr cup profile is described',
+        body:
+          '<p>The conventional descriptor: conicals produce heavier-bodied cups with rounder, more-integrated flavor — chocolatey, syrupy, with less acidity prominence than flat burrs would give the same bean. The particle distribution is often described as more "unimodal" (one main particle size peak with a tail of fines) which extracts differently than flats.</p>'
+          + '<p>The reputation has commercial backing: the Niche Zero (63mm conical) and the Mazzer Kony (71mm conical) are loved by users targeting Italian-style espresso and dark-roast workflows. The flavor lean is real, but as with flats, the gap to conicals is smaller than marketing claims.</p>',
+      },
+      {
+        heading: 'Where conical burrs dominate',
+        body:
+          '<ul>'
+          + '<li><strong>Hand grinders.</strong> Almost every hand grinder on the market uses conical burrs because the geometry self-aligns and tolerates the slight wobble of hand-cranking. 1Zpresso, Comandante, Timemore, Kingrinder — all conical.</li>'
+          + '<li><strong>Entry electrics.</strong> Baratza Encore (40mm conical), OXO Brew Conical Burr, Fellow Opus — popular sub-$200 grinders are conical because the burrs are cheaper to manufacture and align more reliably.</li>'
+          + '<li><strong>Compact prosumer grinders.</strong> Niche Zero, Baratza Sette 270, several Eureka and Mazzer conical models. The footprint advantage of conicals matters in home kitchens.</li>'
+          + '<li><strong>Lever espresso machines.</strong> Cafelat Robot and Flair owners often pair with conical hand grinders or compact conical electrics — the workflow rhythm matches.</li>'
+          + '</ul>',
+      },
+      {
+        heading: 'The honest take on conical vs flat',
+        body:
+          '<p>Same caveat as the flat burr entry: blind tastings repeatedly show experienced tasters struggle to consistently identify which cup came from a conical vs flat burr at matched recipes. The flavor differences exist but are smaller than the marketing language implies.</p>'
+          + '<p>Where conicals genuinely win:</p>'
+          + '<ul>'
+          + '<li><strong>Footprint.</strong> A 63mm conical is more compact than a 64mm flat at similar throughput.</li>'
+          + '<li><strong>Low RPM operation.</strong> Conicals can spin at 300-700 RPM and still grind acceptably; flats often need 1,200+ RPM.</li>'
+          + '<li><strong>Lower heat transfer.</strong> Slower RPM + smaller surface area means less heat into the beans during grinding.</li>'
+          + '<li><strong>Alignment forgiveness.</strong> The cone-in-ring geometry self-centers; flats need precision parallel alignment that not all manufacturers nail.</li>'
+          + '<li><strong>Cost at the entry level.</strong> The Baratza Encore (conical) is around $170; the cheapest reliable flat (DF64) is $400.</li>'
+          + '</ul>',
+      },
+      {
+        heading: 'Where conicals lose',
+        body:
+          '<p>Flats counter on several axes:</p>'
+          + '<ul>'
+          + '<li>Most competition baristas use flats — the clarity-leaning profile is preferred for cupping.</li>'
+          + '<li>Light-roast extraction (very high mid-acidity profiles, e.g. Ethiopian Yirgacheffe) often reads more interestingly from flats.</li>'
+          + '<li>Burr size at the top end — 98mm flats exist; 98mm conicals are extremely rare.</li>'
+          + '<li>Many users describe flat-burr profiles as "more interesting" once they have spent time tasting both — but reverse anecdotes exist too.</li>'
+          + '</ul>'
+          + '<p>The honest answer: most home users will be perfectly happy with either, and the choice should be driven by retention, build quality, footprint, and price rather than by an assumed flavor difference.</p>',
+      },
+    ],
+    examples: [
+      {
+        asin: 'B08CXVZL8R',
+        note:
+          'The Niche Zero is the reference 63mm conical home electric — near-zero retention, single-dose, beloved for its workflow and chocolatey espresso profile. The grinder that pulled conicals back into prosumer respect.',
+      },
+      {
+        asin: 'B007F183LK',
+        note:
+          'The Baratza Encore uses 40mm conical steel burrs and is the canonical entry electric grinder — under $200, hopper-fed, mostly for filter brewing but workable for moka pot. Conical geometry keeps the manufacturing cost low.',
+      },
+      {
+        asin: 'B0BDFTC76P',
+        note:
+          'The Baratza Encore ESP is the espresso-capable evolution of the Encore — same conical geometry, finer grind range. A good baseline for "conical burr grinder under $250 that works for espresso."',
+      },
+      {
+        asin: 'B0BC4FQDD1',
+        note:
+          'The 1Zpresso JX-Pro is a hand grinder with 48mm conical burrs — premium hand-grinder reference, widely used for pour-over with specialty single origins. Demonstrates how conical geometry suits hand-cranking.',
+      },
+    ],
+    faqs: [
+      {
+        question: 'Are conical burrs worse than flat burrs?',
+        answer:
+          'No — they are a different geometry with different strengths. Conicals dominate hand grinders and compact electrics for legitimate engineering reasons (footprint, alignment forgiveness, low-RPM operation). Their cup profile leans heavier and rounder than flats. Whether that is "worse" depends on what you want to drink.',
+      },
+      {
+        question: 'Why are most hand grinders conical?',
+        answer:
+          'Because conical geometry self-aligns. A hand grinder gets twisted, jostled, and disassembled regularly — flat burrs would lose parallel alignment quickly under that abuse. Conical burrs tolerate it because the cone-in-ring geometry centers itself by physics.',
+      },
+      {
+        question: 'Do conical burrs really make sweeter espresso?',
+        answer:
+          'They tend to be described that way, but blind tastings repeatedly show experienced tasters cannot identify flat vs conical at matched recipes consistently. The flavor lean is real but small. Burr size, freshness, and grind quality dominate the differences in the cup.',
+      },
+      {
+        question: 'Can a conical grinder do good pour-over?',
+        answer:
+          'Yes. The 1Zpresso JX-Pro, Comandante C40, and Baratza Encore are all conical and all considered solid pour-over grinders. The Niche Zero is conical and does both espresso and filter well. The geometry does not lock you into espresso.',
+      },
+      {
+        question: 'Why is the Niche Zero so popular if conicals are "less clear"?',
+        answer:
+          'Because the geometry-clarity argument is overstated. The Niche\'s combination of 63mm conical burrs, near-zero retention, single-dose workflow, and quiet motor makes it an exceptional grinder by every metric except burr-geometry purism. Many owners who tried flats first prefer the Niche cup profile.',
+      },
+      {
+        question: 'Is the Baratza Encore (conical) enough grinder for espresso?',
+        answer:
+          'The Encore ESP (espresso variant) is acceptable for entry-level espresso but limited by burr size (40mm) and grind range. Most users move to a larger conical (Niche, Sette) or a flat (DF64, Eureka) within a year if they take espresso seriously.',
+      },
+    ],
+    relatedTermSlugs: ['flat-burr', 'burr', 'retention', 'single-dosing', 'rpm'],
+    relatedBestSlugs: ['best-grinder-under-200', 'best-grinder-for-pour-over-under-300'],
+    relatedTroubleshootSlugs: ['niche-zero-retention-issues', 'baratza-encore-slow-or-replace'],
+    updatedAt: '2026-05-18',
+  },
 ];
 
 /**
