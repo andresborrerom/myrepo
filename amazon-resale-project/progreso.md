@@ -43,7 +43,8 @@
 - ✅ **Brand + Category + Glossary pages** (commits varios): nuevas estructuras para topical authority. **13 brand pages** (Breville, Gaggia, etc.), **4 category pages** con buying guides (espresso-machines, grinders, brewers, accessories), **1 glossary page** con 55 términos técnicos + internal linking contextual aplicado a 10 páginas key.
 - ✅ **Autolink glossary post-build** (commit último): script `scripts/autolink-glossary.mjs` que enlaza primera mención de cada term en cada page automáticamente. **+1,029 glossary links** across 172 HTML files / 42 unique terms. Build cost +0.5s. Idempotente, nested-anchor-safe, word-boundary correct con guiones.
 - 🚀 **robots.txt FLIPPED a Allow** (2026-05-17): sitio public-indexable. Sitemap referenciado en robots.txt. Soft launch terminado. Gate 1 del runbook `docs/deployment-to-revenue.md` resuelto.
-- 📊 **Total páginas del sitio: 176** (de los 67 iniciales: +163%).
+- ✅ **15 accessory reviews nuevas** (commit e4085dc): catalog gap cerrado. 9 yes / 4 depends / 2 no (Bplus WDT overpriced, Acaia Pearl S no justified sub-$1k). Llena Related Content de 10-11 best-of accessory-related que estaban vacías.
+- 📊 **Total páginas del sitio: 191** (de los 67 iniciales: +185%).
 
 ### Próximo hito objetivo
 
@@ -135,3 +136,4 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-17 | Brand + Category + Glossary pages (176 páginas) | Topical authority: 13 brand + 4 category buying guides + 1 glossary (55 términos) |
 | 2026-05-17 | Autolink glossary post-build | +1,029 glossary links across 172 HTML files / 42 unique terms, idempotente |
 | 2026-05-17 | **robots.txt FLIPPED a Allow** | Sitio public-indexable. Gate 1 del deployment-to-revenue runbook resuelto. |
+| 2026-05-17 | +15 accessory reviews (191 páginas) | Catalog gap cerrado; 11 best-of accessory-related ahora con Related Content |
