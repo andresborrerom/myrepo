@@ -73,18 +73,38 @@ export interface HowToPage {
   faqs: HowToFaq[];
   /** Slugs de troubleshoot pages relacionadas (opcional, para internal links). */
   relatedTroubleshootSlugs?: string[];
+  /**
+   * Ingredientes (coffee + water) cuando la guía es un brewing recipe.
+   * Renderizado como Recipe-like extension en HowTo JSON-LD via
+   * `recipeIngredient`. Solo aplica a pages tipo recipe (Hoffmann AeroPress,
+   * Kasuya V60, etc.). Vacío para guías de mantenimiento.
+   */
+  recipeIngredient?: string[];
 }
 
-// Convertir "10 minutes" / "1 hour" a ISO 8601 duration (PT10M / PT1H).
-// JSON-LD HowTo.totalTime requiere ISO 8601. Helper exportado para que
-// el template lo use sin reimplementarlo.
+// Convertir "10 minutes" / "1 hour" / "2 minutes 30 seconds" a ISO 8601
+// duration (PT10M / PT1H / PT2M30S). JSON-LD HowTo.totalTime requiere
+// ISO 8601. Helper exportado para que el template lo use sin reimplementarlo.
+// Soporta segundos para brewing recipes donde los segundos importan (V60,
+// AeroPress) — sin segundos el output sería PT2M cuando el recipe es 2:30,
+// rompiendo precisión SEO en rich snippet.
 export function toIsoDuration(human: string): string {
-  const m = human.match(/(\d+)\s*(minute|min|hour|hr)/i);
-  if (!m) return 'PT15M';
-  const n = parseInt(m[1], 10);
-  const unit = m[2].toLowerCase();
-  if (unit.startsWith('h')) return `PT${n}H`;
-  return `PT${n}M`;
+  // Match patterns como "2 minutes 30 seconds", "30 seconds", "10 minutes",
+  // "1 hour". Acepta forma singular y plural (minute / minutes).
+  // El word boundary `\b` después del unit string corta antes del posible
+  // sufijo "s" plural — necesario para que "minutes" matchee como "minute"
+  // sin que el resto del regex (?!\w) descarte la match.
+  const hourMatch = human.match(/(\d+)\s*(?:hours?|hrs?)\b/i);
+  const minuteMatch = human.match(/(\d+)\s*(?:minutes?|mins?)\b/i);
+  const secondMatch = human.match(/(\d+)\s*(?:seconds?|secs?)\b/i);
+
+  if (!hourMatch && !minuteMatch && !secondMatch) return 'PT15M';
+
+  let out = 'PT';
+  if (hourMatch) out += `${parseInt(hourMatch[1], 10)}H`;
+  if (minuteMatch) out += `${parseInt(minuteMatch[1], 10)}M`;
+  if (secondMatch) out += `${parseInt(secondMatch[1], 10)}S`;
+  return out;
 }
 
 // ASINs del catalog que recomendamos en how-to pages — todos verificados
@@ -112,6 +132,15 @@ const ASIN = {
   comandante: 'B07HF93NS6',
   staggEkg: 'B0BVYGZG6T',
   normcorePuckScreen: 'B08T9MZKVR',
+  // Brewers + accessories para las recipe pages (AeroPress + V60 + pour-over).
+  aeropress: 'B0047BIWSK',
+  harioV60: 'B000P4D5HG',
+  chemex: 'B0000YWF5E',
+  kalitaWave: 'B00OQ80T9Y',
+  bodumFrenchPress: 'B00005LM0L',
+  timemoreC2: 'B086DM2MS3',
+  acaiaPearlS: 'B0BC4FQDD1',
+  moccamaster: 'B07S9WT5QR',
 } as const;
 
 export const howToPages: HowToPage[] = [
@@ -1501,6 +1530,776 @@ export const howToPages: HowToPage[] = [
       },
     ],
     relatedTroubleshootSlugs: ['channeling-fix-espresso'],
+  },
+  // ============================================================
+  // BREWING RECIPES — AeroPress + V60 + cross-method
+  // Recipes atribuidas a sus autores originales (Hoffmann, Kasuya).
+  // Anti-gray-hat: NO claim como "our exclusive recipe". Times y
+  // gramos verificados contra los videos originales / artículos del
+  // World AeroPress Championship.
+  // ============================================================
+  {
+    slug: 'james-hoffmann-aeropress-recipe',
+    title: "James Hoffmann's AeroPress recipe (the ultimate cup)",
+    description:
+      "James Hoffmann's AeroPress recipe: 11 g coffee, 200 g water at 100°C, 2-minute brew. Step-by-step times, grind, swirl, and the no-pressure press that defines this method.",
+    productAsin: 'B0047BIWSK',
+    topic: 'brew-technique',
+    intro:
+      '<p>James Hoffmann\'s "Ultimate AeroPress recipe" video (YouTube, 2020) is the most-watched AeroPress tutorial online. The recipe itself is deliberately simple: 11 g of coffee, 200 g of water just off the boil, a 2-minute steep, swirl, then a slow press. No inverted method, no plunger acrobatics. Hoffmann\'s position is that the AeroPress rewards consistency over complexity — and this recipe is hard to brew badly.</p><p>Use this as your default AeroPress recipe before exploring inverted method or championship variations. It works across a wide range of grinders and roasts, and it scales cleanly to 14 g / 250 g if you want a slightly larger cup.</p><p>Source: <em>James Hoffmann, "The Ultimate AeroPress Recipe" (YouTube, 2020)</em>. We are not affiliated with Hoffmann; we cite the recipe to attribute it correctly.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '3 minutes',
+    recipeIngredient: [
+      '11 g medium-roast coffee, ground medium-fine (slightly coarser than table salt)',
+      '200 g water at 100°C / 212°F',
+    ],
+    needs: [
+      {
+        item: 'AeroPress (original or Clear)',
+        affiliateAsin: 'B0047BIWSK',
+        note: 'Hoffmann brews on the original AeroPress in the video. The Clear and Go variants behave identically for this recipe.',
+      },
+      {
+        item: 'Paper AeroPress filter',
+        note: 'A single standard paper filter. Hoffmann does not advocate for premium or metal filters here — generic paper is fine.',
+      },
+      {
+        item: 'Kettle (gooseneck not required)',
+        affiliateAsin: 'B0BVYGZG6T',
+        note: 'A regular kettle works. The pour does not need precise stream control — gooseneck is a nice-to-have, not a requirement for this recipe.',
+      },
+      {
+        item: '0.1 g coffee scale',
+        affiliateAsin: 'B0BC4FQDD1',
+        note: 'You only need ±1 g accuracy for this recipe. A $30 scale is fine — the $200 Acaia is overkill for AeroPress beginners.',
+      },
+      {
+        item: 'Burr grinder',
+        affiliateAsin: 'B086DM2MS3',
+        note: 'Medium-fine grind. A hand grinder like the Timemore C2 or a Baratza Encore handles this perfectly. Pre-ground works in a pinch but loses brightness within hours.',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Set up the AeroPress in the standard (upright) orientation',
+        body: '<p>Insert one paper filter into the cap. Rinse the filter with hot water — this removes the paper taste and pre-heats the cap. Discard the rinse water. Screw the cap onto the chamber and place the assembled AeroPress on top of your mug or server.</p><p>Hoffmann uses the standard orientation, not inverted. The recipe is designed around it.</p>',
+      },
+      {
+        heading: 'Dose 11 g of coffee at a medium-fine grind',
+        body: '<p>Grind 11 g of coffee at a medium-fine setting — slightly coarser than table salt, finer than pour-over grind. On a Comandante: roughly 18-22 clicks. On a Baratza Encore: setting 12-15. On a Timemore C2: 16-18 clicks.</p><p>Pour the grounds into the AeroPress chamber.</p>',
+      },
+      {
+        heading: 'Pour 200 g of water at 100°C, starting your timer at first contact',
+        body: '<p>Bring water to a full boil. The recipe calls for 100°C / 212°F — fresh off the boil is correct here. Hoffmann notes that lower temperatures dull the cup; 100°C is intentional.</p><p>Start your timer the moment water touches the grounds. Pour 200 g in roughly 10-15 seconds, aiming for an even saturation. The chamber will be nearly full.</p>',
+      },
+      {
+        heading: 'Steep for 2 minutes',
+        body: '<p>Set the timer for 2:00 from first water contact. Walk away — no stirring, no agitation. The grounds settle, the bed compacts slightly, and the extraction proceeds quietly.</p><p>This is deliberately a "set it and forget it" steep. The simplicity is the point.</p>',
+      },
+      {
+        heading: 'Swirl at 2:00 to settle the bed',
+        body: '<p>At 2:00, pick up the AeroPress and give it a gentle swirl — a circular motion to settle any grounds clinging to the upper chamber walls back into the slurry. One or two rotations, no shaking.</p>',
+      },
+      {
+        heading: 'Press slowly — 30-60 seconds total',
+        body: '<p>Insert the plunger and press straight down with very light pressure. Hoffmann\'s emphasis is on a slow, low-pressure press. The whole press should take 30-60 seconds. If you hit resistance, do not force it — back off and let the bed relax for a second.</p><p>Stop pressing when you hear the hissing sound (air pushing through the puck). Pulling further extracts harsh, dry flavours from the spent grounds.</p>',
+      },
+      {
+        heading: 'Serve immediately',
+        body: '<p>The cup is 200 ml of strong, balanced coffee. Drink as-is, or dilute with hot water (50-100 g) to taste — Hoffmann notes that a bypass of clean water lengthens the cup without diluting flavour structure.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Pressing too hard or too fast — the AeroPress can be pushed in 10 seconds, but you over-extract bitter compounds from the puck. Hoffmann\'s 30-60 second press is intentional.',
+      'Using cold or warm water "to avoid over-extraction" — this recipe is calibrated for 100°C. Below 90°C the cup tastes flat and underdeveloped.',
+      'Grinding too fine because "AeroPress = espresso-ish". Medium-fine, not espresso-fine. Too fine and the press requires excessive force and the cup turns muddy.',
+      'Pulling the plunger past the hiss — you extract dry, papery flavour from a spent puck. Stop when you hear air.',
+    ],
+    faqs: [
+      {
+        question: 'Can I scale this recipe up to a bigger cup?',
+        answer:
+          'Hoffmann\'s scaled version is 14 g coffee + 250 g water, same 2:00 steep and slow press. Beyond that, the AeroPress chamber runs out of headroom — for a larger cup, brew the standard recipe and dilute with hot water rather than over-filling.',
+      },
+      {
+        question: 'Do I need to weigh the water, or can I eyeball 200 ml?',
+        answer:
+          'A scale gives consistency, but for this recipe ±10 g of water is barely perceptible. If you do not own a scale, fill to roughly 2 cm below the top of the chamber and you are close enough. Coffee weight matters more than water — get a 0.1 g scale for the 11 g if you can.',
+      },
+      {
+        question: 'Why standard orientation and not inverted?',
+        answer:
+          'Hoffmann argues the inverted method adds risk (spills, burns) without proportional flavour gain at this dose. The recipe is designed to work without inversion. If you prefer inverted, our separate guide on the AeroPress inverted method covers when it actually helps.',
+      },
+      {
+        question: 'What grind works best with this recipe?',
+        answer:
+          'Medium-fine — coarser than espresso, finer than pour-over. If you taste sour or weak, grind slightly finer. If muddy or harsh, slightly coarser. The recipe tolerates ±2 grinder settings before falling apart.',
+      },
+      {
+        question: 'Does roast level matter?',
+        answer:
+          'Medium roast is the original recipe. Light roasts benefit from grinding 1-2 settings finer and steeping 30 seconds longer to develop. Dark roasts work as written but you may prefer a slightly coarser grind to avoid heavy bitterness.',
+      },
+    ],
+  },
+  {
+    slug: 'aeropress-inverted-method',
+    title: 'AeroPress inverted method: what it is, why people use it, step-by-step',
+    description:
+      'The AeroPress inverted method explained: extended steep without dripping, when it actually improves the cup, and the safe flip technique that does not spill.',
+    productAsin: 'B0047BIWSK',
+    topic: 'brew-technique',
+    intro:
+      '<p>The inverted (or "upside-down") AeroPress method puts the brewer plunger-down on the counter, with the filter cap attached at the end. Water and grounds steep together in a sealed chamber with no dripping through the filter until you flip the assembly and press. The technique was popularised by competition baristas in the early 2010s — Tetsu Kasuya\'s 2016 World AeroPress Championship recipe uses it.</p><p>Why do it: extended steeps (3-5 minutes) without losing brew water through the filter, and stronger control over total contact time. When it is not worth the trouble: short steeps (under 2 minutes), where the standard orientation is simpler and produces a comparable cup. Hoffmann\'s own ultimate recipe is standard orientation precisely for this reason.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '4 minutes',
+    needs: [
+      {
+        item: 'AeroPress',
+        affiliateAsin: 'B0047BIWSK',
+        note: 'The original and Clear models work identically for inverted brewing. The AeroPress Go has a shorter chamber and slightly less stable inverted footprint — workable but less comfortable.',
+      },
+      {
+        item: 'Paper AeroPress filters',
+      },
+      {
+        item: 'Kettle',
+        affiliateAsin: 'B0BVYGZG6T',
+        note: 'Any kettle. A gooseneck helps with even saturation but is not required.',
+      },
+      {
+        item: 'Coffee scale',
+        affiliateAsin: 'B0BC4FQDD1',
+      },
+      {
+        item: 'Sturdy heat-resistant cup or server for the flip target',
+        note: 'The cup needs to be at least as wide as the AeroPress cap (~6 cm) and stable. A wobbly cup is how spills happen during the flip.',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Push the plunger into the chamber, then invert the assembly',
+        body: '<p>Insert the plunger about 1-2 cm into the chamber — far enough to create a seal, not so far that you lose dose capacity. The plunger seal grips the chamber wall and holds the inverted assembly stable on the counter.</p><p>Flip the assembly so the plunger end is down on the counter and the open chamber points up. The plunger acts as the base. Do this with empty AeroPress before adding water or coffee, so you can verify the seal is holding without consequence if it slips.</p>',
+      },
+      {
+        heading: 'Add coffee dose to the chamber',
+        body: '<p>Dose your coffee directly into the open chamber. Typical inverted dose is 14-18 g for a stronger cup (Kasuya championship recipe uses 18 g; Hoffmann\'s scaled inverted variant uses 15 g).</p><p>Tap the chamber lightly to level the grounds.</p>',
+      },
+      {
+        heading: 'Pour water and start the timer',
+        body: '<p>Pour water at 85-95°C (depending on recipe) into the chamber. The water must not exceed the rim — there is no escape path until you press. Standard pour: 220-250 g over 10-15 seconds.</p><p>Start your timer at first water contact.</p>',
+      },
+      {
+        heading: 'Stir gently and steep',
+        body: '<p>Give the slurry 2-3 gentle stirs to ensure all grounds are saturated. Stop stirring — agitation past initial wetting introduces fines and over-extraction.</p><p>Steep for the time your recipe calls for — typically 2:00 to 3:00 in inverted mode. The grounds float to the top after a minute or so, which is normal.</p>',
+      },
+      {
+        heading: 'Wet the filter and attach the cap',
+        body: '<p>Pre-rinse a paper filter in hot water (separate from the AeroPress) to remove paper taste. Place it in the filter cap. About 30 seconds before the steep ends, screw the wet cap onto the inverted chamber. Do this with the AeroPress still sitting on the counter — no need to lift it.</p><p>Screw firmly but do not overtighten — overtightening cracks the cap thread over time.</p>',
+      },
+      {
+        heading: 'Flip and press',
+        body: '<p>The critical move: place your serving cup or carafe over the filter cap, hold both with one hand on the AeroPress body and one hand on the cup, then flip the whole assembly in one steady motion. The plunger is now up, the filter cap rests on the cup.</p><p>Press slowly — 20-30 seconds. Stop when you hear the hiss of air escaping. The plunger should not bottom out hard.</p>',
+      },
+      {
+        heading: 'Discard the puck and clean',
+        body: '<p>Unscrew the cap, push the plunger fully to eject the puck into your compost or trash, rinse the rubber seal and chamber under hot water. The AeroPress cleans in 20 seconds — this is one of its main practical advantages over French press.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Flipping the assembly without holding both cup and AeroPress together — the cap can unscrew mid-flip and the whole slurry ends up on the counter. Two hands, firm grip, one motion.',
+      'Filling the chamber past the rim — the meniscus needs room to dome. Overfilling spills when you screw on the cap.',
+      'Pressing too hard after the hiss — extracts harsh, papery flavours from the spent puck.',
+      'Using inverted method for a 1-minute steep where standard orientation works fine. Inverted is for extended steeps; for short ones it is just extra risk.',
+    ],
+    faqs: [
+      {
+        question: 'Is inverted method actually better than standard?',
+        answer:
+          'For most home users, no. Hoffmann\'s standard-orientation recipe produces a cup most people cannot distinguish from a comparable inverted brew. Inverted shines for extended steeps (3-5 minutes) and competition recipes where every variable is controlled. For daily brewing, start with standard.',
+      },
+      {
+        question: 'Can the AeroPress fall over while inverted?',
+        answer:
+          'Yes, if the plunger seal slips or the counter is uneven. Set it on a flat, dry surface and check the seal is firm before adding coffee or water. The Clear AeroPress has slightly more friction on the seal — marginally more stable than the original.',
+      },
+      {
+        question: 'What is the safest way to flip without burning my hand?',
+        answer:
+          'Hold the AeroPress body (not the cap), brace the cup on top with your other hand, and flip in one smooth motion. The water inside is hot but contained. Slow, deliberate flips are safer than fast ones.',
+      },
+      {
+        question: 'Should I use a metal or paper filter inverted?',
+        answer:
+          'Paper is the default and Kasuya\'s championship recipe uses paper. Metal filters change the body and let more fines through — try one or the other, but do not chase the marginal difference. Paper is fine.',
+      },
+    ],
+  },
+  {
+    slug: 'tetsu-kasuya-aeropress-championship-recipe',
+    title: "Tetsu Kasuya's AeroPress championship recipe (World Champion 2016)",
+    description:
+      "Tetsu Kasuya's 2016 World AeroPress Championship recipe: 22 g coffee, 200 g water with bypass dilution, 3:30 total. The inverted method that won and how to reproduce it at home.",
+    productAsin: 'B0047BIWSK',
+    topic: 'brew-technique',
+    intro:
+      '<p>Tetsu Kasuya won the 2016 World AeroPress Championship with a recipe that surprised the room: 22 g of coffee, only 50 g of water steeped in the AeroPress, then 130 g of bypass water added after the press. The technique decouples extraction from final dilution — you brew a strong concentrate, then dilute to taste.</p><p>Kasuya later codified the underlying logic in his "4:6 method" for V60. The principle: water added before extraction defines strength; water added after defines clarity. The AeroPress recipe is the same idea, applied to a different brewer.</p><p>Source: <em>World AeroPress Championship 2016 official recipe, posted at worldaeropresschampionship.com</em>. We cite to attribute, not to claim authorship.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '3 minutes 30 seconds',
+    recipeIngredient: [
+      '22 g coffee, ground medium-fine',
+      '50 g water at 80°C for the AeroPress steep',
+      '130 g water at 80°C added as bypass after pressing',
+    ],
+    needs: [
+      {
+        item: 'AeroPress',
+        affiliateAsin: 'B0047BIWSK',
+      },
+      {
+        item: 'Paper AeroPress filter',
+        note: 'Pre-rinse with hot water before brewing — competition recipes assume rinsed paper.',
+      },
+      {
+        item: 'Kettle (gooseneck preferred for the small initial pour)',
+        affiliateAsin: 'B0BVYGZG6T',
+        note: 'The 50 g initial pour is small enough that pour control matters. A gooseneck helps; a regular kettle works with care.',
+      },
+      {
+        item: '0.1 g scale',
+        affiliateAsin: 'B0BC4FQDD1',
+        note: 'Worth using a precise scale for this recipe — 22 g vs 24 g shifts the cup noticeably.',
+      },
+      {
+        item: 'Burr grinder',
+        affiliateAsin: 'B086DM2MS3',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Set up inverted with a wetted filter ready',
+        body: '<p>Set the AeroPress in the inverted position (plunger down, chamber up). Rinse a paper filter in hot water and place it in the filter cap — set the cap aside for now.</p>',
+      },
+      {
+        heading: 'Dose 22 g of coffee, ground medium-fine',
+        body: '<p>Grind 22 g of coffee at a medium-fine setting (slightly coarser than the Hoffmann recipe — the longer steep needs a bit more headroom). Pour into the inverted chamber. Tap to level.</p>',
+      },
+      {
+        heading: 'Pour 50 g of water at 80°C',
+        body: '<p>Kasuya\'s recipe specifies 80°C water — significantly cooler than Hoffmann\'s 100°C. The cooler temperature reduces bitterness from the longer extraction.</p><p>Pour 50 g over the grounds in a slow, controlled stream. Wet all the coffee evenly. Start your timer at first contact.</p>',
+      },
+      {
+        heading: 'Stir, then steep for 1:30',
+        body: '<p>Give the slurry 2-3 gentle stirs. Let it steep undisturbed for 1:30. The dose-to-water ratio at this stage is roughly 1:2.3 — extremely high coffee load, which is the whole point: you are brewing a concentrate.</p>',
+      },
+      {
+        heading: 'Attach the filter cap, flip, and press',
+        body: '<p>At 1:30, attach the pre-rinsed filter cap, place your serving vessel over the top, and flip the assembly. Press slowly — Kasuya pressed in 30-45 seconds at the championship. Stop at the hiss.</p><p>You should have a small amount of dark, syrupy concentrate in your cup — maybe 40 ml of liquid from the 50 g pour.</p>',
+      },
+      {
+        heading: 'Bypass: add 130 g of 80°C water directly to the cup',
+        body: '<p>Pour 130 g of hot water (same 80°C, fresh from the kettle) directly into the cup with the concentrate. Stir once to combine.</p><p>The final cup is ~170 ml at a balanced strength. Total brew time: 3:30 from first contact.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Using boiling water — Kasuya\'s 80°C is intentional. At 100°C the cup turns harsh and bitter because of the long contact time at high coffee dose.',
+      'Skipping the bypass and just brewing more water in the AeroPress — defeats the entire point of the recipe. The bypass is what separates Kasuya\'s method from a standard high-dose brew.',
+      'Pressing fast and hard — over-extracts the already-concentrated puck. 30-45 seconds, slow and steady.',
+      'Trying this recipe with dark roast — Kasuya tested with a light Ethiopian. Dark roasts at this ratio + temperature read flat and ashy. For dark roasts, use Hoffmann\'s standard recipe instead.',
+    ],
+    faqs: [
+      {
+        question: 'Why does this recipe use 80°C water instead of boiling?',
+        answer:
+          'The high coffee dose (1:2.3 ratio in the chamber) extracts very efficiently — boiling water would over-extract. 80°C balances extraction without bitterness over the 1:30 steep. Kasuya tested this temperature extensively for the 2016 championship.',
+      },
+      {
+        question: 'Can I use a different ratio for the bypass?',
+        answer:
+          'The 50 g / 130 g split is what Kasuya competed with. You can adjust the bypass to taste — more bypass = lighter, more delicate cup; less bypass = stronger, more concentrated. Vary the bypass, not the in-chamber water.',
+      },
+      {
+        question: 'What grinder does Kasuya use?',
+        answer:
+          'He typically competes on a commercial flat-burr grinder, but the recipe scales down to home hand grinders (Comandante, Timemore, 1Zpresso). Medium-fine grind, not espresso-fine. If you only have a Baratza Encore, this recipe still works — competition gear is not required.',
+      },
+      {
+        question: 'How does this compare to Hoffmann\'s recipe?',
+        answer:
+          'Hoffmann\'s is simpler and forgiving; Kasuya\'s is more technical and rewards precision. Hoffmann produces a balanced everyday cup; Kasuya produces a clean, concentrated cup with bright top notes (the bypass adds clarity). Try both and pick the daily driver — most users land on Hoffmann for weekday mornings, Kasuya for weekend single-origins.',
+      },
+      {
+        question: 'Is the World AeroPress Championship still using this recipe?',
+        answer:
+          'Each year\'s champion publishes a new recipe — the WAC archive at worldaeropresschampionship.com lists all of them. Kasuya\'s 2016 recipe remains one of the most-cited and most-reproduced because of how cleanly it generalised into the 4:6 method.',
+      },
+    ],
+  },
+  {
+    slug: 'aeropress-for-travel-brewing',
+    title: 'AeroPress for travel brewing: pack list, simplified workflow, common substitutions',
+    description:
+      'How to brew coffee with an AeroPress when travelling: minimal pack list, substitutions for kettle/scale/grinder, and a simplified recipe that works in a hotel room.',
+    productAsin: 'B0047BIWSK',
+    topic: 'brew-technique',
+    intro:
+      '<p>The AeroPress was designed for travel and it shows. Plastic body, lightweight, fits in a corner of a carry-on, brews one cup in 90 seconds with hot water and nothing else. The trick is knowing what to leave at home and what to bring — over-pack the kit and you cancel the convenience; under-pack and you cannot brew at all.</p><p>This is the simplified workflow we use for hotel rooms, conferences, and short trips. It is not the highest-extraction recipe — it is the recipe that survives the constraints of travel and still produces a good cup. For optimal brewing at home, see our Hoffmann or Kasuya recipes.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '4 minutes',
+    needs: [
+      {
+        item: 'AeroPress Go (or AeroPress original wrapped in a sock)',
+        affiliateAsin: 'B0047BIWSK',
+        note: 'The AeroPress Go has a built-in mug and lid for travel; the original is slightly cheaper and slightly lighter but needs a separate cup. Either works — pick on price and the size of your bag.',
+      },
+      {
+        item: '20-30 paper filters in a small zip-top bag',
+        note: 'Filters compress to almost no volume. Pack twice what you think you need.',
+      },
+      {
+        item: 'Pre-ground coffee in a small airtight container (or whole bean if you have a hand grinder)',
+        note: 'Pre-ground stays drinkable for 2-3 days post-grinding. For trips longer than that, bring a hand grinder.',
+      },
+      {
+        item: 'Hand grinder (optional, for trips ≥ 3 days)',
+        affiliateAsin: 'B086DM2MS3',
+        note: 'The Timemore C2 is the budget travel grinder. The 1Zpresso JX-Pro is the upgrade if you are serious. Both fit in a packing cube.',
+      },
+      {
+        item: 'Foldable silicone funnel or measuring cup',
+        note: 'Hotel rooms rarely have anything resembling a scale or measuring cup. A silicone fold-flat funnel doubles as both — see workflow below for how.',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Source hot water — kettle, coffee maker, or hotel front desk',
+        body: '<p>In order of preference: in-room electric kettle (most international hotels), in-room coffee maker run with no pod (US/Canada), or hot water from the hotel restaurant / front desk in a thermos. Avoid bathroom tap "hot" water — it sits in a tank and tastes stale.</p><p>You do not need exactly 100°C. Anywhere from 88-100°C works for this simplified recipe. If your water cooled in transit, it is still fine.</p>',
+      },
+      {
+        heading: 'Estimate the coffee dose without a scale',
+        body: '<p>For the AeroPress Go: fill the included scoop level (about 12-13 g). For the original: a slightly heaped tablespoon (~14 g) of coffee. Both are within tolerance — you do not need 0.1 g precision on the road.</p><p>If you packed pre-ground coffee at home, you can pre-portion it into small bags (one dose per bag) before you leave. Eliminates the guesswork entirely.</p>',
+      },
+      {
+        heading: 'Use the AeroPress chamber as a water gauge',
+        body: '<p>Without a scale, use the chamber markings: number 4 is roughly 200 g of water for an upright AeroPress. Pour to that level after adding coffee, and you are within 10 g of the target.</p>',
+      },
+      {
+        heading: 'Brew using a simplified Hoffmann-style recipe',
+        body: '<p>Upright orientation. Rinse the filter with hot water. Add coffee, pour water to the number 4 line, stir twice, steep 2 minutes, swirl, press slowly. Total time: about 3 minutes from first pour to final hiss.</p><p>This is Hoffmann\'s recipe with the precision sanded off. The result is 90% of the home brew with 10% of the gear.</p>',
+      },
+      {
+        heading: 'Clean and dry for the next day',
+        body: '<p>Unscrew the cap, push the puck into the bin, rinse the chamber and plunger under hot tap water (cold water is fine if hot is not available). Wipe the rubber seal with a tissue or hand towel. Air-dry on the bathroom counter overnight.</p><p>If you have to pack a still-damp AeroPress for an early flight, separate the plunger from the chamber so they can finish drying in your bag without mildewing.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Packing too much gear — bringing a $50 scale and a $200 kettle to a hotel room defeats the AeroPress\'s travel value. The minimal kit fits in a packing cube.',
+      'Using terrible coffee because you "saved space" by skipping the bean container. Bad beans at any technique = bad cup. Bring 100 g of decent beans pre-portioned.',
+      'Brewing in the room sink — the splash radius of an inverted AeroPress flip is bigger than you think, and sink residue gets into the cup. Brew on a flat counter with a towel underneath.',
+      'Forgetting the filters. They weigh nothing. Always bring filters.',
+    ],
+    faqs: [
+      {
+        question: 'Should I use the AeroPress Go or the original for travel?',
+        answer:
+          'Go if you want everything in one self-contained kit (mug, plunger, filter holder all nest together). Original if you already have a travel mug you like and want the cheaper, slightly larger-capacity brewer. The Go is the better default for most travellers.',
+      },
+      {
+        question: 'Can I take the AeroPress on a plane?',
+        answer:
+          'Yes — it is plastic, has no liquid, and looks unambiguously like a coffee brewer. Pack it in checked or carry-on without issue. The metal hand grinder is the only piece that occasionally triggers extra screening at TSA — pack it where they can find it easily if checked.',
+      },
+      {
+        question: 'What about water quality in hotels?',
+        answer:
+          'Tap water in most developed countries is fine for AeroPress brewing — the high coffee dose masks moderate water differences. In countries where you would not drink tap water unfiltered, use bottled (low-mineral, not "spring") water heated in the kettle.',
+      },
+      {
+        question: 'Is pre-ground coffee really OK for travel?',
+        answer:
+          'For trips up to 3-4 days, yes. Pre-ground coffee loses brightness within hours and most aroma within 2 days, but the cup is still good. For longer trips, bring a hand grinder — the difference between day-2 pre-ground and freshly ground on day 6 is large.',
+      },
+    ],
+  },
+  {
+    slug: 'james-hoffmann-v60-technique',
+    title: "James Hoffmann's V60 technique (the best one-cup method)",
+    description:
+      "James Hoffmann's V60 recipe: 15 g coffee, 250 g water, four pulse pours, ~3:30 total time. Step-by-step with exact times and the agitation method that won millions of views.",
+    productAsin: 'B000P4D5HG',
+    topic: 'pour-over-technique',
+    intro:
+      '<p>James Hoffmann\'s "Best one-cup V60 technique" video (YouTube, 2019) is the canonical pour-over recipe for English-speaking specialty coffee. 15 g of coffee, 250 g of water, four pulse pours with controlled agitation at specific times, ~3:00-3:30 finish. The recipe is opinionated but reproducible: follow the times and the cup lands consistently.</p><p>What makes it work: the pulse pours regulate extraction without requiring perfect pour control, and the brief swirl after the bloom and after the first pour disperses fines that would otherwise clog the filter. It is the most-recommended V60 starting recipe for home brewers.</p><p>Source: <em>James Hoffmann, "The best one-cup V60 technique" (YouTube, 2019)</em>. Attribution to the original; we do not claim this recipe.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '3 minutes 30 seconds',
+    recipeIngredient: [
+      '15 g medium-light roast coffee, ground medium-fine for pour-over',
+      '250 g water at 96°C / 205°F',
+    ],
+    needs: [
+      {
+        item: 'Hario V60 dripper (size 02, ceramic recommended)',
+        affiliateAsin: 'B000P4D5HG',
+        note: 'Ceramic holds heat better than plastic across a 3-minute brew. Plastic is fine if you preheat with a generous filter rinse.',
+      },
+      {
+        item: 'Hario V60 paper filter (02 size, bleached or natural)',
+        note: 'Bleached filters have less paper taste after rinsing. Natural filters need a more thorough rinse but are functionally equivalent.',
+      },
+      {
+        item: 'Gooseneck kettle with temperature control',
+        affiliateAsin: 'B0BVYGZG6T',
+        note: 'The pulse pours require steady, controlled streams. The Fellow Stagg EKG is the most-recommended kettle; the Bonavita is the budget equivalent. A regular kettle works in a pinch but pours are less consistent.',
+      },
+      {
+        item: '0.1 g scale with timer',
+        affiliateAsin: 'B0BC4FQDD1',
+        note: 'The pour times matter (within a few seconds). Any scale with a built-in timer works — an Acaia Pearl is great but a $25 brewing scale is also fine for home use.',
+      },
+      {
+        item: 'Burr grinder capable of medium-fine pour-over grind',
+        affiliateAsin: 'B086DM2MS3',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Rinse the filter, preheat the dripper and server',
+        body: '<p>Place the paper filter in the V60. Pour hot water (just-boiled is fine) generously through the filter — both to remove paper taste and to preheat the dripper and the server underneath. Discard the rinse water.</p><p>Skip this and your first pour drops the brew temperature by 5-8°C, which Hoffmann notes flattens the cup.</p>',
+      },
+      {
+        heading: 'Add 15 g of coffee, ground medium-fine',
+        body: '<p>Grind 15 g of coffee at a medium-fine setting. On a Comandante: 22-26 clicks. Baratza Encore: setting 18-22. 1Zpresso JX-Pro: 90-100 µm equivalent. Place the V60 + filter on the server (scale underneath), tare to zero, add grounds, gently shake to level the bed.</p>',
+      },
+      {
+        heading: 'Bloom: pour 50 g of 96°C water, swirl gently, wait until 0:45',
+        body: '<p>Start the timer. Pour 50 g of water at 96°C in a circular motion, saturating all the grounds. The bloom should take about 5-10 seconds to pour. Pick up the V60 and give a gentle swirl (not a stir) to ensure full saturation — Hoffmann specifies a swirl rather than a stir to avoid agitating the bed too aggressively.</p><p>Wait until 0:45 on the timer. The grounds will dome upward as CO₂ degasses.</p>',
+      },
+      {
+        heading: 'First main pour: 50 g → 100 g total, by 1:15',
+        body: '<p>At 0:45, pour the next 50 g of water in a steady spiral from the centre outward. Aim to finish this pour by 1:00 — slow and controlled, not a fast dump. Total water in the brewer should now be 100 g.</p><p>Let the bed draw down slightly. By 1:15, the water level should be visibly receding.</p>',
+      },
+      {
+        heading: 'Second main pour: 100 g → 200 g, by 1:45',
+        body: '<p>At 1:15, pour the next 100 g of water — again in a controlled spiral, finishing by about 1:45. The slurry is now at 200 g total water.</p>',
+      },
+      {
+        heading: 'Final pour: 200 g → 250 g, by 2:10',
+        body: '<p>At 1:45, pour the final 50 g of water, finishing by 2:10. Total water in the brewer is now 250 g.</p>',
+      },
+      {
+        heading: 'Swirl to settle the bed, let it drain',
+        body: '<p>After the final pour, give the V60 a gentle swirl on the server to settle the slurry and dislodge any grounds clinging to the filter walls. This contributes to a flat, even bed at the end of the drawdown.</p>',
+      },
+      {
+        heading: 'Drawdown completes around 3:00-3:30',
+        body: '<p>The last drips fall by roughly 3:00 to 3:30 from the start of the timer. If you finish significantly earlier (under 2:45), grind one click finer next time. If you finish over 3:45, grind one click coarser.</p><p>Lift the V60 off the server. The spent bed should be flat — no deep central crater, no dry edges. Drink the brew while it is fresh.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Pouring all the water in one go — destroys the pulse structure that regulates extraction. The four-pour scheduling is the point of this recipe.',
+      'Stirring the bloom instead of swirling — stirring drives fines down and clogs the filter, slowing the brew past target. Swirl gently by tilting the dripper.',
+      'Skipping the filter rinse and the preheat — drops the brew temp by 5-8°C and you taste it. 5 seconds of rinse, every time.',
+      'Adjusting both grind and pour time on the same brew — change one variable, taste the result, then adjust if needed. Two variables = no signal.',
+    ],
+    faqs: [
+      {
+        question: 'My V60 finishes way too fast — under 2:30. What is wrong?',
+        answer:
+          'Almost always grind size. Go 1-2 clicks finer on the grinder and brew again. The pulse schedule should still land around 2:10 for the last pour; only the drawdown should slow. If finer grind doesn\'t fix it, check your filter — some natural filters drain faster than bleached.',
+      },
+      {
+        question: 'Can I scale this recipe to 30 g of coffee?',
+        answer:
+          'Hoffmann\'s scaled version is 30 g coffee, 500 g water, six pulse pours, total time around 4:30-5:00. The pour structure stays the same — bloom + multiple main pours with controlled timing — but you need a larger V60 (size 03) or accept a tight chamber on the 02.',
+      },
+      {
+        question: 'Do I have to use a gooseneck kettle?',
+        answer:
+          'For this recipe, yes — the pour control is part of the method. A regular kettle\'s pour is too aggressive for the spiral pattern. If you do not have a gooseneck, see our V60 ratio guide instead; the simplified single-pour method tolerates a regular kettle.',
+      },
+      {
+        question: 'What roast level does this recipe work best with?',
+        answer:
+          'Medium-light to light roast — the recipe was developed for specialty single-origin coffees in that range. Dark roasts at 96°C with this schedule taste over-extracted; reduce water temp to 88-92°C for darker beans, keep everything else the same.',
+      },
+      {
+        question: 'Why is my V60 cup tasting harsh / bitter despite hitting the target time?',
+        answer:
+          'Three common causes: (1) water too hot — try 92-94°C; (2) grind too fine — fines are still over-extracting even at target time; (3) too much agitation during pours. The pours should be steady spirals, not aggressive jets.',
+      },
+    ],
+  },
+  {
+    slug: 'tetsu-kasuya-4-6-v60-method',
+    title: "Tetsu Kasuya's 4:6 V60 method (adjustable for strength and brightness)",
+    description:
+      "Tetsu Kasuya's 4:6 V60 method: split 60% water into bloom + first pour to control acidity, 40% into later pours to control strength. The adjustment framework that won 2016 WBrC.",
+    productAsin: 'B000P4D5HG',
+    topic: 'pour-over-technique',
+    intro:
+      '<p>Tetsu Kasuya\'s 4:6 method is the most-cited V60 recipe in specialty coffee after Hoffmann\'s. The idea: split your total water into a 40% portion (the first two pours, including bloom) that controls acidity/sweetness balance, and a 60% portion (the later 3 pours) that controls strength. You can adjust each half independently to dial in the cup you want.</p><p>Kasuya won the 2016 World Brewers Cup with the underlying principle and has documented the method in articles and YouTube videos. The recipe below is the standard 1:15 ratio at 20 g coffee — adjustable per the framework rules in the FAQ.</p><p>Source: <em>Tetsu Kasuya, multiple articles and YouTube videos (2016-present)</em>. We summarise; the method is his.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '3 minutes 30 seconds',
+    recipeIngredient: [
+      '20 g coffee, ground medium-coarse',
+      '300 g water at 92°C / 198°F',
+    ],
+    needs: [
+      {
+        item: 'Hario V60 (size 02)',
+        affiliateAsin: 'B000P4D5HG',
+      },
+      {
+        item: 'V60 paper filter',
+      },
+      {
+        item: 'Gooseneck kettle',
+        affiliateAsin: 'B0BVYGZG6T',
+        note: 'The 5-pour structure requires controlled pours. Gooseneck is functionally required for this method.',
+      },
+      {
+        item: 'Scale with timer',
+        affiliateAsin: 'B0BC4FQDD1',
+      },
+      {
+        item: 'Burr grinder',
+        affiliateAsin: 'B086DM2MS3',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Rinse filter, preheat the dripper, dose 20 g',
+        body: '<p>Standard V60 setup: paper filter in dripper, rinse with hot water, discard. Preheat the server. Add 20 g of coffee ground medium-coarse — Kasuya\'s grind is slightly coarser than Hoffmann\'s, to accommodate the longer total contact time of 5 pours.</p><p>Place on scale, tare to zero.</p>',
+      },
+      {
+        heading: 'Pour 1 (bloom): 60 g water at 92°C, start timer',
+        body: '<p>Start the timer. Pour 60 g of water at 92°C in a circular motion to fully saturate the grounds. Kasuya uses 92°C — slightly cooler than Hoffmann\'s 96°C, which softens acidity slightly.</p><p>Wait. No swirl, no stir.</p>',
+      },
+      {
+        heading: 'Pour 2: bring total to 120 g, at 0:45',
+        body: '<p>At 0:45, pour another 60 g of water — slow, controlled, in a spiral. Total in the brewer: 120 g. This completes the "4" portion (40% of total water = 120 g of 300 g).</p><p>The first two pours control acidity. If your cup is too acidic, increase the second pour. If too flat / lacking brightness, decrease it.</p>',
+      },
+      {
+        heading: 'Pour 3: bring total to 180 g, at 1:30',
+        body: '<p>At 1:30, pour 60 g more (total 180 g). The "6" portion has begun — these three pours control strength. More water across the three later pours = stronger; less = weaker (and shorter brew time).</p>',
+      },
+      {
+        heading: 'Pour 4: bring total to 240 g, at 2:15',
+        body: '<p>At 2:15, pour 60 g more (total 240 g).</p>',
+      },
+      {
+        heading: 'Pour 5: bring total to 300 g, at 3:00 — drawdown completes around 3:30',
+        body: '<p>At 3:00, pour the final 60 g (total 300 g). Let the V60 finish draining — drawdown completes around 3:30.</p><p>If your finish time is significantly off (<3:00 or >4:00), adjust grind one step in the right direction next brew. Keep the pour schedule consistent.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Skipping the 45-second intervals and pouring continuously — the pause is what lets each pour\'s extraction stage complete before the next. Continuous pouring negates the 4:6 framework.',
+      'Adjusting both the 4 and the 6 sections at once when the cup is off — the method is designed for independent adjustment. Change one at a time, taste, then change the other if needed.',
+      'Grinding too fine "to compensate for the longer brew" — Kasuya\'s recipe is medium-coarse on purpose. Finer grind clogs the bed and the timing falls apart.',
+      'Using 96°C+ water and then wondering why the cup tastes harsh. Kasuya\'s 92°C is intentional; don\'t copy Hoffmann\'s temperature here.',
+    ],
+    faqs: [
+      {
+        question: 'How do I adjust this recipe for a brighter / more acidic cup?',
+        answer:
+          'Within the 4 (first 120 g) section: reduce the second pour (e.g. bloom 60 g + 50 g instead of 60 g + 60 g). Less water in the early phase emphasises bright top notes. For a sweeter / less acidic cup, increase the second pour (e.g. bloom 50 g + 70 g).',
+      },
+      {
+        question: 'How do I adjust for a stronger cup?',
+        answer:
+          'Within the 6 (later 180 g) section: split the same total across fewer pours (e.g. three 60 g pours becomes two 90 g pours) — fewer pours = less time in contact, more concentrated. Or reduce total water (e.g. 280 g instead of 300 g) at the same dose.',
+      },
+      {
+        question: 'Is this better than Hoffmann\'s recipe?',
+        answer:
+          'Different goals. Hoffmann\'s is "the best one-cup": one recipe that works well for most beans without thinking. Kasuya\'s is a framework you adjust per bean. For a single daily cup, Hoffmann. For weekly bean rotation where you want to tune each one, Kasuya. We use both.',
+      },
+      {
+        question: 'Can I use the 4:6 method with Chemex or Kalita?',
+        answer:
+          'Conceptually yes — the framework (40% controls acidity, 60% controls strength) generalises. Practically, the longer drawdown of Chemex and the flat bed of Kalita change the timing. You\'d need to recalibrate the intervals. Easiest is to use Kasuya\'s structure on V60 and let other brewers have their own recipes.',
+      },
+      {
+        question: 'What grinder do I need for this recipe?',
+        answer:
+          'A burr grinder capable of consistent medium-coarse particle size. Comandante, 1Zpresso JX/JX-Pro, Timemore Chestnut, or Baratza Encore all work well. Blade grinders or low-quality burr grinders produce too many fines and the 5-pour structure clogs.',
+      },
+    ],
+  },
+  {
+    slug: 'v60-ratio-for-roast-levels',
+    title: 'V60 ratio guide: adjusting for medium vs light roast (and dark)',
+    description:
+      'V60 ratio and temperature adjustments by roast level. How to dial in light, medium, and dark roast on the same V60 without changing recipes — just the variables that matter.',
+    productAsin: 'B000P4D5HG',
+    topic: 'pour-over-technique',
+    intro:
+      '<p>Most published V60 recipes assume a medium-light single-origin specialty coffee. Real coffee shelves contain everything from blonde Ethiopian filter roasts to French roast Brazilian blends, and a single recipe does not flatter all of them. This guide is the adjustment framework we use to keep one V60 across very different beans.</p><p>The three variables that matter most are ratio (coffee:water), water temperature, and grind size. Pour technique matters less than people think — once you have a competent pour, the ratio + temp + grind do 80% of the work. This is a tuning guide, not a single recipe.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '15 minutes',
+    needs: [
+      {
+        item: 'Hario V60',
+        affiliateAsin: 'B000P4D5HG',
+      },
+      {
+        item: 'Gooseneck kettle with temperature control',
+        affiliateAsin: 'B0BVYGZG6T',
+        note: 'A variable-temperature kettle (Fellow Stagg EKG, Bonavita) earns its keep here — you adjust temp between roasts and need it to land within a couple degrees.',
+      },
+      {
+        item: 'Scale with timer',
+        affiliateAsin: 'B0BC4FQDD1',
+      },
+      {
+        item: 'Burr grinder with stepless or fine-step adjustment',
+        affiliateAsin: 'B086DM2MS3',
+        note: 'The grind adjustments across roast levels are small (1-3 clicks). A grinder with usable granularity makes the dial-in possible.',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Start with the universal baseline',
+        body: '<p>15 g coffee, 250 g water, 96°C, medium-fine grind, 3:00-3:30 total brew time. This is roughly Hoffmann\'s recipe and it lands on medium-light roasts. Use it as the reference point and adjust from there for darker or lighter beans.</p>',
+      },
+      {
+        heading: 'Light roast: hotter, finer, longer',
+        body: '<p>Light roasts are denser and harder to extract — they need more energy and more time.</p><ul><li><strong>Ratio:</strong> 1:16 to 1:16.5 (e.g. 15 g coffee + 240-250 g water). Some brewers go to 1:15 for very light Ethiopians.</li><li><strong>Temperature:</strong> 96-99°C. Just off the boil is right.</li><li><strong>Grind:</strong> 1-2 clicks finer than baseline.</li><li><strong>Target time:</strong> 3:30-4:00 total brew. The longer time is intentional — light roasts need it.</li></ul>',
+      },
+      {
+        heading: 'Medium roast: the baseline holds',
+        body: '<p>Most published recipes target this band. 1:16 ratio, 94-96°C, medium-fine grind, 3:00-3:30 brew. If you only brew one type of bean, this is the recipe to memorise.</p>',
+      },
+      {
+        heading: 'Dark roast: cooler, coarser, shorter',
+        body: '<p>Dark roasts are porous and over-extract easily — back off on energy and time.</p><ul><li><strong>Ratio:</strong> 1:17 to 1:18 (e.g. 15 g coffee + 255-270 g water). Slightly more water dilutes the heavy body.</li><li><strong>Temperature:</strong> 88-92°C. Above 92°C dark roasts turn ashy and bitter.</li><li><strong>Grind:</strong> 1-2 clicks coarser than baseline.</li><li><strong>Target time:</strong> 2:30-3:00 total. Faster than light roast — the bed needs less contact.</li></ul>',
+      },
+      {
+        heading: 'Taste and adjust one variable at a time',
+        body: '<p>If the cup is sour or weak: reduce ratio (more coffee, less water), raise temp 2°C, or grind 1 click finer. If bitter or astringent: increase ratio (less coffee, more water), lower temp 2°C, or grind 1 click coarser.</p><p>Change one variable per brew. Two changes = no signal on which one helped.</p>',
+      },
+      {
+        heading: 'Note the recipe with the bean',
+        body: '<p>Write the working recipe on the bean bag (or a phone note tagged with the roast date). "Counter Culture Big Trouble: 15 g / 250 g / 94°C / Encore 18". Next bag of the same bean, you start from that point and only adjust if the bean has drifted.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Trying to brew dark roast at 96°C "because that is what the recipe says". Recipes assume medium-light; you adjust for darker.',
+      'Changing ratio AND grind AND temperature at the same time when a cup is off. You have no way to learn what fixed it.',
+      'Chasing precision on the wrong variable. The difference between 95°C and 96°C is barely perceptible; the difference between 90°C and 96°C is enormous. Big moves first, fine-tune second.',
+      'Using the same grind for every roast. Light roasts need finer; dark roasts need coarser. Same grind = under-extracted light or over-extracted dark.',
+    ],
+    faqs: [
+      {
+        question: 'Why does light roast need a finer grind than dark?',
+        answer:
+          'Light roasts are denser — the cell structure has not been broken down by long roasting. Water extracts more slowly from dense beans, so you compensate with finer grind (more surface area). Dark roasts are brittle and porous, extracting fast — too fine and they over-extract immediately.',
+      },
+      {
+        question: 'Is 1:15 too strong for a daily cup?',
+        answer:
+          'For most palates, yes — 1:15 reads intense, especially on lighter roasts that taste bright. 1:16 to 1:17 is the comfortable everyday range. 1:15 is for when you want a concentrated cup or a specific bean rewards it.',
+      },
+      {
+        question: 'How precise does the water temperature need to be?',
+        answer:
+          'Within 2°C of target is fine. A variable-temperature kettle gets you there easily. A regular kettle just off the boil sits around 95-96°C and works for medium-light roast without adjustment. For dark roast cooler temps, you genuinely need temperature control.',
+      },
+      {
+        question: 'Can I use these ratios on Chemex or Kalita?',
+        answer:
+          'Roughly, yes — the ratios are forgiving. Chemex tends to taste slightly cleaner at 1:15-1:16; Kalita Wave is comparable to V60 at the same ratios. The bigger Chemex adjustment is grind (coarser than V60 because the thicker filter slows flow already).',
+      },
+      {
+        question: 'What if I do not know the roast level of my coffee?',
+        answer:
+          'Look at the bean colour and surface oil. Light roast: tan to medium brown, dry surface. Medium roast: medium-dark brown, dry or just-barely-shiny. Dark roast: very dark brown, visibly oily surface. The taste in the cup also tells you — pronounced acidity points to lighter; flat, smoky, bittersweet notes point to darker.',
+      },
+    ],
+  },
+  {
+    slug: 'pour-over-vs-aeropress-daily-brewing',
+    title: 'Pour over vs AeroPress for daily home brewing (which to choose)',
+    description:
+      'Pour over (V60, Chemex) vs AeroPress for daily home brewing: workflow time, gear cost, what each does better, and the realistic question of which suits your kitchen.',
+    topic: 'brew-technique',
+    intro:
+      '<p>The pour over vs AeroPress decision is one of the most-asked questions in home coffee, and most answers online are blanket recommendations rather than a comparison of trade-offs. The honest answer: both produce excellent coffee, they suit different routines, and the right pick depends on how many cups you brew, how much workflow time you have, and how much gear you want on the counter.</p><p>This guide compares the two on the dimensions that actually matter day-to-day. It is not a "best brewer" verdict — both are excellent. It is a decision aid for someone choosing one over the other for their kitchen.</p>',
+    updatedAt: '2026-05-15',
+    totalTime: '10 minutes',
+    needs: [
+      {
+        item: 'AeroPress (if leaning that way)',
+        affiliateAsin: 'B0047BIWSK',
+        note: 'About $40 with filters. Single-cup; very low gear footprint.',
+      },
+      {
+        item: 'Hario V60 + gooseneck kettle + scale (if leaning pour over)',
+        affiliateAsin: 'B000P4D5HG',
+        note: 'V60 itself is $25; with a Fellow Stagg EKG kettle and a scale, the full kit is $200-250. Pour over has a higher gear floor.',
+      },
+      {
+        item: 'A grinder either way',
+        affiliateAsin: 'B086DM2MS3',
+        note: 'Both methods benefit from a burr grinder. Budget: Timemore C2 ($75) hand grinder or Baratza Encore ($170) electric. Both methods work with the same grinder.',
+      },
+    ],
+    steps: [
+      {
+        heading: 'Compare workflow time and cleanup',
+        body: '<p><strong>AeroPress:</strong> 90 seconds of active brewing + 20 seconds of cleanup (push puck into bin, rinse chamber). Total kitchen time: 2-3 minutes. The puck pop and rinse are the simplest cleanup of any brewer.</p><p><strong>V60:</strong> 3-4 minutes of active brewing (need to be present for pulse pours) + 30 seconds cleanup (lift filter + grounds into bin, rinse dripper). Total kitchen time: 4-5 minutes, all of it engaged.</p><p>For a morning where you want coffee while doing something else, AeroPress wins. For a weekend pour-over ritual, V60.</p>',
+      },
+      {
+        heading: 'Compare what each does best in the cup',
+        body: '<p><strong>AeroPress:</strong> Body sits between French press and pour over. Forgiving — works well across a range of beans and grind sizes. The pressure + immersion combo produces a rounder, more saturated cup. Less ability to highlight delicate, bright single-origin notes than V60.</p><p><strong>V60:</strong> Clean, articulate cup with the highest clarity of body of any common brewer. Light single-origin coffees (Ethiopian, Kenyan, washed Colombian) shine. Less forgiving — narrow grind window, technique-dependent. Dark roasts can taste hollow if not adjusted.</p>',
+      },
+      {
+        heading: 'Compare gear cost and counter space',
+        body: '<p><strong>AeroPress minimum kit:</strong> brewer + filters + any kettle + any scale. $50-100 total. Fits in a drawer.</p><p><strong>V60 minimum kit:</strong> dripper + filters + gooseneck kettle + scale. $150-300 depending on kettle choice. The gooseneck kettle is the largest investment and the most counter-space-hungry piece. The V60 itself is tiny.</p><p>Both share a grinder requirement — that does not differentiate them.</p>',
+      },
+      {
+        heading: 'Compare scaling (single cup vs multi-cup)',
+        body: '<p><strong>AeroPress:</strong> One cup at a time. The AeroPress XL doubles capacity, but for households brewing 2+ cups morning, AeroPress is awkward.</p><p><strong>V60:</strong> Size 02 handles 1-4 cups in a single brew. Chemex 6-cup handles up to 6. Pour over scales to multiple cups in a single brew much better than AeroPress.</p>',
+      },
+      {
+        heading: 'Match to your situation',
+        body: '<p>Pick AeroPress if: single-cup household, limited counter space, you want forgiving brewing, you travel often, or you are starting out and want to invest under $100. Pick V60 (or pour over generally) if: 2+ cup mornings, you enjoy the brewing ritual, you brew lots of light single-origin specialty coffee, or you already have a good kettle.</p><p>The "right" answer for most home coffee drinkers under 30 daily minutes of kitchen time is AeroPress. For deliberate weekend brewing or multi-cup mornings, pour over.</p>',
+      },
+    ],
+    commonMistakes: [
+      'Buying both and using neither well. Pick one, commit for 3 months, then add the other if the first one is not enough. Two brewers in rotation usually means neither gets dialled in.',
+      'Assuming V60 = "better coffee". Both are excellent; the V60 reveals more bean character but at the cost of being more demanding. "Better" depends on what you value.',
+      'Skipping the gooseneck kettle for V60 to save money. The pour control is part of the V60 method — without it, you should brew AeroPress instead.',
+      'Skipping the scale for either method. A scale is the cheapest tool and the largest accuracy gain. $25-30 brewing scale, then upgrade later if you want.',
+    ],
+    faqs: [
+      {
+        question: 'Which is easier to dial in for a beginner?',
+        answer:
+          'AeroPress. The grind window is wider (medium-fine works across most recipes), the brew time is shorter so feedback is faster, and small errors are less catastrophic. V60 has a narrower grind window and the brew time depends on grind + pour technique — more variables to learn.',
+      },
+      {
+        question: 'Can the same beans work in both?',
+        answer:
+          'Yes. Most home users keep a single bean bag and brew it either way through the week. Adjust grind slightly: V60 wants medium-fine; AeroPress wants medium-fine to fine. Same coffee, slightly different grinds, two different cups.',
+      },
+      {
+        question: 'What about Chemex vs AeroPress?',
+        answer:
+          'Chemex is pour over with a thicker filter — even cleaner cup than V60, slightly less body. Most of the AeroPress vs V60 comparison applies. Chemex scales to 6 cups better than V60 does to 4. Pick Chemex over V60 if you brew for 2-4 people regularly.',
+      },
+      {
+        question: 'Will I taste the difference between V60 and AeroPress?',
+        answer:
+          'For most beans, yes — clearly. The V60 produces a cleaner cup with more articulated acidity; the AeroPress produces a rounder, fuller-bodied cup. They are not subtle differences. Side-by-side blind tasting from the same bean reveals the contrast easily.',
+      },
+      {
+        question: 'If I can only own one brewer, which?',
+        answer:
+          'AeroPress, for most home situations. Lower price floor, lower workflow time, more forgiving, scales reasonably well for one or two cups, and travels. V60 is a better second brewer once you know what you want from coffee. Owning both gives you weekday + weekend coverage.',
+      },
+    ],
   },
 ];
 

@@ -73,7 +73,10 @@ const updatedAt = new Date(page.updatedAt);
 
 // HowTo JSON-LD schema. Google docs:
 // https://developers.google.com/search/docs/appearance/structured-data/how-to
-const howToSchema = {
+// Brewing recipe pages (AeroPress, V60) incluyen `recipeIngredient` opcional
+// con el coffee + water spec del método — Google reconoce este field como
+// extensión válida del HowTo schema y mejora el rich snippet con cantidades.
+const howToSchema: Record<string, unknown> = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
   name: page.title,
@@ -100,6 +103,10 @@ const howToSchema = {
   },
   dateModified: updatedAt.toISOString().slice(0, 10),
 };
+
+if (page.recipeIngredient && page.recipeIngredient.length > 0) {
+  howToSchema.recipeIngredient = page.recipeIngredient;
+}
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -146,6 +153,17 @@ void howToPages;
         </>
       )}
     </p>
+
+    {page.recipeIngredient && page.recipeIngredient.length > 0 && (
+      <section class="section how-to-recipe">
+        <h2>The recipe</h2>
+        <ul class="recipe-list">
+          {page.recipeIngredient.map((ing: string) => (
+            <li>{ing}</li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <section class="section how-to-needs">
       <h2>What you'll need</h2>
