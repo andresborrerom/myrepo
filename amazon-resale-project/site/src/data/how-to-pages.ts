@@ -1608,6 +1608,10 @@ export const howToPages: HowToPage[] = [
         heading: 'Serve immediately',
         body: '<p>The cup is 200 ml of strong, balanced coffee. Drink as-is, or dilute with hot water (50-100 g) to taste — Hoffmann notes that a bypass of clean water lengthens the cup without diluting flavour structure.</p>',
       },
+      {
+        heading: 'Need the right gear?',
+        body: '<p>Most of this recipe\'s consistency comes from the grinder. If you do not already have a burr grinder for AeroPress and pour-over, our <a href="/best/best-burr-grinder-aeropress-v60-under-200/">best burr grinder for AeroPress and V60 under $200</a> guide covers hand and electric picks from $80 to $200 — the price tier where filter coffee gear actually matters. A 0.1 g brewing scale is the other useful upgrade; our <a href="/best/best-scale-aeropress-v60-brewing/">best scale for AeroPress and V60 brewing</a> guide explains why a $30 scale beats the $200 Acaia for this recipe.</p>',
+      },
     ],
     commonMistakes: [
       'Pressing too hard or too fast — the AeroPress can be pushed in 10 seconds, but you over-extract bitter compounds from the puck. Hoffmann\'s 30-60 second press is intentional.',
@@ -1706,6 +1710,10 @@ export const howToPages: HowToPage[] = [
         heading: 'Discard the puck and clean',
         body: '<p>Unscrew the cap, push the plunger fully to eject the puck into your compost or trash, rinse the rubber seal and chamber under hot water. The AeroPress cleans in 20 seconds — this is one of its main practical advantages over French press.</p>',
       },
+      {
+        heading: 'Need the right gear?',
+        body: '<p>Inverted method amplifies fines into body — which means grinder quality shows up more than in the standard orientation. Our <a href="/best/best-burr-grinder-aeropress-v60-under-200/">best burr grinder for AeroPress and V60 under $200</a> guide covers picks that hold up to extended steeps. For filter and paper choice, see our <a href="/best/best-paper-filters-v60-aeropress/">paper filters guide</a> — OEM AeroPress filters are the safe default, generic alternatives are mostly fine.</p>',
+      },
     ],
     commonMistakes: [
       'Flipping the assembly without holding both cup and AeroPress together — the cap can unscrew mid-flip and the whole slurry ends up on the counter. Two hands, firm grip, one motion.',
@@ -1801,6 +1809,10 @@ export const howToPages: HowToPage[] = [
         heading: 'Bypass: add 130 g of 80°C water directly to the cup',
         body: '<p>Pour 130 g of hot water (same 80°C, fresh from the kettle) directly into the cup with the concentrate. Stir once to combine.</p><p>The final cup is ~170 ml at a balanced strength. Total brew time: 3:30 from first contact.</p>',
       },
+      {
+        heading: 'Need the right gear?',
+        body: '<p>The 50 g initial pour and the 80°C target are the two precision points that matter for this recipe — a controlled-temperature gooseneck kettle pays for itself here. See our <a href="/best/best-gooseneck-kettle-v60-pour-over/">best gooseneck kettle for V60 pour over</a> for picks. The 22 g dose also rewards a 0.1 g scale; our <a href="/best/best-scale-aeropress-v60-brewing/">best scale for AeroPress and V60 brewing</a> guide explains what to look for without overpaying.</p>',
+      },
     ],
     commonMistakes: [
       'Using boiling water — Kasuya\'s 80°C is intentional. At 100°C the cup turns harsh and bitter because of the long contact time at high coffee dose.',
@@ -1891,6 +1903,10 @@ export const howToPages: HowToPage[] = [
       {
         heading: 'Clean and dry for the next day',
         body: '<p>Unscrew the cap, push the puck into the bin, rinse the chamber and plunger under hot tap water (cold water is fine if hot is not available). Wipe the rubber seal with a tissue or hand towel. Air-dry on the bathroom counter overnight.</p><p>If you have to pack a still-damp AeroPress for an early flight, separate the plunger from the chamber so they can finish drying in your bag without mildewing.</p>',
+      },
+      {
+        heading: 'Need the right gear?',
+        body: '<p>For trips longer than 3 days, a hand grinder is the upgrade that meaningfully improves the cup on the road. Our <a href="/best/best-burr-grinder-aeropress-v60-under-200/">best burr grinder for AeroPress and V60 under $200</a> guide covers travel-friendly picks (Timemore C2, Comandante C40). For paper filters and OEM vs generic decisions, see our <a href="/best/best-paper-filters-v60-aeropress/">paper filters guide</a>.</p>',
       },
     ],
     commonMistakes: [
@@ -1995,6 +2011,10 @@ export const howToPages: HowToPage[] = [
         heading: 'Drawdown completes around 3:00-3:30',
         body: '<p>The last drips fall by roughly 3:00 to 3:30 from the start of the timer. If you finish significantly earlier (under 2:45), grind one click finer next time. If you finish over 3:45, grind one click coarser.</p><p>Lift the V60 off the server. The spent bed should be flat — no deep central crater, no dry edges. Drink the brew while it is fresh.</p>',
       },
+      {
+        heading: 'Need the right gear?',
+        body: '<p>Hoffmann\'s technique requires a controlled pour — a gooseneck kettle is the one piece of gear that most directly affects the cup. See our <a href="/best/best-gooseneck-kettle-v60-pour-over/">best gooseneck kettle for V60 pour over</a> for the catalog pick and honest budget alternatives. The grinder matters almost as much; our <a href="/best/best-burr-grinder-aeropress-v60-under-200/">best burr grinder for AeroPress and V60 under $200</a> guide covers hand and electric options. For paper filters, see our <a href="/best/best-paper-filters-v60-aeropress/">filters guide</a> — OEM Hario is the safe default.</p>',
+      },
     ],
     commonMistakes: [
       'Pouring all the water in one go — destroys the pulse structure that regulates extraction. The four-pour scheduling is the point of this recipe.',
@@ -2092,6 +2112,10 @@ export const howToPages: HowToPage[] = [
         heading: 'Pour 5: bring total to 300 g, at 3:00 — drawdown completes around 3:30',
         body: '<p>At 3:00, pour the final 60 g (total 300 g). Let the V60 finish draining — drawdown completes around 3:30.</p><p>If your finish time is significantly off (<3:00 or >4:00), adjust grind one step in the right direction next brew. Keep the pour schedule consistent.</p>',
       },
+      {
+        heading: 'Need the right gear?',
+        body: '<p>The 5-pour schedule is functionally impossible without a gooseneck kettle that holds temperature — Kasuya\'s 92°C and the 45-second intervals are part of the method. See our <a href="/best/best-gooseneck-kettle-v60-pour-over/">best gooseneck kettle for V60 pour over</a> for the catalog pick. A scale with built-in timer is also non-optional here; our <a href="/best/best-scale-aeropress-v60-brewing/">best scale for AeroPress and V60 brewing</a> guide covers what to look for without spending Acaia money.</p>',
+      },
     ],
     commonMistakes: [
       'Skipping the 45-second intervals and pouring continuously — the pause is what lets each pour\'s extraction stage complete before the next. Continuous pouring negates the 4:6 framework.',
@@ -2183,6 +2207,10 @@ export const howToPages: HowToPage[] = [
         heading: 'Note the recipe with the bean',
         body: '<p>Write the working recipe on the bean bag (or a phone note tagged with the roast date). "Counter Culture Big Trouble: 15 g / 250 g / 94°C / Encore 18". Next bag of the same bean, you start from that point and only adjust if the bean has drifted.</p>',
       },
+      {
+        heading: 'Need the right gear?',
+        body: '<p>Temperature adjustments across roast levels (88°C for dark, 96°C+ for light) are only practical with a variable-temperature kettle. Our <a href="/best/best-gooseneck-kettle-v60-pour-over/">best gooseneck kettle for V60 pour over</a> guide covers when temperature control earns its premium and when a fixed-temperature gooseneck is enough. Grind adjustments need a grinder with usable resolution; see our <a href="/best/best-burr-grinder-aeropress-v60-under-200/">best burr grinder for AeroPress and V60 under $200</a>.</p>',
+      },
     ],
     commonMistakes: [
       'Trying to brew dark roast at 96°C "because that is what the recipe says". Recipes assume medium-light; you adjust for darker.',
@@ -2265,6 +2293,10 @@ export const howToPages: HowToPage[] = [
       {
         heading: 'Match to your situation',
         body: '<p>Pick AeroPress if: single-cup household, limited counter space, you want forgiving brewing, you travel often, or you are starting out and want to invest under $100. Pick V60 (or pour over generally) if: 2+ cup mornings, you enjoy the brewing ritual, you brew lots of light single-origin specialty coffee, or you already have a good kettle.</p><p>The "right" answer for most home coffee drinkers under 30 daily minutes of kitchen time is AeroPress. For deliberate weekend brewing or multi-cup mornings, pour over.</p>',
+      },
+      {
+        heading: 'Need the right gear?',
+        body: '<p>Whichever way you lean, the grinder is the largest cup-quality lever — see our <a href="/best/best-burr-grinder-aeropress-v60-under-200/">best burr grinder for AeroPress and V60 under $200</a>. If you pick V60, a gooseneck kettle is also non-optional; our <a href="/best/best-gooseneck-kettle-v60-pour-over/">best gooseneck kettle for V60 pour over</a> covers the choice. For a formal head-to-head with the other most-common immersion brewer, see our <a href="/compare/aeropress-vs-french-press-for-daily-brewing/">AeroPress vs French press</a> comparison.</p>',
       },
     ],
     commonMistakes: [

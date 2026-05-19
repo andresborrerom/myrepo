@@ -187,4 +187,25 @@ export const comparePages: ComparePage[] = [
     intro:
       'The Encore ESP is the Encore + an espresso-capable burr redesign for an extra $30. For households making only filter coffee, the original Encore stays the better value. For anyone who might want espresso later, the ESP earns the upgrade. This is the cleanest within-family comparison Baratza ships.',
   },
+
+  // ============================================================
+  // Batch 5 — pour-over / immersion brewer matchups
+  // Cierra el loop de los recipes Hoffmann/Kasuya hacia commercial
+  // intent. Hace explícito el trade-off honesto: ningún brewer "gana
+  // siempre" — cada uno tiene su use case.
+  // ============================================================
+  {
+    slug: 'aeropress-vs-french-press-for-daily-brewing',
+    asinA: 'B0047BIWSK',
+    asinB: 'B00005LM0L',
+    intro:
+      'For daily home brewing, the AeroPress and the Bodum Chambord French press are the two most-recommended sub-$50 immersion brewers — and they suit different routines. AeroPress is single-cup, faster, cleaner, and travels; French press is multi-cup, heavier-bodied, and requires no paper filters. This is not an "AeroPress wins" comparison: French press is the better choice for a household brewing 3-4 cups at breakfast, and AeroPress is the better single-cup pick. Both produce excellent coffee — pick by your morning routine, not by which has more YouTube fans.',
+  },
+  {
+    slug: 'v60-vs-chemex-for-pour-over',
+    asinA: 'B000P4D5HG',
+    asinB: 'B0000YWF5E',
+    intro:
+      'The Hario V60 and Chemex are the two most-cross-shopped pour-over brewers in specialty coffee. The V60 (cone, single large hole, thin paper) produces a brighter, faster cup that scales from 1 to 4 servings. The Chemex (thick bonded filter, hourglass body) produces an even cleaner cup over 4-6 minutes and serves 4-6. Neither is "better" — V60 rewards technique and highlights bright single-origin coffees; Chemex is a slower, more forgiving brewer that doubles as a serving carafe for households. Both work with the same gooseneck kettle and grinder.',
+  },
 ];

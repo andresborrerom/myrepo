@@ -945,6 +945,168 @@ export const bestPages: BestPage[] = [
       },
     ],
   },
+
+  // ============================================================
+  // Batch 4 — pour-over / AeroPress funnel close
+  // Cierra el loop top-of-funnel (recipes Hoffmann/Kasuya en /how-to/)
+  // hacia commercial intent. Cada pick honesto sobre precio/valor;
+  // catálogo chico en algunas categorías → framing explícito.
+  // ============================================================
+  {
+    slug: 'best-gooseneck-kettle-v60-pour-over',
+    title: 'Best Gooseneck Kettle for V60 Pour Over',
+    intro:
+      'A gooseneck kettle is the single piece of pour-over gear that most directly affects cup quality: pour control determines bed agitation, which determines extraction. Our catalog currently covers one option in this category — the Fellow Stagg EKG, the de-facto standard in specialty coffee. Below we explain when gooseneck matters, when it does not, and what to look for in entry-level alternatives we do not currently link.',
+    introHtml:
+      'A gooseneck kettle is the single piece of pour-over gear that most directly affects cup quality: pour control determines bed agitation, which determines <a href="/glossary/#extraction">extraction</a>. Our catalog currently covers one option in this category — the <a href="/products/B0BVYGZG6T/">Fellow Stagg EKG</a>, the de-facto standard in specialty coffee. If you already have your kettle and are looking for technique, our <a href="/how-to/james-hoffmann-v60-technique/">Hoffmann V60 recipe</a> and <a href="/how-to/tetsu-kasuya-4-6-v60-method/">Kasuya 4:6 method</a> walk through the pour structure step by step.',
+    description:
+      'Best gooseneck kettle for V60 pour over. Catalog pick: Fellow Stagg EKG. Plus when gooseneck matters, when it does not, and budget alternatives to consider.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      (hasTag(p, 'goose-neck') || hasTag(p, 'kettle')) &&
+      bestForIncludes(p, 'pour over'),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'Do I really need a gooseneck for V60?',
+        a: 'For the Hoffmann pulse-pour method or any controlled pour technique, yes. The slow, vertical stream from a gooseneck is what lets you bloom evenly and pour spirals without disturbing the bed. A wide-spout kitchen kettle pours too fast and channels the bed within seconds.',
+      },
+      {
+        q: 'When does gooseneck matter less?',
+        a: 'For Kalita Wave (flat bottom, three flow-regulating holes), a regular kettle is acceptable — the brewer compensates for pour inaccuracy. For AeroPress, gooseneck is also not required (see our Hoffmann AeroPress recipe). The gooseneck premium pays off most for V60 and Chemex.',
+      },
+      {
+        q: 'Is the Stagg EKG worth $195 over a $40 kettle?',
+        a: 'Honestly, only partly. The OEM Hario Buono kettle at ~$25-30 produces a similar pour shape without the temperature control and hold-temp features. If you brew V60 daily, the Stagg\'s 1-degree temperature control earns its price for dialing in light roasts at 96°C and dark roasts at 92°C. If you brew weekends only, the Hario Buono + a thermometer covers the same job for a fifth of the cost.',
+      },
+      {
+        q: 'Does temperature control matter as much as the gooseneck shape?',
+        a: 'For one bean at a baseline 94-96°C, no — just-off-boil water is fine and any kettle that holds heat reaches that. Temperature control matters when you rotate roasts: light Ethiopian at 96-99°C, washed Colombian at 94°C, dark Brazilian at 88-92°C. If you only ever brew medium roasts, a fixed-temperature gooseneck saves you $100-150.',
+      },
+      {
+        q: 'What about non-electric stovetop gooseneck kettles?',
+        a: 'Hario Buono (stovetop) and Kalita Wave kettle are the two most common. Both work well; the trade-off is no hold-temperature, so you have to brew right after the kettle boils. Cheap, durable, and entirely adequate for the daily V60.',
+      },
+    ],
+  },
+  {
+    slug: 'best-scale-aeropress-v60-brewing',
+    title: 'Best Scale for AeroPress and V60 Brewing',
+    intro:
+      'For AeroPress and V60 home brewing, a $30 brewing scale with 0.1g resolution and a built-in timer is the right tool — not a $200 Acaia. The Acaia Pearl S in our catalog is the specialty-coffee standard, but for pour-over and AeroPress at home it is honestly overpriced for what you get; Bluetooth app integration and 50ms response time earn their premium for espresso shots and recipe tracking, not for weighing 15g of coffee into a V60.',
+    introHtml:
+      'For AeroPress and V60 home brewing, a $30 brewing scale with 0.1g resolution and a built-in timer is the right tool — not a $200 Acaia. The <a href="/products/B0BC4FQDD1/">Acaia Pearl S</a> in our catalog is the specialty-coffee standard, but for pour-over and AeroPress at home it is honestly overpriced for what you get; Bluetooth app integration and 50ms response time earn their premium for espresso shots and recipe tracking, not for weighing 15g of coffee into a V60. If you already have your scale, jump to our <a href="/how-to/james-hoffmann-v60-technique/">Hoffmann V60 recipe</a> or <a href="/how-to/james-hoffmann-aeropress-recipe/">AeroPress recipe</a>.',
+    description:
+      'Best scale for AeroPress and V60 brewing — why a $30 scale beats the $200 Acaia for home pour-over, and what to look for in a budget brewing scale.',
+    filter: (p) =>
+      p.type === 'accessory' &&
+      (hasTag(p, 'scale') || hasTag(p, 'brewing-tools')) &&
+      (bestForIncludes(p, 'pour over') || bestForIncludes(p, 'brewing')),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'Is the Acaia Pearl S worth it for AeroPress and V60?',
+        a: 'Honestly, no — not for home brewing. A $30 Timemore or generic 0.1g brewing scale with a built-in timer covers 80% of the Pearl S\'s value for AeroPress and V60. The Acaia earns its $220 price for espresso shot weighing (50ms response, auto-start timer) and competition-level recipe tracking via app. For weighing 11g of coffee and 200g of water on the counter, you do not need any of that.',
+      },
+      {
+        q: 'What features actually matter for a pour-over scale?',
+        a: 'In order of importance: (1) 0.1g resolution (not 1g — you want to weigh 15g coffee precisely), (2) built-in timer (you need both weight and time visible at once), (3) waterproof or splash-resistant body, (4) 2kg+ capacity (enough to weigh the brewer + grounds + water). Bluetooth and apps are nice-to-haves, not requirements.',
+      },
+      {
+        q: 'Will a kitchen scale work for AeroPress?',
+        a: 'For Hoffmann\'s standard AeroPress recipe (11g coffee, 200g water), a 1g-resolution kitchen scale is acceptable — ±10g of water is barely perceptible at this dose. For Kasuya\'s championship recipe (22g coffee, 50g + 130g bypass), you really want 0.1g — the smaller pours need precision. Most home users land on a $25-40 brewing scale with timer and stop there.',
+      },
+      {
+        q: 'Should I buy the Acaia anyway because I might do espresso later?',
+        a: 'Defensible. The Pearl S handles every coffee weighing task in a home setup and the build is excellent. But the upgrade path is also fine: start with a $30 brewing scale, save $190, upgrade later if you actually buy an espresso machine and decide you need real-time shot tracking. Most pour-over-only households never need the Acaia.',
+      },
+      {
+        q: 'What about scales without a timer?',
+        a: 'Skippable for pour-over. The pour times in Hoffmann\'s and Kasuya\'s recipes are part of the method — you need to see weight and elapsed seconds at the same time. A separate phone timer works but is one more thing to glance at; an integrated timer scale saves attention.',
+      },
+    ],
+  },
+  {
+    slug: 'best-paper-filters-v60-aeropress',
+    title: 'Best Paper Filters for V60 and AeroPress',
+    intro:
+      'Paper filter choice matters less than most blog posts suggest. Genuine OEM filters (Hario tabbed V60, AeroPress original) are inexpensive, widely available, and produce the cup the brewer was designed for. Generic and "premium" alternatives change the cup at the margins — bleached vs natural, thickness, fold pattern — but no filter saves a bad brew, and no brew is ruined by a competent generic filter. This page covers when OEM is worth the premium, when generic is fine, and what to actually look for if you go off-brand.',
+    introHtml:
+      'Paper filter choice matters less than most blog posts suggest. Genuine OEM filters (Hario tabbed V60, AeroPress original) are inexpensive, widely available, and produce the cup the brewer was designed for. Generic and "premium" alternatives change the cup at the margins — bleached vs natural, thickness, fold pattern — but no filter saves a bad brew, and no brew is ruined by a competent generic filter. We do not currently link paper filters as catalog products — they are commodity items with thin margins where vendor reliability matters more than brand. If you have your filters, see our <a href="/how-to/james-hoffmann-v60-technique/">Hoffmann V60 technique</a>, <a href="/how-to/james-hoffmann-aeropress-recipe/">Hoffmann AeroPress recipe</a>, or <a href="/how-to/aeropress-inverted-method/">inverted AeroPress method</a>.',
+    description:
+      'Best paper filters for V60 and AeroPress — when OEM filters matter, when generic is fine, and what to look for in non-OEM alternatives.',
+    // Filter intentionally returns no products — this is an educational
+    // page anchored by the brewers in our catalog. The template shows the
+    // "no products" state and our intro + FAQ carry the value.
+    filter: () => false,
+    faqExtras: [
+      {
+        q: 'Should I always buy OEM Hario or OEM AeroPress filters?',
+        a: 'For convenience and predictability, yes — they cost roughly $5-8 per 100 and are stocked at most specialty coffee retailers. Generic V60-compatible filters work fine; the main risk with off-brand is variable fit (some sit slightly off in the dripper, leaving a gap where water can bypass the bed). For AeroPress specifically, the OEM filters are so cheap that there is little reason to source generic.',
+      },
+      {
+        q: 'Bleached or natural (unbleached) filters?',
+        a: 'Bleached produce less paper taste with a brief rinse. Natural filters need a more thorough rinse (15-20 seconds of hot water) to remove the woody paper note, but are functionally equivalent once rinsed. The bleaching process modern brands use is chlorine-free — there is no health reason to prefer natural.',
+      },
+      {
+        q: 'What about metal AeroPress filters?',
+        a: 'They change the cup — let more fines and oils through, producing a heavier body closer to French press. Some users prefer this; most do not. Hoffmann\'s and Kasuya\'s competition recipes both use paper. If you brew daily and hate replacing filters, a metal filter works; for cup quality, paper is the default.',
+      },
+      {
+        q: 'Do "premium" filters (Cafec, Sibarist) actually improve the cup?',
+        a: 'Marginally, for V60. Cafec Abaca+ and Sibarist FAST are thinner and faster-draining than standard Hario, which lets light roasts extract more fully without over-developing the bed. For dark roasts or daily brewing, the difference is below most palates. They cost 3-4x standard Hario — worth trying once if you brew light single-origins frequently, skippable otherwise.',
+      },
+      {
+        q: 'What should I look for in a non-OEM V60 filter?',
+        a: 'Three things: (1) correct size (V60 02 takes 02-size filters, not 01), (2) cone shape that seats fully against the dripper walls without gaps, (3) fold seam that does not crack when wet. Avoid filters marketed as "universal" — they fit nothing well. Standard Hario tabbed 02 paper at ~$6 per 100 is the safe default.',
+      },
+      {
+        q: 'How do I know if a filter is bypassing water?',
+        a: 'During the bloom, water should saturate the bed evenly and pool slightly at the top. If you see fast-moving liquid running down the sides of the dripper without contacting grounds, the filter is not sealing — either wrong size or seated incorrectly. Re-seat after rinsing; the wet paper grips the dripper better than dry.',
+      },
+    ],
+  },
+  {
+    slug: 'best-burr-grinder-aeropress-v60-under-200',
+    title: 'Best Burr Grinder for AeroPress and V60 Under $200',
+    intro:
+      'For AeroPress and V60, a $80-200 burr grinder is the right investment — and it matters more than the brewer or the kettle. Both methods reveal grinder weaknesses directly: V60 because uneven particles produce uneven extraction across the bed, AeroPress because the immersion phase amplifies fines into muddy body. The picks here cover hand grinders (Timemore C2 to 1Zpresso JX-Pro) and one electric (Baratza Encore), all capable of consistent medium-fine grinds for filter coffee.',
+    introHtml:
+      'For AeroPress and V60, a $80-200 burr grinder is the right investment — and it matters more than the brewer or the kettle. Both methods reveal grinder weaknesses directly: V60 because uneven particles produce uneven <a href="/glossary/#extraction">extraction</a> across the bed, AeroPress because the immersion phase amplifies <a href="/glossary/#fines">fines</a> into muddy body. The picks here cover hand grinders (<a href="/products/B086DM2MS3/">Timemore C2</a> to <a href="/products/B07HF93NS6/">Comandante C40</a>) and one electric (<a href="/products/B007F183LK/">Baratza Encore</a>), all capable of consistent medium-fine grinds for filter coffee. If you have your grinder, see our <a href="/how-to/james-hoffmann-v60-technique/">Hoffmann V60</a> and <a href="/how-to/james-hoffmann-aeropress-recipe/">AeroPress</a> recipes.',
+    description:
+      'Best burr grinder for AeroPress and V60 under $200 — hand and electric picks for clean filter coffee, plus the honest gap between $80 and $200 grinders.',
+    filter: (p) =>
+      p.type === 'grinder' &&
+      p.price < 200 &&
+      (bestForIncludes(p, 'pour over') ||
+        bestForIncludes(p, 'drip') ||
+        bestForIncludes(p, 'french press') ||
+        hasTag(p, 'filter-coffee') ||
+        hasTag(p, 'pour-over')),
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'How much should I spend on a grinder for AeroPress and V60?',
+        a: '$80 minimum (Timemore C2 hand grinder); $150-200 sweet spot (Baratza Encore electric or Comandante C40 hand). Below $80, you are in blade grinder or low-quality burr territory where particle distribution is inconsistent enough to flatten any pour-over recipe. Above $200, returns diminish for filter coffee — premium hand grinders (1Zpresso K-Pro) and electrics (Fellow Ode Gen 2) are nicer but not categorically better for AeroPress and V60.',
+      },
+      {
+        q: 'Hand grinder or electric grinder?',
+        a: 'Hand for single-cup households on a budget, for travel, and for quietest mornings. Electric (Baratza Encore at $170) for households brewing 2+ cups, for users who hate the 60-second grind effort, or who switch beans frequently. Both produce excellent filter coffee at this price tier.',
+      },
+      {
+        q: 'Is the Baratza Encore good enough for V60?',
+        a: 'Yes, for medium and dark roasts. For very light roasts that need a finer grind to extract fully, the Encore\'s fine end is acceptable but not exceptional — a Comandante or 1Zpresso JX-Pro produces a slightly more even fine grind. For 90% of home V60 brewing, the Encore is the right tool.',
+      },
+      {
+        q: 'What grinder settings should I use for V60 and AeroPress?',
+        a: 'V60 medium-fine: Encore setting 18-22, Comandante 22-26 clicks, Timemore C2 18-22 clicks. AeroPress medium-fine: Encore 12-15, Comandante 18-22 clicks, Timemore C2 16-18 clicks. Both methods sit in the same coarse-to-medium-fine window; the AeroPress takes slightly finer because the steep extracts more efficiently.',
+      },
+      {
+        q: 'Will a $50 blade grinder work in a pinch?',
+        a: 'Honestly, no. The particle distribution from a blade grinder is so uneven that pour-over extraction is incoherent — you get sour fragments mixed with bitter ones. AeroPress is more forgiving (the pressure phase masks some unevenness) but still produces a noticeably muddier cup than even a $80 burr grinder. Skip blade grinders.',
+      },
+    ],
+  },
   {
     slug: 'best-essential-accessories-for-gaggia-classic',
     title: 'Essential Accessories for the Gaggia Classic Pro',
