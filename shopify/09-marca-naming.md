@@ -1,12 +1,10 @@
 # 09 — Marca y naming
 
-> Brainstorm de nombres para el nicho recomendado en `08-nichos-investigados.md` (Inmobiliario España desde LATAM). Si se cambia de nicho, este documento se reescribe — pero los principios de marca son reutilizables.
->
-> **Disponibilidad de dominios:** todos los nombres aquí son propuestas. Hay que verificar `.com`, `.es` y `@handles` antes de comprometerse. Recomiendo Cloudflare Registrar para .com (precio neto).
+> Brainstorm de nombres para el nicho confirmado (Inmobiliario España desde LATAM). Round 1 invalidado tras investigación de mercado. Round 2 con criterios más estrictos abajo.
 
-## Principios de marca para B (inmobiliario España desde LATAM)
+## Principios de marca para el nicho
 
-El cliente arquetipo es un latino de 35-55 años, profesional/empresario, patrimonio significativo, con cierto recelo de comprar piso a 8000 km de su casa. Lo que necesita sentir de la marca:
+El cliente arquetipo es un latino de 35-55 años, profesional/empresario, patrimonio significativo, con cierto recelo de comprar piso a 8 000 km de su casa. Lo que necesita sentir de la marca:
 
 1. **Confianza profesional** — no startup con emojis ni "movement". Tono de banca privada / bufete boutique.
 2. **Calor humano e identidad latina** — no quiere sentirse cliente de gran consultora gringa. Quiere sentir que del otro lado hay alguien que entiende su contexto, no un proceso impersonal.
@@ -19,117 +17,124 @@ Lo que evitamos:
 - Nombres de fundador como primario (limita pivotar y vender el negocio luego). Aceptable como secundario.
 - Acrónimos que nadie recuerda.
 
-## Top 10 candidatos
+---
 
-Ordenados por mi preferencia. Para cada uno doy concepto, fortalezas, riesgos, dominios a probar.
+## Round 1 — Resultados de la investigación (descarte)
 
-### 1. Casa Madre
-- **Concepto:** doble lectura. "Casa madre" en LATAM significa raíz, origen, casa familiar histórica. España como casa madre cultural de Hispanoamérica. + literalmente "casa" como producto.
-- **Fortaleza:** evocativo, único, se queda en la cabeza, tono cálido y serio a la vez.
-- **Riesgo:** puede leerse genérico en SEO; hay que dominar el contexto.
-- **Dominios a probar:** `casamadre.com`, `casamadre.es`, `lacasamadre.com`.
+Top 3 propuesto inicialmente: **Casa Madre, Plano Maestro, Cimientos.** Tras validación de dominios, redes, marcas registradas y competidores en LATAM/España (mayo 2026):
 
-### 2. Plano Maestro
-- **Concepto:** guiño al lineage arquitecto (Alejandro = arquitecto, papá), pero también significa "plan maestro" en sentido estratégico. Tono de proyecto largo y bien diseñado.
-- **Fortaleza:** premium, distinto, tiene historia personal real que se puede contar.
-- **Riesgo:** dos palabras es más largo de pronunciar.
-- **Dominios a probar:** `planomaestro.com`, `planomaestro.es`.
+| Candidato | Veredicto | Razón |
+|---|---|---|
+| **Casa Madre** | 🔴 Descartar | `casamadre.es` lo tiene empanadería activa en Sevilla. Redes saturadas (restaurantes, hoteles, galerías). Semánticamente "casa madre" = "casa matriz" en finanzas, diluye posicionamiento. Asociaciones religiosas (órdenes católicas). |
+| **Cimientos** | 🔴 Descartar | `cimientos.com` lo tiene Grupo Cimientos (Guatemala, 30 años activos). "Cimientos Inmobiliaria" opera simultáneamente en Argentina, Colombia y Chile (mercados target). Fundación Cimientos (ONG argentina muy reconocida) domina SEO. |
+| **Plano Maestro** | 🟡 Procedible con caveats | Único con dominios probablemente comprables. Pero "plano maestro" es terminología técnica genérica → débil para registrar como marca. "Plan Maestro Inmobiliaria" (RD) compite fonéticamente. |
 
-### 3. Cimientos
-- **Concepto:** arquitectónico y fundacional. "Los cimientos de tu patrimonio en España".
-- **Fortaleza:** una palabra, fuerte, multi-significado (inmobiliario + financiero).
-- **Riesgo:** dominio .com probablemente tomado; puede tocar `cimientos.es` o `cimientos.co`.
-- **Dominios a probar:** `cimientos.es`, `cimientos.co`, `cimientos.lat`.
+**Aprendizaje clave:** en LATAM/España hay tanta empresa inmobiliaria que **el campo semántico obvio está agotado** (casa, cimiento, plan, tierra, hogar, base, raíz, suelo). Hay que salir de ahí.
 
-### 4. Puerto Madrid
-- **Concepto:** "puerto" como punto de llegada + puerta de entrada. Madrid como ciudad-marca reconocible.
-- **Fortaleza:** geográficamente claro, evoca llegada/desembarco.
-- **Riesgo:** ata la marca a Madrid (limita expandir a Costa, Andalucía).
-- **Dominios a probar:** `puertomadrid.com`, `puertomadrid.es`.
+Otros candidatos del round 1 (Puerto Madrid, Atlántica, Tierra Firme, Sello Atlántico, Patria Capital, Marbella Capital, Borrero Capital) heredan los mismos problemas y se descartan sin investigar.
 
-### 5. Atlántica
-- **Concepto:** el océano que conecta los dos mundos. Una palabra, evocativa.
-- **Fortaleza:** elegante, abstracta lo suficiente para pivotar.
-- **Riesgo:** muy común como nombre, .com probablemente caro; abstracta puede sentirse fría.
-- **Dominios a probar:** `atlantica.es`, `atlantica.lat`, `atlantica.house`, `atlanticacapital.com`.
+---
 
-### 6. Tierra Firme
-- **Concepto:** llegar a tierra firme = inversión sólida + literalmente comprar tierra/inmueble.
-- **Fortaleza:** evocativo, premium-cálido.
-- **Riesgo:** dos palabras, puede sonar a barco o aventura.
-- **Dominios a probar:** `tierrafirme.com`, `tierrafirme.es`.
+## Round 2 — Criterios actualizados
 
-### 7. Sello Atlántico
-- **Concepto:** "sello" = garantía, marca, sello notarial. Atlántico = puente geográfico. "El sello que valida tu inversión transatlántica".
-- **Fortaleza:** premium, distinto, evoca rigor.
-- **Riesgo:** dos palabras largas. Spelling tricky para hispano-pronunciar.
-- **Dominios a probar:** `selloatlantico.com`, `selloatlantico.es`.
+1. **Evitar palabras descriptivas del sector** — son genéricas, no se registran como marca, saturan SEO.
+2. **Evitar palabras de campos adyacentes saturados** (hospitality, religión, construcción genérica).
+3. **Buscar nombres con narrativa única** — historia, mitología, navegación, geografía específica.
+4. **Una palabra > dos palabras** — más memorable, más fácil de proteger.
+5. **Latín / clásico / náutico funciona bien para ticket premium.**
 
-### 8. Patria Capital
-- **Concepto:** "patria" como pertenencia + "capital" como recurso financiero y como ciudad capital.
-- **Fortaleza:** memorable, premium.
-- **Riesgo:** "patria" polariza políticamente en algunos países LATAM. Cuidado.
-- **Dominios a probar:** `patriacapital.com`, `patriacapital.es`.
+## Top 10 candidatos round 2
 
-### 9. Marbella Capital
-- **Concepto:** lugar concreto donde está papá + capital financiero.
-- **Fortaleza:** geográficamente potente, conecta con tu historia real.
-- **Riesgo:** ata la marca a Marbella, restringe alcance.
-- **Dominios a probar:** `marbellacapital.com`, `marbellacapital.es`.
+### 1. Lares ⭐
+- **Concepto:** dioses romanos protectores del hogar y la familia. En gallego/portugués y leonés antiguo, "lar" = hogar.
+- **Fortaleza:** una palabra latina, premium, profundo. No es descriptivo del sector. Pronunciación cross-LATAM perfecta.
+- **Riesgo:** algunas residencias asistidas usan "Lares" en España. Verificar clase 36.
+- **Dominios a probar:** `lares.com`, `lares.es`, `lares.lat`, `lares.house`.
 
-### 10. Borrero Capital / Borrero & Co.
-- **Concepto:** apellido familiar como marca (tipo bufete o banca privada).
-- **Fortaleza:** historia personal real (Borrero y Sánchez Cía. era la firma de papá), continuidad generacional.
-- **Riesgo:** limita venta del negocio en el futuro; depende de la reputación del apellido.
-- **Dominios a probar:** `borrerocapital.com`, `borreroco.com`.
+### 2. Indianos ⭐
+- **Concepto:** españoles que emigraban a LATAM (s. XIX-XX), se enriquecían y volvían a construir mansiones de prestigio en Asturias, Cantabria, Galicia, Canarias. Las "casas de indianos" son patrimonio arquitectónico real. Tu cliente hace literalmente la travesía inversa.
+- **Fortaleza:** narrativa REAL e imbatible. Historia documentada. Tono premium-cultural. Conexión directa con arquitectura.
+- **Riesgo:** verificar marcas con la palabra. Puede haber confusión inicial con India/indígena (resolverse con copy del primer párrafo del sitio).
+- **Dominios a probar:** `indianos.com`, `indianos.es`, `losindianos.com`, `indianoscapital.com`.
+
+### 3. Singladura ⭐
+- **Concepto:** jornada de navegación de un día en marina mercante. Travesía planificada con rumbo.
+- **Fortaleza:** premium náutico, raro = único, evoca cruzar el Atlántico literal y simbólicamente. SEO arranca limpio (ventaja, no debilidad).
+- **Riesgo:** palabra poco común, requiere educación inicial. Algunos negocios náuticos la usan, verificar.
+- **Dominios a probar:** `singladura.com`, `singladura.es`, `singladuracapital.com`.
+
+### 4. Solera
+- **Concepto:** base de barriles más viejos en vinificación = tradición acumulada. También "suelo firme".
+- **Fortaleza:** cálido + premium, conecta Andalucía (de donde es Cami) con LATAM.
+- **Riesgo:** muchas bodegas la usan, hay que verificar clase 36 inmobiliario.
+- **Dominios a probar:** `solera.com`, `solera.es`, `soleracapital.com`.
+
+### 5. Lonja
+- **Concepto:** Lonja de Indias en Sevilla = centro neurálgico del comercio España-LATAM en siglos XVI-XVIII. Símbolo histórico del puente.
+- **Fortaleza:** historia real del nicho, premium, narrativa de origen.
+- **Riesgo:** "lonja de pescado" como asociación coloquial.
+- **Dominios a probar:** `lonja.com`, `lonja.es`, `lonjacapital.com`.
+
+### 6. Sextante
+- **Concepto:** instrumento histórico de navegación. Precisión + rumbo.
+- **Fortaleza:** una palabra, memorable, premium, evocativo, no genérico del sector.
+- **Riesgo:** algunos negocios náuticos lo usan. Verificar.
+- **Dominios a probar:** `sextante.com`, `sextante.es`, `sextantecapital.com`.
+
+### 7. Sotavento
+- **Concepto:** lado del barco resguardado del viento = refugio, abrigo.
+- **Fortaleza:** náutico premium, evoca protección.
+- **Riesgo:** hay un hotel famoso en Cuba con ese nombre.
+- **Dominios a probar:** `sotavento.com`, `sotavento.es`.
+
+### 8. Vega
+- **Concepto:** llanura fértil + estrella brillante de la constelación Lyra.
+- **Fortaleza:** geográfico español + cósmico, una palabra.
+- **Riesgo:** apellido común. Bodegas Vega-Sicilia es marca muy reconocida.
+- **Dominios a probar:** `vega.es` (improbable libre), `vegacapital.com`, `casavega.com`.
+
+### 9. Meridiano
+- **Concepto:** línea imaginaria que une los polos = punto de referencia.
+- **Fortaleza:** una palabra, premium, evoca precisión.
+- **Riesgo:** SEO geográfico saturado.
+- **Dominios a probar:** `meridiano.com`, `meridianocapital.com`.
+
+### 10. Equinoccio
+- **Concepto:** momento de equilibrio entre día y noche = balance, momento singular.
+- **Fortaleza:** memorable, premium, evoca balance entre LATAM y España.
+- **Riesgo:** usado en eventos, restaurantes, festivales.
+- **Dominios a probar:** `equinoccio.com`, `equinoccio.es`.
 
 ## Mi top 3 si tuviera que elegir hoy
 
-1. **Casa Madre** — concepto más diferenciado, calor humano, tono justo.
-2. **Plano Maestro** — historia personal con papá arquitecto da una narrativa única que se puede contar en el "Nosotros" del sitio.
-3. **Cimientos** — más institucional, una palabra, fuerte.
+1. **Lares** — la más limpia conceptualmente. Latín premium, profundo, fácil de pronunciar en todo el mundo hispano.
+2. **Indianos** — narrativa imbatible. Historia documentada que vincula directamente con el cliente que hace la travesía inversa. Storytelling oro.
+3. **Singladura** — premium náutico, una palabra rara y memorable, evoca exactamente el cruce del Atlántico.
 
-Recomendaría hacer un test rápido: mandarle a 5 personas del nicho una landing con cada una de las 3 (igual mensaje, distinto nombre) y ver con cuál se identifican más. 30 minutos de trabajo, decisión real.
+## Identidad visual (provisional según finalista)
 
-## Identidad visual (sugerencia inicial)
+### Si **Lares**
+- **Paleta:** terracota cálida `#B05F40`, crema `#E8DCC4`, marrón profundo `#3B2F26`. Acento dorado discreto `#A88958`.
+- **Tipografía:** Cormorant o Source Serif 4 (serifa clásica con elegancia romana). Inter para texto.
+- **Logo concepto:** ícono inspirado en mosaicos romanos o columna minimalista. Tono atemporal.
 
-Asumiendo **Casa Madre** como provisional:
+### Si **Indianos**
+- **Paleta:** azul cobalto profundo `#1E3A5F` (mar atlántico), crema marfil `#F0E8D8` (estuco indiano), terracota `#B05F40` (tejas).
+- **Tipografía:** Playfair Display o Cormorant (serifa con carácter histórico). Atkinson Hyperlegible para texto.
+- **Logo concepto:** silueta de balconada de casa de indianos, palmera asturiana estilizada, o sello náutico s. XIX.
 
-### Paleta sugerida
-- **Primario:** beige cálido / arena `#E8DCC4` (recuerda el cream/lino del proyecto familiar).
-- **Acento:** terracota / arcilla `#B05F40` (heredado del estudio, encaja con tono mediterráneo).
-- **Tinta:** marrón oscuro `#3B2F26` (no negro absoluto, más cálido).
-- **Verde botella discreto** `#3D5240` para acentos secundarios.
+### Si **Singladura**
+- **Paleta:** azul marino oscuro `#0F2942`, blanco roto `#F5F1E8`, dorado discreto `#A88958`, rojo bermellón `#A03A2C` para acento.
+- **Tipografía:** Fraunces (variable, expresiva) o IBM Plex Serif. Inter texto.
+- **Logo concepto:** sextante estilizado, rosa de los vientos minimal, línea de rumbo que cruza horizontalmente.
 
-Si pivota a **Plano Maestro**, paleta más arquitectónica: blanco roto + tinta + un solo color acento (azul cobalto o rojo bermellón).
-
-### Tipografía sugerida
-- **Display:** Fraunces o Source Serif 4 (serifa contemporánea, premium pero cálida).
-- **Texto:** Inter o Atkinson Hyperlegible (legibilidad alta).
-- **Mono:** JetBrains Mono para datos/cifras.
-
-Estas tipos ya están configuradas en `tailwind.config.ts` del repo padre, se reutilizan.
-
-### Logo (concepto, sin diseñar)
-Para **Casa Madre**: ícono mínimo de tejado/casa estilizado, geométrico, con doble línea sugiriendo "puente" o "umbral". Acompaña tipo serifa.
-
-Para **Plano Maestro**: ícono inspirado en plano arquitectónico (compás + escuadra estilizados, o cuadrícula sutil de plano).
-
-## Tono de voz
-
-Tres parámetros:
+## Tono de voz (independiente del nombre)
 
 | Eje | Donde estamos | Donde NO estamos |
 |---|---|---|
 | Formal ↔ Cercano | Cercano profesional (tutea cuando contexto lo permita en LATAM, usted en mensajes muy formales) | Hipster colega ("oye fam"), o robótico ("estimado cliente") |
-| Técnico ↔ Accesible | Accesible-precisó: explicamos términos sin condescender | Jerga técnica innecesaria, o sobre-simplificación |
+| Técnico ↔ Accesible | Accesible-preciso: explicamos términos sin condescender | Jerga técnica innecesaria, o sobre-simplificación |
 | Optimista ↔ Realista | Realista calmado: el riesgo se nombra, los plazos son reales | Hype inmobiliario ("nunca ha sido mejor momento"), o catastrofismo |
-
-### Frases tipo (Casa Madre)
-- "Volver a la casa madre, sin sorpresas."
-- "Compramos contigo, no por comisión."
-- "Tu plan B en España, paso a paso."
-- "No vendemos pisos. Te acompañamos a comprar el tuyo."
 
 ### Frases que NO usamos
 - "Inversión segura" (todo lo seguro tiene letra pequeña).
@@ -139,8 +144,8 @@ Tres parámetros:
 
 ## Próximo paso
 
-1. Validar con Cami los top 3.
-2. Comprobar dominios en Cloudflare Registrar (`whois`).
-3. A/B test con 5 personas del nicho.
-4. Elegir y comprar dominio (~12 €/año).
-5. Cuando esté elegido: actualizar `shopify/landing/brand.config.ts` con el nombre, paleta, copy.
+1. Validar con Cami el top 3 propuesto.
+2. Lanzar agente de investigación sobre los 3 finalistas (dominios, handles, marcas registradas, competidores).
+3. Verificar manualmente en OEPM/EUIPO/IMPI los que pasen el filtro.
+4. Comprar dominio.
+5. Actualizar `shopify/landing/brand.config.ts` con el nombre, paleta, copy.
