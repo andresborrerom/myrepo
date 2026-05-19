@@ -1032,13 +1032,13 @@ export const bestPages: BestPage[] = [
     intro:
       'Paper filter choice matters less than most blog posts suggest. Genuine OEM filters (Hario tabbed V60, AeroPress original) are inexpensive, widely available, and produce the cup the brewer was designed for. Generic and "premium" alternatives change the cup at the margins — bleached vs natural, thickness, fold pattern — but no filter saves a bad brew, and no brew is ruined by a competent generic filter. This page covers when OEM is worth the premium, when generic is fine, and what to actually look for if you go off-brand.',
     introHtml:
-      'Paper filter choice matters less than most blog posts suggest. Genuine OEM filters (Hario tabbed V60, AeroPress original) are inexpensive, widely available, and produce the cup the brewer was designed for. Generic and "premium" alternatives change the cup at the margins — bleached vs natural, thickness, fold pattern — but no filter saves a bad brew, and no brew is ruined by a competent generic filter. We do not currently link paper filters as catalog products — they are commodity items with thin margins where vendor reliability matters more than brand. If you have your filters, see our <a href="/how-to/james-hoffmann-v60-technique/">Hoffmann V60 technique</a>, <a href="/how-to/james-hoffmann-aeropress-recipe/">Hoffmann AeroPress recipe</a>, or <a href="/how-to/aeropress-inverted-method/">inverted AeroPress method</a>.',
+      'Paper filter choice matters less than most blog posts suggest. Genuine OEM filters (Hario tabbed V60, AeroPress original) are inexpensive, widely available, and produce the cup the brewer was designed for. Generic and "premium" alternatives change the cup at the margins — bleached vs natural, thickness, fold pattern — but no filter saves a bad brew, and no brew is ruined by a competent generic filter. If you have your filters, see our <a href="/how-to/james-hoffmann-v60-technique/">Hoffmann V60 technique</a>, <a href="/how-to/james-hoffmann-aeropress-recipe/">Hoffmann AeroPress recipe</a>, or <a href="/how-to/aeropress-inverted-method/">inverted AeroPress method</a>.',
     description:
       'Best paper filters for V60 and AeroPress — when OEM filters matter, when generic is fine, and what to look for in non-OEM alternatives.',
-    // Filter intentionally returns no products — this is an educational
-    // page anchored by the brewers in our catalog. The template shows the
-    // "no products" state and our intro + FAQ carry the value.
-    filter: () => false,
+    // Picks ordered cheapest-first: OEM Hario/AeroPress as defaults,
+    // CAFEC Abaca+ as the optional light-roast upgrade.
+    filter: (p) => p.type === 'accessory' && hasTag(p, 'paper-filters'),
+    sort: (a, b) => a.price - b.price,
     faqExtras: [
       {
         q: 'Should I always buy OEM Hario or OEM AeroPress filters?',
