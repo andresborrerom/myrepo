@@ -105,28 +105,66 @@ Otros candidatos del round 1 (Puerto Madrid, Atlántica, Tierra Firme, Sello Atl
 - **Riesgo:** usado en eventos, restaurantes, festivales.
 - **Dominios a probar:** `equinoccio.com`, `equinoccio.es`.
 
-## Mi top 3 si tuviera que elegir hoy
+## Round 2 — Resultados de la investigación
 
-1. **Lares** — la más limpia conceptualmente. Latín premium, profundo, fácil de pronunciar en todo el mundo hispano.
-2. **Indianos** — narrativa imbatible. Historia documentada que vincula directamente con el cliente que hace la travesía inversa. Storytelling oro.
-3. **Singladura** — premium náutico, una palabra rara y memorable, evoca exactamente el cruce del Atlántico.
+Top 3 propuesto: **Lares, Indianos, Singladura.** Tras validación con agente de investigación (mayo 2026):
 
-## Identidad visual (provisional según finalista)
+| Candidato | Veredicto | Razón clave |
+|---|---|---|
+| **Lares** | 🔴 Descartar | `lares.com` es empresa de ciberseguridad activa. `lares.es` es Grupo Social Lares (federación con 1 050 residencias de mayores). Decenas de inmobiliarias activas en LATAM/España con el nombre, incluyendo Grupo Lar SOCIMI cotizado en BME. Inmobiliaria Lares (Barcelona, 1946). Y carga simbólica: "Grito de Lares" es la rebelión independentista puertorriqueña de 1868 contra España. |
+| **Indianos** | 🔴 Descartar | **Tequila Indianos** ya usa exactamente la misma narrativa ("Spanish pioneers who crossed oceans") en EEUU/México — canibaliza el storytelling en mercado principal LATAM. Dos insights cualitativos críticos: **(1)** el indiano era un español POBRE que emigró a LATAM y volvió rico — llamar al servicio "Indianos" coloca al cliente actual (LATAM rico que viene a invertir en España) en el rol del emigrante pobre que se enriqueció. Microofensa de clase. **(2)** "Indio" en México es término cargado peyorativamente (insulto racial); el prefijo "Indi-" activa ese campo semántico. En Colombia y Perú con poblaciones indígenas vivas, lectura post-colonial incómoda. |
+| **Singladura** | 🟡 Procedible con verificación manual | `singladura.com` lo tiene Singladura SL (mobiliario escolar, sector irrelevante, sin riesgo de confusión). Alternativas `singladuracapital.com` y `singladura.lat` probablemente libres. SEO virgen — rankeable en 6-12 meses. Sin marcas registradas detectables en clase 36. Sin carga simbólica. Único nombre limpio de los 6 candidatos analizados en rounds 1 y 2. |
 
-### Si **Lares**
-- **Paleta:** terracota cálida `#B05F40`, crema `#E8DCC4`, marrón profundo `#3B2F26`. Acento dorado discreto `#A88958`.
-- **Tipografía:** Cormorant o Source Serif 4 (serifa clásica con elegancia romana). Inter para texto.
-- **Logo concepto:** ícono inspirado en mosaicos romanos o columna minimalista. Tono atemporal.
+**Aprendizaje round 2:** además del campo semántico inmobiliario, también está saturado **el campo náutico-histórico-clásico genérico** (mil empresas usan Lares, Atlántica, Solera, etc.). Lo que sí queda libre son **palabras cultas raras** como Singladura, que tienen barrera de entrada cognitiva pero que un cliente premium aprecia.
 
-### Si **Indianos**
-- **Paleta:** azul cobalto profundo `#1E3A5F` (mar atlántico), crema marfil `#F0E8D8` (estuco indiano), terracota `#B05F40` (tejas).
-- **Tipografía:** Playfair Display o Cormorant (serifa con carácter histórico). Atkinson Hyperlegible para texto.
-- **Logo concepto:** silueta de balconada de casa de indianos, palmera asturiana estilizada, o sello náutico s. XIX.
+## Recomendación: proceder con Singladura
 
-### Si **Singladura**
-- **Paleta:** azul marino oscuro `#0F2942`, blanco roto `#F5F1E8`, dorado discreto `#A88958`, rojo bermellón `#A03A2C` para acento.
-- **Tipografía:** Fraunces (variable, expresiva) o IBM Plex Serif. Inter texto.
-- **Logo concepto:** sextante estilizado, rosa de los vientos minimal, línea de rumbo que cruza horizontalmente.
+Tras 2 rounds de análisis sobre 6 candidatos, Singladura es el único que pasa el filtro:
+- Premium, raro, evocativo del cruce del Atlántico
+- Sin colisiones graves con marcas registradas o competidores directos
+- SEO arranca limpio (ventaja, no debilidad)
+- Sin carga simbólica política, racial o religiosa
+- Pronunciabilidad cross-LATAM aceptable (4 sílabas, palabra culta validada por RAE)
+
+### Verificación manual obligatoria antes de comprar (~45 min)
+
+El agente fue honesto sobre sus límites (WHOIS y registros oficiales bloquearon scrape automatizado). Antes de invertir en branding:
+
+1. **Dominios en Namecheap/Cloudflare Registrar** (~10 min):
+   - `singladuracapital.com` — primario sugerido
+   - `singladura.lat` — secundario, refuerza posicionamiento LATAM
+   - Confirmar precio estándar (~15-30 €/año), descartar si es premium 5 dígitos
+
+2. **OEPM España** (~10 min): https://consultas2.oepm.es/LocalizadorWeb/ → buscar "SINGLADURA" en clases **35** (servicios empresariales), **36** (servicios financieros/inmobiliarios), **37** (construcción), **45** (servicios legales). Si hay marca activa en clase 36, problema crítico.
+
+3. **EUIPO Unión Europea** (~5 min): https://euipo.europa.eu/eSearch/ → mismo término, mismas clases.
+
+4. **IMPI México** (~10 min): https://marcanet.impi.gob.mx → "SINGLADURA" en clases 35-37, 45.
+
+5. **SIC Colombia** (~10 min): https://sipi.sic.gov.co → "SINGLADURA" en clases 35-37, 45.
+
+6. **LinkedIn Singladura Consilium** (~5 min): verificar si están activos en consultoría financiera. Si están dormidos o pivotaron a otro sector, sin problema.
+
+Si los 6 pasos salen limpios → comprar dominio y reservar handles **inmediatamente** (cada día que pasa alguien más puede registrarlo).
+
+### Identidad visual para Singladura
+
+- **Paleta:** azul marino profundo `#0F2942` (mar atlántico nocturno), blanco roto `#F5F1E8` (vela), dorado discreto `#A88958` (instrumento de bronce), rojo bermellón `#A03A2C` para acento.
+- **Tipografía:** Fraunces (display, variable, expresiva) o IBM Plex Serif. Inter para texto. JetBrains Mono para datos.
+- **Logo concepto:** sextante estilizado en línea fina, rosa de los vientos minimalista, o línea de rumbo que cruza horizontalmente atravesando una "S" inicial.
+
+### Frases tipo para Singladura
+- "Tu travesía a la casa que querés en España."
+- "Calculamos el rumbo. Cami visita el puerto. Tú firmas la escritura."
+- "Cada operación, una singladura medida."
+- "No vendemos pisos. Marcamos rumbos."
+
+### Handles a reservar el mismo día que se compra el dominio
+- Instagram: `@singladura.capital` o `@singladura.lat`
+- LinkedIn: página de empresa "Singladura Capital"
+- X/Twitter: `@singladuracap`
+- YouTube: canal "Singladura"
+- TikTok: `@singladura.capital`
 
 ## Tono de voz (independiente del nombre)
 
@@ -144,8 +182,9 @@ Otros candidatos del round 1 (Puerto Madrid, Atlántica, Tierra Firme, Sello Atl
 
 ## Próximo paso
 
-1. Validar con Cami el top 3 propuesto.
-2. Lanzar agente de investigación sobre los 3 finalistas (dominios, handles, marcas registradas, competidores).
-3. Verificar manualmente en OEPM/EUIPO/IMPI los que pasen el filtro.
-4. Comprar dominio.
-5. Actualizar `shopify/landing/brand.config.ts` con el nombre, paleta, copy.
+1. ✅ Round 1 invalidado (Casa Madre, Plano Maestro, Cimientos).
+2. ✅ Round 2 invalidado parcialmente (Lares, Indianos descartados). Singladura procedible.
+3. ⏳ **Pendiente:** verificación manual de Singladura (~45 min, ver checklist arriba).
+4. ⏳ Si pasa los 6 checks: comprar `singladuracapital.com` + `singladura.lat` + reservar handles en redes el mismo día.
+5. ⏳ Actualizar `shopify/landing/brand.config.ts` con el nombre, paleta y copy nuevos.
+6. ⏳ Encargar diseño de logo (Fiverr o ilustrador local, ~150-400 €).
