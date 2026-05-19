@@ -1,27 +1,40 @@
 import type { Config } from 'tailwindcss';
 
+// Paleta semántica — los nombres de tokens son agnósticos del nicho, los hex
+// son específicos a la marca actual (Singladura, náutico-premium).
+// Si cambia la marca pero no el tono, basta con ajustar los hex de abajo.
+
 const config: Config = {
   content: ['./src/**/*.{ts,tsx}', './brand.config.ts'],
   theme: {
     extend: {
       colors: {
-        arena: '#E8DCC4',
-        'arena-warm': '#F2E8D2',
+        // Fondos claros — evocan vela, papel naval, blanco roto premium
+        arena: '#F5F1E8',
+        'arena-warm': '#EFE8D6',
+
+        // Acento de marca — bermellón de bandera marítima
         arcilla: {
-          400: '#C97B5C',
-          500: '#B05F40',
-          600: '#8E4A2E'
+          400: '#C45A48',
+          500: '#A03A2C',
+          600: '#7E2A1F'
         },
+
+        // Textos y fondos oscuros — azul marino profundo (atlántico nocturno)
         tinta: {
-          800: '#3B2F26',
-          900: '#241D17'
+          800: '#1B3A5C',
+          900: '#0F2942'
         },
-        botella: '#3D5240',
-        regla: '#C9C4B8'
+
+        // Acción positiva / verdes de check — bronce instrumento náutico
+        botella: '#A88958',
+
+        // Borders sutiles — gris cuerda
+        regla: '#D9D2C3'
       },
       fontFamily: {
         sans: ['"Inter"', 'system-ui', 'sans-serif'],
-        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+        serif: ['"Fraunces"', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
       },
       fontSize: {

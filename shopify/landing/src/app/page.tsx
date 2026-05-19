@@ -26,7 +26,7 @@ export default function HomePage() {
       {/* Pillars */}
       <section className="bg-arena">
         <div className="mx-auto max-w-5xl px-6 py-20">
-          <h2 className="font-serif text-3xl mb-12">Cómo trabajamos</h2>
+          <h2 className="font-serif text-3xl mb-12">{brand.sections.pillarsTitle}</h2>
           <div className="grid md:grid-cols-3 gap-10">
             {brand.pillars.map((p) => (
               <div key={p.title}>
@@ -41,10 +41,10 @@ export default function HomePage() {
       {/* For whom */}
       <section className="bg-arena-warm border-y border-regla">
         <div className="mx-auto max-w-5xl px-6 py-20">
-          <h2 className="font-serif text-3xl mb-12">¿Es para ti?</h2>
+          <h2 className="font-serif text-3xl mb-12">{brand.sections.forWhomTitle}</h2>
           <div className="grid md:grid-cols-2 gap-10">
             <div>
-              <h3 className="font-serif text-xl mb-4 text-botella">Sí, si...</h3>
+              <h3 className="font-serif text-xl mb-4 text-botella">{brand.sections.forWhomYes}</h3>
               <ul className="space-y-3">
                 {brand.forWhom.isFor.map((item) => (
                   <li key={item} className="flex gap-3">
@@ -55,7 +55,7 @@ export default function HomePage() {
               </ul>
             </div>
             <div>
-              <h3 className="font-serif text-xl mb-4 text-arcilla-600">No, si...</h3>
+              <h3 className="font-serif text-xl mb-4 text-arcilla-600">{brand.sections.forWhomNo}</h3>
               <ul className="space-y-3">
                 {brand.forWhom.isNotFor.map((item) => (
                   <li key={item} className="flex gap-3">
@@ -72,7 +72,7 @@ export default function HomePage() {
       {/* FAQ */}
       <section className="bg-arena">
         <div className="mx-auto max-w-3xl px-6 py-20">
-          <h2 className="font-serif text-3xl mb-12">Preguntas frecuentes</h2>
+          <h2 className="font-serif text-3xl mb-12">{brand.sections.faqTitle}</h2>
           <div className="space-y-8">
             {brand.faq.map((item) => (
               <div key={item.q}>
@@ -88,14 +88,13 @@ export default function HomePage() {
       <section className="bg-tinta-900 text-arena">
         <div className="mx-auto max-w-3xl px-6 py-20 text-center">
           <h2 className="font-serif text-3xl text-arena mb-4">
-            Apúntate sin compromiso
+            {brand.sections.finalCtaTitle}
           </h2>
           <p className="text-arena/80 mb-8 max-w-prose mx-auto">
-            Primer grupo: 5 plazas. Te avisamos cuando abramos y reservas turno.
-            Sin spam, sin venta agresiva.
+            {brand.sections.finalCtaBody}
           </p>
           <div className="max-w-md mx-auto">
-            <WaitlistForm source="footer-cta" ctaLabel="Reservar mi plaza" variant="dark" />
+            <WaitlistForm source="footer-cta" ctaLabel={brand.sections.finalCtaButton} variant="dark" />
           </div>
         </div>
       </section>
