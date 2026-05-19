@@ -50,7 +50,8 @@
 - ✅ **Inline CTAs en product pages** (commit 700dbf2): componente `OwnerHelp.astro` con border-left amber. 41/64 product pages muestran 2 how-to + 2 troubleshoot relevantes (espresso machines + grinders). 23/64 skipean correctamente (accessories + brewers sin guides aún). +870 bytes promedio peso.
 - ✅ **Generic how-to/troubleshoot para brewers + accessories** (commit 2ecc48b): +8 pages cubren cleaning + kettle descale + pour-over grind + knock-box + WDT + Moka mistakes + French press grit + puck screen. **Coverage CTA ahora 64/64** product pages (full). Anti-gray-hat estricto.
 - ✅ **AeroPress + V60 recipes** (commit último): +8 how-to capturando high-volume brewing queries (Hoffmann AeroPress + V60, Kasuya WAC 2016 + 4:6 V60, travel workflow, ratio guide, pour-over vs AeroPress). Bug fix bonus: `toIsoDuration` ahora reconoce plurales. Anti-gray-hat: cada recipe atribuye fuente original.
-- 📊 **Total páginas del sitio: 252** (de los 67 iniciales: +276%).
+- ✅ **V60/pour-over commercial intent pages**: +6 pages (4 best-of + 2 compare) cierran funnel top-of-funnel → conversión. 8 recipes modificados con "Need the right gear?" step final linkeando a best-of relevantes. Anti-gray-hat: Acaia overpriced flag, Fellow Stagg only-in-catalog framed honesto, filter page educational sin afiliado.
+- 📊 **Total páginas del sitio: 258** (de los 67 iniciales: +285%).
 
 ### Próximo hito objetivo
 
