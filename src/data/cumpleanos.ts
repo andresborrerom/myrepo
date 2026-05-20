@@ -49,7 +49,7 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
     },
     coverImage: {
       src: '/images/cumpleanos/marce-papa.jpg',
-      objectPosition: '75% center',
+      objectPosition: 'center',
       alt: 'Marce y Alejandro en la playa al anochecer'
     }
   }
