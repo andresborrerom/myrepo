@@ -13,6 +13,11 @@ export type TarjetaCumple = {
     artist: string;
     youtubeVideoId: string;
   };
+  coverImage?: {
+    src: string;
+    objectPosition?: string;
+    alt: string;
+  };
 };
 
 const marceBody =
@@ -41,6 +46,11 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
       title: 'El Rey',
       artist: 'Vicente Fernández',
       youtubeVideoId: '5jmE8UsaM2U'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/marce-papa.jpg',
+      objectPosition: '75% center',
+      alt: 'Marce y Alejandro en la playa al anochecer'
     }
   }
 ];

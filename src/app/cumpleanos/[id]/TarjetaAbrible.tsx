@@ -12,51 +12,100 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
   return (
     <article className="relative mt-6 overflow-hidden rounded-3xl bg-cream-50 shadow-warm">
       {/* Cinta superior con color de rama (siempre visible) */}
-      <div className={`absolute left-0 top-0 z-10 h-1.5 w-full ${ribbon}`} aria-hidden />
+      <div className={`absolute left-0 top-0 z-20 h-1.5 w-full ${ribbon}`} aria-hidden />
 
       {/* CARÁTULA (carta cerrada) */}
       {!open && (
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="relative block w-full px-6 py-16 text-center transition hover:bg-cream-100 sm:px-10 sm:py-20"
+          className="relative block w-full text-center"
           aria-label={`Abrir la tarjeta de ${from}`}
         >
-          {/* "75" gigante de fondo */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 flex items-center justify-center select-none"
-          >
-            <span className="font-display text-[260px] font-extralight italic leading-none text-clay-500/10 sm:text-[340px]">
-              75
-            </span>
-          </div>
+          {t.coverImage ? (
+            <div className="relative aspect-[3/4] w-full overflow-hidden sm:aspect-[4/5]">
+              {/* Foto de fondo */}
+              <img
+                src={t.coverImage.src}
+                alt={t.coverImage.alt}
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ objectPosition: t.coverImage.objectPosition || 'center' }}
+              />
+              {/* Gradiente para legibilidad */}
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30"
+              />
 
-          <div className="relative space-y-6">
-            <p className="font-mono text-[10px] tracking-[0.3em] text-grafito">
-              PARA ALEJANDRO · 21 DE MAYO DE 2026
-            </p>
+              {/* Contenido sobre la foto */}
+              <div className="relative flex h-full flex-col justify-between p-6 sm:p-10">
+                <div className="space-y-1">
+                  <p className="font-mono text-[10px] tracking-[0.3em] text-cream-50/90">
+                    PARA ALEJANDRO
+                  </p>
+                  <p className="font-mono text-[10px] tracking-[0.3em] text-cream-50/70">
+                    21 DE MAYO DE 2026
+                  </p>
+                </div>
 
-            <div className="space-y-2">
-              <p className="font-mono text-[10px] tracking-[0.2em] text-grafito">DE</p>
-              <p className="font-display text-4xl font-light italic text-tinta sm:text-5xl">
-                {from}
-              </p>
-              {t.fromRelation && (
-                <p className="font-serif text-sm italic text-grafito">{t.fromRelation}</p>
-              )}
+                {/* "75" gigante centrado */}
+                <div className="flex flex-1 items-center justify-center">
+                  <span
+                    aria-hidden
+                    className="font-display text-[180px] font-extralight italic leading-none text-cream-50/95 drop-shadow-lg sm:text-[240px]"
+                  >
+                    75
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <div>
+                    <p className="font-mono text-[10px] tracking-[0.3em] text-cream-50/80">DE</p>
+                    <p className="mt-1 font-display text-3xl font-light italic text-cream-50 sm:text-4xl">
+                      {from}
+                    </p>
+                    {t.fromRelation && (
+                      <p className="font-serif text-sm italic text-cream-50/80">
+                        {t.fromRelation}
+                      </p>
+                    )}
+                  </div>
+                  <p className="font-mono text-[11px] tracking-[0.25em] text-cream-50 animate-pulse">
+                    TÓCAME PARA ABRIR →
+                  </p>
+                </div>
+              </div>
             </div>
-
-            <div className="mx-auto flex w-fit items-center gap-3" aria-hidden>
-              <span className="h-px w-12 bg-regla" />
-              <span className="font-mono text-[9px] tracking-[0.3em] text-grafito">♪</span>
-              <span className="h-px w-12 bg-regla" />
+          ) : (
+            // Fallback: carátula sin foto
+            <div className="relative px-6 py-16 sm:px-10 sm:py-20">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 flex items-center justify-center select-none"
+              >
+                <span className="font-display text-[260px] font-extralight italic leading-none text-clay-500/10 sm:text-[340px]">
+                  75
+                </span>
+              </div>
+              <div className="relative space-y-6">
+                <p className="font-mono text-[10px] tracking-[0.3em] text-grafito">
+                  PARA ALEJANDRO · 21 DE MAYO DE 2026
+                </p>
+                <div className="space-y-2">
+                  <p className="font-mono text-[10px] tracking-[0.2em] text-grafito">DE</p>
+                  <p className="font-display text-4xl font-light italic text-tinta sm:text-5xl">
+                    {from}
+                  </p>
+                  {t.fromRelation && (
+                    <p className="font-serif text-sm italic text-grafito">{t.fromRelation}</p>
+                  )}
+                </div>
+                <p className="font-mono text-[11px] tracking-[0.25em] text-tomate animate-pulse">
+                  TÓCAME PARA ABRIR →
+                </p>
+              </div>
             </div>
-
-            <p className="font-mono text-[11px] tracking-[0.25em] text-tomate animate-pulse">
-              TÓCAME PARA ABRIR →
-            </p>
-          </div>
+          )}
         </button>
       )}
 
@@ -81,30 +130,35 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
                 <span className="text-grafito"> · {t.fromRelation.toUpperCase()}</span>
               )}
             </p>
+            {t.song && (
+              <p className="font-mono text-[10px] tracking-[0.2em] text-grafito">
+                ♪ {t.song.title.toUpperCase()} — {t.song.artist.toUpperCase()}
+              </p>
+            )}
           </header>
 
-          {/* Reproductor de música (oculto al ojo, suena en autoplay) */}
+          {/* Iframe de YouTube invisible — autoplay activado por el click humano de "abrir" */}
           {t.song && (
-            <div className="relative mt-6">
-              <p className="font-mono text-[10px] tracking-[0.2em] text-grafito">
-                ♪ SUENA {t.song.title.toUpperCase()} — {t.song.artist.toUpperCase()}
-              </p>
-              <div className="mt-3 overflow-hidden rounded-xl">
-                <iframe
-                  title={`${t.song.title} — ${t.song.artist}`}
-                  src={`https://www.youtube.com/embed/${t.song.youtubeVideoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`}
-                  width="100%"
-                  height="80"
-                  frameBorder={0}
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                  loading="eager"
-                />
-              </div>
-              <p className="mt-2 font-serif text-[11px] italic text-grafito">
-                Si no suena, dale play arriba ↑
-              </p>
-            </div>
+            <iframe
+              aria-hidden
+              tabIndex={-1}
+              title="audio"
+              src={`https://www.youtube.com/embed/${t.song.youtubeVideoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=0`}
+              width="1"
+              height="1"
+              frameBorder={0}
+              allow="autoplay; encrypted-media"
+              style={{
+                position: 'absolute',
+                left: '-9999px',
+                top: 0,
+                width: 1,
+                height: 1,
+                opacity: 0,
+                pointerEvents: 'none',
+                border: 0
+              }}
+            />
           )}
 
           {t.greeting && (
