@@ -120,12 +120,40 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
 
           {/* Cuerpo: imagen completa de la tarjeta O texto */}
           {t.bodyImage ? (
-            <div className="relative mt-8 overflow-hidden rounded-2xl">
-              <img
-                src={t.bodyImage.src}
-                alt={t.bodyImage.alt}
-                className="block h-auto w-full"
-              />
+            <div className="relative mt-8 space-y-3">
+              <div className="overflow-hidden rounded-2xl">
+                <img
+                  src={t.bodyImage.src}
+                  alt={t.bodyImage.alt}
+                  className="block h-auto w-full"
+                />
+              </div>
+              {t.bodyImagesExtra && t.bodyImagesExtra.length > 0 && (
+                <div className="grid grid-cols-2 gap-3">
+                  {t.bodyImagesExtra.map((img) => (
+                    <div key={img.src} className="overflow-hidden rounded-2xl">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        className="block h-auto w-full"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {t.bodyAfterImagesText && (
+                <ul className="space-y-2 pt-2">
+                  {t.bodyAfterImagesText.split('\n').filter(Boolean).map((line, i) => (
+                    <li
+                      key={i}
+                      className="font-serif text-base leading-relaxed text-tinta/90 sm:text-[17px]"
+                    >
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           ) : (
             <>
