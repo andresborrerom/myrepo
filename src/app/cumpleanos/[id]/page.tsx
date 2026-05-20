@@ -60,6 +60,28 @@ export default async function TarjetaCumplePage({
           </p>
         </header>
 
+        {t.song && (
+          <div className="relative mt-6">
+            <p className="font-mono text-[10px] tracking-[0.2em] text-grafito">
+              ♪ LA CANCIÓN DE {from.toUpperCase()} PARA TI
+            </p>
+            <p className="mt-1 font-serif text-sm italic text-tinta/80">
+              {t.song.title} — {t.song.artist}
+            </p>
+            <div className="mt-3 overflow-hidden rounded-xl">
+              <iframe
+                title={`${t.song.title} — ${t.song.artist}`}
+                src={`https://open.spotify.com/embed/track/${t.song.spotifyTrackId}?utm_source=generator`}
+                width="100%"
+                height="152"
+                frameBorder={0}
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        )}
+
         {t.greeting && (
           <p className="relative mt-8 font-display text-3xl font-light italic leading-tight text-tinta sm:text-4xl">
             {t.greeting}

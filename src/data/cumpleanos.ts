@@ -8,6 +8,11 @@ export type TarjetaCumple = {
   body: string;
   signoff?: string;
   signature: string;
+  song?: {
+    title: string;
+    artist: string;
+    spotifyTrackId: string;
+  };
 };
 
 const marceBody =
@@ -24,14 +29,19 @@ Que la vida te llene de salud, energía y muchísimos momentos más para seguir 
 export const TARJETAS_CUMPLE: TarjetaCumple[] = [
   {
     id: 'marce',
-    fromName: 'Marcela',
+    fromName: 'Marcela Cabarcas',
     fromShortName: 'Marce',
-    fromRelation: 'esposa de Andrés',
+    fromRelation: 'Nuerita',
     branchColor: 'bg-olive-700',
     greeting: 'Querido suegrito,',
     body: marceBody,
     signoff: 'Con todo mi cariño,',
-    signature: 'Marce'
+    signature: 'Marce',
+    song: {
+      title: 'El Rey',
+      artist: 'Vicente Fernández',
+      spotifyTrackId: '1wZYVq58I7bjP2JfVSpOeY'
+    }
   }
 ];
 
