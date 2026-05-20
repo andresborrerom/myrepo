@@ -77,6 +77,8 @@ export async function fetchAllAportesAdmin(): Promise<Aporte[]> {
 
 // Aportes firmados por una persona (from_id). Útil para mostrar el feed de
 // cada miembro en su perfil del árbol.
+// Orden: position ASC (manual), luego created_at DESC (los nuevos arriba
+// hasta que alguien los reordene).
 export async function fetchAportesByPerson(personId: string, limit = 20): Promise<Aporte[]> {
   noStore();
   const supabase = getPublicClient();
@@ -86,6 +88,7 @@ export async function fetchAportesByPerson(personId: string, limit = 20): Promis
     .select('*')
     .eq('status', 'published')
     .eq('from_id', personId)
+    .order('position', { ascending: true })
     .order('created_at', { ascending: false })
     .limit(limit);
   return (data || []) as Aporte[];
