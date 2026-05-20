@@ -164,6 +164,27 @@ Gracias por mostrarme lo que es una pasión.
 Gracias por todas las sonrisas.
 Gracias por todas las vueltas.
 Gracias por llenar mi vida.`
+  },
+  {
+    id: 'carolina',
+    fromName: 'Carolina Borrero',
+    fromShortName: 'Carolina',
+    fromRelation: 'Hija',
+    branchColor: 'bg-clay-700',
+    song: {
+      title: 'Oye',
+      artist: 'La Sonora Dinamita',
+      youtubeVideoId: 'HevEkdeWKmo'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/carolina-tarjeta.jpg',
+      alt: 'Tarjeta festiva de Carolina para Alejandro',
+      layout: 'stacked'
+    },
+    bodyImage: {
+      src: '/images/cumpleanos/carolina-tarjeta.jpg',
+      alt: 'Tarjeta de Carolina para Alejandro en sus 75 años'
+    }
   }
 ];
 
