@@ -77,6 +77,8 @@ He preparado una nueva vida en un nuevo país, en donde queremos consentirte Mar
 
 Acerquémonos padre mío, con amor cariño y respeto por lo que la vida de todos ha traído y que los demonios que en cada lugar cada quien ha vencido (o sigue luchando para hacerlo) no sean impedimento de compartir risas, abrazos, desayunos, un postre con tres cucharas y unos cuentos de mi papa que queremos oír por primera vez o de nuevo, con tus nietos que preguntan más de lo que imaginas por ti.
 
+No sé cuánto de vida nos quede. Digo nos, que ya hay edad para que la víspera nos pase a los hijos también. Disfrutémosla en paz y en deseándonos siempre lo mejor, queriéndonos como somos, celebrando nuestras cualidades y dando uno o dos consejos sin atacar lo que para nosotros sean defectos de los demás. Y por favor: MÁS CERCA.
+
 ¡¡FELIZ CUMPLEAÑOS!! Y que celebremos cada año que sigue como este. Cuenta conmigo.`;
 
 export const TARJETAS_CUMPLE: TarjetaCumple[] = [
