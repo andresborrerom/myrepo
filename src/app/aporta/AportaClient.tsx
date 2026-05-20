@@ -338,11 +338,11 @@ export default function AportaClient({
         )}
 
         {needsFile && (
-          <Field label={`Archivo (${kind})`}>
+          <Field label={isPerfil ? 'Foto de perfil' : `Archivo (${kind})`}>
             <input
               type="file"
               accept={
-                kind === 'foto' ? 'image/*'
+                kind === 'foto' || kind === 'foto-perfil' ? 'image/*'
                 : kind === 'audio' ? 'audio/*'
                 : 'video/*'
               }
@@ -447,7 +447,7 @@ export default function AportaClient({
                       placeholder="Cuerpo"
                       className="w-full rounded-xl border border-cream-200 bg-cream-50 px-3 py-2 text-sm"
                     />
-                    {(a.kind === 'foto' || a.kind === 'audio' || a.kind === 'video') && (
+                    {(a.kind === 'foto' || a.kind === 'audio' || a.kind === 'video' || a.kind === 'foto-perfil') && (
                       <div className="rounded-xl border border-dashed border-cream-200 p-2">
                         <p className="text-xs text-ink-800/70">
                           Reemplazar {a.kind} (opcional — deja vacío para mantener el actual)
@@ -455,7 +455,7 @@ export default function AportaClient({
                         <input
                           type="file"
                           accept={
-                            a.kind === 'foto' ? 'image/*'
+                            a.kind === 'foto' || a.kind === 'foto-perfil' ? 'image/*'
                             : a.kind === 'audio' ? 'audio/*'
                             : 'video/*'
                           }
