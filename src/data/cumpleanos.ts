@@ -111,6 +111,27 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
       alt: 'Collage de Camilo con su papá a través de los años',
       layout: 'stacked'
     }
+  },
+  {
+    id: 'luchi',
+    fromName: 'Lucía Borrero',
+    fromShortName: 'Luchi',
+    fromRelation: 'Nieta (hija de Andrés)',
+    branchColor: 'bg-olive-500',
+    song: {
+      title: 'Los Buenos Tiempos',
+      artist: 'Carlos Vives',
+      youtubeVideoId: 'JH70Fkh-XD4'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/luchi-portada.jpg',
+      alt: 'Collage de Luchi con su abuelo a través de los años',
+      layout: 'stacked'
+    },
+    bodyImage: {
+      src: '/images/cumpleanos/luchi-tarjeta.jpg',
+      alt: 'Tarjeta manuscrita de Luchi para su abuelo en sus 75 años'
+    }
   }
 ];
 
