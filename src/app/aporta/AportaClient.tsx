@@ -46,6 +46,8 @@ export default function AportaClient({
   const [editBody, setEditBody] = useState('');
   const [editYear, setEditYear] = useState<number | null>(null);
   const [editFile, setEditFile] = useState<File | null>(null);
+  const [editFromId, setEditFromId] = useState('');
+  const [editOnBehalfOf, setEditOnBehalfOf] = useState('');
   const [editSaving, setEditSaving] = useState(false);
 
   const needsFile = kind === 'foto' || kind === 'audio' || kind === 'video' || kind === 'foto-perfil';
@@ -177,6 +179,8 @@ export default function AportaClient({
     setEditBody(a.body || '');
     setEditYear(a.year);
     setEditFile(null);
+    setEditFromId(a.from_id);
+    setEditOnBehalfOf(a.on_behalf_of_id);
   }
 
   function cancelEdit() {
@@ -185,6 +189,8 @@ export default function AportaClient({
     setEditBody('');
     setEditYear(null);
     setEditFile(null);
+    setEditFromId('');
+    setEditOnBehalfOf('');
   }
 
   async function saveEdit(id: string) {
@@ -202,7 +208,9 @@ export default function AportaClient({
           title: editTitle,
           body: editBody,
           ...(editYear !== null ? { year: editYear } : {}),
-          ...(newMediaUrl ? { media_url: newMediaUrl } : {})
+          ...(newMediaUrl ? { media_url: newMediaUrl } : {}),
+          ...(editFromId ? { from_id: editFromId } : {}),
+          ...(editOnBehalfOf ? { on_behalf_of_id: editOnBehalfOf } : {})
         })
       });
       if (res.ok) {
@@ -422,6 +430,26 @@ export default function AportaClient({
 
                 {editingId === a.id ? (
                   <div className="space-y-2 p-3">
+                    <label className="block">
+                      <span className="text-[11px] font-bold uppercase tracking-wide text-ink-800/70">
+                        {a.kind === 'foto-perfil' ? '¿De quién es esta foto?' : 'Firma / Autor'}
+                      </span>
+                      <PersonSelect
+                        value={editFromId}
+                        onChange={setEditFromId}
+                        options={todos}
+                      />
+                    </label>
+                    <label className="block">
+                      <span className="text-[11px] font-bold uppercase tracking-wide text-ink-800/70">
+                        Subido por
+                      </span>
+                      <PersonSelect
+                        value={editOnBehalfOf}
+                        onChange={setEditOnBehalfOf}
+                        options={todos}
+                      />
+                    </label>
                     {a.kind === 'carta' && (
                       <input
                         type="number"
