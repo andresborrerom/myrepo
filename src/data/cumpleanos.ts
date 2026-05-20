@@ -11,7 +11,7 @@ export type TarjetaCumple = {
   song?: {
     title: string;
     artist: string;
-    spotifyTrackId: string;
+    youtubeVideoId: string;
   };
 };
 
@@ -40,7 +40,7 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
     song: {
       title: 'El Rey',
       artist: 'Vicente Fernández',
-      spotifyTrackId: '1wZYVq58I7bjP2JfVSpOeY'
+      youtubeVideoId: '5jmE8UsaM2U'
     }
   }
 ];
