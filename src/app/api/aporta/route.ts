@@ -10,7 +10,7 @@ import type { AporteKind } from '@/data/aportes-types';
 // v1: auto-publica todo (sin filtro IA). v2 (futuro): cuando ANTHROPIC_API_KEY
 // esté, llamará a Claude para moderar tono antes de publicar.
 
-const ALLOWED_KINDS: AporteKind[] = ['texto', 'foto', 'audio', 'video', 'carta'];
+const ALLOWED_KINDS: AporteKind[] = ['texto', 'foto', 'audio', 'video', 'carta', 'foto-perfil'];
 
 export async function POST(req: Request) {
   if (!isFamilyAuth()) {
@@ -56,6 +56,12 @@ export async function POST(req: Request) {
   if (!text && !media_url) {
     return NextResponse.json(
       { error: 'Necesitamos texto, archivo, o ambos' },
+      { status: 400 }
+    );
+  }
+  if (kind === 'foto-perfil' && !media_url) {
+    return NextResponse.json(
+      { error: 'La foto de perfil necesita un archivo' },
       { status: 400 }
     );
   }

@@ -5,13 +5,21 @@ import {
   HIJOS,
   PATRIARCH_ID,
   getChildren,
-  getPerson
+  getPerson,
+  type Person
 } from '@/data/family';
+import { fetchProfilePhotos } from '@/lib/aportes-fetch';
 
 export const metadata = { title: 'Árbol' };
+export const dynamic = 'force-dynamic';
 
-export default function ArbolPage() {
-  const alejandro = getPerson(PATRIARCH_ID)!;
+function withPhoto(p: Person, photos: Record<string, string>): Person {
+  return photos[p.id] ? { ...p, photo: photos[p.id] } : p;
+}
+
+export default async function ArbolPage() {
+  const photos = await fetchProfilePhotos();
+  const alejandro = withPhoto(getPerson(PATRIARCH_ID)!, photos);
 
   return (
     <div className="space-y-8">
@@ -34,8 +42,9 @@ export default function ArbolPage() {
 
       {/* Ramas: hijos con nietos debajo */}
       <ul className="space-y-4">
-        {HIJOS.map((hijo) => {
-          const nietos = getChildren(hijo.id);
+        {HIJOS.map((hijoBase) => {
+          const hijo = withPhoto(hijoBase, photos);
+          const nietos = getChildren(hijo.id).map((n) => withPhoto(n, photos));
           return (
             <li key={hijo.id} className="rounded-2xl bg-cream-100 p-4 shadow-warm">
               <Link

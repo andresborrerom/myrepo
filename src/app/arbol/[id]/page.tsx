@@ -9,7 +9,7 @@ import {
   getColorRama,
   getRama
 } from '@/data/family';
-import { fetchAportesByPerson } from '@/lib/aportes-fetch';
+import { fetchAportesByPerson, fetchProfilePhotos } from '@/lib/aportes-fetch';
 import {
   APORTE_KIND_ICON,
   APORTE_KIND_LABEL
@@ -19,18 +19,28 @@ import { formatRelative } from '@/data/updates';
 export const dynamic = 'force-dynamic';
 
 export default async function PersonPage({ params }: { params: { id: string } }) {
-  const person = getPerson(params.id);
-  if (!person) notFound();
+  const basePerson = getPerson(params.id);
+  if (!basePerson) notFound();
+
+  const photos = await fetchProfilePhotos();
+  const person = photos[basePerson.id]
+    ? { ...basePerson, photo: photos[basePerson.id] }
+    : basePerson;
+
+  const enrich = <T extends { id: string; photo?: string }>(p: T): T =>
+    photos[p.id] ? { ...p, photo: photos[p.id] } : p;
 
   const parent = person.parentId ? getPerson(person.parentId) : null;
-  const children = getChildren(person.id);
+  const parentEnriched = parent ? enrich(parent) : null;
+  const children = getChildren(person.id).map(enrich);
   const rama = getRama(person.id);
   const ramaColor = getColorRama(person.id);
 
   // Hermanos del mismo padre, excluyendo a uno mismo.
-  const siblings = person.parentId
+  const siblings = (person.parentId
     ? getChildren(person.parentId).filter((p) => p.id !== person.id)
-    : [];
+    : []
+  ).map(enrich);
 
   // Aportes firmados por esta persona (DB). Para el patriarca no traemos
   // — su feed es la app entera; el árbol queda como índice de los demás.
@@ -157,7 +167,7 @@ export default async function PersonPage({ params }: { params: { id: string } })
             {person.role === 'hijo' ? 'Tu padre' : 'Tu papá'}
           </h2>
           <Link href={`/arbol/${parent.id}`} className="block">
-            <PersonCard person={parent} />
+            <PersonCard person={parentEnriched!} />
           </Link>
         </section>
       )}
