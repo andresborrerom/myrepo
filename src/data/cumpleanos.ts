@@ -36,6 +36,17 @@ Siempre te he escrito desde el agradecimiento, por todo lo que nos das… pero h
 
 Que la vida te llene de salud, energía y muchísimos momentos más para seguir celebrando juntos.`;
 
+const camiloBody =
+`¡Feliz cumpleaños! Hoy celebramos nada menos que 75 años de vida, de historias, de aprendizajes y, sobre todo, de amor entregado a quienes te rodeamos. Y no puedo dejar pasar este día sin decirte lo importante que eres para mí y lo orgulloso y agradecido que me siento de tenerte como padre.
+
+Siempre he admirado tu generosidad. Esa manera tan natural que tienes de dar sin esperar nada a cambio, de ayudar, de estar presente y de preocuparte por todos. A lo largo de mi vida he visto cómo haces sentir especiales a las personas que quieres, y creo que eso es uno de los regalos más grandes que alguien puede tener. Tu bondad ha dejado huella en nuestra familia y en todos los que han tenido la suerte de conocerte.
+
+También quiero que sepas que has sido un gran padre. No perfecto —porque nadie lo es—, pero sí presente, cariñoso y auténtico. Me has enseñado muchísimo con tus palabras, pero aún más con tu ejemplo. Muchas veces pienso en todo lo que hiciste por nosotros sin hacer ruido, simplemente porque así eres tú: generoso, trabajador y siempre dispuesto a dar lo mejor.
+
+Hoy quiero que disfrutes de este cumpleaños rodeado de cariño, porque te lo mereces. Ojalá puedas sentir el orgullo y el amor que todos sentimos por ti. Tus 75 años son una celebración enorme para nuestra familia, y para mí son también una oportunidad para darte las gracias por tantas cosas que quizá no digo lo suficiente.
+
+Gracias por cada conversación, cada consejo, cada esfuerzo y cada gesto de amor a lo largo de todos estos años. Espero que este nuevo año de vida te traiga alegría, tranquilidad y muchos momentos felices.`;
+
 export const TARJETAS_CUMPLE: TarjetaCumple[] = [
   {
     id: 'marce',
@@ -78,6 +89,27 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
     bodyImage: {
       src: '/images/cumpleanos/alexandra-tarjeta.jpg',
       alt: 'Tarjeta de Alexandra para Alejandro en sus 75 años'
+    }
+  },
+  {
+    id: 'camilo',
+    fromName: 'Camilo Borrero',
+    fromShortName: 'Camilo',
+    fromRelation: 'Hijo',
+    branchColor: 'bg-clay-400',
+    greeting: 'Querido papá:',
+    body: camiloBody,
+    signoff: 'Gracias Papa,',
+    signature: 'Te quiero mucho.',
+    song: {
+      title: 'Take Five',
+      artist: 'Dave Brubeck',
+      youtubeVideoId: '-DHuW1h1wHw'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/camilo-portada.jpg',
+      alt: 'Collage de Camilo con su papá a través de los años',
+      layout: 'stacked'
     }
   }
 ];
