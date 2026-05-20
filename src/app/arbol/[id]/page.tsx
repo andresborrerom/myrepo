@@ -10,11 +10,7 @@ import {
   getRama
 } from '@/data/family';
 import { fetchAportesByPerson, fetchProfilePhotos } from '@/lib/aportes-fetch';
-import {
-  APORTE_KIND_ICON,
-  APORTE_KIND_LABEL
-} from '@/data/aportes-types';
-import { formatRelative } from '@/data/updates';
+import AportesListSortable from './AportesListSortable';
 
 export const dynamic = 'force-dynamic';
 
@@ -107,56 +103,7 @@ export default async function PersonPage({ params }: { params: { id: string } })
               Todavía no te ha dejado nada. Llegará.
             </div>
           ) : (
-            <ul className="space-y-2">
-              {aportes.map((a) => (
-                <li
-                  key={a.id}
-                  className="overflow-hidden rounded-2xl bg-cream-100 shadow-warm"
-                >
-                  <div aria-hidden className={`h-1 w-full ${ramaColor}`} />
-                  <div className="p-3">
-                    <p className="text-xs text-ink-800/60">
-                      <span aria-hidden>{APORTE_KIND_ICON[a.kind]}</span>{' '}
-                      {APORTE_KIND_LABEL[a.kind]}
-                      {a.year ? ` · año ${a.year}` : ''}
-                      {' · '}{formatRelative(a.created_at)}
-                    </p>
-                    {a.title && (
-                      <p className="mt-1 font-display text-base font-bold text-ink-900">
-                        {a.title}
-                      </p>
-                    )}
-                    {a.kind === 'foto' && a.media_url && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={a.media_url} alt={a.title || ''} className="mt-2 w-full rounded-xl" />
-                    )}
-                    {a.kind === 'audio' && a.media_url && (
-                      <audio controls preload="none" className="mt-2 w-full">
-                        <source src={a.media_url} />
-                      </audio>
-                    )}
-                    {a.kind === 'video' && a.media_url && (
-                      <video controls preload="none" className="mt-2 w-full rounded-xl">
-                        <source src={a.media_url} />
-                      </video>
-                    )}
-                    {a.kind === 'carta' && a.year && (
-                      <Link
-                        href={`/cartas/${a.year}`}
-                        className="mt-1 inline-block text-sm text-clay-600 underline"
-                      >
-                        Leer carta del año {a.year} →
-                      </Link>
-                    )}
-                    {a.body && (
-                      <p className="mt-2 text-sm text-ink-800 whitespace-pre-wrap">
-                        {a.body}
-                      </p>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <AportesListSortable initial={aportes} ramaColor={ramaColor} />
           )}
         </section>
       )}
