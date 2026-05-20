@@ -1,0 +1,32 @@
+name: Deploy a Vercel (producción)
+
+# Cada push a master dispara un deploy en Vercel via Deploy Hook.
+# Esto evita depender del auto-deploy de Vercel (que a veces se rompe
+# cuando hay commits con [skip ci] o cambios de config).
+#
+# Setup único (ya hecho si funciona):
+#   1. Vercel → Project Settings → Git → Deploy Hooks → Create Hook
+#      Name: "GitHub master"  Branch: master  → Copy URL
+#   2. GitHub → Repo Settings → Secrets and variables → Actions →
+#      New repository secret → Name: VERCEL_DEPLOY_HOOK_URL  Value: URL del paso 1
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy hook
+        env:
+          HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK_URL" ]; then
+            echo "::warning::VERCEL_DEPLOY_HOOK_URL no está configurado en secrets. Skip."
+            exit 0
+          fi
+          echo "Llamando al deploy hook de Vercel…"
+          curl -fsS -X POST "$HOOK_URL"
+          echo
+          echo "Deploy iniciado. Mira el progreso en https://vercel.com"

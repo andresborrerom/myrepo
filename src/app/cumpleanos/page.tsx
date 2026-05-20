@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { TARJETAS_CUMPLE, getTeaserCumple } from '@/data/cumpleanos';
+import { TARJETAS_CUMPLE } from '@/data/cumpleanos';
+import TarjetaCover from './TarjetaCover';
 
 export const metadata = { title: 'Tarjetas de cumpleaños' };
 
@@ -22,37 +23,23 @@ export default function CumpleanosPage() {
 
       <div className="my-8 h-px w-full bg-regla" aria-hidden />
 
-      <section aria-label="Tarjetas" className="space-y-8">
+      <section aria-label="Tarjetas" className="space-y-6">
         <p className="font-mono text-[10px] tracking-[0.2em] text-grafito">
           {TARJETAS_CUMPLE.length} {TARJETAS_CUMPLE.length === 1 ? 'TARJETA' : 'TARJETAS'}
         </p>
 
-        <ul className="space-y-10">
-          {TARJETAS_CUMPLE.map((t) => {
-            const teaser = getTeaserCumple(t, 220);
-            const from = t.fromShortName || t.fromName;
-            return (
-              <li key={t.id}>
-                <Link href={`/cumpleanos/${t.id}`} className="block group">
-                  <p className="font-mono text-[10px] tracking-[0.2em] text-grafito">
-                    DE {from.toUpperCase()}
-                    {t.fromRelation && ` · ${t.fromRelation.toUpperCase()}`}
-                  </p>
-                  {t.greeting && (
-                    <h2 className="mt-2 font-display text-2xl font-light italic leading-tight text-tinta group-hover:text-tomate">
-                      {t.greeting}
-                    </h2>
-                  )}
-                  <p className="mt-3 font-serif text-base leading-relaxed text-tinta/85">
-                    {teaser}
-                  </p>
-                  <p className="mt-4 font-mono text-[11px] tracking-wider text-tomate">
-                    ABRIR TARJETA →
-                  </p>
-                </Link>
-              </li>
-            );
-          })}
+        <ul className="space-y-8">
+          {TARJETAS_CUMPLE.map((t) => (
+            <li key={t.id}>
+              <Link
+                href={`/cumpleanos/${t.id}`}
+                className="block transition active:scale-[0.99]"
+                aria-label={`Abrir tarjeta de ${t.fromShortName || t.fromName}`}
+              >
+                <TarjetaCover t={t} />
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
 

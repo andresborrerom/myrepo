@@ -42,7 +42,8 @@ const config: Config = {
         display: ['"Fraunces"', 'Georgia', 'serif'],
         // v2: Source Serif 4 para lectura, JetBrains Mono para metadata.
         serif: ['"Source Serif 4"', 'Georgia', 'serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        script: ['"Caveat"', 'cursive']
       },
       fontSize: {
         // Escala generosa para 75 años: 1rem base = 18px (ver globals.css).
