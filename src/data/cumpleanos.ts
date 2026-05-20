@@ -23,6 +23,11 @@ export type TarjetaCumple = {
     src: string;
     alt: string;
   };
+  bodyImagesExtra?: {
+    src: string;
+    alt: string;
+  }[];
+  bodyAfterImagesText?: string;
 };
 
 const marceBody =
@@ -131,7 +136,34 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
     bodyImage: {
       src: '/images/cumpleanos/luchi-tarjeta.jpg',
       alt: 'Tarjeta manuscrita de Luchi para su abuelo en sus 75 años'
-    }
+    },
+    bodyImagesExtra: [
+      {
+        src: '/images/cumpleanos/luchi-caballo-verde.jpg',
+        alt: 'Caballo verde hecho con bolígrafo 3D'
+      },
+      {
+        src: '/images/cumpleanos/luchi-caballo-azul.jpg',
+        alt: 'Caballo azul hecho con bolígrafo 3D'
+      }
+    ],
+    bodyAfterImagesText:
+`Gracias por siempre estar ahí para mí.
+Muchas gracias por hacerme sentir parte de la familia.
+Gracias por el regalo del caballo.
+Gracias porque este año estuvo lleno de alegría para ti.
+Gracias por los recuerdos lindos que hemos creado este año.
+Gracias por ayudarme a formar la persona que soy hoy.
+Gracias por tu generosidad.
+Gracias por todo el tiempo que me has brindado.
+Gracias por los abrazos que me has dado.
+Gracias por siempre creer en mí.
+Gracias por tu paciencia.
+Gracias por reír conmigo.
+Gracias por mostrarme lo que es una pasión.
+Gracias por todas las sonrisas.
+Gracias por todas las vueltas.
+Gracias por llenar mi vida.`
   }
 ];
 
