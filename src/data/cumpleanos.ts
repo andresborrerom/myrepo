@@ -5,9 +5,9 @@ export type TarjetaCumple = {
   fromRelation?: string;
   branchColor?: string;
   greeting?: string;
-  body: string;
+  body?: string;
   signoff?: string;
-  signature: string;
+  signature?: string;
   song?: {
     title: string;
     artist: string;
@@ -15,7 +15,12 @@ export type TarjetaCumple = {
   };
   coverImage?: {
     src: string;
+    alt: string;
     objectPosition?: string;
+    layout?: 'overlay' | 'stacked';
+  };
+  bodyImage?: {
+    src: string;
     alt: string;
   };
 };
@@ -49,8 +54,30 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
     },
     coverImage: {
       src: '/images/cumpleanos/marce-papa.jpg',
+      alt: 'Marce y Alejandro en la playa al anochecer',
       objectPosition: 'center',
-      alt: 'Marce y Alejandro en la playa al anochecer'
+      layout: 'overlay'
+    }
+  },
+  {
+    id: 'alexandra',
+    fromName: 'Alexandra Borrero',
+    fromShortName: 'Alexandra',
+    fromRelation: 'Hija',
+    branchColor: 'bg-olive-600',
+    song: {
+      title: "That's Life",
+      artist: 'Frank Sinatra',
+      youtubeVideoId: 'UCENTf_LWYA'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/alexandra-portada.jpg',
+      alt: 'Collage de Alexandra con su papá a través de los años',
+      layout: 'stacked'
+    },
+    bodyImage: {
+      src: '/images/cumpleanos/alexandra-tarjeta.jpg',
+      alt: 'Tarjeta de Alexandra para Alejandro en sus 75 años'
     }
   }
 ];
@@ -60,6 +87,6 @@ export function getTarjetaCumple(id: string): TarjetaCumple | undefined {
 }
 
 export function getTeaserCumple(t: TarjetaCumple, max = 180): string {
-  const first = t.body.split(/\n\s*\n/)[0] || '';
+  const first = (t.body || '').split(/\n\s*\n/)[0] || '';
   return first.length > max ? first.slice(0, max).trimEnd() + '…' : first;
 }
