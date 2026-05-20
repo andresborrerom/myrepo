@@ -64,3 +64,8 @@ html.lectura-comoda body { letter-spacing: 0.01em; }
 .carta-enter {
   animation: carta-enter 380ms ease-out;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
