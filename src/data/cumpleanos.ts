@@ -57,6 +57,17 @@ Hoy quiero que disfrutes de este cumpleaños rodeado de cariño, porque te lo me
 
 Gracias por cada conversación, cada consejo, cada esfuerzo y cada gesto de amor a lo largo de todos estos años. Espero que este nuevo año de vida te traiga alegría, tranquilidad y muchos momentos felices.`;
 
+const alissaBody =
+`Hoy quiero aprovechar este día tan especial para felicitarte y desearte un cumpleaños lleno de alegría, salud y momentos bonitos. El año que viene sé que no me vuelvo a perder tu fiesta.
+
+Además de felicitarte, quiero aprovechar para darte las gracias de corazón.
+
+Gracias por todo lo que haces por nosotros, por estar siempre ahí y por tu generosidad y apoyo constante. En lo personal, quiero agradecerte especialmente el cariño y el apoyo que me has dado durante mi tratamiento. En momentos difíciles, sentir ese respaldo y esa preocupación sincera significa muchísimo más de lo que a veces sé expresar.
+
+También gracias por regalarnos tantos momentos bonitos en familia, por los viajes, las risas y los recuerdos tan divertidos que compartimos y que quedan para siempre. Son experiencias que valoramos muchísimo y que forman parte de nuestra historia familiar.
+
+Que disfrutes muchísimo de tu día, rodeado de las personas que te quieren mucho como tu familia y amigos maravillosos y celebrando como te mereces.`;
+
 const andresBody =
 `75 años que nos invitan a festejar en grande y atravesar el mundo para acompañarte. Es un momento importante, no lo dejemos pasar por alto. Un pequeño alto en el camino y poner la vida en pausa para estar presentes en todo sentido, contigo y con nadie más así sea por un día. Démonos la libertad que la vida y sus responsabilidades nos ha quitado para cantarte a todo pulmón y reírnos de la suerte que tenemos los Borrero, en cada parte de su árbol, de tener un padre que nos ha dado un piso en el que nos despreocupemos de las necesidades básicas que pide cada familia y que en este mundo ya no es menor conseguir.
 
@@ -65,6 +76,8 @@ Una pausa de parte tuya para ver que te queremos, que te queremos mimar de vuelt
 He preparado una nueva vida en un nuevo país, en donde queremos consentirte Marce, Luchi, Pepe y yo con todo el amor y respeto que te tenemos. Hotel 7 estrellas que ofrece el calor de hogar que entiendo te agobia 365 días al año pero que seguro disfrutarás al menos unos cuantos, repartidos por el mundo donde cada familia te espera con los brazos abiertos.
 
 Acerquémonos padre mío, con amor cariño y respeto por lo que la vida de todos ha traído y que los demonios que en cada lugar cada quien ha vencido (o sigue luchando para hacerlo) no sean impedimento de compartir risas, abrazos, desayunos, un postre con tres cucharas y unos cuentos de mi papa que queremos oír por primera vez o de nuevo, con tus nietos que preguntan más de lo que imaginas por ti.
+
+No sé cuánto de vida nos quede. Digo nos, que ya hay edad para que la víspera nos pase a los hijos también. Disfrutémosla en paz y en deseándonos siempre lo mejor, queriéndonos como somos, celebrando nuestras cualidades y dando uno o dos consejos sin atacar lo que para nosotros sean defectos de los demás. Y por favor: MÁS CERCA.
 
 ¡¡FELIZ CUMPLEAÑOS!! Y que celebremos cada año que sigue como este. Cuenta conmigo.`;
 
@@ -257,6 +270,26 @@ Gracias por llenar mi vida.`
         alt: 'Dibujo de Pedro Pablo: el abuelo, un caballo y él'
       }
     ]
+  },
+  {
+    id: 'alissa',
+    fromName: 'Alissa',
+    fromShortName: 'Ali',
+    branchColor: 'bg-clay-600',
+    greeting: 'Querido Alejandro,',
+    body: alissaBody,
+    signoff: 'Te queremos mucho,',
+    signature: 'Martin y Ali',
+    song: {
+      title: 'Color Esperanza',
+      artist: 'Diego Torres',
+      youtubeVideoId: 'Nb1VOQRs-Vs'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/alissa-papa.jpg',
+      alt: 'Ali y Alejandro en la playa al anochecer',
+      layout: 'overlay'
+    }
   }
 ];
 
