@@ -57,6 +57,17 @@ Hoy quiero que disfrutes de este cumpleaños rodeado de cariño, porque te lo me
 
 Gracias por cada conversación, cada consejo, cada esfuerzo y cada gesto de amor a lo largo de todos estos años. Espero que este nuevo año de vida te traiga alegría, tranquilidad y muchos momentos felices.`;
 
+const andresBody =
+`75 años que nos invitan a festejar en grande y atravesar el mundo para acompañarte. Es un momento importante, no lo dejemos pasar por alto. Un pequeño alto en el camino y poner la vida en pausa para estar presentes en todo sentido, contigo y con nadie más así sea por un día. Démonos la libertad que la vida y sus responsabilidades nos ha quitado para cantarte a todo pulmón y reírnos de la suerte que tenemos los Borrero, en cada parte de su árbol, de tener un padre que nos ha dado un piso en el que nos despreocupemos de las necesidades básicas que pide cada familia y que en este mundo ya no es menor conseguir.
+
+Una pausa de parte tuya para ver que te queremos, que te queremos mimar de vuelta si nos lo permites, que queremos estar más cerca de ti si te das el tiempo de visitarnos, que no te quedes en hotel que en las casas que nos has dado cabes y estarás mucho más cómodo con el calor que dan hijos, hijas, nueras y nietos. Que si no es jugando golf, que sea en la playa, en el patio, en el restaurante al que te queremos llevar, sea o no de altísima calidad de servicio michelín que te mereces, pero que te asegura un plato de todo tu gusto con fríjoles o con langosta.
+
+He preparado una nueva vida en un nuevo país, en donde queremos consentirte Marce, Luchi, Pepe y yo con todo el amor y respeto que te tenemos. Hotel 7 estrellas que ofrece el calor de hogar que entiendo te agobia 365 días al año pero que seguro disfrutarás al menos unos cuantos, repartidos por el mundo donde cada familia te espera con los brazos abiertos.
+
+Acerquémonos padre mío, con amor cariño y respeto por lo que la vida de todos ha traído y que los demonios que en cada lugar cada quien ha vencido (o sigue luchando para hacerlo) no sean impedimento de compartir risas, abrazos, desayunos, un postre con tres cucharas y unos cuentos de mi papa que queremos oír por primera vez o de nuevo, con tus nietos que preguntan más de lo que imaginas por ti.
+
+¡¡FELIZ CUMPLEAÑOS!! Y que celebremos cada año que sigue como este. Cuenta conmigo.`;
+
 export const TARJETAS_CUMPLE: TarjetaCumple[] = [
   {
     id: 'marce',
@@ -91,9 +102,9 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
     fromRelation: 'Hija',
     branchColor: 'bg-olive-600',
     song: {
-      title: "That's Life",
-      artist: 'Frank Sinatra',
-      youtubeVideoId: 'UCENTf_LWYA'
+      title: 'Father and Son',
+      artist: 'Cat Stevens',
+      youtubeVideoId: 'P6zaCV4niKk'
     },
     coverImage: {
       src: '/images/cumpleanos/alexandra-portada.jpg',
@@ -194,6 +205,58 @@ Gracias por llenar mi vida.`
       src: '/images/cumpleanos/carolina-tarjeta.jpg',
       alt: 'Tarjeta de Carolina para Alejandro en sus 75 años'
     }
+  },
+  {
+    id: 'andres',
+    fromName: 'Andrés Borrero',
+    fromShortName: 'Pocho',
+    fromRelation: 'Hijo',
+    branchColor: 'bg-olive-700',
+    greeting: '¡Padre mío!! ¡Feliz cumpleaños a ti!',
+    body: andresBody,
+    signoff: 'Te adoro,',
+    signature: 'Andrés',
+    song: {
+      title: 'My Way',
+      artist: 'Frank Sinatra',
+      youtubeVideoId: 'qQzdAsjWGPg'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/andres-portada.jpg',
+      alt: 'Collage de Andrés (Pocho) con su papá a través de los años',
+      layout: 'stacked'
+    }
+  },
+  {
+    id: 'pedro-pablo',
+    fromName: 'Pedro Pablo Borrero Cabarcas',
+    fromShortName: 'Pedro Pablo',
+    fromRelation: 'Nieto (hijo de Andrés)',
+    branchColor: 'bg-olive-500',
+    song: {
+      title: 'What a Wonderful World',
+      artist: 'Louis Armstrong',
+      youtubeVideoId: 'rBrd_3VMC3c'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/pedro-pablo-portada.jpg',
+      alt: 'Collage de Pedro Pablo con su abuelo a través de los años',
+      layout: 'stacked'
+    },
+    bodyImagesExtra: [
+      {
+        src: '/images/cumpleanos/pedro-pablo-dibujo-1.jpg',
+        alt: 'Carta manuscrita de Pedro Pablo: Felices 75 años abuelito'
+      },
+      {
+        src: '/images/cumpleanos/pedro-pablo-dibujo-2.jpg',
+        alt: 'Dibujo de Pedro Pablo: One Piece, barco pirata con personajes'
+      },
+      {
+        src: '/images/cumpleanos/pedro-pablo-dibujo-3.jpg',
+        alt: 'Dibujo de Pedro Pablo: el abuelo, un caballo y él'
+      }
+    ]
   }
 ];
 
