@@ -8,7 +8,7 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
   const [open, setOpen] = useState(false);
   const [needsManualPlay, setNeedsManualPlay] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const paragraphs = t.body.split(/\n\s*\n/);
+  const paragraphs = (t.body || '').split(/\n\s*\n/).filter(Boolean);
   const from = t.fromShortName || t.fromName;
   const ribbon = t.branchColor || 'bg-clay-500';
 
@@ -118,32 +118,47 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
             </button>
           )}
 
-          {t.greeting && (
-            <p className="relative mt-8 font-script text-5xl text-tinta leading-tight sm:text-6xl">
-              {t.greeting}
-            </p>
+          {/* Cuerpo: imagen completa de la tarjeta O texto */}
+          {t.bodyImage ? (
+            <div className="relative mt-8 overflow-hidden rounded-2xl">
+              <img
+                src={t.bodyImage.src}
+                alt={t.bodyImage.alt}
+                className="block h-auto w-full"
+              />
+            </div>
+          ) : (
+            <>
+              {t.greeting && (
+                <p className="relative mt-8 font-script text-5xl text-tinta leading-tight sm:text-6xl">
+                  {t.greeting}
+                </p>
+              )}
+
+              <div className="relative mt-6 space-y-5">
+                {paragraphs.map((p, i) => (
+                  <p
+                    key={i}
+                    className="font-serif text-base leading-relaxed text-tinta/90 sm:text-[17px] sm:leading-[1.75]"
+                  >
+                    {p}
+                  </p>
+                ))}
+              </div>
+
+              {t.signoff && (
+                <p className="relative mt-10 font-script text-3xl text-tinta/90 sm:text-4xl">
+                  {t.signoff}
+                </p>
+              )}
+
+              {t.signature && (
+                <p className="relative mt-1 font-script text-6xl font-bold text-tomate leading-none sm:text-7xl">
+                  {t.signature}
+                </p>
+              )}
+            </>
           )}
-
-          <div className="relative mt-6 space-y-5">
-            {paragraphs.map((p, i) => (
-              <p
-                key={i}
-                className="font-serif text-base leading-relaxed text-tinta/90 sm:text-[17px] sm:leading-[1.75]"
-              >
-                {p}
-              </p>
-            ))}
-          </div>
-
-          {t.signoff && (
-            <p className="relative mt-10 font-script text-3xl text-tinta/90 sm:text-4xl">
-              {t.signoff}
-            </p>
-          )}
-
-          <p className="relative mt-1 font-script text-6xl font-bold text-tomate leading-none sm:text-7xl">
-            {t.signature}
-          </p>
 
           <div className="relative mt-12 flex items-center gap-3" aria-hidden>
             <span className="h-px flex-1 bg-regla" />
