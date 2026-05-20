@@ -44,8 +44,8 @@ export const FAMILY: Person[] = [
   { id: 'camilo',        name: 'Camilo Borrero',        shortName: 'Camilo',        age: 34, birthDate: '1991-07-03', role: 'hijo', parentId: PATRIARCH_ID, color: 'bg-clay-400' },
 
   // --- Nietos ---
-  { id: 'alejo',        name: 'Alejo',        age: 16, role: 'nieto', parentId: 'luis-fernando' },
-  { id: 'valentina',    name: 'Valentina',    age: 14, role: 'nieto', parentId: 'luis-fernando' },
+  { id: 'alejo',        name: 'Alejo',        age: 16, birthDate: '2009-10-27', role: 'nieto', parentId: 'luis-fernando' },
+  { id: 'valentina',    name: 'Valentina',    age: 14, birthDate: '2011-09-28', role: 'nieto', parentId: 'luis-fernando' },
   { id: 'miranda',      name: 'Miranda',      age: 18, birthDate: '2007-09-07', role: 'nieto', parentId: 'alexandra' },
   { id: 'aleria',       name: 'Aleria',       age: 11, role: 'nieto', parentId: 'carolina' },
   { id: 'carlota',      name: 'Carlota',      age:  9, role: 'nieto', parentId: 'carolina' },
