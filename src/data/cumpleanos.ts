@@ -226,6 +226,37 @@ Gracias por llenar mi vida.`
       alt: 'Collage de Andrés (Pocho) con su papá a través de los años',
       layout: 'stacked'
     }
+  },
+  {
+    id: 'pedro-pablo',
+    fromName: 'Pedro Pablo Borrero Cabarcas',
+    fromShortName: 'Pedro Pablo',
+    fromRelation: 'Nieto (hijo de Andrés)',
+    branchColor: 'bg-olive-500',
+    song: {
+      title: 'What a Wonderful World',
+      artist: 'Louis Armstrong',
+      youtubeVideoId: 'rBrd_3VMC3c'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/pedro-pablo-portada.jpg',
+      alt: 'Collage de Pedro Pablo con su abuelo a través de los años',
+      layout: 'stacked'
+    },
+    bodyImagesExtra: [
+      {
+        src: '/images/cumpleanos/pedro-pablo-dibujo-1.jpg',
+        alt: 'Carta manuscrita de Pedro Pablo: Felices 75 años abuelito'
+      },
+      {
+        src: '/images/cumpleanos/pedro-pablo-dibujo-2.jpg',
+        alt: 'Dibujo de Pedro Pablo: One Piece, barco pirata con personajes'
+      },
+      {
+        src: '/images/cumpleanos/pedro-pablo-dibujo-3.jpg',
+        alt: 'Dibujo de Pedro Pablo: el abuelo, un caballo y él'
+      }
+    ]
   }
 ];
 
