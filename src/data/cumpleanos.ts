@@ -137,8 +137,16 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
       src: '/images/cumpleanos/luchi-tarjeta.jpg',
       alt: 'Tarjeta manuscrita de Luchi para su abuelo en sus 75 años'
     },
-    // bodyImagesExtra: las 2 fotos de los caballos 3D entran aquí cuando
-    // el usuario las vuelva a adjuntar (la sesión perdió las primeras).
+    bodyImagesExtra: [
+      {
+        src: '/images/cumpleanos/luchi-caballo-verde.jpg',
+        alt: 'Caballo verde hecho con bolígrafo 3D'
+      },
+      {
+        src: '/images/cumpleanos/luchi-caballo-azul.jpg',
+        alt: 'Caballo azul hecho con bolígrafo 3D'
+      }
+    ],
     bodyAfterImagesText:
 `Gracias por siempre estar ahí para mí.
 Muchas gracias por hacerme sentir parte de la familia.
