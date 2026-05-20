@@ -1,117 +1,87 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { TarjetaCumple } from '@/data/cumpleanos';
+import TarjetaCover from '../TarjetaCover';
 
 export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
   const [open, setOpen] = useState(false);
+  const [needsManualPlay, setNeedsManualPlay] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const paragraphs = t.body.split(/\n\s*\n/);
   const from = t.fromShortName || t.fromName;
   const ribbon = t.branchColor || 'bg-clay-500';
 
+  // Manda playVideo vía postMessage al iframe pre-cargado.
+  // El click viene del usuario → el browser permite el play.
+  function startSong() {
+    const win = iframeRef.current?.contentWindow;
+    if (!win) return;
+    const msg = JSON.stringify({ event: 'command', func: 'playVideo', args: [] });
+    // Mandamos varias veces porque el iframe puede no estar listo aún.
+    win.postMessage(msg, '*');
+    setTimeout(() => win.postMessage(msg, '*'), 200);
+    setTimeout(() => win.postMessage(msg, '*'), 800);
+    setTimeout(() => win.postMessage(msg, '*'), 1800);
+  }
+
+  function handleOpen() {
+    setOpen(true);
+    if (t.song) startSong();
+    // Si después de 3s no escucha nada, ofrecemos play manual
+    if (t.song) setTimeout(() => setNeedsManualPlay(true), 3000);
+  }
+
+  function handleManualPlay() {
+    setNeedsManualPlay(false);
+    startSong();
+  }
+
   return (
-    <article className="relative mt-6 overflow-hidden rounded-3xl bg-cream-50 shadow-warm">
-      {/* Cinta superior con color de rama (siempre visible) */}
-      <div className={`absolute left-0 top-0 z-20 h-1.5 w-full ${ribbon}`} aria-hidden />
+    <>
+      {/* IFRAME PRE-CARGADO desde el inicio. Hidden pero no offscreen
+          (iOS Safari rechaza autoplay si está fuera del viewport con left:-9999). */}
+      {t.song && (
+        <iframe
+          ref={iframeRef}
+          src={`https://www.youtube.com/embed/${t.song.youtubeVideoId}?enablejsapi=1&playsinline=1&controls=0&rel=0&modestbranding=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+          title="audio"
+          aria-hidden
+          tabIndex={-1}
+          allow="autoplay; encrypted-media"
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            right: 0,
+            width: 1,
+            height: 1,
+            opacity: 0,
+            pointerEvents: 'none',
+            border: 0,
+            zIndex: -1
+          }}
+        />
+      )}
 
-      {/* CARÁTULA (carta cerrada) */}
+      {/* CARÁTULA (estado cerrado) */}
       {!open && (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="relative block w-full text-center"
-          aria-label={`Abrir la tarjeta de ${from}`}
-        >
-          {t.coverImage ? (
-            <div className="relative aspect-[3/4] w-full overflow-hidden sm:aspect-[4/5]">
-              {/* Foto de fondo */}
-              <img
-                src={t.coverImage.src}
-                alt={t.coverImage.alt}
-                className="absolute inset-0 h-full w-full object-cover"
-                style={{ objectPosition: t.coverImage.objectPosition || 'center' }}
-              />
-              {/* Gradiente para legibilidad */}
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30"
-              />
-
-              {/* Contenido sobre la foto */}
-              <div className="relative flex h-full flex-col justify-between p-6 sm:p-10">
-                <div className="space-y-1">
-                  <p className="font-mono text-[10px] tracking-[0.3em] text-cream-50/90">
-                    PARA ALEJANDRO
-                  </p>
-                  <p className="font-mono text-[10px] tracking-[0.3em] text-cream-50/70">
-                    21 DE MAYO DE 2026
-                  </p>
-                </div>
-
-                {/* "75" gigante centrado */}
-                <div className="flex flex-1 items-center justify-center">
-                  <span
-                    aria-hidden
-                    className="font-display text-[180px] font-extralight italic leading-none text-cream-50/95 drop-shadow-lg sm:text-[240px]"
-                  >
-                    75
-                  </span>
-                </div>
-
-                <div className="space-y-3">
-                  <div>
-                    <p className="font-mono text-[10px] tracking-[0.3em] text-cream-50/80">DE</p>
-                    <p className="mt-1 font-display text-3xl font-light italic text-cream-50 sm:text-4xl">
-                      {from}
-                    </p>
-                    {t.fromRelation && (
-                      <p className="font-serif text-sm italic text-cream-50/80">
-                        {t.fromRelation}
-                      </p>
-                    )}
-                  </div>
-                  <p className="font-mono text-[11px] tracking-[0.25em] text-cream-50 animate-pulse">
-                    TÓCAME PARA ABRIR →
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            // Fallback: carátula sin foto
-            <div className="relative px-6 py-16 sm:px-10 sm:py-20">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 flex items-center justify-center select-none"
-              >
-                <span className="font-display text-[260px] font-extralight italic leading-none text-clay-500/10 sm:text-[340px]">
-                  75
-                </span>
-              </div>
-              <div className="relative space-y-6">
-                <p className="font-mono text-[10px] tracking-[0.3em] text-grafito">
-                  PARA ALEJANDRO · 21 DE MAYO DE 2026
-                </p>
-                <div className="space-y-2">
-                  <p className="font-mono text-[10px] tracking-[0.2em] text-grafito">DE</p>
-                  <p className="font-display text-4xl font-light italic text-tinta sm:text-5xl">
-                    {from}
-                  </p>
-                  {t.fromRelation && (
-                    <p className="font-serif text-sm italic text-grafito">{t.fromRelation}</p>
-                  )}
-                </div>
-                <p className="font-mono text-[11px] tracking-[0.25em] text-tomate animate-pulse">
-                  TÓCAME PARA ABRIR →
-                </p>
-              </div>
-            </div>
-          )}
-        </button>
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={handleOpen}
+            className="block w-full transition active:scale-[0.99]"
+            aria-label={`Abrir la tarjeta de ${from}`}
+          >
+            <TarjetaCover t={t} />
+          </button>
+        </div>
       )}
 
       {/* CARTA ABIERTA */}
       {open && (
-        <div className="carta-enter relative px-6 py-10 sm:px-10 sm:py-14">
+        <article className="carta-enter relative mt-6 overflow-hidden rounded-3xl bg-cream-50 px-6 py-10 shadow-warm sm:px-10 sm:py-14">
+          <div className={`absolute left-0 top-0 h-1.5 w-full ${ribbon}`} aria-hidden />
+
           {/* Watermark "75" */}
           <div
             aria-hidden
@@ -137,32 +107,19 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
             )}
           </header>
 
-          {/* Iframe de YouTube invisible — autoplay activado por el click humano de "abrir" */}
-          {t.song && (
-            <iframe
-              aria-hidden
-              tabIndex={-1}
-              title="audio"
-              src={`https://www.youtube.com/embed/${t.song.youtubeVideoId}?autoplay=1&playsinline=1&rel=0&modestbranding=1&controls=0`}
-              width="1"
-              height="1"
-              frameBorder={0}
-              allow="autoplay; encrypted-media"
-              style={{
-                position: 'absolute',
-                left: '-9999px',
-                top: 0,
-                width: 1,
-                height: 1,
-                opacity: 0,
-                pointerEvents: 'none',
-                border: 0
-              }}
-            />
+          {/* Fallback de play manual si autoplay falló */}
+          {needsManualPlay && t.song && (
+            <button
+              type="button"
+              onClick={handleManualPlay}
+              className="relative mt-4 inline-flex items-center gap-2 rounded-full bg-tomate px-4 py-2 font-mono text-[11px] tracking-[0.2em] text-cream-50 shadow-warm hover:bg-clay-600"
+            >
+              ▶ TOCA PARA ESCUCHAR LA CANCIÓN
+            </button>
           )}
 
           {t.greeting && (
-            <p className="relative mt-8 font-display text-3xl font-light italic leading-tight text-tinta sm:text-4xl">
+            <p className="relative mt-8 font-script text-5xl text-tinta leading-tight sm:text-6xl">
               {t.greeting}
             </p>
           )}
@@ -179,12 +136,12 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
           </div>
 
           {t.signoff && (
-            <p className="relative mt-10 font-serif text-base italic text-tinta/90">
+            <p className="relative mt-10 font-script text-3xl text-tinta/90 sm:text-4xl">
               {t.signoff}
             </p>
           )}
 
-          <p className="relative mt-2 font-display text-3xl font-light italic text-tomate">
+          <p className="relative mt-1 font-script text-6xl font-bold text-tomate leading-none sm:text-7xl">
             {t.signature}
           </p>
 
@@ -193,8 +150,8 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
             <span className="font-mono text-[9px] tracking-[0.3em] text-grafito">75</span>
             <span className="h-px flex-1 bg-regla" />
           </div>
-        </div>
+        </article>
       )}
-    </article>
+    </>
   );
 }
