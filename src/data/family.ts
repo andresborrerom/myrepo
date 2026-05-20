@@ -28,6 +28,7 @@ export const FAMILY: Person[] = [
     age: 75,
     role: 'patriarca',
     parentId: null,
+    photo: '/images/people/alejandro.jpg',
     bio:
       'Caleño de nacimiento, bogotano por destino, marbellí por elección. ' +
       'Arquitecto y constructor (Borrero y Sánchez Cía). Hijo de Fernando ' +
