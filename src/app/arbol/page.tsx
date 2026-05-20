@@ -30,7 +30,7 @@ export default async function ArbolPage() {
       <header className="space-y-2">
         <h1 className="font-display text-3xl text-ink-900">El árbol</h1>
         <p className="text-base text-ink-800/80">
-          Una ceiba sembrada en Villeta. Eres la corona. Toca cualquier rama para ver más.
+          Una ceiba sembrada en Villeta. Papá es la raíz; sus hijos son las ramas y los nietos las hojas. Toca a cualquiera para verle.
         </p>
       </header>
 
