@@ -28,6 +28,11 @@ export type TarjetaCumple = {
     alt: string;
   }[];
   bodyAfterImagesText?: string;
+  bodyVideo?: {
+    src: string;
+    poster?: string;
+    label?: string;
+  };
 };
 
 const marceBody =
@@ -73,6 +78,10 @@ export const TARJETAS_CUMPLE: TarjetaCumple[] = [
       alt: 'Marce y Alejandro en la playa al anochecer',
       objectPosition: 'center',
       layout: 'overlay'
+    },
+    bodyVideo: {
+      src: '/videos/marce.mov',
+      label: 'Un video de Marce'
     }
   },
   {

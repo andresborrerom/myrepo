@@ -25,6 +25,17 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
     setTimeout(() => win.postMessage(msg, '*'), 1800);
   }
 
+  // Cuando arranca el video del body, pausamos la canción de fondo
+  // para evitar mezcla de audios.
+  function pauseSong() {
+    const win = iframeRef.current?.contentWindow;
+    if (!win) return;
+    win.postMessage(
+      JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+      '*'
+    );
+  }
+
   function handleOpen() {
     setOpen(true);
     if (t.song) startSong();
@@ -186,6 +197,25 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
                 </p>
               )}
             </>
+          )}
+
+          {/* Video al final, después del cierre. Al darle play se pausa
+              automáticamente la canción de fondo. */}
+          {t.bodyVideo && (
+            <div className="relative mt-10">
+              <p className="mb-3 font-mono text-[10px] tracking-[0.2em] text-grafito">
+                {(t.bodyVideo.label || 'VIDEO').toUpperCase()}
+              </p>
+              <video
+                src={t.bodyVideo.src}
+                poster={t.bodyVideo.poster}
+                controls
+                playsInline
+                preload="metadata"
+                onPlay={pauseSong}
+                className="block w-full rounded-2xl bg-black/5 shadow-warm"
+              />
+            </div>
           )}
 
           <div className="relative mt-12 flex items-center gap-3" aria-hidden>
