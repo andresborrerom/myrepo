@@ -91,6 +91,29 @@ export async function fetchAportesByPerson(personId: string, limit = 20): Promis
   return (data || []) as Aporte[];
 }
 
+// Fotos de perfil: { personId → mediaUrl }. Toma la más reciente publicada
+// para cada persona. Usado por /arbol para enriquecer los avatares.
+export async function fetchProfilePhotos(): Promise<Record<string, string>> {
+  noStore();
+  const supabase = getPublicClient();
+  if (!supabase) return {};
+
+  const { data } = await supabase
+    .from('aportes')
+    .select('from_id, media_url, created_at')
+    .eq('status', 'published')
+    .eq('kind', 'foto-perfil')
+    .order('created_at', { ascending: false });
+
+  const map: Record<string, string> = {};
+  for (const row of data || []) {
+    if (row.media_url && row.from_id && !map[row.from_id]) {
+      map[row.from_id] = row.media_url;
+    }
+  }
+  return map;
+}
+
 // Cartas/mensajes SIN año asignado (kind='carta' AND year IS NULL).
 // Son los "mensajes libres" — cariño atemporal que la familia deja.
 export async function fetchMensajesLibres(limit = 100): Promise<Aporte[]> {

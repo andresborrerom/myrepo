@@ -1,7 +1,7 @@
 // Tipos compartidos para aportes. La tabla en Supabase tiene exactamente
 // estas columnas.
 
-export type AporteKind = 'texto' | 'foto' | 'audio' | 'video' | 'carta';
+export type AporteKind = 'texto' | 'foto' | 'audio' | 'video' | 'carta' | 'foto-perfil';
 export type AporteStatus = 'pending' | 'published' | 'flagged' | 'rejected';
 
 export type Aporte = {
@@ -24,7 +24,8 @@ export const APORTE_KIND_LABEL: Record<AporteKind, string> = {
   foto:  'Foto',
   audio: 'Audio',
   video: 'Video',
-  carta: 'Carta para un año específico de su vida'
+  carta: 'Carta para un año específico de su vida',
+  'foto-perfil': 'Foto de perfil para el árbol'
 };
 
 export const APORTE_KIND_ICON: Record<AporteKind, string> = {
@@ -32,5 +33,6 @@ export const APORTE_KIND_ICON: Record<AporteKind, string> = {
   foto:  '📷',
   audio: '🎙️',
   video: '🎬',
-  carta: '✍️'
+  carta: '✍️',
+  'foto-perfil': '👤'
 };

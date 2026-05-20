@@ -48,8 +48,9 @@ export default function AportaClient({
   const [editFile, setEditFile] = useState<File | null>(null);
   const [editSaving, setEditSaving] = useState(false);
 
-  const needsFile = kind === 'foto' || kind === 'audio' || kind === 'video';
+  const needsFile = kind === 'foto' || kind === 'audio' || kind === 'video' || kind === 'foto-perfil';
   const needsBody = kind === 'texto' || kind === 'carta';
+  const isPerfil = kind === 'foto-perfil';
 
   const todos = useMemo(
     () => FAMILY.filter((p) => p.role !== 'patriarca'),
@@ -275,10 +276,12 @@ export default function AportaClient({
           <PersonSelect value={fromId} onChange={setFromId} options={todos} />
         </Field>
 
-        <Field label="Lo subo en nombre de">
+        <Field label={isPerfil ? '¿De quién es esta foto?' : 'Lo subo en nombre de'}>
           <PersonSelect value={onBehalfOf} onChange={setOnBehalfOf} options={todos} />
           <p className="mt-1 text-xs text-ink-800/60">
-            Si subes algo tuyo, déjalo igual a "Soy". Si subes en nombre de un nieto chiquito, cámbialo.
+            {isPerfil
+              ? 'Esta foto va a ser el avatar de esta persona en el árbol y en toda la casa.'
+              : 'Si subes algo tuyo, déjalo igual a "Soy". Si subes en nombre de un nieto chiquito, cámbialo.'}
           </p>
         </Field>
 
@@ -298,6 +301,8 @@ export default function AportaClient({
             <strong>Carta</strong>: atada a un año específico de su vida (1951-2026). Se le revela día por día después del cumpleaños.
             <br />
             <strong>Texto / Foto / Audio / Video</strong>: mensaje libre, sin año. Va al Buzón.
+            <br />
+            <strong>Foto de perfil</strong>: foto de alguien para que sea su avatar en el árbol.
           </p>
         </Field>
 
@@ -320,15 +325,17 @@ export default function AportaClient({
           </Field>
         )}
 
-        <Field label="Título (opcional)">
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Algo corto, una frase"
-            className="w-full rounded-2xl border border-cream-200 bg-cream-50 px-4 py-3 text-base"
-          />
-        </Field>
+        {!isPerfil && (
+          <Field label="Título (opcional)">
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Algo corto, una frase"
+              className="w-full rounded-2xl border border-cream-200 bg-cream-50 px-4 py-3 text-base"
+            />
+          </Field>
+        )}
 
         {needsFile && (
           <Field label={`Archivo (${kind})`}>
@@ -350,19 +357,21 @@ export default function AportaClient({
           </Field>
         )}
 
-        <Field label={needsBody ? 'Texto' : 'Mensaje o caption (opcional)'}>
-          <textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            rows={6}
-            placeholder={
-              needsBody
-                ? 'Escribe lo que quieras decirle...'
-                : 'Acompaña tu archivo con unas palabras (opcional)...'
-            }
-            className="w-full rounded-2xl border border-cream-200 bg-cream-50 px-4 py-3 text-base"
-          />
-        </Field>
+        {!isPerfil && (
+          <Field label={needsBody ? 'Texto' : 'Mensaje o caption (opcional)'}>
+            <textarea
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              rows={6}
+              placeholder={
+                needsBody
+                  ? 'Escribe lo que quieras decirle...'
+                  : 'Acompaña tu archivo con unas palabras (opcional)...'
+              }
+              className="w-full rounded-2xl border border-cream-200 bg-cream-50 px-4 py-3 text-base"
+            />
+          </Field>
+        )}
 
         {error && (
           <p className="rounded-xl bg-clay-500/10 px-4 py-3 text-sm text-clay-700">
@@ -375,7 +384,7 @@ export default function AportaClient({
           disabled={uploading || (needsFile && !file) || (needsBody && !body)}
           className="w-full rounded-2xl bg-clay-500 px-5 py-4 text-base font-bold text-cream-50 shadow-warm disabled:opacity-50"
         >
-          {uploading ? 'Enviando...' : 'Mandar a la casa'}
+          {uploading ? 'Enviando...' : isPerfil ? 'Subir foto de perfil' : 'Mandar a la casa'}
         </button>
       </form>
 
