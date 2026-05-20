@@ -57,6 +57,17 @@ Hoy quiero que disfrutes de este cumpleaños rodeado de cariño, porque te lo me
 
 Gracias por cada conversación, cada consejo, cada esfuerzo y cada gesto de amor a lo largo de todos estos años. Espero que este nuevo año de vida te traiga alegría, tranquilidad y muchos momentos felices.`;
 
+const alissaBody =
+`Hoy quiero aprovechar este día tan especial para felicitarte y desearte un cumpleaños lleno de alegría, salud y momentos bonitos. El año que viene sé que no me vuelvo a perder tu fiesta.
+
+Además de felicitarte, quiero aprovechar para darte las gracias de corazón.
+
+Gracias por todo lo que haces por nosotros, por estar siempre ahí y por tu generosidad y apoyo constante. En lo personal, quiero agradecerte especialmente el cariño y el apoyo que me has dado durante mi tratamiento. En momentos difíciles, sentir ese respaldo y esa preocupación sincera significa muchísimo más de lo que a veces sé expresar.
+
+También gracias por regalarnos tantos momentos bonitos en familia, por los viajes, las risas y los recuerdos tan divertidos que compartimos y que quedan para siempre. Son experiencias que valoramos muchísimo y que forman parte de nuestra historia familiar.
+
+Que disfrutes muchísimo de tu día, rodeado de las personas que te quieren mucho como tu familia y amigos maravillosos y celebrando como te mereces.`;
+
 const andresBody =
 `75 años que nos invitan a festejar en grande y atravesar el mundo para acompañarte. Es un momento importante, no lo dejemos pasar por alto. Un pequeño alto en el camino y poner la vida en pausa para estar presentes en todo sentido, contigo y con nadie más así sea por un día. Démonos la libertad que la vida y sus responsabilidades nos ha quitado para cantarte a todo pulmón y reírnos de la suerte que tenemos los Borrero, en cada parte de su árbol, de tener un padre que nos ha dado un piso en el que nos despreocupemos de las necesidades básicas que pide cada familia y que en este mundo ya no es menor conseguir.
 
@@ -257,6 +268,26 @@ Gracias por llenar mi vida.`
         alt: 'Dibujo de Pedro Pablo: el abuelo, un caballo y él'
       }
     ]
+  },
+  {
+    id: 'alissa',
+    fromName: 'Alissa',
+    fromShortName: 'Ali',
+    branchColor: 'bg-clay-600',
+    greeting: 'Querido Alejandro,',
+    body: alissaBody,
+    signoff: 'Te queremos mucho,',
+    signature: 'Martin y Ali',
+    song: {
+      title: 'Color Esperanza',
+      artist: 'Diego Torres',
+      youtubeVideoId: 'Nb1VOQRs-Vs'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/alissa-papa.jpg',
+      alt: 'Ali y Alejandro en la playa al anochecer',
+      layout: 'overlay'
+    }
   }
 ];
 
