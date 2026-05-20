@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { getPerson } from '@/data/family';
 import type { CoberturaYear } from '@/lib/cartas-fetch';
 
@@ -31,7 +32,12 @@ export default function CoberturaPanel({ data }: { data: CoberturaYear[] }) {
           <ul className="space-y-2">
             {multiples.map((y) => (
               <li key={y.year} className="rounded-xl bg-cream-50 p-3">
-                <p className="font-display text-sm font-bold text-ink-900">{y.year}</p>
+                <Link
+                  href={`/cartas/${y.year}`}
+                  className="block font-display text-sm font-bold text-ink-900 hover:text-clay-600"
+                >
+                  {y.year} →
+                </Link>
                 <ul className="mt-1 space-y-0.5">
                   {y.items.map((it, i) => (
                     <li key={i} className="text-xs text-ink-800/80">
@@ -62,11 +68,16 @@ export default function CoberturaPanel({ data }: { data: CoberturaYear[] }) {
               const names = y.items.map((it) => authorLabel(it.authorId)).join(', ');
               return (
                 <li key={y.year} className="text-xs">
-                  <span className={`font-mono ${allPlaceholder ? 'text-clay-700' : 'text-ink-900'}`}>
-                    {y.year}
-                  </span>
-                  <span className="text-ink-800/70"> · {names}</span>
-                  {allPlaceholder && <span className="text-clay-700"> ⚠</span>}
+                  <Link
+                    href={`/cartas/${y.year}`}
+                    className="hover:underline"
+                  >
+                    <span className={`font-mono ${allPlaceholder ? 'text-clay-700' : 'text-ink-900'}`}>
+                      {y.year}
+                    </span>
+                    <span className="text-ink-800/70"> · {names}</span>
+                    {allPlaceholder && <span className="text-clay-700"> ⚠</span>}
+                  </Link>
                 </li>
               );
             })}

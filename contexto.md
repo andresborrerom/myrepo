@@ -222,11 +222,12 @@ Mezcla de **Héctor Abad Faciolince** (*El olvido que seremos*) + el propio esti
 | **1988** | **Guillermo Esquella y la selva viva** | **Andrés** | Las "juergas" en la selva con Guillermo Esquella, militar chileno, en los 80s |
 | **1990** | **Villeta** | **Andrés** | Santa Ibáñez, la primera finca de Alejandro; sueño truncado por la extorsión |
 | 1991 | El benjamín | Camilo | [pendiente] |
-| **1991** | **El año en que llegó Cami** | **Andrés** | Tras la separación del 86, llega el hermano del alma |
+| **1965** | **El año en que llegó Cami** | **Andrés** | (movida desde 1991 para evitar colisión con Camilo) Tras la separación del 86, llega el hermano del alma |
 | **1992** | **El año en que llegó Bernie** | **Andrés** | Los perros del papá y de Andrés, contradicción "adentro vs afuera" |
 | **1993** | **Conocer Europa** | **Andrés** | Viaje familiar a Europa a los 14: París, Frankfurt, Madrid, Strasbourg, Worms. Cami bebé en París, Selva Negra, paletas Frac, tía desconocida de Elsa María en Wörms |
 | **1996** | **América de Cali** | **Andrés** | Hincha por legado, Camilo "cerdo mayor", el Pipa y la ética de papá |
-| 1997 | El año en que cruzaste el mar | Los 5 hijos | Mudanza a Marbella |
+| **1968** | **El año en que cruzaste el mar** | **Andrés** | (movida desde 1997 para evitar colisión con Camilo "Mudanza a España") Mudanza a Marbella |
+| 1997 | Mudanza a España | Camilo (DB) | (Camilo subió esta carta a Supabase) |
 | **1998** | **Tu salto del charco** | **Andrés** | Primer año Marbella + universidad + "policía toda la vida" + desorden |
 | 2000 | El año en que tu papá se volvió escuela | Los 5 hijos | Fundación FBC |
 | **2008** | **La despedida del primogénito** | **Andrés** | Despedida de soltero de LF: Las Vegas + Cañón del Colorado. Cuatro hombres Borrero. "The chicken is ready!", aguardiente con gringos amables, helicóptero para los gordos. Propuesta: institucionalizar reunión anual en noviembre |

@@ -196,7 +196,7 @@ Andrés.`
     body: '[Camilo llenará esta carta]'
   },
   {
-    year: 1991,
+    year: 1965,
     fromId: 'andres',
     title: 'El año en que llegó Cami',
     body:
@@ -313,7 +313,7 @@ Te adoro,
 Andrés.`
   },
   {
-    year: 1997,
+    year: 1968,
     fromId: 'andres',
     title: 'El año en que cruzaste el mar',
     body:
