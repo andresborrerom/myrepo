@@ -104,12 +104,10 @@ export default async function VestibuloPage() {
           ÍNDICE
         </p>
         <SectionRow n="02" href="/arbol"      label="Tu árbol"      tag="14 personas en pie" />
-        <SectionRow n="03" href="/estudio"    label="Tu obra"       tag="Casas, edificios, flores" />
-        <SectionRow n="04" href="/cartas"     label="Tus cartas"    tag={`${sembradas} ventanas sembradas`} />
-        <SectionRow n="05" href="/cumpleanos" label="Tus tarjetas"  tag="Para los 75" />
-        <SectionRow n="06" href="/memoria"    label="Tu memoria"    tag="Setenta y cinco años" />
-        <SectionRow n="07" href="/calendario" label="Calendario"    tag="Cumpleaños de la familia" />
-        <SectionRow n="08" href="/buzon"      label="El buzón"      tag={updates.length > 0 ? `${updates.length} novedades` : 'Vacío por ahora'} />
+        <SectionRow n="03" href="/cartas"     label="Tus cartas"    tag={`${sembradas} ventanas sembradas`} />
+        <SectionRow n="04" href="/cumpleanos" label="Tus tarjetas"  tag="Para los 75" />
+        <SectionRow n="05" href="/calendario" label="Calendario"    tag="Cumpleaños de la familia" />
+        <SectionRow n="06" href="/buzon"      label="El buzón"      tag={updates.length > 0 ? `${updates.length} novedades` : 'Vacío por ahora'} />
       </section>
 
       <Rule />

@@ -109,10 +109,10 @@ export default function CalendarioPage() {
       )}
 
       <Link
-        href="/memoria"
+        href="/"
         className="block rounded-2xl border border-cream-200 bg-cream-50 p-4 text-center text-sm text-ink-800/80"
       >
-        ‹ Volver a Memoria
+        ‹ Volver al vestíbulo
       </Link>
     </div>
   );
