@@ -253,7 +253,7 @@ Gracias por llenar mi vida.`
     },
     coverImage: {
       src: '/images/cumpleanos/pedro-pablo-portada.jpg',
-      alt: 'Collage de Pedro Pablo con su abuelo a través de los años',
+      alt: 'Tarjeta "Felices 75 Abuelito" con collage de fotos de Pedro Pablo y su abuelo',
       layout: 'stacked'
     },
     bodyImagesExtra: [
