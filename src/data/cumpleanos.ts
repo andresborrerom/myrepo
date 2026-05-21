@@ -33,6 +33,10 @@ export type TarjetaCumple = {
     poster?: string;
     label?: string;
   };
+  bodyAudio?: {
+    src: string;
+    label?: string;
+  };
 };
 
 const marceBody =
@@ -290,6 +294,23 @@ Gracias por llenar mi vida.`
       alt: 'Ali y Alejandro en la playa al anochecer',
       layout: 'overlay'
     }
+  },
+  {
+    id: 'aleria',
+    fromName: 'Aleria Borrero',
+    fromShortName: 'Ale',
+    fromRelation: 'Nieta (hija de Carolina)',
+    branchColor: 'bg-clay-500',
+    greeting: 'Abuelito:',
+    body:
+`Espero que la pases súper bien el día de tu cumpleaños, espero que te lluevan bendiciones. Te quiero mucho y ya quiero verte muy pronto. ¡Te extraño! Y que Dios te bendiga.`,
+    signature: 'Ale',
+    coverImage: {
+      src: '/images/cumpleanos/aleria-tarjeta.jpg',
+      alt: 'Dibujo de Aleria: sol con dos figuras "tú y yo" y "Feliz cumple abuelito"',
+      layout: 'stacked'
+    }
+    // bodyAudio entra acá cuando Aleria suba su archivo de audio.
   }
 ];
 
