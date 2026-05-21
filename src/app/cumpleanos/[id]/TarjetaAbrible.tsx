@@ -226,6 +226,23 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
             </div>
           )}
 
+          {/* Audio al final (ej. mensaje de voz). Misma lógica: pausa la
+              canción de fondo al darle play. */}
+          {t.bodyAudio && (
+            <div className="relative mt-10">
+              <p className="mb-3 font-mono text-[10px] tracking-[0.2em] text-grafito">
+                ♪ {(t.bodyAudio.label || 'AUDIO').toUpperCase()}
+              </p>
+              <audio
+                src={t.bodyAudio.src}
+                controls
+                preload="metadata"
+                onPlay={pauseSong}
+                className="block w-full"
+              />
+            </div>
+          )}
+
           <div className="relative mt-12 flex items-center gap-3" aria-hidden>
             <span className="h-px flex-1 bg-regla" />
             <span className="font-mono text-[9px] tracking-[0.3em] text-grafito">75</span>

@@ -33,6 +33,10 @@ export type TarjetaCumple = {
     poster?: string;
     label?: string;
   };
+  bodyAudio?: {
+    src: string;
+    label?: string;
+  };
 };
 
 const marceBody =
@@ -253,7 +257,7 @@ Gracias por llenar mi vida.`
     },
     coverImage: {
       src: '/images/cumpleanos/pedro-pablo-portada.jpg',
-      alt: 'Collage de Pedro Pablo con su abuelo a través de los años',
+      alt: 'Tarjeta "Felices 75 Abuelito" con collage de fotos de Pedro Pablo y su abuelo',
       layout: 'stacked'
     },
     bodyImagesExtra: [
@@ -289,6 +293,26 @@ Gracias por llenar mi vida.`
       src: '/images/cumpleanos/alissa-papa.jpg',
       alt: 'Ali y Alejandro en la playa al anochecer',
       layout: 'overlay'
+    }
+  },
+  {
+    id: 'aleria',
+    fromName: 'Aleria Borrero',
+    fromShortName: 'Ale',
+    fromRelation: 'Nieta (hija de Carolina)',
+    branchColor: 'bg-clay-500',
+    greeting: 'Abuelito:',
+    body:
+`Espero que la pases súper bien el día de tu cumpleaños, espero que te lluevan bendiciones. Te quiero mucho y ya quiero verte muy pronto. ¡Te extraño! Y que Dios te bendiga.`,
+    signature: 'Ale',
+    coverImage: {
+      src: '/images/cumpleanos/aleria-tarjeta.jpg',
+      alt: 'Dibujo de Aleria: sol con dos figuras "tú y yo" y "Feliz cumple abuelito"',
+      layout: 'stacked'
+    },
+    bodyAudio: {
+      src: '/videos/AUDIO-aleria.m4a',
+      label: 'Un mensaje de voz de Ale'
     }
   }
 ];
