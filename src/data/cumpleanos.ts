@@ -369,9 +369,9 @@ Gracias por llenar mi vida.`
     fromRelation: 'Luis Fer, Susi, Alejo y Valentina',
     branchColor: 'bg-clay-500',
     song: {
-      title: 'Los Caminos de la Vida',
-      artist: 'Los Diablitos',
-      youtubeVideoId: '5L9itEadUCE'
+      title: 'El Camino de la Vida',
+      artist: 'Trío América',
+      youtubeVideoId: '8fMnvRwHCGg'
     },
     coverImage: {
       src: '/images/cumpleanos/borrero-musi-portada.jpg',
