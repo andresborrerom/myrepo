@@ -314,6 +314,26 @@ Gracias por llenar mi vida.`
       src: '/videos/AUDIO-aleria.m4a',
       label: 'Un mensaje de voz de Ale'
     }
+  },
+  {
+    id: 'carlota',
+    fromName: 'Carlota Borrero',
+    fromShortName: 'Tota',
+    fromRelation: 'Nieta (hija de Carolina)',
+    branchColor: 'bg-clay-400',
+    greeting: '¡Hola abuelito!',
+    body:
+`Espero que mañana tengas un día muy especial y que disfrutes tu día especial de mañana. Espero que la pases súper híper mega bien. Te mando mil besos, te quiero, ¡besos!! Muaaaaa`,
+    signature: 'Tota',
+    coverImage: {
+      src: '/images/cumpleanos/carlota-tarjeta.jpg',
+      alt: 'Tarjeta de Tota: "feliz cumpleaños Abuelito!" con sol naranja y montaña azul. "Eres el mejor abuelo del mundo entero"',
+      layout: 'stacked'
+    },
+    bodyAudio: {
+      src: '/videos/AUDIO-carlota.m4a',
+      label: 'Un mensaje de voz de Tota'
+    }
   }
 ];
 
