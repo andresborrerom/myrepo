@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="14" fill="#B05F40"/>
-  <text x="50%" y="47"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="42" font-weight="700"
-        text-anchor="middle" fill="#FBF7F0">A</text>
+  <!-- Casa Borrero Ospina — Ceiba estilizada -->
+  <rect width="64" height="64" rx="14" fill="#F5EEE1"/>
+
+  <!-- Tronco con leve cintura -->
+  <path d="M29 16 L28 50 L36 50 L35 16 Z" fill="#5D4037"/>
+
+  <!-- Contrafuertes (aletones triangulares de la base) -->
+  <path d="M14 56 L29 44 L29 56 Z" fill="#3F2D24"/>
+  <path d="M35 44 L35 56 L50 56 Z" fill="#3F2D24"/>
+  <path d="M20 56 L29 47 L29 56 Z" fill="#4A3329"/>
+  <path d="M35 47 L35 56 L44 56 Z" fill="#4A3329"/>
+
+  <!-- Follaje pagoda — 3 niveles aplanados de claro a oscuro -->
+  <ellipse cx="32" cy="36" rx="23" ry="6" fill="#3F4A21"/>
+  <ellipse cx="32" cy="26" rx="17" ry="6" fill="#54622D"/>
+  <ellipse cx="32" cy="16" rx="11" ry="6" fill="#6B7A3A"/>
 </svg>

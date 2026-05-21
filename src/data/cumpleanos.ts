@@ -37,6 +37,12 @@ export type TarjetaCumple = {
     src: string;
     label?: string;
   };
+  // Múltiples autores dentro de la tarjeta (ej. familia entera).
+  // Cada uno se renderiza con su nombre en script + divisor + texto.
+  bodyAuthors?: {
+    name: string;
+    text: string;
+  }[];
 };
 
 const marceBody =
@@ -334,6 +340,75 @@ Gracias por llenar mi vida.`
       src: '/videos/AUDIO-carlota.m4a',
       label: 'Un mensaje de voz de Tota'
     }
+  },
+  {
+    id: 'miranda',
+    fromName: 'Miranda Borrero',
+    fromShortName: 'Miri',
+    fromRelation: 'Nieta (hija de Alexandra)',
+    branchColor: 'bg-olive-600',
+    song: {
+      title: 'Quiero Amanecer',
+      artist: 'Lucho Bermúdez',
+      youtubeVideoId: 'BIQctjID_v0'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/miranda-portada.jpg',
+      alt: 'Tarjeta de Miranda: "Feliz Cumpleaños" con torta de tres pisos azul y verde',
+      layout: 'stacked'
+    },
+    bodyImage: {
+      src: '/images/cumpleanos/miranda-tarjeta.jpg',
+      alt: 'Carta manuscrita de Miranda sobre un green de golf'
+    }
+  },
+  {
+    id: 'borrero-musi',
+    fromName: 'Familia Borrero-Musi',
+    fromShortName: 'Borrero-Musi',
+    fromRelation: 'Luis Fer, Susi, Alejo y Valentina',
+    branchColor: 'bg-clay-500',
+    song: {
+      title: 'El Camino de la Vida',
+      artist: 'Trío América',
+      youtubeVideoId: '8fMnvRwHCGg'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/borrero-musi-portada.jpg',
+      alt: 'Collage de la familia Borrero-Musi con el abuelo a través de los años',
+      layout: 'stacked'
+    },
+    bodyImage: {
+      src: '/images/cumpleanos/borrero-musi-susi.jpg',
+      alt: 'Texto de Susi sobre fondo de hojas de árbol — "Feliz cumpleaños número 75"'
+    },
+    bodyAuthors: [
+      {
+        name: 'Alejo',
+        text:
+`Despertar con mi abuelo y acostarme en la cama mientras comía mermelada en tostadas provocó 2 cosas dentro de mí. Un gusto por lo dulce y una comprensión de lo mucho que me quería mi abuelo.
+
+A través de los hemisferios, su amor y dedicación a sus nietos ha sido mágico y tal vez la próxima vez que cumpla 75 años pueda ir a su fiesta de cumpleaños y devolver el amor que he tenido tanta suerte de recibir.`
+      },
+      {
+        name: 'Valentina',
+        text:
+`Feliz cumpleaños número 75, Abuelo.
+
+Te deseamos un año lleno de paz y tiempo con las personas que más quieres. Nos hace muy felices celebrar este momento contigo y esperamos que el año que viene esté lleno de buenos momentos con familia y amigos.`
+      },
+      {
+        name: 'Luis Fer',
+        text:
+`Papá mío: ¡qué vida buena que hemos tenido! Buena salud y mala memoria, pero, sobre todo, bendiciones y amor por donde sea. Gratitud infinita a Dios, a la vida, pero, sobre todo, a ti, por haber sido el mejor padre del mundo.
+
+Estoy esperando a tu cumpleaños 90 para decirlo a cuatro vientos, pero a los 75 es hora de dar la primera vuelta al ruedo, porque ya hemos ganado.
+
+Espero seguir disfrutando de tu amor y gran compañía todas las semanas, todos los años, y que me queden muchas oportunidades para devolverte tantas oportunidades, apoyo y amor.
+
+¡Dios te bendiga siempre!`
+      }
+    ]
   }
 ];
 
