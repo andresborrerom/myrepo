@@ -5,6 +5,10 @@ import { useState } from 'react';
 
 type Item = { n: string; href: string; label: string; tag: string };
 
+// Altura aprox de cada establo en px (incluye gap). Sirve para posicionar
+// el caballo de papa al centro vertical del establo activo.
+const ROW_HEIGHT = 116;
+
 export default function RecorridoIndex({ items }: { items: Item[] }) {
   const [activeIdx, setActiveIdx] = useState(0);
 
@@ -12,40 +16,22 @@ export default function RecorridoIndex({ items }: { items: Item[] }) {
     <section aria-label="Recorrido" className="space-y-1">
       <div className="mb-4 flex items-center gap-2 text-oro">
         <span className="h-px w-6 bg-oro" aria-hidden />
-        <span className="font-mono text-[10px] tracking-[0.3em]">RECORRIDO</span>
+        <span className="font-mono text-[10px] tracking-[0.3em]">RECORRIDO · ESTABLO</span>
       </div>
 
       <div className="relative">
-        {/* Caballito que se mueve al establo que vas a tocar */}
-        <CaballoMarker activeIdx={activeIdx} total={items.length} />
+        {/* Caballo de papa galopa por el pasillo del establo */}
+        <CaballoPapaMarker activeIdx={activeIdx} />
 
-        <ul className="pl-12">
+        {/* Fila de establos */}
+        <ul className="space-y-3 pl-[88px] sm:pl-[100px]">
           {items.map((it, i) => (
             <li key={it.href}>
-              <Link
-                href={it.href}
-                onMouseEnter={() => setActiveIdx(i)}
-                onFocus={() => setActiveIdx(i)}
-                onTouchStart={() => setActiveIdx(i)}
-                className="grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 border-b border-hueso py-3.5 last:border-b-0 group transition-colors"
-                aria-current={activeIdx === i ? 'true' : undefined}
-              >
-                <span
-                  className={`font-mono text-[11px] tracking-widest transition-colors ${
-                    activeIdx === i ? 'text-cuero' : 'text-oro'
-                  }`}
-                >
-                  {it.n}
-                </span>
-                <span
-                  className={`font-display text-xl font-light italic transition-colors ${
-                    activeIdx === i ? 'text-cuero' : 'text-tinta2'
-                  }`}
-                >
-                  {it.label}
-                </span>
-                <span className="font-serif text-xs italic text-grafito">{it.tag}</span>
-              </Link>
+              <Establo
+                item={it}
+                isActive={activeIdx === i}
+                onActivate={() => setActiveIdx(i)}
+              />
             </li>
           ))}
         </ul>
@@ -54,57 +40,114 @@ export default function RecorridoIndex({ items }: { items: Item[] }) {
   );
 }
 
-function CaballoMarker({ activeIdx, total }: { activeIdx: number; total: number }) {
-  // Cada fila mide ~57px (py-3.5 = 14px + text ~28px + border). Calculamos
-  // posición central de la fila activa. Se usa transform en vez de top para
-  // animación más fluida.
-  const rowHeight = 57;
-  const verticalCenter = activeIdx * rowHeight + rowHeight / 2 - 22;
+function CaballoPapaMarker({ activeIdx }: { activeIdx: number }) {
+  // Centro vertical del establo activo (medio de la fila menos la mitad del caballo)
+  const HORSE_H = 70;
+  const top = activeIdx * ROW_HEIGHT + (ROW_HEIGHT - HORSE_H) / 2;
 
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute left-0 z-10 transition-transform duration-500 ease-out"
-      style={{ transform: `translateY(${verticalCenter}px)` }}
+      className="pointer-events-none absolute left-0 top-0 z-20 transition-all duration-700 ease-out"
+      style={{ transform: `translateY(${top}px)` }}
     >
-      <CaballoSVG />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/papa-caballo.png"
+        alt=""
+        width={80}
+        height={70}
+        className="block drop-shadow-[0_4px_8px_rgba(43,32,24,0.35)]"
+      />
+      {/* Pasto bajo el caballo */}
+      <div className="mt-1 ml-2 h-0.5 w-16 rounded-full bg-musgo/40" aria-hidden />
     </div>
   );
 }
 
-// Silueta de caballo en perfil (mira a la derecha, hacia el label).
-// Line-art estilo grabado/Hermès simplificado. Color: cuero.
-function CaballoSVG() {
+function Establo({
+  item,
+  isActive,
+  onActivate
+}: {
+  item: Item;
+  isActive: boolean;
+  onActivate: () => void;
+}) {
   return (
-    <svg
-      viewBox="0 0 64 48"
-      width="44"
-      height="33"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="text-cuero"
+    <Link
+      href={item.href}
+      onMouseEnter={onActivate}
+      onFocus={onActivate}
+      onTouchStart={onActivate}
+      aria-current={isActive ? 'true' : undefined}
+      className={`group relative block overflow-hidden rounded-md transition-all duration-300 ${
+        isActive ? 'scale-[1.015] shadow-[0_8px_24px_-8px_rgba(43,32,24,0.4)]' : 'shadow-[0_2px_8px_-2px_rgba(43,32,24,0.2)]'
+      }`}
+      style={{ minHeight: ROW_HEIGHT - 12 }}
     >
-      {/* Cuerpo */}
-      <path d="M10 26 C 12 22, 18 20, 24 21 L 38 22 C 44 22, 48 25, 50 28 L 50 32 L 48 32" />
-      {/* Cuello + cabeza */}
-      <path d="M50 28 C 52 22, 54 18, 56 16 L 60 14 L 62 16 L 60 19 L 56 22 L 54 26" />
-      {/* Crin (3 trazos) */}
-      <path d="M52 19 L 49 15" />
-      <path d="M55 18 L 54 13" />
-      <path d="M58 17 L 60 11" />
-      {/* Patas delanteras */}
-      <path d="M44 31 L 44 42" />
-      <path d="M47 31 L 47 42" />
-      {/* Patas traseras */}
-      <path d="M14 27 L 13 42" />
-      <path d="M17 27 L 17 42" />
-      {/* Cola */}
-      <path d="M10 25 C 6 27, 4 32, 6 36" />
-      {/* Ojo */}
-      <circle cx="58" cy="17" r="0.6" fill="currentColor" />
-    </svg>
+      {/* Fondo: madera de roble suave (gradiente vertical + grano sutil) */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(180deg, #D4B896 0%, #C4A57F 50%, #B89669 100%)',
+          backgroundImage:
+            'repeating-linear-gradient(90deg, rgba(58,40,24,0.06) 0px, rgba(58,40,24,0.06) 1px, transparent 1px, transparent 24px), linear-gradient(180deg, #D4B896 0%, #C4A57F 50%, #B89669 100%)'
+        }}
+      />
+
+      {/* Bordes superior e inferior tipo barandilla del stall */}
+      <div
+        aria-hidden
+        className="absolute left-0 right-0 top-0 h-1"
+        style={{ background: 'linear-gradient(180deg, #5C3A1F 0%, #8B5E34 100%)' }}
+      />
+      <div
+        aria-hidden
+        className="absolute left-0 right-0 bottom-0 h-1"
+        style={{ background: 'linear-gradient(0deg, #5C3A1F 0%, #8B5E34 100%)' }}
+      />
+
+      {/* Bisagras a la izquierda (dos puntos pequeños) */}
+      <div aria-hidden className="absolute left-2 top-3 h-1.5 w-1.5 rounded-full bg-tinta2/40" />
+      <div aria-hidden className="absolute left-2 bottom-3 h-1.5 w-1.5 rounded-full bg-tinta2/40" />
+
+      {/* Contenido — placa de bronce + tag */}
+      <div className="relative flex h-full flex-col justify-center gap-2 px-5 py-5 sm:px-7">
+        {/* Placa de bronce */}
+        <div
+          className="relative inline-flex w-fit items-baseline gap-3 rounded-sm border border-amber-900/40 px-3 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),inset_0_-1px_0_rgba(0,0,0,0.15)]"
+          style={{
+            background:
+              'linear-gradient(135deg, #D6B66E 0%, #E8D08A 35%, #C9A14A 70%, #B8924A 100%)'
+          }}
+        >
+          <span className="font-mono text-[10px] font-bold tracking-widest text-amber-950">
+            {item.n}
+          </span>
+          <span className="font-display text-lg font-light italic leading-none text-amber-950 sm:text-xl">
+            {item.label}
+          </span>
+        </div>
+
+        {/* Tag — escrito con tiza/marcador sobre la madera */}
+        <p className="font-serif text-[12px] italic text-tinta2/70 sm:text-sm">
+          {item.tag}
+        </p>
+      </div>
+
+      {/* Brillo sutil cuando está activo (puerta entreabierta) */}
+      {isActive && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse at center, rgba(255,255,255,0.18) 0%, transparent 70%)'
+          }}
+        />
+      )}
+    </Link>
   );
 }
