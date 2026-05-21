@@ -129,10 +129,10 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
             </button>
           )}
 
-          {/* Cuerpo: si hay alguna imagen (bodyImage / bodyImagesExtra) o
-              texto post-imágenes, va modo "tarjeta-imagen". Si no, modo
-              "carta" con greeting/body/signature. */}
-          {(t.bodyImage || (t.bodyImagesExtra && t.bodyImagesExtra.length > 0) || t.bodyAfterImagesText) ? (
+          {/* Cuerpo: si hay alguna imagen (bodyImage / bodyImagesExtra),
+              texto post-imágenes o múltiples autores, va modo
+              "tarjeta-imagen". Si no, modo "carta" con greeting/body/signature. */}
+          {(t.bodyImage || (t.bodyImagesExtra && t.bodyImagesExtra.length > 0) || t.bodyAfterImagesText || (t.bodyAuthors && t.bodyAuthors.length > 0)) ? (
             <div className="relative mt-8 space-y-3">
               {t.bodyImage && (
                 <div className="overflow-hidden rounded-2xl">
@@ -172,6 +172,32 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
                     </li>
                   ))}
                 </ul>
+              )}
+              {t.bodyAuthors && t.bodyAuthors.length > 0 && (
+                <div className="space-y-8 pt-4">
+                  {t.bodyAuthors.map((author, i) => (
+                    <div key={i} className="space-y-3">
+                      <div className="flex items-center gap-3" aria-hidden>
+                        <span className="h-px flex-1 bg-regla" />
+                        <span className="font-mono text-[9px] tracking-[0.3em] text-grafito">·</span>
+                        <span className="h-px flex-1 bg-regla" />
+                      </div>
+                      <p className="text-center font-script text-4xl text-tomate leading-none sm:text-5xl">
+                        {author.name}
+                      </p>
+                      <div className="space-y-3 pt-1">
+                        {author.text.split(/\n\s*\n/).filter(Boolean).map((p, j) => (
+                          <p
+                            key={j}
+                            className="font-serif text-base leading-relaxed text-tinta/90 sm:text-[17px] sm:leading-[1.75]"
+                          >
+                            {p}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           ) : (
