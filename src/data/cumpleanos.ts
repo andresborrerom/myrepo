@@ -89,6 +89,27 @@ Acerquémonos padre mío, con amor cariño y respeto por lo que la vida de todos
 
 ¡¡FELIZ CUMPLEAÑOS!! Y que celebremos cada año que sigue como este. Cuenta conmigo.`;
 
+const carolinaBody =
+`Hoy quisiera detener el tiempo y hablarte directamente al corazón. Sé que no lo digo tantas veces como debería, o tal vez la distancia no lo hace tan fácil de demostrar, pero quiero que sepas esto con total certeza: siempre veo todo lo que haces por nosotros y estoy increíblemente agradecida con Dios por haberte hecho nuestro papá.
+
+Cuando Él decidió confiarte la vida de nosotros, tus hijos y nietos, sabía exactamente lo que hacía. Te eligió a ti porque en tu alma siempre se refleja su propio amor. Yo veo tu paciencia, esfuerzo y valentía. Veo tus manos fuertes de tanto trabajar a lo largo de tu vida, pero dispuestas siempre a sostener, abrazar y guiar.
+
+Sé que hay días en los que sientes que me falta decírtelo y demostrártelo, y días en los que he fallado como persona y como hija. Y eso me pesa demasiado, aunque siempre has estado dispuesto a perdonarme y a acogerme de vuelta. Dios también lo ve. Y en mis momentos de mayor debilidad es donde tu fuerza más me ha sostenido.
+
+Siempre has sido un papá que muestra su amor a través de abrazos, que corrige con sabiduría y que ama sin condiciones.
+
+Me has enseñado a ser independiente, a reconocer lo bueno de la vida y a levantarme cuando caigo.
+
+Sé que no estás solo en esta hermosa labor: Papá Dios camina contigo en cada paso. Cuando nos miras con amor, Él nos mira a través de ti. Cuando te has sacrificado por nosotros y entendido nuestras debilidades, estás reflejando su enorme corazón.
+
+Te has ganado todas las bendiciones del mundo, tu labor no pasa desapercibida y tu legado vivirá para siempre.
+
+Tus nietas y yo siempre estaremos aquí para seguir el camino juntos (con todo lo que nos depare) y para juntos disfrutar las maravillas que nos rodean y que tanto nos enseñaste a valorar.
+
+Te queremos con toda nuestra alma y de verdad, de todo corazón, te deseo solo lo mejor del mundo para cada día de tu vida.
+
+Celebra como sabes hacerlo, rodeado de tanta gente que te quiere. Me hubiera encantado estar allá contigo, pero sé que todo llegará en su momento perfecto.`;
+
 export const TARJETAS_CUMPLE: TarjetaCumple[] = [
   {
     id: 'marce',
@@ -212,6 +233,10 @@ Gracias por llenar mi vida.`
     fromShortName: 'Carolina',
     fromRelation: 'Hija',
     branchColor: 'bg-clay-700',
+    greeting: 'Querido papá:',
+    body: carolinaBody,
+    signoff: 'Miles de besos y abrazos, te quiero enormemente.',
+    signature: 'Tu hija Carolina',
     song: {
       title: 'Oye',
       artist: 'La Sonora Dinamita',
@@ -221,10 +246,6 @@ Gracias por llenar mi vida.`
       src: '/images/cumpleanos/carolina-tarjeta.jpg',
       alt: 'Tarjeta festiva de Carolina para Alejandro',
       layout: 'stacked'
-    },
-    bodyImage: {
-      src: '/images/cumpleanos/carolina-tarjeta.jpg',
-      alt: 'Tarjeta de Carolina para Alejandro en sus 75 años'
     }
   },
   {
