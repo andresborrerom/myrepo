@@ -4,6 +4,7 @@ import { getCartaDelDia, BIRTH_YEAR, CARTAS, getAuthor as getCartaAuthor } from 
 import { getCombinedFeed } from '@/lib/feed';
 import { getAuthor as getUpdateAuthor, formatRelative } from '@/data/updates';
 import { getBirthdayDate } from '@/lib/config';
+import RecorridoIndex from './RecorridoIndex';
 
 export const dynamic = 'force-dynamic';
 
@@ -125,18 +126,16 @@ export default async function VestibuloPage() {
 
         <Rule />
 
-        {/* Índice tipo carta de hacienda — numeración romana */}
-        <section aria-label="Índice" className="space-y-1">
-          <div className="mb-4 flex items-center gap-2 text-oro">
-            <span className="h-px w-6 bg-oro" aria-hidden />
-            <span className="font-mono text-[10px] tracking-[0.3em]">RECORRIDO</span>
-          </div>
-          <SectionRow n="I"   href="/arbol"      label="El árbol"      tag="14 personas en pie" />
-          <SectionRow n="II"  href="/cartas"     label="Las cartas"    tag={`${sembradas} ventanas sembradas`} />
-          <SectionRow n="III" href="/cumpleanos" label="Las tarjetas"  tag="Para los 75" />
-          <SectionRow n="IV"  href="/calendario" label="El calendario" tag="Cumpleaños de la familia" />
-          <SectionRow n="V"   href="/buzon"      label="El buzón"      tag={updates.length > 0 ? `${updates.length} novedades` : 'Vacío por ahora'} />
-        </section>
+        {/* Recorrido — índice con caballito que se mueve al establo activo */}
+        <RecorridoIndex
+          items={[
+            { n: 'I',   href: '/arbol',      label: 'El árbol',      tag: '14 personas en pie' },
+            { n: 'II',  href: '/cartas',     label: 'Las cartas',    tag: `${sembradas} ventanas sembradas` },
+            { n: 'III', href: '/cumpleanos', label: 'Las tarjetas',  tag: 'Para los 75' },
+            { n: 'IV',  href: '/calendario', label: 'El calendario', tag: 'Cumpleaños de la familia' },
+            { n: 'V',   href: '/buzon',      label: 'El buzón',      tag: updates.length > 0 ? `${updates.length} novedades` : 'Vacío por ahora' }
+          ]}
+        />
 
         <Rule />
 
@@ -201,19 +200,3 @@ function Rule() {
   );
 }
 
-function SectionRow({
-  n, href, label, tag
-}: { n: string; href: string; label: string; tag: string }) {
-  return (
-    <Link
-      href={href}
-      className="grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 border-b border-hueso py-3.5 last:border-b-0 group"
-    >
-      <span className="font-mono text-[11px] tracking-widest text-oro">{n}</span>
-      <span className="font-display text-xl font-light italic text-tinta2 group-hover:text-cuero">
-        {label}
-      </span>
-      <span className="font-serif text-xs italic text-grafito">{tag}</span>
-    </Link>
-  );
-}
