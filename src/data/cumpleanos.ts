@@ -305,17 +305,15 @@ Gracias por llenar mi vida.`
     body:
 `Espero que la pases súper bien el día de tu cumpleaños, espero que te lluevan bendiciones. Te quiero mucho y ya quiero verte muy pronto. ¡Te extraño! Y que Dios te bendiga.`,
     signature: 'Ale',
-    song: {
-      title: 'Soy Parrandero y Que',
-      artist: 'Los Hermanos Zuleta',
-      youtubeVideoId: '-gVCrDKeVOo'
-    },
     coverImage: {
       src: '/images/cumpleanos/aleria-tarjeta.jpg',
       alt: 'Dibujo de Aleria: sol con dos figuras "tú y yo" y "Feliz cumple abuelito"',
       layout: 'stacked'
+    },
+    bodyAudio: {
+      src: '/videos/AUDIO-aleria.m4a',
+      label: 'Un mensaje de voz de Ale'
     }
-    // bodyAudio entra acá cuando Aleria suba su archivo de audio.
   }
 ];
 
