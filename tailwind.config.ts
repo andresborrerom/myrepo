@@ -27,15 +27,25 @@ const config: Config = {
           900: '#241D17'
         },
 
-        // === Paleta v2 — Apartamento + Plano Maestro ===
-        // Páginas redibujadas (Vestíbulo, carta abierta) la usan.
+        // === Paleta v2 — Apartamento + Plano Maestro (legacy) ===
         lino: '#EDE6D8',
         'lino-warm': '#F7EFE0',
         tinta: '#3B2F26',
         tomate: '#A8412C',
         botella: '#3D5240',
         grafito: '#6B6B68',
-        regla: '#C9C4B8'
+        regla: '#C9C4B8',
+
+        // === Paleta v3 — "Hacienda" (finca / golf / caballos colombianos) ===
+        // El vestíbulo y futuras secciones la usan progresivamente.
+        sabana: '#E8DFC9',    // fondo principal, dorado seco
+        papel:  '#F5EFE2',    // fondo secundario, tarjetas
+        tinta2: '#2A2018',    // texto, casi negro café
+        cuero:  '#8B4A2B',    // acento primario (silla, montura)
+        fairway:'#2F4A35',    // verde fairway profundo
+        musgo:  '#7A8567',    // verde sabana seca, ilustraciones
+        oro:    '#B8924A',    // detalle decorativo, hairlines, monograma
+        hueso:  '#DDD3BD'     // bordes finos, separadores
       },
       fontFamily: {
         sans: ['"Atkinson Hyperlegible"', 'system-ui', 'sans-serif'],
