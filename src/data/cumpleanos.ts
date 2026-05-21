@@ -27,6 +27,10 @@ export type TarjetaCumple = {
     src: string;
     alt: string;
   }[];
+  // Cómo se renderizan los bodyImagesExtra. Si no se setea:
+  // - 2 imágenes → grid 2-cols (caso Luchi)
+  // - otra cantidad → stack vertical
+  bodyImagesExtraLayout?: 'grid' | 'stack';
   bodyAfterImagesText?: string;
   bodyVideo?: {
     src: string;
@@ -428,6 +432,47 @@ Espero seguir disfrutando de tu amor y gran compañía todas las semanas, todos 
 ¡Dios te bendiga siempre!`
       }
     ]
+  },
+  {
+    id: 'sobrina',
+    fromName: 'Tu sobrina favorita',
+    fromShortName: 'Sobrina',
+    fromRelation: 'Sobrina',
+    branchColor: 'bg-tomate',
+    greeting: 'Para un hombre espectacular,',
+    body:
+`Un ser humano lleno de cualidades maravillosas y el mejor tío que hubiera podido pedir. ¡Feliz cumpleaños!
+
+75 años nunca se han visto mejor ♥ Y le pido a Dios que además sean muchísimos más, dándonos la oportunidad de compartir más momentos espectaculares juntos.
+
+Gracias por ser tan especial y lindo, por siempre estar presente en mi vida. Te amo con todo mi corazón ✨
+
+Te deseo solo cosas hermosas en este nuevo año: que tengas mucha salud, felicidad, amor, aprendizajes y que sigas disfrutando de la vida en la forma en la que lo haces.
+
+Dios te bendiga siempre ♥`,
+    signoff: 'Con mucho amor y cariño,',
+    signature: 'Tu sobrina favorita.',
+    song: {
+      title: 'Mi Viejo',
+      artist: 'Piero',
+      youtubeVideoId: '1Yp2wE2Aigo'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/sobrina-portada.jpg',
+      alt: 'Sobrina con su tío Alejandro en Sitges',
+      layout: 'overlay'
+    },
+    bodyImagesExtra: [
+      {
+        src: '/images/cumpleanos/sobrina-collage-1.jpg',
+        alt: 'Collage de momentos con el tío Alejandro'
+      },
+      {
+        src: '/images/cumpleanos/sobrina-collage-2.jpg',
+        alt: 'Otro collage de momentos con el tío Alejandro'
+      }
+    ],
+    bodyImagesExtraLayout: 'stack'
   }
 ];
 

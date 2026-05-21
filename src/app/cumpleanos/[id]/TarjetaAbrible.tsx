@@ -129,10 +129,9 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
             </button>
           )}
 
-          {/* Cuerpo: si hay alguna imagen (bodyImage / bodyImagesExtra),
-              texto post-imágenes o múltiples autores, va modo
-              "tarjeta-imagen". Si no, modo "carta" con greeting/body/signature. */}
-          {(t.bodyImage || (t.bodyImagesExtra && t.bodyImagesExtra.length > 0) || t.bodyAfterImagesText || (t.bodyAuthors && t.bodyAuthors.length > 0)) ? (
+          {/* Bloque de imágenes (cualquier combinación de bodyImage,
+              bodyImagesExtra, bodyAfterImagesText, bodyAuthors). */}
+          {(t.bodyImage || (t.bodyImagesExtra && t.bodyImagesExtra.length > 0) || t.bodyAfterImagesText || (t.bodyAuthors && t.bodyAuthors.length > 0)) && (
             <div className="relative mt-8 space-y-3">
               {t.bodyImage && (
                 <div className="overflow-hidden rounded-2xl">
@@ -143,24 +142,27 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
                   />
                 </div>
               )}
-              {t.bodyImagesExtra && t.bodyImagesExtra.length > 0 && (
-                <div className={
-                  t.bodyImagesExtra.length === 2
-                    ? 'grid grid-cols-2 gap-3'
-                    : 'space-y-3'
-                }>
-                  {t.bodyImagesExtra.map((img) => (
-                    <div key={img.src} className="overflow-hidden rounded-2xl">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={img.src}
-                        alt={img.alt}
-                        className="block h-auto w-full"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
+              {t.bodyImagesExtra && t.bodyImagesExtra.length > 0 && (() => {
+                // Layout: explícito si está; si no, grid cuando son 2, stack en otro caso.
+                const explicit = t.bodyImagesExtraLayout;
+                const useGrid =
+                  explicit === 'grid' ||
+                  (!explicit && t.bodyImagesExtra.length === 2);
+                return (
+                  <div className={useGrid ? 'grid grid-cols-2 gap-3' : 'space-y-3'}>
+                    {t.bodyImagesExtra.map((img) => (
+                      <div key={img.src} className="overflow-hidden rounded-2xl">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          className="block h-auto w-full"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
               {t.bodyAfterImagesText && (
                 <ul className="space-y-2 pt-2">
                   {t.bodyAfterImagesText.split('\n').filter(Boolean).map((line, i) => (
@@ -200,7 +202,11 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
                 </div>
               )}
             </div>
-          ) : (
+          )}
+
+          {/* Bloque de texto (greeting / body / signoff / signature). Coexiste
+              con el bloque de imágenes arriba; se renderiza después. */}
+          {(t.greeting || (paragraphs.length > 0) || t.signoff || t.signature) && (
             <>
               {t.greeting && (
                 <p className="relative mt-8 font-script text-5xl text-tinta leading-tight sm:text-6xl">
@@ -208,16 +214,18 @@ export default function TarjetaAbrible({ t }: { t: TarjetaCumple }) {
                 </p>
               )}
 
-              <div className="relative mt-6 space-y-5">
-                {paragraphs.map((p, i) => (
-                  <p
-                    key={i}
-                    className="font-serif text-base leading-relaxed text-tinta/90 sm:text-[17px] sm:leading-[1.75]"
-                  >
-                    {p}
-                  </p>
-                ))}
-              </div>
+              {paragraphs.length > 0 && (
+                <div className="relative mt-6 space-y-5">
+                  {paragraphs.map((p, i) => (
+                    <p
+                      key={i}
+                      className="font-serif text-base leading-relaxed text-tinta/90 sm:text-[17px] sm:leading-[1.75]"
+                    >
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              )}
 
               {t.signoff && (
                 <p className="relative mt-10 font-script text-3xl text-tinta/90 sm:text-4xl">
