@@ -334,6 +334,27 @@ Gracias por llenar mi vida.`
       src: '/videos/AUDIO-carlota.m4a',
       label: 'Un mensaje de voz de Tota'
     }
+  },
+  {
+    id: 'miranda',
+    fromName: 'Miranda Borrero',
+    fromShortName: 'Miri',
+    fromRelation: 'Nieta (hija de Alexandra)',
+    branchColor: 'bg-olive-600',
+    song: {
+      title: 'Quiero Amanecer',
+      artist: 'Lucho Bermúdez',
+      youtubeVideoId: 'BIQctjID_v0'
+    },
+    coverImage: {
+      src: '/images/cumpleanos/miranda-portada.jpg',
+      alt: 'Tarjeta de Miranda: "Feliz Cumpleaños" con torta de tres pisos azul y verde',
+      layout: 'stacked'
+    },
+    bodyImage: {
+      src: '/images/cumpleanos/miranda-tarjeta.jpg',
+      alt: 'Carta manuscrita de Miranda sobre un green de golf'
+    }
   }
 ];
 
