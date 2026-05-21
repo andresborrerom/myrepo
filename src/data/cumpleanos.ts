@@ -85,9 +85,7 @@ Una pausa de parte tuya para ver que te queremos, que te queremos mimar de vuelt
 
 He preparado una nueva vida en un nuevo país, en donde queremos consentirte Marce, Luchi, Pepe y yo con todo el amor y respeto que te tenemos. Hotel 7 estrellas que ofrece el calor de hogar que entiendo te agobia 365 días al año pero que seguro disfrutarás al menos unos cuantos, repartidos por el mundo donde cada familia te espera con los brazos abiertos.
 
-Acerquémonos padre mío, con amor cariño y respeto por lo que la vida de todos ha traído y que los demonios que en cada lugar cada quien ha vencido (o sigue luchando para hacerlo) no sean impedimento de compartir risas, abrazos, desayunos, un postre con tres cucharas y unos cuentos de mi papa que queremos oír por primera vez o de nuevo, con tus nietos que preguntan más de lo que imaginas por ti.
-
-No sé cuánto de vida nos quede. Digo nos, que ya hay edad para que la víspera nos pase a los hijos también. Disfrutémosla en paz y en deseándonos siempre lo mejor, queriéndonos como somos, celebrando nuestras cualidades y dando uno o dos consejos sin atacar lo que para nosotros sean defectos de los demás. Y por favor: MÁS CERCA.
+Acerquémonos padre mío, con amor cariño y respeto por lo que la vida de todos ha traído y que los miedos y retos que en cada lugar cada quien ha vencido (o sigue luchando para hacerlo) no sean impedimento de compartir risas, abrazos, desayunos, un postre con tres cucharas y unos cuentos de mi papa que queremos oír por primera vez o de nuevo, con tus nietos que preguntan más de lo que imaginas por ti.
 
 ¡¡FELIZ CUMPLEAÑOS!! Y que celebremos cada año que sigue como este. Cuenta conmigo.`;
 
