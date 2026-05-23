@@ -14,7 +14,7 @@ Para servirlo localmente: `python3 -m http.server` desde esta carpeta y abrí `h
 
 1. [`01-plan-negocio.md`](./01-plan-negocio.md) — visión, unit economics, qué significa "20k€/mes" en clientes y precio.
 2. [`02-producto-nicho.md`](./02-producto-nicho.md) — framework para elegir qué vendemos. **Decisión pendiente.**
-3. [`03-fiscal.md`](./03-fiscal.md) — Panamá vs España vs Estonia. **Decisión pendiente.**
+3. [`03-fiscal.md`](./03-fiscal.md) — Análisis 2026 actualizado de 4 opciones (España, Panamá, Estonia, LLC USA). **Recomendación: SL España microempresa.** Pendiente confirmar con asesor.
 4. [`04-operaciones.md`](./04-operaciones.md) — quién hace qué entre los dos, husos horarios, rituales.
 5. [`05-stack.md`](./05-stack.md) — Shopify + apps + integraciones; cuándo Shopify NO es la mejor opción.
 6. [`06-marketing.md`](./06-marketing.md) — canales de adquisición y embudo.
@@ -25,7 +25,8 @@ Para servirlo localmente: `python3 -m http.server` desde esta carpeta y abrí `h
 11. [`11-flujo-captura-cierre.md`](./11-flujo-captura-cierre.md) — Manual operativo del producto 2: 15 etapas desde awareness a referido, con owner, herramienta, plantilla y métrica por etapa.
 12. [`12-logo-brief.md`](./12-logo-brief.md) — Brief para encargar logo a freelance externo: 4 direcciones conceptuales, paleta, tipografía, entregables, presupuesto orientativo, anti-brief.
 13. [`13-curso-outline.md`](./13-curso-outline.md) — Outline del curso digital (producto 1, 497 €). 6 módulos + plantillas + bonus. Decisión de arranque en gate del 5 ago 2026.
-14. [`plantillas/`](./plantillas/) — Artefactos operativos copy-paste-ready. Top of funnel completo (PDF lead magnet, 5 emails nurture, cuestionario Tally, prompt cualificación Claude). Mid/bottom funnel pendiente.
+14. [`14-fiscal-kit-asesor.md`](./14-fiscal-kit-asesor.md) — Kit de conversación con asesor fiscal: 23 preguntas al asesor español + 9 al asesor panameño/colombiano, salidas esperadas, cómo encontrar asesores, cronología.
+15. [`plantillas/`](./plantillas/) — Artefactos operativos copy-paste-ready. Top of funnel completo (PDF lead magnet, 5 emails nurture, cuestionario Tally, prompt cualificación Claude). Mid/bottom funnel pendiente.
 
 ## Código
 
@@ -39,7 +40,7 @@ Para servirlo localmente: `python3 -m http.server` desde esta carpeta y abrí `h
 | Investigación de nichos | ✅ Hecha, con recomendación |
 | Nicho concreto elegido | ✅ Confirmado — inmobiliario España para inversores LATAM |
 | Cami adentro | ✅ Sí, confirmado 2026-05-18 |
-| Jurisdicción fiscal | ⏳ Pendiente (ver `03-fiscal.md`) |
+| Jurisdicción fiscal | 🟢 SL España microempresa, alta convicción tras investigación 2026. Pendiente confirmar con asesor (ver `14-fiscal-kit-asesor.md`) |
 | Marca + dominio | 🟡 Singladura procedible — pendiente verificación manual (OEPM, EUIPO, IMPI, SIC, dominios) |
 | Landing de waitlist | ✅ Construido con Singladura provisional, falta deploy + Supabase |
 | Brief de logo | ✅ Listo para encargar tras verificación |
@@ -56,3 +57,4 @@ Para servirlo localmente: `python3 -m http.server` desde esta carpeta y abrí `h
 - **2026-05-18** — Cami confirma estar adentro. Nicho B queda fijo. Avanzamos a diseño de operación.
 - **2026-05-23** — Naming round 1 descartado (Casa Madre, Plano Maestro, Cimientos) por dominios tomados y marcas competidoras.
 - **2026-05-23** — Naming round 2: Lares y Indianos descartados con evidencia (Grupo Social Lares, Grito de Lares, Tequila Indianos, microofensa de clase del término "indiano"). Singladura procedible pendiente de verificación manual.
+- **2026-05-23** — Tras investigación fiscal actualizada 2026, se descartan SA Panamá, OÜ Estonia y LLC USA para el arranque por tres anclas a España (regla del inmueble art. 70 LIVA, residencia fiscal efectiva V1964-20, volumen año 1 bajo). Recomendación: **SL España microempresa** (19% sobre primeros 50k€ + 21% resto). Pendiente confirmar con asesor.
