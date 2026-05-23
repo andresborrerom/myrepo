@@ -67,7 +67,7 @@ Apuntar el dominio comprado al deploy en Vercel.
 1. Subir el landing a producción.
 2. Crear campaña Google Ads o Meta Ads con presupuesto 50 €.
 3. Apuntar a la URL con UTM:
-   `https://casamadre.com/?utm_source=google&utm_medium=cpc&utm_campaign=test-mvp-001`
+   `https://singladuracapital.com/?utm_source=google&utm_medium=cpc&utm_campaign=test-mvp-001`
 4. Dejar correr 5 días.
 5. Mirar tabla `waitlist` en Supabase: cuántos emails, qué fuente, qué conversión.
 

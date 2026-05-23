@@ -20,10 +20,12 @@ Para servirlo localmente: `python3 -m http.server` desde esta carpeta y abrí `h
 6. [`06-marketing.md`](./06-marketing.md) — canales de adquisición y embudo.
 7. [`07-roadmap-90dias.md`](./07-roadmap-90dias.md) — Plan accionable con fechas reales: lun 18 may → sáb 16 ago 2026. Hitos por semana, owners, presupuesto total e indicadores de éxito.
 8. [`08-nichos-investigados.md`](./08-nichos-investigados.md) — 4 nichos con competidores reales, ventaja injusta y techo de ingresos. ⭐ **Recomendación documentada.**
-9. [`09-marca-naming.md`](./09-marca-naming.md) — 10 nombres candidatos + paleta + tono de voz para el nicho recomendado.
+9. [`09-marca-naming.md`](./09-marca-naming.md) — Naming en 2 rounds de validación con investigación real. **Singladura** es el candidato vivo, pendiente de verificación manual de dominios + marcas.
 10. [`10-automatizacion.md`](./10-automatizacion.md) — Qué se automatiza y qué no por producto, stack concreto, roadmap de cuándo automatizar qué.
 11. [`11-flujo-captura-cierre.md`](./11-flujo-captura-cierre.md) — Manual operativo del producto 2: 15 etapas desde awareness a referido, con owner, herramienta, plantilla y métrica por etapa.
-12. [`plantillas/`](./plantillas/) — Artefactos operativos copy-paste-ready. Top of funnel completo (PDF lead magnet, 5 emails nurture, cuestionario Tally, prompt cualificación Claude). Mid/bottom funnel pendiente.
+12. [`12-logo-brief.md`](./12-logo-brief.md) — Brief para encargar logo a freelance externo: 4 direcciones conceptuales, paleta, tipografía, entregables, presupuesto orientativo, anti-brief.
+13. [`13-curso-outline.md`](./13-curso-outline.md) — Outline del curso digital (producto 1, 497 €). 6 módulos + plantillas + bonus. Decisión de arranque en gate del 5 ago 2026.
+14. [`plantillas/`](./plantillas/) — Artefactos operativos copy-paste-ready. Top of funnel completo (PDF lead magnet, 5 emails nurture, cuestionario Tally, prompt cualificación Claude). Mid/bottom funnel pendiente.
 
 ## Código
 
@@ -38,8 +40,10 @@ Para servirlo localmente: `python3 -m http.server` desde esta carpeta y abrí `h
 | Nicho concreto elegido | ✅ Confirmado — inmobiliario España para inversores LATAM |
 | Cami adentro | ✅ Sí, confirmado 2026-05-18 |
 | Jurisdicción fiscal | ⏳ Pendiente (ver `03-fiscal.md`) |
-| Marca + dominio | ⏳ Top 3 propuesto, validar dominios |
-| Landing de waitlist | ✅ Construido, falta deploy + Supabase |
+| Marca + dominio | 🟡 Singladura procedible — pendiente verificación manual (OEPM, EUIPO, IMPI, SIC, dominios) |
+| Landing de waitlist | ✅ Construido con Singladura provisional, falta deploy + Supabase |
+| Brief de logo | ✅ Listo para encargar tras verificación |
+| Outline curso digital | ✅ Preparado para gate del 5 ago 2026 |
 | Tienda Shopify | ⏳ Pendiente |
 | Primera venta | ⏳ Pendiente |
 
@@ -50,3 +54,5 @@ Para servirlo localmente: `python3 -m http.server` desde esta carpeta y abrí `h
 - **2026-05-18** — Cuaderno de bitácora vive en este repo (`myrepo/shopify/`) por simplicidad. Se separará a su propio repo cuando empiece código.
 - **2026-05-18** — Recomendación tentativa de nicho: **Inmobiliario España para inversores LATAM** (ver `08-nichos-investigados.md`).
 - **2026-05-18** — Cami confirma estar adentro. Nicho B queda fijo. Avanzamos a diseño de operación.
+- **2026-05-23** — Naming round 1 descartado (Casa Madre, Plano Maestro, Cimientos) por dominios tomados y marcas competidoras.
+- **2026-05-23** — Naming round 2: Lares y Indianos descartados con evidencia (Grupo Social Lares, Grito de Lares, Tequila Indianos, microofensa de clase del término "indiano"). Singladura procedible pendiente de verificación manual.
