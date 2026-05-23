@@ -52,7 +52,8 @@
 - ✅ **AeroPress + V60 recipes** (commit último): +8 how-to capturando high-volume brewing queries (Hoffmann AeroPress + V60, Kasuya WAC 2016 + 4:6 V60, travel workflow, ratio guide, pour-over vs AeroPress). Bug fix bonus: `toIsoDuration` ahora reconoce plurales. Anti-gray-hat: cada recipe atribuye fuente original.
 - ✅ **V60/pour-over commercial intent pages**: +6 pages (4 best-of + 2 compare) cierran funnel top-of-funnel → conversión. 8 recipes modificados con "Need the right gear?" step final linkeando a best-of relevantes. Anti-gray-hat: Acaia overpriced flag, Fellow Stagg only-in-catalog framed honesto, filter page educational sin afiliado.
 - ✅ **+6 productos al catalog** (commit último): Hario V60 Buono kettle, OXO Brew gooseneck electric, Timemore Black Mirror Basic scale, Hario + AeroPress + CAFEC paper filters. Catalog 64 → 70. ASINs verificados via WebSearch. Best-of pages V60/AeroPress pasan de educational-only a 3-picks ranked con affiliate options.
-- 📊 **Total páginas del sitio: 264** (de los 67 iniciales: +294%).
+- ✅ **+2 grinders mid-tier** (commit 0412814): MiiCoffee DF54 ($249 single-dose electric flat burr) + 1Zpresso K-Ultra ($249 hand grinder). Llena gap $200-400 entre Encore y Niche Zero. 8 best-of pages ganan picks adicionales. Catalog 70 → 72.
+- 📊 **Total páginas del sitio: 266** (de los 67 iniciales: +297%).
 
 ### Próximo hito objetivo
 
