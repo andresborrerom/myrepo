@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import ReadingMode from '@/components/ReadingMode';
-import { getCartaDelDia, BIRTH_YEAR, CARTAS, getAuthor as getCartaAuthor } from '@/data/cartas';
+import { CARTAS } from '@/data/cartas';
 import { getCombinedFeed } from '@/lib/feed';
 import { getAuthor as getUpdateAuthor, formatRelative } from '@/data/updates';
 import { getBirthdayDate } from '@/lib/config';
 import RecorridoIndex from './RecorridoIndex';
+import PushOptIn from '@/components/PushOptIn';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,13 +23,10 @@ function daysToBirthday(): number | null {
 }
 
 export default async function VestibuloPage() {
-  const cartaHoy = getCartaDelDia();
   const feed = await getCombinedFeed();
   const updates = feed.slice(0, 3);
   const sembradas = CARTAS.length;
   const dias = daysToBirthday();
-  const author = cartaHoy ? getCartaAuthor(cartaHoy) : null;
-  const teaser = cartaHoy?.body.split(/\n\s*\n/)[0]?.slice(0, 200);
 
   return (
     <div className="bg-sabana text-tinta2 min-h-dvh -mt-6 -mx-5 pb-32">
@@ -90,39 +88,41 @@ export default async function VestibuloPage() {
 
       {/* Cuerpo */}
       <div className="px-6 pt-10 sm:px-10">
-        {/* Carta del día */}
-        {cartaHoy ? (
-          <section aria-label="Carta del día" className="space-y-3">
+        {/* Tu carta de hoy — acción unificada al azar */}
+        {dias === null ? (
+          <section aria-label="Tu carta de hoy" className="space-y-3">
             <div className="flex items-center gap-2 text-oro">
               <span className="h-px w-6 bg-oro" aria-hidden />
-              <span className="font-mono text-[10px] tracking-[0.3em]">CARTA DEL DÍA</span>
+              <span className="font-mono text-[10px] tracking-[0.3em]">TU CARTA DE HOY</span>
             </div>
-            <Link href={`/cartas/${cartaHoy.year}`} className="block group">
-              <h2 className="font-display text-3xl font-light italic leading-tight text-tinta2 group-hover:text-cuero">
-                {cartaHoy.title || `El año ${cartaHoy.year}`}
-              </h2>
-              <p className="mt-2 font-mono text-[10px] tracking-[0.2em] text-grafito">
-                {author && `DE ${(author.shortName || author.name).toUpperCase()}`} · AÑO {cartaHoy.year}
-              </p>
-              {teaser && (
-                <p className="mt-4 font-serif text-base leading-relaxed text-tinta2/85">
-                  {teaser}{teaser.length >= 200 && '…'}
-                </p>
-              )}
-              <p className="mt-4 font-mono text-[11px] tracking-wider text-cuero">
-                LEER →
-              </p>
+            <h2 className="font-display text-3xl font-light italic leading-tight text-tinta2">
+              Una carta te espera.
+            </h2>
+            <p className="font-serif text-base leading-relaxed text-tinta2/85">
+              Cada día se abre una, al azar, entre los años de tu vida — escrita
+              por quien te quiere. Una por día.
+            </p>
+            <Link
+              href="/abrir-carta"
+              className="mt-2 inline-flex items-center gap-2 rounded-full bg-cuero px-6 py-3 font-mono text-[11px] tracking-[0.2em] text-papel shadow-warm transition active:scale-95"
+            >
+              ABRIR MI CARTA DE HOY →
             </Link>
           </section>
         ) : (
           <section aria-label="Pronto" className="space-y-2">
-            <span className="font-mono text-[10px] tracking-[0.3em] text-oro">CARTA DEL DÍA</span>
+            <span className="font-mono text-[10px] tracking-[0.3em] text-oro">TU CARTA DE HOY</span>
             <p className="font-display text-2xl font-light italic text-tinta2">
               La primera llega el día del cumpleaños.
             </p>
             <p className="font-serif text-sm italic text-grafito">21 de mayo de 2026.</p>
           </section>
         )}
+
+        {/* Recordatorio diario push */}
+        <div className="mt-5">
+          <PushOptIn />
+        </div>
 
         <Rule />
 
