@@ -83,7 +83,6 @@ export default async function CartaPage({ params }: { params: { year: string } }
       year={year}
       insider={insider}
       dayIdx={dayIdx}
-      dayOfYear={dayOfYear}
     >
       {content}
     </CartaGate>

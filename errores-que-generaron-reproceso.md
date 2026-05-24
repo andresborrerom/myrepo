@@ -97,6 +97,20 @@ Si no se cumple por lo menos 3 de los 5, **NO commitear** sin revisar el design 
 
 ---
 
+## Lógica day-based replicada en múltiples lugares (CartaGate)
+
+**Síntoma**: arreglé `getReleasedYears` y `/cartas` para usar el modelo "pool = todas las cartas no-placeholder + cadencia via lastRevealDate". Pero el `/cartas/[year]` seguía con `CartaGate` haciendo el check viejo: `if (dayIdx === null || dayOfYear > dayIdx) → locked-future`. Resultado: papá veía sus sobres bien en el grid, pero al tocar 1979 (abierto en estado) le salía "Esta carta llega después · Te llegará el día 29 desde tu cumpleaños". El usuario insider veía bien porque pasaba el gate.
+
+**Causa raíz**: la lógica "day-based" estaba duplicada en 3 lugares (página `/cartas`, página `/abrir-carta`, componente `CartaGate`). Cuando arreglé los primeros 2, el tercero quedó con el modelo viejo. **Cualquier regla de negocio replicada en 2+ archivos es una bomba de tiempo**.
+
+**Fix**:
+1. `CartaGate` ahora confía 100% en el servidor (`tryReveal`). El servidor ya tiene la lógica correcta: si está revelado → allow; si hay cupo de hoy → reveal + allow; si cupo consumido → block-today. No hay check day-based del lado cliente.
+2. La prop `dayOfYear` se eliminó del componente (era para el "te llega el día N" mensaje del bloqueo viejo).
+
+**Lección**: cuando se cambia un modelo central (como "qué significa que una carta esté disponible"), grep en TODO el repo por la lógica vieja antes de declarar el fix terminado. Pattern para grep: cualquier `dayOfYear > dayIdx`, `y - BIRTH_YEAR <= dayIdx`, `s.day < dayIdx`, etc. Esos son antípodas del modelo nuevo.
+
+---
+
 ## Cómo agregar al README/contexto
 
 Cuando aparezca un nuevo error de reproceso:
