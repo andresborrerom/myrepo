@@ -21,7 +21,6 @@ export default async function CartaPage({ params }: { params: { year: string } }
 
   const insider = isInsider();
   const dayIdx = getDayIndex();
-  const dayOfYear = year - BIRTH_YEAR;
 
   // Posición en la rejilla — para "Carta 38 / 75"
   const sembradas = CARTAS.map((c) => c.year).sort((a, b) => a - b);
