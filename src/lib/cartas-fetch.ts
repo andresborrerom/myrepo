@@ -33,13 +33,17 @@ export function getDayIndex(now: Date = new Date()): number | null {
 }
 
 // Años con carta disponibles para abrir: TODOS los años que tienen una
-// carta sembrada. La pacing "una por día" se enforce con lastRevealDate,
-// NO con el calendario — así si se agregan cartas nuevas a años no abiertos,
-// entran automáticamente al pool de candidatos para la aleatoria.
+// carta sembrada NO-placeholder. La cadencia "una por día" se enforce con
+// lastRevealDate. Si se agregan cartas nuevas, entran al pool automático.
+// Excluye placeholders ("[Fulano llenará esta carta]") — papá no debe
+// abrir cartas vacías.
 export function getReleasedYears(now: Date = new Date()): number[] {
   const dayIdx = getDayIndex(now);
   if (dayIdx === null) return [];
-  return CARTAS.map((c) => c.year).sort((a, b) => a - b);
+  return CARTAS
+    .filter((c) => !isPlaceholderBody(c.body))
+    .map((c) => c.year)
+    .sort((a, b) => a - b);
 }
 
 function aporteToCartaFinal(a: Aporte): CartaFinal {
@@ -188,6 +192,29 @@ function isPlaceholderBody(body: string | null | undefined): boolean {
   // Convención de seeds: '[Nombre llenará esta carta]'
   if (/^\[.*llenará esta carta\]$/i.test(trimmed)) return true;
   return false;
+}
+
+export { isPlaceholderBody };
+
+// Lee el estado de Alejandro (qué años abrió, cuándo fue la última) desde
+// Supabase. Para usar en componentes server — el client usa fetchState()
+// de reveal-state.ts vía /api/alejandro/state.
+export async function fetchAlejandroStateServer(): Promise<{
+  revealedYears: number[];
+  lastRevealDate: string | null;
+}> {
+  const { getPublicClient } = await import('./supabase');
+  const supabase = getPublicClient();
+  if (!supabase) return { revealedYears: [], lastRevealDate: null };
+  const { data } = await supabase
+    .from('alejandro_state')
+    .select('revealed_years, last_reveal_date')
+    .eq('id', 'singleton')
+    .maybeSingle();
+  return {
+    revealedYears: (data?.revealed_years as number[]) || [],
+    lastRevealDate: (data?.last_reveal_date as string) || null
+  };
 }
 
 export async function getCobertura(): Promise<CoberturaYear[]> {
