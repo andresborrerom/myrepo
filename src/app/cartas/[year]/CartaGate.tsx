@@ -7,20 +7,18 @@ import { tryReveal, type AlejandroState } from '@/lib/reveal-state';
 type GateState =
   | { kind: 'loading' }
   | { kind: 'allowed' }
-  | { kind: 'locked-future' }
+  | { kind: 'locked-pre' }
   | { kind: 'locked-today'; revealedToday: number | null };
 
 export default function CartaGate({
   year,
   insider,
   dayIdx,
-  dayOfYear,
   children
 }: {
   year: number;
   insider: boolean;
   dayIdx: number | null; // null = pre-cumpleaños
-  dayOfYear: number;     // year - BIRTH_YEAR
   children: React.ReactNode;
 }) {
   const [state, setState] = useState<GateState>({ kind: 'loading' });
@@ -31,12 +29,16 @@ export default function CartaGate({
       setState({ kind: 'allowed' });
       return;
     }
-    // Pre-cumpleaños o año futuro: sellada.
-    if (dayIdx === null || dayOfYear > dayIdx) {
-      setState({ kind: 'locked-future' });
+    // Pre-cumpleaños: nada se abre.
+    if (dayIdx === null) {
+      setState({ kind: 'locked-pre' });
       return;
     }
-    // Año liberado: pedir cupo al servidor.
+    // Toda otra decisión la toma el servidor: si ya está revelada deja
+    // pasar (relectura), si no está y hay cupo de hoy la revela, si el
+    // cupo está consumido la bloquea con info de cuál abrió hoy.
+    // YA NO bloqueamos por "año futuro en el calendario" — eso era el
+    // viejo modelo de slicing por día.
     (async () => {
       const result = await tryReveal(year);
       if (result.kind === 'first-reveal' || result.kind === 'already-revealed') {
@@ -52,32 +54,26 @@ export default function CartaGate({
       // 'no-backend' o 'error': graceful — dejamos pasar.
       setState({ kind: 'allowed' });
     })();
-  }, [insider, year, dayIdx, dayOfYear]);
+  }, [insider, year, dayIdx]);
 
-  if (state.kind === 'loading') {
-    return null;
-  }
+  if (state.kind === 'loading') return null;
 
   if (state.kind === 'allowed') {
     return <>{children}</>;
   }
 
-  if (state.kind === 'locked-future') {
+  if (state.kind === 'locked-pre') {
     return (
       <div className="bg-lino text-tinta min-h-dvh -mt-6 -mx-5 px-6 pt-12 pb-32">
         <Link href="/cartas" className="font-mono text-[10px] tracking-widest text-grafito hover:text-tomate">
           ← VOLVER AL ÍNDICE
         </Link>
         <div className="mt-12 text-center">
-          <p className="font-mono text-[10px] tracking-widest text-grafito">
-            CARTA SELLADA · AÑO {year}
-          </p>
+          <p className="font-mono text-[10px] tracking-widest text-grafito">CARTA SELLADA</p>
           <h1 className="mt-6 font-display text-3xl font-light italic text-tinta">
-            Esta carta llega después.
+            Las cartas empiezan el día de tu cumpleaños.
           </h1>
-          <p className="mt-4 font-serif text-base italic text-grafito">
-            Te llegará el día {dayOfYear + 1} desde tu cumpleaños.
-          </p>
+          <p className="mt-4 font-serif text-base italic text-grafito">21 de mayo de 2026.</p>
         </div>
       </div>
     );
@@ -90,9 +86,7 @@ export default function CartaGate({
         ← VOLVER AL ÍNDICE
       </Link>
       <div className="mt-12 text-center">
-        <p className="font-mono text-[10px] tracking-widest text-grafito">
-          UNA CARTA AL DÍA
-        </p>
+        <p className="font-mono text-[10px] tracking-widest text-grafito">UNA CARTA AL DÍA</p>
         <h1 className="mt-6 font-display text-3xl font-light italic text-tinta">
           Ya abriste tu carta de hoy.
         </h1>
