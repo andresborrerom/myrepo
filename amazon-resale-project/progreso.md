@@ -59,7 +59,9 @@
 - 🚀 **Google Search Console verificado + sitemap submitted** (2026-05-24): Gate 2 del runbook resuelto. Sitio descubrible por Google bots. Indexing inicia en próximos días/semanas. Meta tag de verificación en `Base.astro`.
 - 📊 **Total páginas del sitio: 266** (de los 67 iniciales: +297%).
 - 🧭 **Courses business scaffold** (commit 2ae2a7b, 2026-05-24): `courses-source/` para depositar MVPs + `AGENT_PROMPT.md` para generar cursos vía Claude Code Agent tool. Pendiente operador: poblar 2-3 MVPs antes del primer dispatch.
-- 🔍 **Shortlist 2do nicho research** (commit 3ede598, 2026-05-24): 11 verticales evaluados. Top 3: 3D printing (25/30), hi-fi audio (24/30), hunting/archery (24/30). Recomendación: **3D printing** (SERP fragmentada, dataset specs medibles, match operador data scientist). Pendiente decisión operador.
+- 🔍 **Shortlist 2do nicho research** (commit 3ede598, 2026-05-24): 11 verticales evaluados. Top 3: 3D printing (25/30), hi-fi audio (24/30), hunting/archery (24/30). Recomendación: **3D printing** (SERP fragmentada, dataset specs medibles, match operador data scientist). **Aprobada por operador 2026-05-24.**
+- 📧 **Email capture + lead magnet** (commit 0528ede, 2026-05-24): `EmailSignup.astro` 3 variants integrado en footer/home/best-of/methodology + landing `/espresso-setup-guide` + PDF 12 págs (25 KB) + Cloudflare Pages Function `subscribe.ts` dual-mode (ConvertKit real si env vars, modo setup con localStorage fallback si no). 268 páginas, 9/9 tests. **Pendiente operador: activar ConvertKit free tier + agregar env vars** (10 min, doc en `email-strategy.md`).
+- 📋 **ADR 0005 — 2do vertical 3D printing**: pendiente aceptación operador en 3 sub-decisiones (FDM-first vs resin vs mixto / fork template vs reuso / comprar printer entry ahora vs esperar threshold).
 
 ### Próximo hito objetivo
 
