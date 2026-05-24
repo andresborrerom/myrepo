@@ -10,6 +10,7 @@ import {
   buildSlots,
   filterSlotsForViewer,
   getDayIndex,
+  getReleasedYears,
   type DaySlot
 } from '@/lib/cartas-fetch';
 import { isInsider } from '@/lib/auth';
@@ -58,12 +59,7 @@ export default async function CartasPage() {
       </header>
 
       {!insider && dayIdx !== null && (
-        <RandomPickButton
-          releasedYears={CARTAS
-            .map((c) => c.year)
-            .filter((y) => y - BIRTH_YEAR <= dayIdx)
-            .sort((a, b) => a - b)}
-        />
+        <RandomPickButton releasedYears={getReleasedYears(now)} />
       )}
 
       {todaySlot && todaySlot.type !== 'empty' && insider && (

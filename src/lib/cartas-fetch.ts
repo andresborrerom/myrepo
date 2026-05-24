@@ -32,6 +32,17 @@ export function getDayIndex(now: Date = new Date()): number | null {
   return Math.floor((today - start) / 86_400_000);
 }
 
+// Años con carta ya desbloqueados — una CARTA nueva por día desde el
+// cumpleaños, en orden cronológico. Día 0 → la primera carta; día N → las
+// primeras (N+1) cartas. Esto evita que años sin carta "consuman" días
+// del calendario.
+export function getReleasedYears(now: Date = new Date()): number[] {
+  const dayIdx = getDayIndex(now);
+  if (dayIdx === null) return [];
+  const sorted = CARTAS.map((c) => c.year).sort((a, b) => a - b);
+  return sorted.slice(0, dayIdx + 1);
+}
+
 function aporteToCartaFinal(a: Aporte): CartaFinal {
   return {
     year: a.year!,
