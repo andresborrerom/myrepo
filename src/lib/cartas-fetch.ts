@@ -32,6 +32,16 @@ export function getDayIndex(now: Date = new Date()): number | null {
   return Math.floor((today - start) / 86_400_000);
 }
 
+// Años con carta disponibles para abrir: TODOS los años que tienen una
+// carta sembrada. La pacing "una por día" se enforce con lastRevealDate,
+// NO con el calendario — así si se agregan cartas nuevas a años no abiertos,
+// entran automáticamente al pool de candidatos para la aleatoria.
+export function getReleasedYears(now: Date = new Date()): number[] {
+  const dayIdx = getDayIndex(now);
+  if (dayIdx === null) return [];
+  return CARTAS.map((c) => c.year).sort((a, b) => a - b);
+}
+
 function aporteToCartaFinal(a: Aporte): CartaFinal {
   return {
     year: a.year!,
