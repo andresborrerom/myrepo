@@ -1,8 +1,11 @@
 # Deploy setup — Cloudflare Pages
 
-> Status: sitio listo en `amazon-resale-project/site/`, build verificado en
-> GitHub Actions (`.github/workflows/site-build.yml`). Pendiente: conectar
-> Cloudflare Pages al repo (acción del operador, ~10-15 min).
+> Status: sitio live en `affiliate/baristapath/site/` (renombrado desde
+> `affiliate/baristapath/site/` el 2026-05-24), build verificado en
+> GitHub Actions (`.github/workflows/site-build.yml`).
+>
+> **⚠️ Acción operador post-rename**: actualizar Build settings en
+> Cloudflare Pages dashboard para usar la ruta nueva (ver paso 4 abajo).
 
 ---
 
@@ -29,8 +32,8 @@ Decidido en ADR 0004:
    - Production branch: `claude/amazon-resale-project-t7o0P`
      (cambiamos a `main` cuando merge a main).
    - Framework preset: **Astro**.
-   - Build command: `cd amazon-resale-project/site && npm ci && npm run build`
-   - Build output directory: `amazon-resale-project/site/dist`
+   - Build command: `cd affiliate/baristapath/site && npm ci && npm run build`
+   - Build output directory: `affiliate/baristapath/site/dist`
    - Root directory: dejar vacío (el comando ya hace `cd`).
    - Node version: 22 (en environment variables si CF no la detecta).
 5. **Save and Deploy.** CF Pages buildea y entrega URL del tipo
@@ -62,7 +65,7 @@ Cuando se cumplan estas 4 condiciones:
 
 ### Cómo se flipa
 
-1. Editar `amazon-resale-project/site/public/robots.txt`:
+1. Editar `affiliate/baristapath/site/public/robots.txt`:
 
    ```
    User-agent: *
@@ -132,4 +135,4 @@ collections en `src/content/config.ts` no matchea el frontmatter de
 algún `.md`. CF Pages debería abortar; si no, mirar `dist/` local.
 
 **CF Pages no detecta el monorepo.** Asegurarse de que Root directory
-está vacío en config y el build command usa `cd amazon-resale-project/site`.
+está vacío en config y el build command usa `cd affiliate/baristapath/site`.

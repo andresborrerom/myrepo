@@ -6,30 +6,30 @@ on:
       - claude/amazon-resale-project-t7o0P
       - main
     paths:
-      - 'amazon-resale-project/site/**'
+      - 'affiliate/baristapath/site/**'
       - '.github/workflows/site-build.yml'
   pull_request:
     paths:
-      - 'amazon-resale-project/site/**'
+      - 'affiliate/baristapath/site/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: amazon-resale-project/site
+        working-directory: affiliate/baristapath/site
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: amazon-resale-project/site/package-lock.json
+          cache-dependency-path: affiliate/baristapath/site/package-lock.json
       - run: npm ci
       - run: npm test
       - run: npm run build
       - uses: actions/upload-artifact@v4
         with:
           name: site-dist
-          path: amazon-resale-project/site/dist
+          path: affiliate/baristapath/site/dist
           retention-days: 7

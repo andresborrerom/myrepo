@@ -61,7 +61,8 @@
 - 🧭 **Courses business scaffold** (commit 2ae2a7b, 2026-05-24): `courses-source/` para depositar MVPs + `AGENT_PROMPT.md` para generar cursos vía Claude Code Agent tool. Pendiente operador: poblar 2-3 MVPs antes del primer dispatch.
 - 🔍 **Shortlist 2do nicho research** (commit 3ede598, 2026-05-24): 11 verticales evaluados. Top 3: 3D printing (25/30), hi-fi audio (24/30), hunting/archery (24/30). Recomendación: **3D printing** (SERP fragmentada, dataset specs medibles, match operador data scientist). **Aprobada por operador 2026-05-24.**
 - 📧 **Email capture + lead magnet** (commit 0528ede, 2026-05-24): `EmailSignup.astro` 3 variants integrado en footer/home/best-of/methodology + landing `/espresso-setup-guide` + PDF 12 págs (25 KB) + Cloudflare Pages Function `subscribe.ts` dual-mode (ConvertKit real si env vars, modo setup con localStorage fallback si no). 268 páginas, 9/9 tests. **Pendiente operador: activar ConvertKit free tier + agregar env vars** (10 min, doc en `email-strategy.md`).
-- 📋 **ADR 0005 — 2do vertical 3D printing**: pendiente aceptación operador en 3 sub-decisiones (FDM-first vs resin vs mixto / fork template vs reuso / comprar printer entry ahora vs esperar threshold).
+- 📋 **ADR 0005 — 2do vertical 3D printing aprobada** (2026-05-24): sub-decisiones operador → FDM-first / umbrella `affiliate/<slug>/` (no fork separado) / comprar Bambu A1 mini en junio cuando esqueleto del sitio esté listo (encaja con cumpleaños hijo).
+- 🏗️ **Refactor monorepo a umbrella `affiliate/`** (2026-05-24): `amazon-resale-project/` → `affiliate/baristapath/`, `courses-source/` promovido a `affiliate/courses-source/` (cross-niche), esqueleto `affiliate/filamentpath/meta.md` creado, `affiliate/CLAUDE.md` cross-niche protocols + `affiliate/SCAFFOLD.md` receta replicación. Workflow CI actualizado a nuevo path. Build verde 268 páginas. **Pendiente operador B5 (crítico): actualizar build path en CF Pages dashboard.**
 
 ### Próximo hito objetivo
 

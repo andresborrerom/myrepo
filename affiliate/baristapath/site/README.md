@@ -2,7 +2,7 @@
 
 Programmatic SEO site for home coffee equipment (espresso machines, grinders,
 pour-over brewers). Built with Astro 5, content collections, and a static
-Cloudflare Pages target. See `amazon-resale-project/docs/decisions/0004-stack-tecnico.md`
+Cloudflare Pages target. See `affiliate/baristapath/docs/decisions/0004-stack-tecnico.md`
 for the full architectural rationale.
 
 ## Local development
@@ -103,8 +103,8 @@ site is production-ready:
 - [ ] Add robots.txt and verify generated sitemap.
 - [ ] Add a 404 page and verify Cloudflare's static-site 404 behavior.
 - [ ] Run Lighthouse / PageSpeed audit; address any CWV issues.
-- [ ] Decide on / migrate to a dedicated repo when the domain is picked
-      (currently lives inside `amazon-resale-project/` for convenience).
+- [x] Decided to stay in monorepo under `affiliate/baristapath/` (2026-05-24);
+      umbrella `affiliate/` hosts replicas for additional niches.
 
 ## Notes on mock data
 

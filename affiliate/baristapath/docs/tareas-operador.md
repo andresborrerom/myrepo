@@ -94,6 +94,61 @@ Para ver tráfico real:
 3. Pasarme el token (es público, no es secret) → lo inyecto en
    `Base.astro` y deploya
 
+### B5. Cloudflare Pages — actualizar build path (≈3 min) — **CRÍTICO post-rename**
+
+El 2026-05-24 renombré `amazon-resale-project/` a `affiliate/baristapath/`.
+Cloudflare Pages todavía apunta al path viejo. Hasta que actualices, los
+deploys nuevos fallan.
+
+1. Cloudflare dashboard → **Workers & Pages** → tu proyecto `baristapath`
+   (o el nombre que le pusiste).
+2. Settings → **Builds & deployments** → Build configurations → Edit.
+3. **Build command**: cambiar
+   - de: `cd amazon-resale-project/site && npm ci && npm run build`
+   - a:  `cd affiliate/baristapath/site && npm ci && npm run build`
+4. **Build output directory**: cambiar
+   - de: `amazon-resale-project/site/dist`
+   - a:  `affiliate/baristapath/site/dist`
+5. Save → trigger Retry Deployment del último build para verificar.
+
+### B6. ConvertKit free tier — activar email capture (≈10 min)
+
+Lead magnet PDF + componente EmailSignup ya integrados (commit 0528ede).
+Mientras no actives ConvertKit, los leads viven en localStorage del
+visitor (no se pierden pero no llegan a vos).
+
+1. Crear cuenta en kit.com (ex ConvertKit) free tier.
+2. Crear form → copiar `form_id`.
+3. Settings → Advanced → copiar `API key` (v3).
+4. Cloudflare Pages → tu proyecto → Settings → Environment Variables →
+   agregar `CONVERTKIT_API_KEY` y `CONVERTKIT_FORM_ID`.
+5. Trigger un redeploy para que la function las recoja.
+6. Test desde el browser: signup con email tuyo → verificar que llega a
+   ConvertKit dashboard.
+
+Detalle completo del flow y welcome email sequence en
+`affiliate/baristapath/docs/email-strategy.md`.
+
+### B7. Registrar dominio `filamentpath.com` para 2do nicho (≈10 min, ~$14/año)
+
+Aprobado en ADR 0005 (2do vertical: 3D printing FDM-first). Comprar
+dominio antes de bootstrap del sitio.
+
+1. Cloudflare Registrar → buscar `filamentpath.com`.
+2. Si disponible: registrar (~$10-14/año). Si no, probar alternativas
+   del ADR (`layerlab.io`, `filamentcraft.com`, `printpath.io`).
+3. Avisarme cuál registrado → corro SCAFFOLD para crear esqueleto del
+   sitio.
+
+### B8. Comprar printer Bambu A1 mini (~$249) — **timing junio para cumpleaños hijo**
+
+Comprar cuando yo te avise (después de que `filamentpath/site/` tenga
+estructura mínima y al menos 1 review page lista para llenar con
+first-party content). Encaja con cumpleaños de tu hijo en junio.
+
+NO comprar antes — capital justificado por evidencia (ver ADR 0005,
+sub-decisión 3). Te avisaré cuando sea el momento.
+
 ---
 
 ## Bloque C — mes 2 (≈30 min)
@@ -167,6 +222,10 @@ firma que te hizo la residencia.
 | **B2** | **Aplicar Amazon Associates** | **30 min** | **Esta semana** | **Pendiente** |
 | **B3** | **Pinterest Trial → Standard request** | **5 min** | **Cuando Trial active** | **Pendiente** |
 | B4 | CF Web Analytics token | 5 min | Cuando puedas | Pendiente |
+| **B5** | **CF Pages actualizar build path (post-rename)** | **3 min** | **YA** | **Pendiente** |
+| **B6** | **ConvertKit free tier + env vars** | **10 min** | **Esta semana** | **Pendiente** |
+| **B7** | **Registrar `filamentpath.com`** | **10 min** | **Esta semana** | **Pendiente** |
+| B8 | Comprar Bambu A1 mini ($249) | 10 min | Cuando Claude te avise (~junio) | Pendiente |
 | C1 | Suscribir Keepa | 20 min | Inicio mes 2 (jul) | Futuro |
 | D1 | Replace affiliate tag | 5 min | Tras Associates approve | Futuro |
 | D2 | Abrir Payoneer (si revenue >$200) | 45 min | Mes 3-4 | Futuro |
