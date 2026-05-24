@@ -20,8 +20,16 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import EmailSignup from '../components/EmailSignup.astro';
+import { author } from '../data/author';
 
 const all = await getCollection('products');
+
+const authorInitials = author.name
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((s) => s[0]?.toUpperCase() ?? '')
+  .join('');
 
 // Latest reviews: top 6 por updated_at desc.
 const sortedByUpdated = [...all].sort(
@@ -207,6 +215,31 @@ const jsonLd = [websiteSchema, organizationSchema, latestItemListSchema];
     </div>
   </section>
 
+  {/* ---------- 1b. Trust strip (cuantitativo, no claims) ---------- */}
+  <section class="trust-strip" aria-label="Site coverage at a glance">
+    <ul class="trust-strip__list">
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">72</span>
+        <span class="trust-strip__label">products compared</span>
+      </li>
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">45</span>
+        <span class="trust-strip__label">buying guides</span>
+      </li>
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">55</span>
+        <span class="trust-strip__label">terms documented</span>
+      </li>
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">May<br />2026</span>
+        <span class="trust-strip__label">Last updated</span>
+      </li>
+    </ul>
+    <p class="trust-strip__methodology">
+      <a href="/methodology/">Read the review methodology &rarr;</a>
+    </p>
+  </section>
+
   {/* ---------- 2. Tools (diferenciadores) ---------- */}
   <section class="section section--tools" aria-labelledby="tools-heading">
     <h2 id="tools-heading">Tools to decide faster</h2>
@@ -239,7 +272,7 @@ const jsonLd = [websiteSchema, organizationSchema, latestItemListSchema];
   </section>
 
   {/* ---------- 3. Start here ---------- */}
-  <section class="section" aria-labelledby="start-here-heading">
+  <section class="section section--bg-paper" aria-labelledby="start-here-heading">
     <h2 id="start-here-heading">Start here</h2>
     <p class="muted section__intro">Four common entry points if you are not sure where to begin.</p>
     <div class="start-here-cards">
@@ -254,7 +287,7 @@ const jsonLd = [websiteSchema, organizationSchema, latestItemListSchema];
   </section>
 
   {/* ---------- 3b. Free starter guide (lead magnet) ---------- */}
-  <section class="section" aria-labelledby="starter-guide-heading">
+  <section class="section section--bg-accent" aria-labelledby="starter-guide-heading">
     <h2 id="starter-guide-heading">Get the free starter guide</h2>
     <p class="muted section__intro">
       A 12-page PDF that turns 20+ review pages into one short decision framework.
@@ -290,7 +323,7 @@ const jsonLd = [websiteSchema, organizationSchema, latestItemListSchema];
   </section>
 
   {/* ---------- 5. Compare popular machines ---------- */}
-  <section class="section" aria-labelledby="compare-heading">
+  <section class="section section--bg-paper" aria-labelledby="compare-heading">
     <h2 id="compare-heading">Compare popular machines</h2>
     <p class="muted section__intro">Head-to-heads on the questions readers actually ask.</p>
     <div class="compare-popular-grid">
@@ -322,6 +355,24 @@ const jsonLd = [websiteSchema, organizationSchema, latestItemListSchema];
           </ul>
         </div>
       ))}
+    </div>
+  </section>
+
+  {/* ---------- 6b. Behind the reviews (E-E-A-T) ---------- */}
+  <section class="section section--bg-paper author-strip" aria-labelledby="author-heading">
+    <h2 id="author-heading" class="visually-hidden">Behind the reviews</h2>
+    <div class="author-strip__inner">
+      {author.image ? (
+        <img class="author-strip__photo" src={author.image} alt={author.name} width="96" height="96" loading="lazy" />
+      ) : (
+        <span class="author-strip__avatar" aria-hidden="true">{authorInitials}</span>
+      )}
+      <div class="author-strip__text">
+        <p class="author-strip__eyebrow">Behind the reviews</p>
+        <p class="author-strip__name"><strong>{author.name}</strong> · {author.role}</p>
+        <p class="author-strip__bio">{author.bio}</p>
+        <p class="author-strip__link"><a href={author.url}>About this site &rarr;</a></p>
+      </div>
     </div>
   </section>
 

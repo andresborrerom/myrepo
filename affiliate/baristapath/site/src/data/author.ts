@@ -10,6 +10,8 @@ export interface Author {
   role: string;
   url: string;
   bio: string;
+  /** Optional path under /public (e.g. "/author/andres.jpg"). Falls back to initials. */
+  image?: string;
 }
 
 export const author: Author = {

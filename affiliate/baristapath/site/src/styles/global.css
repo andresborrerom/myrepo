@@ -2379,3 +2379,169 @@ li {
   color: var(--color-text-muted);
   font-size: 0.9em;
 }
+
+/* ---------- Section background modifiers (alternating rhythm) ---------- */
+/* Apply to <section class="section section--bg-paper"> for paper-toned bands.
+   Negative margin + padding pattern lets background span full viewport width
+   even though inner content stays in the container. */
+.section--bg-paper {
+  background: var(--color-surface-alt);
+  margin-left: calc(-1 * var(--space-xl, 2rem));
+  margin-right: calc(-1 * var(--space-xl, 2rem));
+  padding-left: var(--space-xl, 2rem);
+  padding-right: var(--space-xl, 2rem);
+}
+
+.section--bg-accent {
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface));
+  border-top: 3px solid var(--color-accent);
+  margin-left: calc(-1 * var(--space-xl, 2rem));
+  margin-right: calc(-1 * var(--space-xl, 2rem));
+  padding-left: var(--space-xl, 2rem);
+  padding-right: var(--space-xl, 2rem);
+}
+
+/* ---------- Trust strip (under hero, quantitative) ---------- */
+.trust-strip {
+  background: var(--color-surface-alt);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-lg, 1.5rem) 0;
+  margin-left: calc(-1 * var(--space-xl, 2rem));
+  margin-right: calc(-1 * var(--space-xl, 2rem));
+  padding-left: var(--space-xl, 2rem);
+  padding-right: var(--space-xl, 2rem);
+  margin-bottom: var(--space-xl, 2rem);
+}
+
+.trust-strip__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md, 1rem);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .trust-strip__list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.trust-strip__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0 var(--space-sm, 0.5rem);
+}
+
+.trust-strip__item + .trust-strip__item {
+  border-left: 1px solid var(--color-border);
+}
+
+@media (max-width: 639px) {
+  .trust-strip__item + .trust-strip__item {
+    border-left: none;
+  }
+  .trust-strip__item:nth-child(odd) {
+    border-right: 1px solid var(--color-border);
+  }
+}
+
+.trust-strip__number {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.trust-strip__label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.trust-strip__methodology {
+  text-align: center;
+  margin: var(--space-md, 1rem) 0 0;
+  font-size: 0.9rem;
+}
+
+/* ---------- Author strip (Behind the reviews, E-E-A-T signal) ---------- */
+.author-strip__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md, 1rem);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .author-strip__inner {
+    flex-direction: row;
+    text-align: left;
+  }
+}
+
+.author-strip__avatar,
+.author-strip__photo {
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  object-fit: cover;
+}
+
+.author-strip__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin: 0 0 0.25rem;
+}
+
+.author-strip__name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem;
+  color: var(--color-text);
+}
+
+.author-strip__bio {
+  margin: 0 0 0.5rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.author-strip__link {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
