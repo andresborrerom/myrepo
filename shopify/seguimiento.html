@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F2942">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Singladura">
+<title>Singladura — Seguimiento</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230F2942' width='100' height='100' rx='22'/><text x='50' y='68' text-anchor='middle' font-size='60' font-family='Georgia' font-weight='700' fill='%23F5F1E8'>S</text></svg>">
+<style>
+:root {
+  --tinta-900: #0F2942;
+  --tinta-800: #1B3A5C;
+  --bermellon: #A03A2C;
+  --bermellon-soft: #C45A48;
+  --bronce: #A88958;
+  --lienzo: #F5F1E8;
+  --lienzo-warm: #EFE8D6;
+  --regla: #D9D2C3;
+  --regla-soft: #EAE4D4;
+  --text: #1B2733;
+  --text-soft: #4A5868;
+  --text-mute: #788391;
+  --verde: #1E5247;
+  --amarillo: #C99523;
+  --rojo: #A03A2C;
+  --shadow-card: 0 1px 2px rgba(15,41,66,0.05), 0 2px 8px rgba(15,41,66,0.04);
+  --shadow-card-hover: 0 2px 4px rgba(15,41,66,0.08), 0 6px 16px rgba(15,41,66,0.08);
+  --radius: 14px;
+  --radius-sm: 10px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { font-size: 16px; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--lienzo);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: 0; z-index: 50;
+  background: var(--tinta-900);
+  color: var(--lienzo);
+  padding: max(env(safe-area-inset-top), 14px) 18px 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 1px 0 rgba(15,41,66,0.06);
+}
+header .brand {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+header .subtitle {
+  font-size: 12px;
+  opacity: 0.65;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+header .badges {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+header .pill {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(245,241,232,0.12);
+  border: 1px solid rgba(245,241,232,0.15);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Layout */
+main {
+  padding: 16px 14px max(80px, env(safe-area-inset-bottom)) 14px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-mute);
+  font-weight: 700;
+  padding: 22px 6px 8px 6px;
+}
+.section-label:first-child { padding-top: 6px; }
+
+/* Cards group */
+.group {
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 4px;
+}
+.group .row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--regla-soft);
+  min-height: 56px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.group .row:first-child { border-top: none; }
+.group .row:active { background: var(--lienzo-warm); }
+
+/* Task rows */
+.task .check {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--regla);
+  background: white;
+  position: relative;
+  margin-top: 1px;
+  transition: all 0.15s;
+}
+.task .check::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='5 13 10 18 19 7'/></svg>") center/14px no-repeat;
+}
+.task.done .check {
+  background: var(--verde);
+  border-color: var(--verde);
+}
+.task.done .check::after { display: block; }
+.task.done .body {
+  text-decoration: line-through;
+  color: var(--text-mute);
+}
+.task .body {
+  flex-grow: 1;
+  min-width: 0;
+}
+.task .title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+}
+.task .meta {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+.task .tag {
+  display: inline-block;
+  font-size: 10.5px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.tag.urgente { background: #FCE5E0; color: var(--bermellon); }
+.tag.pronto { background: #FBF1D8; color: #8B6614; }
+.tag.luego { background: #E5EFE9; color: var(--verde); }
+.tag.tiempo { background: var(--lienzo-warm); color: var(--text-soft); font-weight: 500; text-transform: none; letter-spacing: 0; padding: 2px 8px; }
+
+/* Status rows */
+.status .dot {
+  flex-shrink: 0;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  margin-top: 5px;
+}
+.status .dot.verde { background: var(--verde); }
+.status .dot.amarillo { background: var(--amarillo); }
+.status .dot.rojo { background: var(--rojo); }
+.status .dot.gris { background: var(--regla); }
+.status .title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+.status .meta {
+  font-size: 12.5px;
+  color: var(--text-soft);
+  margin-top: 2px;
+}
+
+/* Doc rows */
+.doc .icon {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 13px;
+  background: var(--lienzo-warm);
+  color: var(--tinta-900);
+  letter-spacing: 0;
+}
+.doc .icon.fis { background: #E6E0F0; color: #4B2E83; }
+.doc .icon.mkt { background: #FCE5E0; color: var(--bermellon); }
+.doc .icon.ops { background: #E5EFE9; color: var(--verde); }
+.doc .icon.brand { background: #F0E4CB; color: #8B6614; }
+.doc .icon.cur { background: #FBE6CC; color: #8B4A14; }
+.doc .icon.plan { background: var(--tinta-900); color: var(--lienzo); }
+.doc .body { padding-top: 1px; }
+.doc .title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.doc .meta {
+  font-size: 12.5px;
+  color: var(--text-soft);
+  margin-top: 2px;
+}
+.doc .chevron {
+  flex-shrink: 0;
+  margin-top: 9px;
+  color: var(--text-mute);
+  opacity: 0.6;
+}
+
+/* Product cards (rich) */
+.product-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 10px;
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  border-left: 4px solid var(--bronce);
+}
+.product-card .ptitle {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tinta-900);
+  line-height: 1.2;
+}
+.product-card .pstatus {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: var(--text-mute);
+  margin-top: 4px;
+}
+.product-card .pdesc {
+  font-size: 14px;
+  color: var(--text-soft);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+.product-card .pmeta {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-mute);
+}
+.product-card .pmeta b { color: var(--text); font-weight: 600; }
+
+/* Stats grid */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 4px 0 4px 0;
+}
+.stat {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-card);
+}
+.stat .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-mute);
+  font-weight: 700;
+}
+.stat .value {
+  font-size: 24px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  color: var(--tinta-900);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-top: 4px;
+}
+.stat .value.small {
+  font-size: 16px;
+}
+.stat .desc {
+  font-size: 11.5px;
+  color: var(--text-soft);
+  margin-top: 4px;
+}
+
+/* Progress bar */
+.progress {
+  background: var(--regla-soft);
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.progress > span {
+  display: block;
+  height: 100%;
+  background: var(--verde);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+/* Hero block */
+.hero {
+  background: linear-gradient(135deg, var(--tinta-900), var(--tinta-800));
+  color: var(--lienzo);
+  border-radius: var(--radius);
+  padding: 18px 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 0%, rgba(168,137,88,0.18), transparent 50%);
+  pointer-events: none;
+}
+.hero .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+  font-weight: 600;
+}
+.hero h2 {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  margin: 6px 0 10px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.hero .actionable {
+  font-size: 14.5px;
+  line-height: 1.45;
+  opacity: 0.92;
+}
+.hero .cta {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 16px;
+  background: var(--bronce);
+  color: var(--tinta-900);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/* Decision history */
+.timeline {
+  background: white;
+  border-radius: var(--radius);
+  padding: 4px 0;
+  box-shadow: var(--shadow-card);
+}
+.timeline .item {
+  padding: 11px 16px;
+  border-top: 1px solid var(--regla-soft);
+  display: flex;
+  gap: 12px;
+}
+.timeline .item:first-child { border-top: none; }
+.timeline .date {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  color: var(--text-mute);
+  width: 56px;
+  padding-top: 1px;
+  letter-spacing: -0.02em;
+}
+.timeline .desc {
+  font-size: 13.5px;
+  color: var(--text-soft);
+  line-height: 1.4;
+}
+.timeline .desc b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Modal viewer */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,41,66,0.55);
+  z-index: 100;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  width: 100%;
+  max-width: 720px;
+  max-height: 92vh;
+  background: var(--lienzo);
+  border-radius: 18px 18px 0 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+  animation: slideUp 0.25s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.modal-handle {
+  position: sticky;
+  top: 0;
+  background: var(--lienzo);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--regla);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+}
+.modal-handle .grab {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px; height: 4px;
+  background: var(--regla);
+  border-radius: 999px;
+}
+.modal-handle .title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  padding-top: 6px;
+}
+.modal-handle .close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-soft);
+  padding: 4px 8px;
+  margin-top: 4px;
+}
+.modal-body {
+  padding: 20px 18px 60px 18px;
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+.modal-body h1 { font-family: Georgia, serif; font-size: 24px; margin: 16px 0 12px; line-height: 1.2; color: var(--tinta-900); }
+.modal-body h2 { font-family: Georgia, serif; font-size: 19px; margin: 24px 0 8px; line-height: 1.25; color: var(--tinta-900); border-bottom: 1px solid var(--regla); padding-bottom: 6px; }
+.modal-body h3 { font-size: 16.5px; margin: 18px 0 6px; font-weight: 700; color: var(--tinta-800); }
+.modal-body h4 { font-size: 14px; margin: 14px 0 4px; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.04em; }
+.modal-body p { margin: 0 0 10px; }
+.modal-body ul, .modal-body ol { padding-left: 22px; margin: 6px 0 12px; }
+.modal-body li { margin-bottom: 3px; }
+.modal-body code { background: var(--regla-soft); padding: 1px 5px; border-radius: 4px; font-size: 0.88em; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.modal-body pre { background: var(--tinta-900); color: var(--lienzo); padding: 12px 14px; border-radius: 8px; overflow-x: auto; font-size: 12.5px; }
+.modal-body pre code { background: none; padding: 0; color: var(--lienzo); }
+.modal-body blockquote { margin: 12px 0; padding: 10px 14px; background: var(--lienzo-warm); border-left: 3px solid var(--bronce); border-radius: 0 8px 8px 0; color: var(--text-soft); }
+.modal-body blockquote p { margin: 4px 0; }
+.modal-body table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; display: block; overflow-x: auto; }
+.modal-body th, .modal-body td { padding: 7px 10px; border: 1px solid var(--regla); text-align: left; vertical-align: top; }
+.modal-body th { background: var(--lienzo-warm); font-weight: 700; }
+.modal-body a { color: var(--bermellon); text-decoration: underline; }
+.modal-body hr { border: none; border-top: 1px solid var(--regla); margin: 20px 0; }
+.modal-loading { padding: 60px 20px; text-align: center; color: var(--text-mute); font-size: 14px; }
+.modal-fallback { padding: 30px 20px; text-align: center; color: var(--text-soft); font-size: 14px; line-height: 1.5; }
+.modal-fallback a { color: var(--bermellon); font-weight: 600; }
+.modal-fallback .gh-link {
+  display: inline-block;
+  padding: 12px 22px;
+  background: var(--tinta-900);
+  color: var(--lienzo);
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 24px 18px 40px;
+  font-size: 12px;
+  color: var(--text-mute);
+}
+footer a { color: var(--text-soft); text-decoration: underline; }
+
+/* Reset clear button */
+.reset-btn {
+  background: none;
+  border: 1px solid var(--regla);
+  color: var(--text-mute);
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 999px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Singladura</div>
+  <div class="subtitle">Inmobiliario España para inversores LATAM</div>
+  <div class="badges">
+    <span class="pill">Nicho ✓</span>
+    <span class="pill">Equipo ✓</span>
+    <span class="pill">Naming 🟡</span>
+    <span class="pill">Fiscal 🟢</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO: siguiente acción -->
+  <div class="hero">
+    <div class="label">Próxima acción concreta</div>
+    <h2>Verificar Singladura<br>(~45 min)</h2>
+    <div class="actionable">
+      Si Singladura sale limpio, desbloquea compra de dominio, encargo del logo y handles en redes. Es el cuello de botella número 1.
+    </div>
+    <a class="cta" href="#tareas">Ver checklist ↓</a>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="label">Tareas tuyas</div>
+      <div class="value" id="stat-tareas">—</div>
+      <div class="desc"><span id="stat-tareas-done">0</span> hechas · <span id="stat-tareas-pend">0</span> pendientes</div>
+      <div class="progress"><span id="progress-bar" style="width:0%"></span></div>
+    </div>
+    <div class="stat">
+      <div class="label">Documentos</div>
+      <div class="value">15</div>
+      <div class="desc">11 docs + 4 plantillas</div>
+    </div>
+    <div class="stat">
+      <div class="label">Primera factura</div>
+      <div class="value small">Sep 2026</div>
+      <div class="desc">~4 meses</div>
+    </div>
+    <div class="stat">
+      <div class="label">Meta año 1</div>
+      <div class="value small">5-8 k€/m</div>
+      <div class="desc">Consistente</div>
+    </div>
+  </div>
+
+  <!-- TUS TAREAS -->
+  <div id="tareas" class="section-label">Tu lista — pendiente acción tuya</div>
+  <div class="group" id="task-group">
+    <!-- Tareas se montan dinámicamente -->
+  </div>
+  <div style="text-align:center;">
+    <button class="reset-btn" onclick="resetTasks()">Resetear checklist</button>
+  </div>
+
+  <!-- ESTADO DEL PROYECTO -->
+  <div class="section-label">Estado por bloque</div>
+  <div class="group status">
+    <div class="row"><div class="dot verde"></div>
+      <div class="body">
+        <div class="title">Modelo de negocio</div>
+        <div class="meta">Acompañamiento premium 5k€ + curso 497€. Decidido.</div>
+      </div>
+    </div>
+    <div class="row"><div class="dot verde"></div>
+      <div class="body">
+        <div class="title">Nicho</div>
+        <div class="meta">Inmobiliario España para inversores LATAM. Confirmado.</div>
+      </div>
+    </div>
+    <div class="row"><div class="dot verde"></div>
+      <div class="body">
+        <div class="title">Equipo</div>
+        <div class="meta">Andrés (LATAM) + Cami (España). Cerrado 18 may.</div>
+      </div>
+    </div>
+    <div class="row"><div class="dot verde"></div>
+      <div class="body">
+        <div class="title">Roadmap 90 días</div>
+        <div class="meta">Lun 18 may → sáb 16 ago 2026. Hitos por semana.</div>
+      </div>
+    </div>
+    <div class="row"><div class="dot amarillo"></div>
+      <div class="body">
+        <div class="title">Naming — Singladura</div>
+        <div class="meta">2 rounds analizados, candidato vivo, pendiente verificación manual (tarea tuya).</div>
+      </div>
+    </div>
+    <div class="row"><div class="dot verde"></div>
+      <div class="body">
+        <div class="title">Landing técnico</div>
+        <div class="meta">Next.js + Supabase, build verde. Falta deploy + nombre confirmado.</div>
+      </div>
+    </div>
+    <div class="row"><div class="dot verde"></div>
+      <div class="body">
+        <div class="title">Brief de logo</div>
+        <div class="meta">Listo para encargar a freelance (400-600€) tras verificación.</div>
+      </div>
+    </div>
+    <div class="row"><div class="dot verde"></div>
+      <div class="body">
+        <div class="title">Outline del curso</div>
+        <div class="meta">6 módulos preparados. Decisión arranque: 5 ago 2026.</div>
+      </div>
+    </div>
+    <div class="row"><div class="dot verde"></div>
+      <div class="body">
+        <div class="title">Jurisdicción fiscal</div>
+        <div class="meta">SL España microempresa. Alta convicción. Pendiente confirmar con asesor.</div>
+      </div>
+    </div>
+    <div class="row"><div class="dot gris"></div>
+      <div class="body">
+        <div class="title">Primera venta</div>
+        <div class="meta">Bloqueado por naming + fiscal + asesor.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTOS Y ARTEFACTOS -->
+  <div class="section-label">Productos y artefactos</div>
+
+  <a class="product-card" href="javascript:openDoc('13-curso-outline.md', 'Outline del curso')">
+    <div class="ptitle">Curso digital — outline</div>
+    <div class="pstatus">📘 Pendiente tu revisión · 6 módulos × 45 min</div>
+    <div class="pdesc">Producto 1 (497€). Promesa: "en 6 semanas sales con un plan personal escrito para comprar tu casa en España desde LATAM". Inicio escritura: ago 2026.</div>
+    <div class="pmeta">
+      <span><b>Precio</b> 497€</span>
+      <span><b>Margen</b> ~95%</span>
+      <span><b>Coste prod.</b> 3-5 k€</span>
+    </div>
+  </a>
+
+  <a class="product-card" href="javascript:openDoc('12-logo-brief.md', 'Brief del logo')">
+    <div class="ptitle">Logo — brief para freelance</div>
+    <div class="pstatus">📘 Pendiente tu revisión · listo para encargar</div>
+    <div class="pdesc">4 direcciones conceptuales (sextante / rosa de los vientos / S con línea de rumbo / wordmark puro). Paleta y tipografía definidas. Anti-brief explícito.</div>
+    <div class="pmeta">
+      <span><b>Coste</b> 400-600€</span>
+      <span><b>Plazo</b> 7-14 días</span>
+    </div>
+  </a>
+
+  <a class="product-card" href="javascript:openDoc('landing/brand.config.ts', 'brand.config.ts — copy del landing')">
+    <div class="ptitle">Landing — copy y marca</div>
+    <div class="pstatus">📘 Pendiente tu revisión · build verde, Singladura provisional</div>
+    <div class="pdesc">Toda la marca y copy del landing en un solo archivo. Si cambias Singladura por otro nombre, sólo editas este archivo y todo lo demás se actualiza solo.</div>
+    <div class="pmeta">
+      <span><b>Stack</b> Next.js + Supabase</span>
+      <span><b>Deploy</b> Vercel</span>
+    </div>
+  </a>
+
+  <a class="product-card" href="javascript:openDoc('14-fiscal-kit-asesor.md', 'Kit conversación con asesor fiscal')">
+    <div class="ptitle">Kit de conversación con asesor fiscal</div>
+    <div class="pstatus">📘 Pendiente usar en llamadas · 32 preguntas listas</div>
+    <div class="pdesc">23 preguntas al asesor español + 9 al asesor en Panamá/Colombia. Salidas esperadas, cómo encontrar asesores con perfil internacional, rangos de precio.</div>
+    <div class="pmeta">
+      <span><b>Consulta ES</b> 100-200€</span>
+      <span><b>Consulta PAN</b> 150-300 USD</span>
+    </div>
+  </a>
+
+  <a class="product-card" href="javascript:openDoc('03-fiscal.md', 'Análisis fiscal 2026')">
+    <div class="ptitle">Análisis fiscal — recomendación</div>
+    <div class="pstatus">📘 Lectura clave antes de hablar con asesor</div>
+    <div class="pdesc">Comparativa actualizada mayo 2026 de SL España vs SA Panamá vs OÜ Estonia vs LLC USA. Recomendación: SL España microempresa. Tres razones estructurales documentadas.</div>
+    <div class="pmeta">
+      <span><b>IS año 1</b> ~12 k€</span>
+      <span><b>Estimado 60k€ beneficio</b></span>
+    </div>
+  </a>
+
+  <!-- DOCUMENTOS -->
+  <div class="section-label">Documentos del proyecto</div>
+  <div class="group doc">
+    <div class="row" onclick="openDoc('01-plan-negocio.md','01 · Plan de negocio')">
+      <div class="icon plan">01</div>
+      <div class="body"><div class="title">Plan de negocio</div><div class="meta">Visión, unit economics, qué significa 20k€/mes</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('02-producto-nicho.md','02 · Producto y nicho')">
+      <div class="icon plan">02</div>
+      <div class="body"><div class="title">Producto y nicho</div><div class="meta">Framework para elegir qué vendemos</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('03-fiscal.md','03 · Fiscal 2026')">
+      <div class="icon fis">03</div>
+      <div class="body"><div class="title">Fiscal y jurisdicción</div><div class="meta">Análisis 2026. Recomendación: SL España.</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('04-operaciones.md','04 · Operaciones')">
+      <div class="icon ops">04</div>
+      <div class="body"><div class="title">Operaciones</div><div class="meta">Quién hace qué, husos horarios, rituales</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('05-stack.md','05 · Stack tecnológico')">
+      <div class="icon ops">05</div>
+      <div class="body"><div class="title">Stack tecnológico</div><div class="meta">Shopify + apps + integraciones</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('06-marketing.md','06 · Marketing')">
+      <div class="icon mkt">06</div>
+      <div class="body"><div class="title">Marketing</div><div class="meta">Canales y embudo</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('07-roadmap-90dias.md','07 · Roadmap 90 días')">
+      <div class="icon plan">07</div>
+      <div class="body"><div class="title">Roadmap 90 días</div><div class="meta">Plan accionable lun 18 may → sáb 16 ago 2026</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('08-nichos-investigados.md','08 · Nichos investigados')">
+      <div class="icon plan">08</div>
+      <div class="body"><div class="title">Nichos investigados</div><div class="meta">4 nichos, recomendación documentada</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('09-marca-naming.md','09 · Marca y naming')">
+      <div class="icon brand">09</div>
+      <div class="body"><div class="title">Marca y naming</div><div class="meta">2 rounds. Singladura procedible.</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('10-automatizacion.md','10 · Automatización')">
+      <div class="icon ops">10</div>
+      <div class="body"><div class="title">Automatización</div><div class="meta">Qué se automatiza por producto</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('11-flujo-captura-cierre.md','11 · Flujo captura → cierre')">
+      <div class="icon ops">11</div>
+      <div class="body"><div class="title">Flujo captura → cierre</div><div class="meta">15 etapas operativas del producto 2</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('12-logo-brief.md','12 · Brief de logo')">
+      <div class="icon brand">12</div>
+      <div class="body"><div class="title">Brief de logo</div><div class="meta">Para encargar a freelance externo</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('13-curso-outline.md','13 · Outline del curso')">
+      <div class="icon cur">13</div>
+      <div class="body"><div class="title">Outline del curso</div><div class="meta">Producto 1, 6 módulos, gate ago 2026</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('14-fiscal-kit-asesor.md','14 · Kit conversación asesor fiscal')">
+      <div class="icon fis">14</div>
+      <div class="body"><div class="title">Kit conversación asesor fiscal</div><div class="meta">32 preguntas concretas para la llamada</div></div>
+      <div class="chevron">›</div>
+    </div>
+  </div>
+
+  <!-- PLANTILLAS -->
+  <div class="section-label">Plantillas — Top of funnel</div>
+  <div class="group doc">
+    <div class="row" onclick="openDoc('plantillas/01-pdf-8-errores.md','P1 · PDF 8 errores')">
+      <div class="icon mkt">P1</div>
+      <div class="body"><div class="title">PDF lead magnet — 8 errores</div><div class="meta">Documento copy-paste-ready</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('plantillas/02-nurture-emails.md','P2 · Emails de nurture')">
+      <div class="icon mkt">P2</div>
+      <div class="body"><div class="title">5 emails de nurture</div><div class="meta">Secuencia tras descargar PDF</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('plantillas/03-cuestionario-aplicacion.md','P3 · Cuestionario aplicación')">
+      <div class="icon mkt">P3</div>
+      <div class="body"><div class="title">Cuestionario Tally</div><div class="meta">Aplicación a sesión de diagnóstico</div></div>
+      <div class="chevron">›</div>
+    </div>
+    <div class="row" onclick="openDoc('plantillas/04-prompt-cualificacion.md','P4 · Prompt cualificación IA')">
+      <div class="icon mkt">P4</div>
+      <div class="body"><div class="title">Prompt cualificación con Claude</div><div class="meta">Score automático del cuestionario</div></div>
+      <div class="chevron">›</div>
+    </div>
+  </div>
+
+  <!-- DECISIONES TOMADAS -->
+  <div class="section-label">Decisiones tomadas</div>
+  <div class="timeline">
+    <div class="item"><div class="date">23 may</div><div class="desc"><b>Fiscal:</b> SL España microempresa recomendada (19% sobre 50k€ + 21% resto). Offshore descartadas por 3 anclas a España.</div></div>
+    <div class="item"><div class="date">23 may</div><div class="desc"><b>Naming round 2:</b> Lares y Indianos descartados con evidencia. Singladura procedible.</div></div>
+    <div class="item"><div class="date">23 may</div><div class="desc"><b>Naming round 1:</b> Casa Madre, Plano Maestro, Cimientos descartados (dominios tomados, competidores activos).</div></div>
+    <div class="item"><div class="date">18 may</div><div class="desc"><b>Cami:</b> confirma estar adentro. Nicho B queda fijo.</div></div>
+    <div class="item"><div class="date">18 may</div><div class="desc"><b>Nicho:</b> inmobiliario España para inversores LATAM.</div></div>
+    <div class="item"><div class="date">18 may</div><div class="desc"><b>Estructura:</b> dos socios, uno en LATAM, uno en España.</div></div>
+    <div class="item"><div class="date">18 may</div><div class="desc"><b>Modelo:</b> producto digital + servicio (alto ticket).</div></div>
+  </div>
+
+</main>
+
+<!-- Modal viewer -->
+<div class="modal-overlay" id="modal" onclick="closeModalIfBackdrop(event)">
+  <div class="modal" id="modal-inner">
+    <div class="modal-handle">
+      <div class="grab"></div>
+      <div class="title" id="modal-title">Documento</div>
+      <button class="close" onclick="closeModal()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <div class="modal-loading">Cargando…</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Singladura · seguimiento mobile · v1.0<br>
+  <a href="./index.html">Ver dashboard de escritorio →</a>
+  <details style="margin-top:14px; text-align:left; background:white; padding:12px 14px; border-radius:10px; box-shadow:var(--shadow-card);">
+    <summary style="cursor:pointer; font-weight:600; color:var(--text-soft); font-size:13px;">Cómo abrir esto desde el celular</summary>
+    <div style="font-size:13px; color:var(--text-soft); line-height:1.55; margin-top:10px;">
+      <p style="margin:0 0 8px"><b>Opción A · GitHub Pages (gratis, ~2 min):</b><br>
+      En el repo: Settings → Pages → Source: branch <code>claude/setup-shopify-project-E2Tl5</code> /shopify. Te da una URL pública.</p>
+      <p style="margin:0 0 8px"><b>Opción B · Vercel/Netlify drop (gratis, ~3 min):</b><br>
+      Arrastra la carpeta <code>shopify/</code> a vercel.com o netlify.com/drop. Te da URL en segundos.</p>
+      <p style="margin:0"><b>Opción C · Servir desde laptop:</b><br>
+      Desde <code>shopify/</code>: <code>python3 -m http.server</code> y abre <code>http://[tu-ip]:8000/seguimiento.html</code> en el celular (misma red wifi).</p>
+    </div>
+  </details>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+// ============================================================
+// TAREAS — accionables tuyas con persistencia en localStorage
+// ============================================================
+const TASKS = [
+  // GRUPO 1 — NAMING (verificación manual de Singladura)
+  { id:'sin-dom-com',     tag:'urgente', tag_label:'Singladura', meta:'5 min · Namecheap o Cloudflare',
+    title:'Verificar disponibilidad: singladuracapital.com' },
+  { id:'sin-dom-lat',     tag:'urgente', tag_label:'Singladura', meta:'5 min · Namecheap o Cloudflare',
+    title:'Verificar disponibilidad: singladura.lat' },
+  { id:'sin-oepm',        tag:'urgente', tag_label:'Singladura', meta:'10 min · consultas2.oepm.es',
+    title:'Buscar marca "SINGLADURA" en OEPM España, clases 35/36/37/45' },
+  { id:'sin-euipo',       tag:'urgente', tag_label:'Singladura', meta:'5 min · euipo.europa.eu',
+    title:'Buscar marca "SINGLADURA" en EUIPO (Unión Europea)' },
+  { id:'sin-impi',        tag:'urgente', tag_label:'Singladura', meta:'10 min · marcanet.impi.gob.mx',
+    title:'Buscar marca "SINGLADURA" en IMPI México' },
+  { id:'sin-sic',         tag:'urgente', tag_label:'Singladura', meta:'10 min · sipi.sic.gov.co',
+    title:'Buscar marca "SINGLADURA" en SIC Colombia' },
+  { id:'sin-consilium',   tag:'urgente', tag_label:'Singladura', meta:'5 min · LinkedIn',
+    title:'Verificar si "Singladura Consilium" sigue activa en consultoría' },
+
+  // GRUPO 2 — SI SINGLADURA PASA
+  { id:'comprar-dom',     tag:'pronto', tag_label:'Tras verificar', meta:'~30€/año',
+    title:'Comprar singladura.lat + singladuracapital.com el mismo día' },
+  { id:'reservar-handles', tag:'pronto', tag_label:'Tras verificar', meta:'gratis · 30 min',
+    title:'Reservar @singladura.capital o @singladura.lat en IG, LinkedIn, X, YouTube, TikTok' },
+  { id:'encargar-logo',   tag:'pronto', tag_label:'Tras verificar', meta:'400-600€ · 7-14 días',
+    title:'Abrir oferta en Fiverr/Behance con el brief 12-logo-brief.md' },
+
+  // GRUPO 3 — FISCAL Y ENTIDAD
+  { id:'res-andres',      tag:'urgente', tag_label:'Fiscal', meta:'Definir antes de hablar con asesor',
+    title:'Confirmar residencia fiscal de Andrés: Panamá vs Colombia' },
+  { id:'pct-socios',      tag:'urgente', tag_label:'Fiscal', meta:'Sugerencia: 50/50 con cláusula 12m',
+    title:'Decidir % participación Andrés/Cami' },
+  { id:'asesor-es',       tag:'urgente', tag_label:'Fiscal', meta:'100-200€ · 1h · usa kit 14',
+    title:'Agendar llamada con asesor fiscal español internacional' },
+  { id:'asesor-pan',      tag:'urgente', tag_label:'Fiscal', meta:'150-300 USD · 30 min',
+    title:'Agendar llamada con asesor en país de Andrés' },
+  { id:'constituir-sl',   tag:'pronto', tag_label:'Tras asesor', meta:'4-8 semanas · ~3 000€',
+    title:'Constituir SL España (notaría + Registro Mercantil + alta censal)' },
+
+  // GRUPO 4 — REVISIONES DE PRODUCTOS
+  { id:'rev-outline',     tag:'luego', tag_label:'Revisar', meta:'~20 min',
+    title:'Revisar outline del curso (doc 13)' },
+  { id:'rev-logo-brief',  tag:'luego', tag_label:'Revisar', meta:'~15 min',
+    title:'Revisar brief de logo (doc 12) antes de encargar' },
+  { id:'rev-landing',     tag:'luego', tag_label:'Revisar', meta:'~15 min',
+    title:'Revisar copy del landing (brand.config.ts)' },
+  { id:'rev-fiscal',      tag:'luego', tag_label:'Revisar', meta:'~25 min · clave para asesor',
+    title:'Leer análisis fiscal (doc 03) antes de llamar al asesor' },
+  { id:'rev-roadmap',     tag:'luego', tag_label:'Revisar', meta:'~20 min',
+    title:'Revisar roadmap 90 días (doc 07) — alinear con Cami' },
+
+  // GRUPO 5 — INFRA / DEPLOY (cuando tengamos nombre)
+  { id:'supabase',        tag:'luego', tag_label:'Deploy', meta:'~30 min · plan free',
+    title:'Crear proyecto Supabase y ejecutar schema.sql' },
+  { id:'vercel-deploy',   tag:'luego', tag_label:'Deploy', meta:'~15 min',
+    title:'Deployar landing en Vercel y conectar dominio' },
+];
+
+const STORAGE_KEY = 'singladura-tareas-v1';
+
+function loadDone() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  } catch (e) { return {}; }
+}
+function saveDone(d) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(e){}
+}
+
+function renderTasks() {
+  const done = loadDone();
+  const g = document.getElementById('task-group');
+  g.innerHTML = '';
+  let totalDone = 0;
+  TASKS.forEach(t => {
+    const isDone = !!done[t.id];
+    if (isDone) totalDone++;
+    const row = document.createElement('div');
+    row.className = 'row task' + (isDone ? ' done' : '');
+    row.innerHTML = `
+      <div class="check"></div>
+      <div class="body">
+        <div class="title">${t.title}</div>
+        <div class="meta"><span class="tag ${t.tag}">${t.tag_label}</span><span class="tag tiempo">${t.meta}</span></div>
+      </div>
+    `;
+    row.addEventListener('click', () => toggleTask(t.id));
+    g.appendChild(row);
+  });
+  document.getElementById('stat-tareas').textContent = `${totalDone}/${TASKS.length}`;
+  document.getElementById('stat-tareas-done').textContent = totalDone;
+  document.getElementById('stat-tareas-pend').textContent = TASKS.length - totalDone;
+  const pct = TASKS.length === 0 ? 0 : Math.round((totalDone / TASKS.length) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function toggleTask(id) {
+  const done = loadDone();
+  if (done[id]) delete done[id];
+  else done[id] = Date.now();
+  saveDone(done);
+  renderTasks();
+  // Haptic feedback en móvil si está disponible
+  if (navigator.vibrate) navigator.vibrate(8);
+}
+
+function resetTasks() {
+  if (confirm('¿Resetear todo el checklist? Esto borra los checks guardados en este dispositivo.')) {
+    localStorage.removeItem(STORAGE_KEY);
+    renderTasks();
+  }
+}
+
+// ============================================================
+// MODAL VIEWER — abre cualquier .md del proyecto
+// ============================================================
+async function openDoc(path, title) {
+  const overlay = document.getElementById('modal');
+  const body = document.getElementById('modal-body');
+  const titleEl = document.getElementById('modal-title');
+  titleEl.textContent = title;
+  body.innerHTML = '<div class="modal-loading">Cargando…</div>';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  const repo = 'andresborrerom/myrepo';
+  const branch = 'claude/setup-shopify-project-E2Tl5';
+  const ghUrl = `https://github.com/${repo}/blob/${branch}/shopify/${path}`;
+
+  // Detectar si marked.js cargó
+  if (path.endsWith('.md') && typeof marked === 'undefined') {
+    body.innerHTML = `
+      <div class="modal-fallback">
+        <p><strong>La librería de markdown no se pudo cargar.</strong><br>
+        Esto pasa si tu conexión bloquea el CDN público.</p>
+        <p style="margin-top:18px;"><a class="gh-link" href="${ghUrl}" target="_blank" rel="noopener">Ver en GitHub →</a></p>
+      </div>
+    `;
+    return;
+  }
+
+  try {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    let html;
+    if (path.endsWith('.md')) {
+      html = marked.parse(text);
+    } else {
+      // archivo no-md (ej. brand.config.ts) → pintar como bloque de código
+      html = '<pre><code>' + escapeHtml(text) + '</code></pre>';
+    }
+    body.innerHTML = html;
+    body.scrollTop = 0;
+  } catch (e) {
+    // Fallback: link a GitHub. Pasa cuando se abre como file:// o sin servidor.
+    body.innerHTML = `
+      <div class="modal-fallback">
+        <p><strong>No se pudo cargar el documento.</strong><br>
+        Esto pasa si abres este HTML sin servidor (file://) o el archivo no existe.</p>
+        <p style="margin-top:18px;"><a class="gh-link" href="${ghUrl}" target="_blank" rel="noopener">Abrir en GitHub →</a></p>
+        <p style="margin-top:18px; font-size:12px; color:#999;">Para verlo aquí mismo, despliega esta carpeta en GitHub Pages, Vercel o Netlify (ver instrucciones en el footer).</p>
+      </div>
+    `;
+  }
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalIfBackdrop(e) {
+  if (e.target.id === 'modal') closeModal();
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Swipe down para cerrar modal (móvil)
+(() => {
+  let startY = null;
+  const modal = document.getElementById('modal-inner');
+  if (!modal) return;
+  modal.addEventListener('touchstart', e => {
+    if (modal.scrollTop === 0) startY = e.touches[0].clientY;
+  });
+  modal.addEventListener('touchmove', e => {
+    if (startY !== null && e.touches[0].clientY - startY > 80) {
+      closeModal();
+      startY = null;
+    }
+  });
+  modal.addEventListener('touchend', () => { startY = null; });
+})();
+
+// ESC para cerrar modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// Marked config
+if (window.marked) {
+  marked.setOptions({ breaks: false, gfm: true });
+}
+
+// Render inicial
+renderTasks();
+</script>
+</body>
+</html>
