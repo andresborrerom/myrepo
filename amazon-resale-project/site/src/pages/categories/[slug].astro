@@ -152,7 +152,10 @@ function suggestedBestSlug(tier: Tier): string | null {
   }
   if (category.type === 'grinder') {
     if (tier === 'budget') candidates.push('best-grinder-under-200');
-    if (tier === 'mid') candidates.push('best-grinder-for-espresso', 'best-single-dose-grinder');
+    // mid: priorizamos best-grinder-under-300 como landing canónica
+    // del rango $200-$300 antes de los slugs cross-cutting (espresso /
+    // single-dose) que solapan precios pero no son price-tier-first.
+    if (tier === 'mid') candidates.push('best-grinder-under-300', 'best-grinder-for-espresso', 'best-single-dose-grinder');
     if (tier === 'premium') candidates.push('best-grinder-under-500-with-stepless-adjustment', 'best-flat-burr-grinder');
   }
   if (category.type === 'accessory') {

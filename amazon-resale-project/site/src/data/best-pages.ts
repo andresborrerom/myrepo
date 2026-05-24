@@ -72,11 +72,58 @@ export const bestPages: BestPage[] = [
     intro:
       'A quality grinder matters more than a quality espresso machine — even a $200 grinder can outperform a $1,500 machine paired with a blade grinder. The picks here cover both espresso and filter use.',
     introHtml:
-      'A quality grinder matters more than a quality espresso machine — even a $200 <a href="/glossary/#burr">burr grinder</a> can outperform a $1,500 machine paired with a blade grinder. The picks here cover both espresso and filter use, with notes on <a href="/glossary/#retention">retention</a> and adjustment for each.',
+      'A quality grinder matters more than a quality espresso machine — even a $200 <a href="/glossary/#burr">burr grinder</a> can outperform a $1,500 machine paired with a blade grinder. The picks here cover both espresso and filter use, with notes on <a href="/glossary/#retention">retention</a> and adjustment for each. If you can stretch the budget, our <a href="/best/best-grinder-under-300/">best grinder under $300</a> roundup covers the mid-tier where flat-burr single-dose and premium hand grinders open up.',
     description:
       'Best burr grinders under $200 for espresso and filter coffee. Includes electric and hand grinders, ranked by particle distribution and value.',
     filter: (p) => p.type === 'grinder' && p.price < 200,
     sort: (a, b) => b.price - a.price,
+  },
+  {
+    // KGR opportunity: catalog ahora cubre el rango $200-300 con 5
+    // grinders distintos (Fellow Opus, Encore ESP, K-Ultra, DF54,
+    // Comandante C40). No existía URL canónica de aterrizaje para esa
+    // query — esta página la abre. Filter intencionalmente usa rangos
+    // 180-320 para capturar productos que rondan $200 sin missing al
+    // Encore ESP por $1 ni al Comandante por overshooting el budget.
+    slug: 'best-grinder-under-300',
+    title: 'Best Coffee Grinder Under $300',
+    intro:
+      'The $200-$300 segment is the sweet spot where home grinders stop compromising and start producing genuinely good coffee. Sub-$200 picks deliver acceptable grinds but force trade-offs on retention, dialing resolution, or burr quality; above $500 you enter prosumer territory where returns flatten quickly for most home setups. Between those tiers, this is where most home baristas can stop upgrading for a long time.',
+    introHtml:
+      'The $200-$300 segment is the sweet spot where home grinders stop compromising and start producing genuinely good coffee. Sub-$200 picks (covered in our <a href="/best/best-grinder-under-200/">budget grinder roundup</a>) deliver acceptable grinds but force trade-offs on <a href="/glossary/#retention">retention</a>, dialing resolution, or <a href="/glossary/#burr">burr</a> quality; above $500 you enter prosumer territory where returns flatten quickly for most home setups. Between those tiers, this is where most home baristas can stop upgrading for a long time.<br /><br />The trade-offs in this segment split along three axes: <a href="/glossary/#flat-burr">flat</a> vs <a href="/glossary/#conical-burr">conical</a> burrs (flat tends to produce cleaner separation, conical more body), electric vs hand (electric saves 60 seconds per dose, hand wins on price-to-burr-quality and quietness), and <a href="/glossary/#single-dosing">single-dose</a> vs hopper-fed (single-dose for bean rotation, hopper for daily-driver speed). The picks below cover each axis with an honest note on who they are wrong for.',
+    description:
+      'Honest picks for grinders between $200-$300 — covering espresso, pour-over, hand, single-dose, and all-purpose use cases.',
+    // Filter intencional 180-320: captura productos que rondan $200 (Opus
+    // $195) y permite leve overshoot a $299 (Comandante) — sin colar
+    // Sette 270 ($379) ni excluir Encore ESP ($199) por umbrales estrictos.
+    filter: (p) => p.type === 'grinder' && p.price >= 180 && p.price <= 320,
+    sort: (a, b) => a.price - b.price,
+    faqExtras: [
+      {
+        q: 'Is a $300 grinder really better than a $150 grinder?',
+        a: 'For espresso, yes — measurably. The jump from a $150 entry burr to a $250-$300 single-dose flat-burr or premium hand grinder cuts retention from 3-5g to under 0.5g, opens up stepless or near-stepless dialing, and produces a more even particle distribution that visibly reduces channeling. For filter coffee, the gap is smaller — a Baratza Encore at $169 already pulls excellent pour-over. Spend the extra $100-150 if you do espresso; spend it elsewhere if you only brew V60 and AeroPress.',
+      },
+      {
+        q: 'Hand grinder or electric grinder in the $200-$300 range?',
+        a: 'Hand grinders (1Zpresso K-Ultra, Comandante C40) win on burr quality per dollar — a $249 hand grinder competes with $500-$700 electrics on grind consistency. Electrics (DF54, Encore ESP, Fellow Opus) win on workflow — no 45-60 seconds of grinding effort per dose, and consistent output regardless of arm fatigue. For one daily cup, hand is fine; for two or more daily, or any household making multiple drinks back to back, electric pays off within months.',
+      },
+      {
+        q: 'Single-dose or hopper-fed in this tier?',
+        a: 'Single-dose (MiiCoffee DF54, Fellow Opus) if you switch beans more than once a week — light morning, dark afternoon, decaf evening. Near-zero retention means each dose starts clean and bean transitions take seconds, not a purge shot. Hopper-fed (Baratza Encore ESP) if you stick to one bean for weeks at a time — the workflow is faster (no weighing in beans), the burrs stay warm, and the dose is more consistent.',
+      },
+      {
+        q: 'Why is the Baratza Encore ESP the espresso pick over the Fellow Opus at a similar price?',
+        a: 'Honestly, both grind espresso, but the Encore ESP has dedicated espresso steps (Baratza added a finer adjustment range below the standard Encore) while the Opus is a jack-of-all-trades that grinds espresso "well enough" rather than well. For a dedicated espresso grinder under $200, the Encore ESP is the right pick; for someone who brews V60 in the morning and espresso on weekends, the Opus is a more honest single-grinder solution. At this tier, the flat-burr single-dose alternatives (DF54) outperform both conicals for espresso clarity — worth the extra $50 if espresso is the priority.',
+      },
+      {
+        q: 'What workflow caveats should I know about the picks in this range?',
+        a: 'The 1Zpresso K-Ultra is a hand grinder — espresso doses take 45-60 seconds of grinding effort, which gets tiring for daily multi-drink households. The MiiCoffee DF54 is excellent out of the box but many owners eventually add aftermarket parts (anti-static bellows is not needed thanks to the plasma ionizer, but a better dosing cup or declumper is common). The Fellow Opus is genuinely all-purpose but should not be confused with a serious espresso grinder — its espresso range is on the coarse side of optimal. The Comandante C40 is reference-grade for filter but tedious for espresso. Pick by your actual brewing pattern, not by the headline spec.',
+      },
+      {
+        q: 'When does it make sense to skip this tier and go straight to a $500+ grinder?',
+        a: 'When you already own a $1,000+ espresso machine and the grinder is the obvious bottleneck. When you brew multiple shots a day and want hopper-fed convenience with low retention (Eureka Mignon Specialita at $700, Niche Zero at $799). When you do espresso exclusively and want clean, separated light-roast extractions (DF64 at $449, Mahlkonig X54 at $899). For most home setups pairing a $300-$700 machine with a $200-$300 grinder, this tier is the right ceiling.',
+      },
+    ],
   },
   {
     slug: 'best-espresso-machine-for-beginners',
@@ -224,7 +271,7 @@ export const bestPages: BestPage[] = [
     intro:
       'Stepless adjustment is the unlock for serious espresso dialing — you can move in fractions of a step instead of jumping between fixed positions. Under $500, options span budget single-dose, mid-range flat-burr, and Wilfa\'s filter-focused entry pick.',
     introHtml:
-      '<a href="/glossary/#stepless-adjustment">Stepless adjustment</a> is the unlock for serious espresso dialing — you can move in fractions of a step instead of jumping between fixed positions. Under $500, options span budget <a href="/glossary/#single-dosing">single-dose</a>, mid-range <a href="/glossary/#flat-burr">flat-burr</a>, and Wilfa\'s filter-focused entry pick.',
+      '<a href="/glossary/#stepless-adjustment">Stepless adjustment</a> is the unlock for serious espresso dialing — you can move in fractions of a step instead of jumping between fixed positions. Under $500, options span budget <a href="/glossary/#single-dosing">single-dose</a>, mid-range <a href="/glossary/#flat-burr">flat-burr</a>, and Wilfa\'s filter-focused entry pick. If $500 is above your budget, our <a href="/best/best-grinder-under-300/">best grinder under $300</a> roundup covers the cheaper end of the same workflow with stepless-capable picks like the MiiCoffee DF54.',
     description:
       'Stepless burr grinders under $500 for precise espresso dialing — Wilfa Svart, Sette 270, and DF64 compared.',
     filter: (p) =>
