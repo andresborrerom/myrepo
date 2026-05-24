@@ -53,6 +53,8 @@
 - ✅ **V60/pour-over commercial intent pages**: +6 pages (4 best-of + 2 compare) cierran funnel top-of-funnel → conversión. 8 recipes modificados con "Need the right gear?" step final linkeando a best-of relevantes. Anti-gray-hat: Acaia overpriced flag, Fellow Stagg only-in-catalog framed honesto, filter page educational sin afiliado.
 - ✅ **+6 productos al catalog** (commit último): Hario V60 Buono kettle, OXO Brew gooseneck electric, Timemore Black Mirror Basic scale, Hario + AeroPress + CAFEC paper filters. Catalog 64 → 70. ASINs verificados via WebSearch. Best-of pages V60/AeroPress pasan de educational-only a 3-picks ranked con affiliate options.
 - ✅ **+2 grinders mid-tier** (commit 0412814): MiiCoffee DF54 ($249 single-dose electric flat burr) + 1Zpresso K-Ultra ($249 hand grinder). Llena gap $200-400 entre Encore y Niche Zero. 8 best-of pages ganan picks adicionales. Catalog 70 → 72.
+- 🚀 **Search Console verificado + sitemap submitted** (2026-05-24): Gate 2 cerrado, reloj de indexing arrancó.
+- 🚀 **Amazon Associates application aprobada conditional** (2026-05-24): Store ID `baristapath79-20`. W-8BEN signed, Income type Service, Status Unblocked, withholding 0% (gracias a "No services in US"). Payment method Gift Card $10 min. **Tag real reemplazado en site (commit cabc10a) — cada click ahora cuenta para los 3 sales del 180-day clock.**
 - 🚀 **Google Search Console verificado + sitemap submitted** (2026-05-24): Gate 2 del runbook resuelto. Sitio descubrible por Google bots. Indexing inicia en próximos días/semanas. Meta tag de verificación en `Base.astro`.
 - 📊 **Total páginas del sitio: 266** (de los 67 iniciales: +297%).
 
