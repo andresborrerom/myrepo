@@ -8,6 +8,7 @@ import {
 import { getColorRama, getPerson } from '@/data/family';
 import {
   buildSlots,
+  fetchAlejandroStateServer,
   filterSlotsForViewer,
   getDayIndex,
   getReleasedYears,
@@ -34,10 +35,19 @@ export default async function CartasPage() {
     ? allSlots.find((s) => s.day === dayIdx)
     : null;
 
-  // "Las que ya recibiste": slots pasados visibles para el viewer.
-  const yaRecibidas = visibleSlots.filter(
-    (s) => dayIdx !== null && s.day < dayIdx && s.type !== 'empty'
-  );
+  // "Las que ya recibiste": para papá, los años que realmente abrió (estado
+  // en Supabase). Para insider/familia: todos los slots con contenido visible.
+  const { revealedYears } = insider
+    ? { revealedYears: [] as number[] }
+    : await fetchAlejandroStateServer();
+
+  const yaRecibidas = insider
+    ? visibleSlots.filter(
+        (s) => dayIdx !== null && s.day < dayIdx && s.type !== 'empty'
+      )
+    : visibleSlots.filter(
+        (s) => s.type === 'anchored' && revealedYears.includes(s.year)
+      );
 
   const totalAncladas = allSlots.filter((s) => s.type === 'anchored').length;
   const totalLibres = allSlots.filter((s) => s.type === 'libre').length;
