@@ -55,6 +55,7 @@
 - ✅ **+2 grinders mid-tier** (commit 0412814): MiiCoffee DF54 ($249 single-dose electric flat burr) + 1Zpresso K-Ultra ($249 hand grinder). Llena gap $200-400 entre Encore y Niche Zero. 8 best-of pages ganan picks adicionales. Catalog 70 → 72.
 - 🚀 **Search Console verificado + sitemap submitted** (2026-05-24): Gate 2 cerrado, reloj de indexing arrancó.
 - 🚀 **Amazon Associates application aprobada conditional** (2026-05-24): Store ID `baristapath79-20`. W-8BEN signed, Income type Service, Status Unblocked, withholding 0% (gracias a "No services in US"). Payment method Gift Card $10 min. **Tag real reemplazado en site (commit cabc10a) — cada click ahora cuenta para los 3 sales del 180-day clock.**
+- ✅ **Best grinder under $300** (commit ed7c86d): KGR opportunity en mid-tier llenada. 5 picks del catalog (Opus, Encore ESP, K-Ultra, DF54, Comandante C40). FAQ #6 anti-dark-pattern: explica cuándo SALTAR el tier a $500+ (vendedores nunca lo recomiendan, nosotros sí). 267 páginas total.
 - 🚀 **Google Search Console verificado + sitemap submitted** (2026-05-24): Gate 2 del runbook resuelto. Sitio descubrible por Google bots. Indexing inicia en próximos días/semanas. Meta tag de verificación en `Base.astro`.
 - 📊 **Total páginas del sitio: 266** (de los 67 iniciales: +297%).
 
