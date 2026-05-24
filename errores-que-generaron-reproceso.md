@@ -68,6 +68,35 @@ Bitácora de bugs/decisiones equivocadas que costaron reproceso al usuario. Sirv
 
 ---
 
+## "Insider override" en vistas que deberían ser papa-eye
+
+**Síntoma**: `/cartas` mostró 19 de 19 sobres abiertos al usuario. Esperaba ver 4 abiertos (los que papá realmente abrió) y el resto cerrados.
+
+**Causa raíz**: el código tenía un patrón "si el visor es insider/familia, muéstrale todo abierto en modo preview". Eso es útil para que la familia pueda revisar contenido, pero arruina la experiencia de **pre-visualizar lo que ve papá**. El usuario abrió la app con la cookie de familia y vio el override.
+
+**Fix**: para vistas que muestran el "estado de papá" (cartas abiertas, etc.), no sobrescribir con el modo insider. Si la familia quiere ver el estado real, debe ver el estado real. Si necesitamos una vista "preview para la familia" diferente, debe ser una página o flag aparte explícito, no un override silencioso del estado.
+
+**Lección**: cualquier "override silencioso del estado" (insider, dev mode, debug) es una trampa. Si existe, debe ser obvio (un banner, un toggle visible) o no existir.
+
+---
+
+## Respetar el formato visual del proyecto
+
+**Síntoma**: rediseñé `/cartas` con sobres SVG minimalistas sobre fondo blanco-papel plano. El usuario: "está feo, tenemos un formato bonito en todo el website, respetemos eso".
+
+**Causa raíz**: hice un componente nuevo sin mirar la paleta y el lenguaje visual del resto de la app — Hacienda v3 (sabana, cuero, oro, hairlines, ◆ entre secciones, monograma AB·75, fotos cálidas con grano, tipografía Fraunces italic). Mis SVG plain blancos contra cream se ven Tailwind genérico, no editorial.
+
+**Lección / checklist antes de diseñar un componente nuevo**:
+- [ ] ¿Usa la paleta v3 (sabana, papel, cuero, oro, hueso, musgo)?
+- [ ] ¿Usa tipografía consistente (`font-display` para títulos italic, `font-mono` para metadata, `font-serif` para body)?
+- [ ] ¿Tiene textura, sombra o material físico? (no aparecer como un wireframe Tailwind por defecto)
+- [ ] ¿Encaja con los motivos del proyecto (caballo, ceiba, monograma, sobre con sello, pergamino)?
+- [ ] ¿Aporta el "feel" Apartamento + hacienda colombiana + Hermès equestrian?
+
+Si no se cumple por lo menos 3 de los 5, **NO commitear** sin revisar el design system.
+
+---
+
 ## Cómo agregar al README/contexto
 
 Cuando aparezca un nuevo error de reproceso:
