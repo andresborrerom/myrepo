@@ -268,3 +268,24 @@ Estos quedan reservados a las secciones de Estudio, no a la voz íntima.
 - 2017 — ✅ ya escrita (Pepe)
 - 2021 — Excellence → Elite
 - 2026 — los 75
+
+---
+
+## Mecánica de "una carta al día" (modelo definitivo)
+
+**El ritual**: papá recibe una carta nueva al día. La descubre tocando "ABRIR MI CARTA DE HOY" en el vestíbulo. La selección es aleatoria entre las cartas que existen y que aún no ha abierto.
+
+**Pool del azar**: TODOS los años con carta NO-placeholder en `CARTAS` (más los aportes DB de kind `carta`). Cuando alguien llene una placeholder o agregue una nueva, entra automáticamente al pool.
+
+**Lo que NO determina el pool**:
+- ❌ El calendario / días desde el cumpleaños (los años no se "desbloquean" uno a uno).
+- ❌ Los mensajes libres (kind `carta` con `year=null`). Esos van al buzón, no al ritual.
+- ❌ Las cartas placeholder (body como `'[Fulano llenará esta carta]'`). Quedan fuera hasta que las llenen.
+
+**Cadencia "una por día"**: se enforce con `last_reveal_date` en la tabla `alejandro_state` de Supabase. Si la última fecha de revelado == hoy (hora Bogotá), el botón bloquea y dice "mañana otra".
+
+**Acceso a las ya abiertas**: papá puede re-leer cualquier carta que abrió antes (filtro `revealedYears`). La vista `/cartas` muestra el grid de sobres — los abiertos son tocables, los cerrados no (solo se abren por el azar).
+
+**Notificación push diaria**: cron a 06:00 UTC (8 AM España en verano) → push "Tu carta de hoy te espera" → tap abre directo `/abrir-carta`.
+
+Función centralizada: `getReleasedYears()` en `src/lib/cartas-fetch.ts`. Cualquier código que use el pool del azar debe pasar por ella.
