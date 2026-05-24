@@ -7,6 +7,18 @@ import VerdictBox from '../../components/VerdictBox.astro';
 import AffiliateButton from '../../components/AffiliateButton.astro';
 import Byline from '../../components/Byline.astro';
 import MethodologyNote from '../../components/MethodologyNote.astro';
+import EmailSignup from '../../components/EmailSignup.astro';
+
+// Best-of pages donde mostramos email signup mid-article (variant=featured).
+// Lista corta y alineada con el funnel del lead magnet — solo high-intent
+// beginner roundups donde el PDF es relevante para el lector.
+const EMAIL_SIGNUP_SLUGS = new Set<string>([
+  'best-espresso-machine-under-500',
+  'best-grinder-under-200',
+  'best-budget-espresso-machine',
+  'best-espresso-machine-under-1000-with-pid',
+  'best-espresso-accessories-under-100',
+]);
 
 type Product = CollectionEntry<'products'>;
 
@@ -77,6 +89,7 @@ interface Props {
 
 const { page, matches } = Astro.props as Props;
 const related = await relatedForBest(page.slug);
+const showEmailSignup = EMAIL_SIGNUP_SLUGS.has(page.slug);
 
 // updatedAt para el byline: tomamos el max(updated_at) de los productos
 // listados. Esto refleja "la última vez que la lista se tocó" sin depender
@@ -249,6 +262,16 @@ void bestPages;
         })}
       </ol>
     </>
+  )}
+
+  {showEmailSignup && (
+    <EmailSignup
+      variant="featured"
+      headline="New to home espresso? Grab our free 12-page setup guide."
+      promise="The decisions we wish someone had handed us before our first $1,400 mistake. Budget tiers, machine and grinder criteria, common mistakes, and a glossary. No upsell."
+      cta="Send me the PDF"
+      source={`best-${page.slug}`}
+    />
   )}
 
   <section class="section faq">

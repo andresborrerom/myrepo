@@ -4,6 +4,7 @@
 
 import '../styles/global.css';
 import { author as defaultAuthor, type Author } from '../data/author';
+import EmailSignup from '../components/EmailSignup.astro';
 
 interface BreadcrumbItem {
   name: string;
@@ -158,6 +159,12 @@ void showByline;
 
     <footer class="site-footer">
       <div class="container">
+        {/*
+          Email signup compact en el footer — Fase 2 del revenue plan.
+          Variant compact = formato 1-line. El componente maneja localStorage
+          para evitar mostrar el mismo form al usuario que ya se suscribió.
+        */}
+        <EmailSignup variant="compact" source="footer" />
         <nav aria-label="Footer" class="footer-nav">
           <ul>
             <li><a href="/about/">About</a></li>

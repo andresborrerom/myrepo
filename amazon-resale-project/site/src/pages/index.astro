@@ -19,6 +19,7 @@
 
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import EmailSignup from '../components/EmailSignup.astro';
 
 const all = await getCollection('products');
 
@@ -249,6 +250,19 @@ const jsonLd = [websiteSchema, organizationSchema, latestItemListSchema];
         </a>
       ))}
     </div>
+  </section>
+
+  {/* ---------- 3b. Free starter guide (lead magnet) ---------- */}
+  <section class="section" aria-labelledby="starter-guide-heading">
+    <h2 id="starter-guide-heading">Get the free starter guide</h2>
+    <p class="muted section__intro">
+      A 12-page PDF that turns 20+ review pages into one short decision framework.
+      Free, no upsell — written by the same editor behind every review on this site.
+    </p>
+    <EmailSignup variant="featured" source="home" />
+    <p class="muted" style="font-size: 0.85rem; margin-top: var(--space-sm);">
+      Prefer to skim it first? See <a href="/espresso-setup-guide/">what's inside the guide</a>.
+    </p>
   </section>
 
   {/* ---------- 4. Latest reviews ---------- */}
