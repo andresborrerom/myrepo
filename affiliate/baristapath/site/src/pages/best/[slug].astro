@@ -118,11 +118,6 @@ const itemListSchema = {
       '@type': 'Product',
       name: m.data.name,
       brand: { '@type': 'Brand', name: m.data.brand },
-      offers: {
-        '@type': 'Offer',
-        priceCurrency: 'USD',
-        price: m.data.price,
-      },
     },
   })),
 };

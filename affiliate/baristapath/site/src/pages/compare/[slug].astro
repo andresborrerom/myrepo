@@ -204,11 +204,6 @@ const pageSchema = {
         '@type': 'Product',
         name: p.data.name,
         brand: { '@type': 'Brand', name: p.data.brand },
-        offers: {
-          '@type': 'Offer',
-          priceCurrency: 'USD',
-          price: p.data.price,
-        },
       },
     })),
   },

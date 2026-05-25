@@ -196,11 +196,6 @@ const itemListSchema = {
       name: p.data.name,
       brand: { '@type': 'Brand', name: p.data.brand },
       url: `${siteUrl}/products/${p.data.asin}/`,
-      offers: {
-        '@type': 'Offer',
-        priceCurrency: 'USD',
-        price: p.data.price,
-      },
     },
   })),
 };

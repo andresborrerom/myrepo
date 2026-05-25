@@ -137,21 +137,11 @@ const reviewSchema = {
   dateModified: updatedAt.toISOString().slice(0, 10),
 };
 
-const productSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Product',
-  name: product.data.name,
-  brand: { '@type': 'Brand', name: product.data.brand },
-  sku: product.data.asin,
-  description: page.verdictSummary,
-  offers: {
-    '@type': 'Offer',
-    priceCurrency: 'USD',
-    price: product.data.price,
-    url: amazonUrl,
-    availability: 'https://schema.org/InStock',
-  },
-};
+// Nota: el productSchema separado se removió. itemReviewed dentro de
+// reviewSchema ya describe el Product. Mantenerlo duplicado + con Offer
+// disparaba Merchant Listing rich result en Google con requisitos de
+// merchant (shipping, return policy, image) que no nos aplican como
+// affiliate. El affiliate link sigue en el HTML (AffiliateButton).
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -179,7 +169,7 @@ void reviewPages;
   ogType="article"
   ogImage={product.data.image_url}
   breadcrumbs={breadcrumbs}
-  jsonLd={[reviewSchema, productSchema, faqSchema]}
+  jsonLd={[reviewSchema, faqSchema]}
   updatedAt={updatedAt}
 >
   <article>

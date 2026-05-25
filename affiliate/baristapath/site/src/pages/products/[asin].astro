@@ -86,6 +86,12 @@ const ownerHelpTroubleshoots = dedupeBySlug([
 const associatesTag = 'baristapath79-20';
 const amazonUrl = `https://amazon.com/dp/${data.asin}?tag=${associatesTag}`;
 
+// Product schema sin Offer — somos affiliate, no merchant. Incluir Offer
+// disparaba Merchant Listing rich result en Google que requiere shippingDetails,
+// hasMerchantReturnPolicy, image — datos del vendedor (Amazon), no nuestros.
+// Sin Offer, Google trata la página como informational Product page.
+// El affiliate link sigue funcionando en el HTML (AffiliateButton), pero no
+// vive en el JSON-LD.
 const productSchema = {
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -93,13 +99,6 @@ const productSchema = {
   brand: { '@type': 'Brand', name: data.brand },
   description: body.split('\n').filter(Boolean).slice(0, 2).join(' ').slice(0, 500),
   sku: data.asin,
-  offers: {
-    '@type': 'Offer',
-    priceCurrency: 'USD',
-    price: data.price,
-    url: amazonUrl,
-    availability: 'https://schema.org/InStock',
-  },
 };
 
 // FAQ generated from product data — focused, useful, not filler.
