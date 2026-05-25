@@ -303,6 +303,13 @@ const formId = `email-signup-${variant}-${Math.random().toString(36).slice(2, 8)
     font-size: 0.95rem;
   }
 
+  /* `hidden` attribute con !important para vencer display:flex/grid de sub-elementos
+     cuando JS toggle form/promise/disclosure tras el submit exitoso. Scope al
+     componente para no afectar otros [hidden] en el site. */
+  .email-signup [hidden] {
+    display: none !important;
+  }
+
   .email-signup__form {
     display: flex;
     flex-direction: column;
