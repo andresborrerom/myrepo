@@ -1,0 +1,358 @@
+---
+// Category page template — captura queries head-term de categoría
+// ("espresso machines", "coffee grinders", "pour over brewers",
+// "espresso accessories"), construye topical authority por type y
+// agrupa product cards + buying guide + compare/best-of internal links.
+//
+// Estructura:
+//   1. H1 + Byline
+//   2. Lead editorial (2-3 párrafos factual)
+//   3. Browse by price tier (cards Budget/Mid/Premium/Pro con best-of links)
+//   4. All [category] in our catalog (grid de cards ordenadas por price)
+//   5. Buying guide (sub-h3 por topic, factual editorial)
+//   6. Compare popular [category] (compare pages donde ambos products son del type)
+//   7. Top picks by use case (best-of pages relevantes para el type)
+//   8. FAQ con FAQPage schema
+//   9. Related content
+//
+// Anti-gray-hat: lead copy factual sin superlativos. Buying guide
+// describe trade-offs reales. FAQ con respuestas neutrales cuando
+// la respuesta legítima es "depends on use case". NO AffiliateButton —
+// esto NO es sales page, los CTAs viven en las product cards.
+
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Byline from '../../components/Byline.astro';
+import { CATEGORY_META, type CategoryMeta } from '../../data/category-pages';
+import { bestPages } from '../../data/best-pages';
+import { comparePages } from '../../data/compare-pages';
+
+type Product = CollectionEntry<'products'>;
+
+export async function getStaticPaths() {
+  const { CATEGORY_META: meta } = await import('../../data/category-pages');
+  const all = await getCollection('products');
+
+  // Generamos 1 página por category con >=3 productos. Con el catalog
+  // actual las 4 categorías cualifican (espresso-machine 26, grinder 15,
+  // accessory 16, brewer 7).
+  return meta
+    .map((category) => {
+      const products = all
+        .filter((p) => p.data.type === category.type)
+        .sort((a, b) => a.data.price - b.data.price);
+      return { category, products };
+    })
+    .filter(({ products }) => products.length >= 3)
+    .map(({ category, products }) => ({
+      params: { slug: category.slug },
+      props: { category, products },
+    }));
+}
+
+interface Props {
+  category: CategoryMeta;
+  products: Product[];
+}
+
+const { category, products } = Astro.props as Props;
+
+// updatedAt para byline: max(updated_at) de products del type.
+const updatedAt = products.length
+  ? new Date(Math.max(...products.map((p) => p.data.updated_at.getTime())))
+  : new Date();
+
+const tierLabel: Record<string, string> = {
+  budget: 'Budget',
+  mid: 'Mid',
+  premium: 'Premium',
+  pro: 'Pro',
+};
+
+// Tier price ranges. Aproximados — sirven de orientación al usuario,
+// no son thresholds estrictos. Se muestran junto a cada tier card.
+const tierRange: Record<string, string> = {
+  budget: 'Under $200',
+  mid: '$200-$700',
+  premium: '$700-$1,500',
+  pro: '$1,500+',
+};
+
+const tierOrder = ['budget', 'mid', 'premium', 'pro'] as const;
+type Tier = (typeof tierOrder)[number];
+
+// Agrupamos products por tier para la sección "Browse by price tier".
+const productsByTier = new Map<Tier, Product[]>();
+for (const tier of tierOrder) {
+  productsByTier.set(
+    tier,
+    products
+      .filter((p) => p.data.price_tier === tier)
+      .sort((a, b) => a.data.price - b.data.price),
+  );
+}
+
+// Best-of pages que feature ≥1 product del type. Cap 8.
+const allProducts = await getCollection('products');
+const bestPageAsins = new Map<string, Set<string>>();
+for (const page of bestPages) {
+  const asins = new Set<string>();
+  for (const product of allProducts) {
+    if (page.filter(product.data)) {
+      asins.add(product.data.asin);
+    }
+  }
+  bestPageAsins.set(page.slug, asins);
+}
+
+const typeAsins = new Set(products.map((p) => p.data.asin));
+
+// Best-of pages donde ≥1 ASIN es del type. Cap 8 — más que en brand
+// pages porque las categorías tienen más best-of relevantes.
+const relatedBestPages = bestPages
+  .filter((page) => {
+    const asins = bestPageAsins.get(page.slug);
+    if (!asins) return false;
+    for (const asin of typeAsins) {
+      if (asins.has(asin)) return true;
+    }
+    return false;
+  })
+  .slice(0, 8);
+
+// Compare pages donde AMBOS products son del type. Filtrar both-side
+// asegura que solo mostramos comparisons intra-categoría (no espresso
+// machine vs grinder). Cap 6.
+const byAsin = new Map(allProducts.map((p) => [p.data.asin, p]));
+const relatedComparePages = comparePages
+  .filter((c) => typeAsins.has(c.asinA) && typeAsins.has(c.asinB))
+  .map((c) => {
+    const a = byAsin.get(c.asinA);
+    const b = byAsin.get(c.asinB);
+    return a && b
+      ? { slug: c.slug, title: `${a.data.name} vs ${b.data.name}` }
+      : null;
+  })
+  .filter((x): x is { slug: string; title: string } => x !== null)
+  .slice(0, 6);
+
+// ---------- Best-of slug suggestion por tier ----------
+// Para la sección "Browse by price tier", linkeamos a un best-of
+// genérico si existe match obvio por slug. No hardcodeamos URLs — si
+// el slug no existe, mostramos solo la lista de products del tier.
+function suggestedBestSlug(tier: Tier): string | null {
+  // Match por tipo + tier — heurística simple. Si el slug correspondiente
+  // está en bestPages, devolvemos su slug.
+  const candidates: string[] = [];
+  if (category.type === 'espresso-machine') {
+    if (tier === 'budget') candidates.push('best-budget-espresso-machine');
+    if (tier === 'mid') candidates.push('best-espresso-machine-under-500');
+    if (tier === 'premium') candidates.push('best-espresso-machine-under-1000-with-pid');
+    if (tier === 'pro') candidates.push('best-prosumer-espresso-machine-under-2000', 'best-dual-boiler-espresso-machine');
+  }
+  if (category.type === 'grinder') {
+    if (tier === 'budget') candidates.push('best-grinder-under-200');
+    // mid: priorizamos best-grinder-under-300 como landing canónica
+    // del rango $200-$300 antes de los slugs cross-cutting (espresso /
+    // single-dose) que solapan precios pero no son price-tier-first.
+    if (tier === 'mid') candidates.push('best-grinder-under-300', 'best-grinder-for-espresso', 'best-single-dose-grinder');
+    if (tier === 'premium') candidates.push('best-grinder-under-500-with-stepless-adjustment', 'best-flat-burr-grinder');
+  }
+  if (category.type === 'accessory') {
+    if (tier === 'budget') candidates.push('best-espresso-accessories-under-100');
+  }
+  // brewer: no best-of agrupados por tier todavía.
+  for (const slug of candidates) {
+    if (bestPages.find((b) => b.slug === slug)) return slug;
+  }
+  return null;
+}
+
+// ---------- Schema markup ----------
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://baristapath.com';
+const categoryUrl = `${siteUrl}/categories/${category.slug}/`;
+
+// CollectionPage schema — apropiado para hub de categoría que agrupa
+// products. Mejor que Brand acá porque el agrupador es el type, no la
+// manufacturer identity.
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: category.displayName,
+  url: categoryUrl,
+  description: category.intro[0].slice(0, 500),
+};
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `${category.displayName} in our catalog`,
+  numberOfItems: products.length,
+  itemListElement: products.map((p, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    item: {
+      '@type': 'Product',
+      name: p.data.name,
+      brand: { '@type': 'Brand', name: p.data.brand },
+      url: `${siteUrl}/products/${p.data.asin}/`,
+    },
+  })),
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: category.faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Categories', url: '/categories/' },
+  { name: category.displayName, url: `/categories/${category.slug}/` },
+];
+
+// Reference imported helpers para satisfacer linting.
+void CATEGORY_META;
+---
+<Base
+  title={`${category.displayName} — buying guide, picks, comparisons`}
+  description={category.description}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[collectionSchema, itemListSchema, faqSchema]}
+  updatedAt={updatedAt}
+>
+  <article class="category-page">
+    <h1>{category.displayName}</h1>
+    <Byline updatedAt={updatedAt} />
+
+    <section class="category-lead">
+      {category.introHtml
+        ? category.introHtml.map((paragraph) => <p set:html={paragraph} />)
+        : category.intro.map((paragraph) => <p>{paragraph}</p>)}
+    </section>
+
+    <section class="section">
+      <h2>Browse by price tier</h2>
+      <div class="tier-list">
+        {tierOrder.map((tier) => {
+          const tierProducts = productsByTier.get(tier) ?? [];
+          if (tierProducts.length === 0) return null;
+          const suggested = suggestedBestSlug(tier);
+          const topThree = tierProducts.slice(0, 3);
+          return (
+            <div class="tier-group">
+              <div class="tier-group__header">
+                <span class={`tier-badge tier-badge--${tier}`}>{tierLabel[tier]}</span>
+                <span class="tier-group__range">{tierRange[tier]}</span>
+                <span class="tier-group__range">&middot; {tierProducts.length} {tierProducts.length === 1 ? 'option' : 'options'}</span>
+              </div>
+              {suggested ? (
+                <p class="muted" style="margin: 0 0 var(--space-sm); font-size: 0.9rem;">
+                  See our full breakdown:{' '}
+                  <a href={`/best/${suggested}/`}>
+                    {bestPages.find((b) => b.slug === suggested)?.title}
+                  </a>
+                </p>
+              ) : null}
+              <ul class="tier-group__links">
+                {topThree.map((p) => (
+                  <li>
+                    <a href={`/products/${p.data.asin}/`}>{p.data.name}</a>
+                    {' '}<span class="muted">&middot; ${p.data.price}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>All {category.displayName.toLowerCase()} in our catalog</h2>
+      <p class="muted">{products.length} {products.length === 1 ? 'product' : 'products'}, ordered from cheapest to most expensive.</p>
+      <ul class="product-grid brand-grid">
+        {products.map((p) => (
+          <li class="product-card brand-card">
+            <h3>
+              <a href={`/products/${p.data.asin}/`}>{p.data.name}</a>
+            </h3>
+            <p class="meta">
+              <span class="type-badge">{p.data.brand}</span>
+              {' '}&middot;{' '}
+              <span class={`tier-badge tier-badge--${p.data.price_tier}`}>
+                {tierLabel[p.data.price_tier]}
+              </span>
+            </p>
+            <p class="price">${p.data.price}</p>
+            <p>
+              <a href={`/products/${p.data.asin}/`}>Read review &rarr;</a>
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Buying guide</h2>
+      {category.buyingGuideTopics.map((topic) => (
+        <>
+          <h3>{topic.heading}</h3>
+          {topic.bodyHtml
+            ? topic.bodyHtml.map((paragraph) => <p set:html={paragraph} />)
+            : topic.body.map((paragraph) => <p>{paragraph}</p>)}
+        </>
+      ))}
+    </section>
+
+    {relatedComparePages.length > 0 && (
+      <section class="section">
+        <h2>Compare popular {category.displayName.toLowerCase()}</h2>
+        <ul>
+          {relatedComparePages.map((c) => (
+            <li>
+              <a href={`/compare/${c.slug}/`}>{c.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {relatedBestPages.length > 0 && (
+      <section class="section">
+        <h2>Top picks by use case</h2>
+        <ul>
+          {relatedBestPages.map((b) => (
+            <li>
+              <a href={`/best/${b.slug}/`}>{b.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="section faq">
+      <h2>Frequently Asked Questions</h2>
+      {category.faqs.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </section>
+
+    <p class="update-cadence muted">
+      <strong>Last reviewed:</strong>{' '}
+      <time datetime={updatedAt.toISOString()}>
+        {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+      </time>.
+      {' '}We update category pages when products are added, prices shift, or
+      new models in the category enter the catalog.
+    </p>
+  </article>
+</Base>

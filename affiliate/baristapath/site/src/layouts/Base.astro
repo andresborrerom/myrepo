@@ -1,0 +1,193 @@
+---
+// Base layout: shared <head>, header, footer, Associates disclosure.
+// All page templates should wrap their content in <Base ...> for canonical/OG handling.
+
+import '../styles/global.css';
+import { author as defaultAuthor, type Author } from '../data/author';
+import EmailSignup from '../components/EmailSignup.astro';
+
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+export interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogType?: 'website' | 'article' | 'product';
+  ogImage?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  /**
+   * Optional JSON-LD payloads to inject. Pages pass their Product/ItemList/FAQPage schema here.
+   */
+  jsonLd?: object[];
+  /**
+   * Author override. Defaults to the single editor in src/data/author.ts.
+   * Templates that want a different byline (rare) can pass another Author.
+   */
+  author?: Author;
+  /** ISO date or Date — render "Updated <Month Day, Year>" in the byline. */
+  updatedAt?: Date | string;
+  /** Optional published date — shown only if updatedAt is missing. */
+  publishedAt?: Date | string;
+  /**
+   * Whether to render the byline block (right after the page title slot).
+   * Defaults to true; static legal pages opt out by passing false.
+   */
+  showByline?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = '',
+  ogType = 'website',
+  ogImage,
+  breadcrumbs = [],
+  jsonLd = [],
+  author = defaultAuthor,
+  updatedAt,
+  publishedAt,
+  showByline = true,
+} = Astro.props;
+
+// Site URL is configured in astro.config.mjs; falls back to example.com placeholder.
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://example.com';
+const canonical = `${siteUrl}${canonicalPath || Astro.url.pathname}`;
+
+const breadcrumbList = breadcrumbs.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((item, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: item.name,
+        item: `${siteUrl}${item.url}`,
+      })),
+    }
+  : null;
+
+const allJsonLd: object[] = [...jsonLd];
+if (breadcrumbList) allJsonLd.push(breadcrumbList);
+
+// Byline ----------------------------------------------------------------
+// Las props author/updatedAt/publishedAt se exponen acá para mantener una
+// API uniforme, pero el byline visible se renderiza en cada página debajo
+// de su H1 (orden correcto H1 → byline). Las páginas estáticas (about,
+// methodology, privacy) no muestran byline y dejan showByline=false como
+// señal explícita. Estas props también permiten en el futuro alimentar
+// dateModified en JSON-LD Article schema sin tocar más sitios.
+void author;
+void updatedAt;
+void publishedAt;
+void showByline;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <meta name="google-site-verification" content="l0ibxiLf7zA-NfPmEJ9LCJ85VowqkhKYDWCXgBhcu7g" />
+
+    {allJsonLd.map((payload) => (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(payload)}
+      />
+    ))}
+
+    <!--
+      TODO: add Cloudflare Web Analytics snippet once the site is deployed and
+      a token has been provisioned. Snippet format (replace TOKEN):
+
+      <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "TOKEN"}'></script>
+    -->
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <header class="site-header">
+      <div class="container">
+        <a href="/" class="site-title">Coffee Equipment Reviews</a>
+        <nav aria-label="Primary">
+          <ul class="primary-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/best/best-espresso-machine-under-500/">Best Espresso</a></li>
+            <li><a href="/best/best-grinder-under-200/">Best Grinders</a></li>
+            <li><a href="/tools/cost-per-cup-calculator/">Calculator</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    {breadcrumbs.length > 0 && (
+      <nav aria-label="Breadcrumb" class="breadcrumbs container">
+        <ol>
+          {breadcrumbs.map((item, idx) => (
+            <li>
+              {idx < breadcrumbs.length - 1 ? (
+                <a href={item.url}>{item.name}</a>
+              ) : (
+                <span aria-current="page">{item.name}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+
+    <main id="main" class="container">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        {/*
+          Email signup compact en el footer — Fase 2 del revenue plan.
+          Variant compact = formato 1-line. El componente maneja localStorage
+          para evitar mostrar el mismo form al usuario que ya se suscribió.
+        */}
+        <EmailSignup variant="compact" source="footer" />
+        <nav aria-label="Footer" class="footer-nav">
+          <ul>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/methodology/">Methodology</a></li>
+            <li><a href="/brands/">Brands</a></li>
+            <li><a href="/categories/">Categories</a></li>
+            <li><a href="/glossary/">Glossary</a></li>
+            <li><a href="/guides/">Guides</a></li>
+            <li><a href="/search/">Search</a></li>
+            <li><a href="/privacy/">Privacy policy</a></li>
+          </ul>
+        </nav>
+        <p class="affiliate-disclosure">
+          {/* TODO: when Amazon Associates account is approved, confirm exact required disclosure language. */}
+          As an Amazon Associate, we earn from qualifying purchases. Links to products on Amazon use
+          tracked affiliate URLs; the price you pay does not change. Reviews on this site are
+          independent and not paid for by manufacturers.
+        </p>
+        <p class="footer-meta">
+          &copy; {new Date().getFullYear()} Coffee Equipment Reviews. Editorial content is for informational
+          purposes only; verify product specifications with the manufacturer before purchase.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

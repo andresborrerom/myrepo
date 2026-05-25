@@ -1,0 +1,388 @@
+---
+// Home page — rediseño "first-impression" + concentración de internal links.
+//
+// Estructura (de arriba abajo):
+//   1. Hero con dos CTAs (quiz + calculator).
+//   2. Tools section (los diferenciadores ARRIBA).
+//   3. Start here cards — entry points por intent.
+//   4. Latest reviews grid (orden por updated_at desc).
+//   5. Compare popular machines.
+//   6. By price tier (best-of links agrupados).
+//   7. Methodology banner.
+//
+// Schema: WebSite (con SearchAction placeholder) + Organization +
+// ItemList para "Latest reviews".
+//
+// Anti-gray-hat: tono editorial, sin landing agresiva. Los CTAs prominentes
+// llevan a tools internos (quiz / calculator), no a Amazon. Affiliate buttons
+// no aparecen en home — el usuario los encuentra en review/product pages.
+
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import EmailSignup from '../components/EmailSignup.astro';
+import { author } from '../data/author';
+
+const all = await getCollection('products');
+
+const authorInitials = author.name
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((s) => s[0]?.toUpperCase() ?? '')
+  .join('');
+
+// Latest reviews: top 6 por updated_at desc.
+const sortedByUpdated = [...all].sort(
+  (a, b) => b.data.updated_at.getTime() - a.data.updated_at.getTime()
+);
+const latest = sortedByUpdated.slice(0, 6);
+
+// Helper para badges de tier en cards.
+const tierLabel: Record<string, string> = {
+  budget: 'Budget',
+  mid: 'Mid',
+  premium: 'Premium',
+  pro: 'Pro',
+};
+
+// Start here cards — entry points por intent del visitante. Mantenemos
+// 4 links de alto valor SEO que cubren el espectro typical-buyer.
+const startHereCards = [
+  {
+    href: '/best/best-espresso-machine-under-500/',
+    title: 'Best espresso machines under $500',
+    desc: 'The mid-tier sweet spot: real espresso, no second mortgage.',
+  },
+  {
+    href: '/best/best-espresso-machine-for-milk-drinks/',
+    title: 'Best for milk drinks',
+    desc: 'Machines that texture milk well for lattes and flat whites.',
+  },
+  {
+    href: '/best/best-grinder-under-200/',
+    title: 'Best grinders under $200',
+    desc: 'Where to start if you are pairing a grinder with your first machine.',
+  },
+  {
+    href: '/best/best-espresso-accessories-under-100/',
+    title: 'Best accessories for beginners',
+    desc: 'Tampers, scales, knock boxes — what is actually worth buying.',
+  },
+];
+
+// Compare populares — head-to-heads que cubren las machines más buscadas.
+const comparePopular = [
+  {
+    slug: 'breville-bambino-plus-vs-gaggia-classic-pro',
+    title: 'Bambino Plus vs Gaggia Classic Pro',
+    framing: 'Auto-milk convenience vs manual-lever control at the same price.',
+  },
+  {
+    slug: 'breville-barista-express-vs-breville-barista-pro',
+    title: 'Barista Express vs Barista Pro',
+    framing: 'Is the Pro upgrade worth the price bump? PID and Thermojet decide.',
+  },
+  {
+    slug: 'rancilio-silvia-vs-gaggia-classic-for-beginners',
+    title: 'Rancilio Silvia vs Gaggia Classic',
+    framing: 'Two classic single-boilers: which one rewards the learning curve.',
+  },
+  {
+    slug: 'breville-bambino-plus-vs-cafelat-robot',
+    title: 'Bambino Plus vs Cafelat Robot',
+    framing: 'Electric thermojet vs manual lever — different philosophies, same shot.',
+  },
+  {
+    slug: 'baratza-encore-esp-vs-baratza-sette-270',
+    title: 'Baratza Encore ESP vs Sette 270',
+    framing: 'Entry-level espresso grinder vs single-dose workflow.',
+  },
+  {
+    slug: 'niche-zero-vs-eureka-mignon-specialita',
+    title: 'Niche Zero vs Eureka Specialita',
+    framing: 'Single-dose conical vs hopper-fed flat-burr at the premium tier.',
+  },
+];
+
+// By price tier — agrupamos best-of por rango de precio para que el visitante
+// salte directo al tier que le aplica. Concentra PageRank en estos pillars.
+const tierGroups = [
+  {
+    label: 'Budget',
+    range: 'Under $500',
+    links: [
+      { href: '/best/best-budget-espresso-machine/', text: 'Best budget espresso machines' },
+      { href: '/best/best-espresso-machine-under-500/', text: 'Best espresso machines under $500' },
+      { href: '/best/best-grinder-under-200/', text: 'Best grinders under $200' },
+      { href: '/best/best-grinder-under-300/', text: 'Best grinders under $300' },
+    ],
+  },
+  {
+    label: 'Mid',
+    range: '$500 – $1,000',
+    links: [
+      { href: '/best/best-espresso-machine-under-1000-with-pid/', text: 'Best under $1,000 with PID' },
+      { href: '/best/best-espresso-machine-for-milk-drinks/', text: 'Best for milk drinks' },
+      { href: '/best/best-espresso-machine-with-built-in-grinder/', text: 'Best with built-in grinder' },
+    ],
+  },
+  {
+    label: 'Premium',
+    range: '$1,000 – $2,000',
+    links: [
+      { href: '/best/best-prosumer-espresso-machine-under-2000/', text: 'Best prosumer under $2,000' },
+      { href: '/best/best-espresso-machine-for-latte-art-under-1000/', text: 'Best for latte art' },
+      { href: '/best/best-grinder-under-500-with-low-retention/', text: 'Best grinder under $500 (low retention)' },
+    ],
+  },
+  {
+    label: 'Pro',
+    range: '$2,000+',
+    links: [
+      { href: '/best/best-dual-boiler-espresso-machine/', text: 'Best dual-boiler espresso machines' },
+      { href: '/best/best-flat-burr-grinder/', text: 'Best flat-burr grinders' },
+      { href: '/best/best-single-dose-grinder/', text: 'Best single-dose grinders' },
+    ],
+  },
+];
+
+// ---------- Schema markup ----------
+const siteUrl = 'https://baristapath.com';
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Barista Path',
+  url: siteUrl + '/',
+  description:
+    'Independent, data-driven reviews of home espresso machines, burr grinders, and pour-over brewers.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteUrl}/search?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Barista Path',
+  url: siteUrl + '/',
+  description:
+    'Editorial site reviewing home coffee equipment with a documented, repeatable methodology.',
+};
+
+const latestItemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Latest reviews',
+  itemListElement: latest.map((p, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    url: `${siteUrl}/products/${p.data.asin}/`,
+    name: p.data.name,
+  })),
+};
+
+const jsonLd = [websiteSchema, organizationSchema, latestItemListSchema];
+---
+<Base
+  title="Barista Path — Honest, Data-Driven Coffee Equipment Reviews"
+  description="Independent reviews and comparisons of home espresso machines, burr grinders, and pour-over brewers. Specs, pros, cons, calculator, and a quiz to find your machine."
+  jsonLd={jsonLd}
+  showByline={false}
+>
+  {/* ---------- 1. Hero ---------- */}
+  <section class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Coffee equipment, compared on data.</h1>
+      <p class="hero__lead">
+        Independent reviews of home espresso machines, burr grinders, and pour-over brewers.
+        No paid placements, no sponsored picks — just specs, a documented methodology, and a
+        clear answer to "should I buy this?"
+      </p>
+      <div class="hero-ctas">
+        <a class="cta-button cta-button--primary" href="/quiz/which-espresso-machine/">
+          Find your espresso machine
+        </a>
+        <a class="cta-button cta-button--secondary" href="/tools/cost-per-cup-calculator/">
+          Calculate your savings
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ---------- 1b. Trust strip (cuantitativo, no claims) ---------- */}
+  <section class="trust-strip" aria-label="Site coverage at a glance">
+    <ul class="trust-strip__list">
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">72</span>
+        <span class="trust-strip__label">products compared</span>
+      </li>
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">45</span>
+        <span class="trust-strip__label">buying guides</span>
+      </li>
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">55</span>
+        <span class="trust-strip__label">terms documented</span>
+      </li>
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">May<br />2026</span>
+        <span class="trust-strip__label">Last updated</span>
+      </li>
+    </ul>
+    <p class="trust-strip__methodology">
+      <a href="/methodology/">Read the review methodology &rarr;</a>
+    </p>
+  </section>
+
+  {/* ---------- 2. Tools (diferenciadores) ---------- */}
+  <section class="section section--tools" aria-labelledby="tools-heading">
+    <h2 id="tools-heading">Tools to decide faster</h2>
+    <div class="tools-grid">
+      <a class="tool-card tool-card--quiz" href="/quiz/which-espresso-machine/">
+        <span class="tool-card__icon" aria-hidden="true">
+          {/* Icono CSS: tres dots representando steps del quiz */}
+          <span></span><span></span><span></span>
+        </span>
+        <h3 class="tool-card__title">Which espresso machine should I buy?</h3>
+        <p class="tool-card__desc">
+          Six questions about budget, drinks, and counter space. Score-based, no
+          email gate, results in under a minute.
+        </p>
+        <span class="tool-card__cta">Start the quiz &rarr;</span>
+      </a>
+      <a class="tool-card tool-card--calc" href="/tools/cost-per-cup-calculator/">
+        <span class="tool-card__icon" aria-hidden="true">
+          {/* Icono CSS: símbolo $ con bars debajo (gráfico simple) */}
+          <strong>$</strong>
+        </span>
+        <h3 class="tool-card__title">Cost-per-cup &amp; payback calculator</h3>
+        <p class="tool-card__desc">
+          Plug in your beans, dose, and café price. Get cost per shot, monthly
+          savings, and payback period.
+        </p>
+        <span class="tool-card__cta">Run the numbers &rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  {/* ---------- 3. Start here ---------- */}
+  <section class="section section--bg-paper" aria-labelledby="start-here-heading">
+    <h2 id="start-here-heading">Start here</h2>
+    <p class="muted section__intro">Four common entry points if you are not sure where to begin.</p>
+    <div class="start-here-cards">
+      {startHereCards.map((c) => (
+        <a class="start-card" href={c.href}>
+          <h3 class="start-card__title">{c.title}</h3>
+          <p class="start-card__desc">{c.desc}</p>
+          <span class="start-card__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* ---------- 3b. Free starter guide (lead magnet) ---------- */}
+  <section class="section section--bg-accent" aria-labelledby="starter-guide-heading">
+    <h2 id="starter-guide-heading">Get the free starter guide</h2>
+    <p class="muted section__intro">
+      A 12-page PDF that turns 20+ review pages into one short decision framework.
+      Free, no upsell — written by the same editor behind every review on this site.
+    </p>
+    <EmailSignup variant="featured" source="home" />
+    <p class="muted" style="font-size: 0.85rem; margin-top: var(--space-sm);">
+      Prefer to skim it first? See <a href="/espresso-setup-guide/">what's inside the guide</a>.
+    </p>
+  </section>
+
+  {/* ---------- 4. Latest reviews ---------- */}
+  <section class="section" aria-labelledby="latest-heading">
+    <h2 id="latest-heading">Latest reviews</h2>
+    <p class="muted section__intro">Recently updated product pages.</p>
+    <ul class="latest-reviews-grid">
+      {latest.map((p) => (
+        <li class="review-card">
+          <a class="review-card__link" href={`/products/${p.data.asin}/`}>
+            <p class="review-card__brand">{p.data.brand}</p>
+            <h3 class="review-card__name">{p.data.name}</h3>
+            <p class="review-card__meta">
+              <span class={`tier-badge tier-badge--${p.data.price_tier}`}>
+                {tierLabel[p.data.price_tier] ?? p.data.price_tier}
+              </span>
+              <span class="review-card__price">${p.data.price}</span>
+            </p>
+            <span class="review-card__cta">Read review &rarr;</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {/* ---------- 5. Compare popular machines ---------- */}
+  <section class="section section--bg-paper" aria-labelledby="compare-heading">
+    <h2 id="compare-heading">Compare popular machines</h2>
+    <p class="muted section__intro">Head-to-heads on the questions readers actually ask.</p>
+    <div class="compare-popular-grid">
+      {comparePopular.map((c) => (
+        <a class="compare-card" href={`/compare/${c.slug}/`}>
+          <h3 class="compare-card__title">{c.title}</h3>
+          <p class="compare-card__framing">{c.framing}</p>
+          <span class="compare-card__arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* ---------- 6. By price tier ---------- */}
+  <section class="section" aria-labelledby="tier-heading">
+    <h2 id="tier-heading">By price tier</h2>
+    <p class="muted section__intro">Jump straight to the range that fits your budget.</p>
+    <div class="tier-list">
+      {tierGroups.map((g) => (
+        <div class="tier-group">
+          <div class="tier-group__header">
+            <span class={`tier-badge tier-badge--${g.label.toLowerCase()}`}>{g.label}</span>
+            <span class="tier-group__range">{g.range}</span>
+          </div>
+          <ul class="tier-group__links">
+            {g.links.map((l) => (
+              <li><a href={l.href}>{l.text}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* ---------- 6b. Behind the reviews (E-E-A-T) ---------- */}
+  <section class="section section--bg-paper author-strip" aria-labelledby="author-heading">
+    <h2 id="author-heading" class="visually-hidden">Behind the reviews</h2>
+    <div class="author-strip__inner">
+      {author.image ? (
+        <img class="author-strip__photo" src={author.image} alt={author.name} width="96" height="96" loading="lazy" />
+      ) : (
+        <span class="author-strip__avatar" aria-hidden="true">{authorInitials}</span>
+      )}
+      <div class="author-strip__text">
+        <p class="author-strip__eyebrow">Behind the reviews</p>
+        <p class="author-strip__name"><strong>{author.name}</strong> · {author.role}</p>
+        <p class="author-strip__bio">{author.bio}</p>
+        <p class="author-strip__link"><a href={author.url}>About this site &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+
+  {/* ---------- 7. Methodology banner ---------- */}
+  <aside class="methodology-banner-home">
+    <p>
+      <strong>How we review.</strong> Every recommendation follows a documented review
+      process: specs from manufacturer datasheets, structured pros/cons, and
+      same-criteria comparisons across the full catalog.
+    </p>
+    <a class="methodology-banner-home__cta" href="/methodology/">Read our methodology &rarr;</a>
+  </aside>
+</Base>

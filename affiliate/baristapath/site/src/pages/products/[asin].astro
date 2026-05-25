@@ -1,0 +1,246 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { relatedForProduct } from '../../lib/related-content';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import Byline from '../../components/Byline.astro';
+import OwnerHelp from '../../components/OwnerHelp.astro';
+import {
+  howToPages,
+  howTosForProduct,
+  genericHowTosForType,
+  type HowToPage,
+} from '../../data/how-to-pages';
+import {
+  troubleshootPages,
+  troubleshootsForProduct,
+  genericTroubleshootsForType,
+  type TroubleshootPage,
+} from '../../data/troubleshoot-pages';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  // Map ASIN → brand para resolver matching by-brand de how-to/troubleshoot
+  // pages que apuntan a otro product de la misma brand (e.g. Bambino guide
+  // surface en Bambino Plus product page).
+  const asinToBrand = new Map(products.map((p) => [p.data.asin, p.data.brand]));
+  return products.map((product) => ({
+    params: { asin: product.data.asin },
+    props: { product, asinToBrand },
+  }));
+}
+
+const { product, asinToBrand } = Astro.props;
+const { data, body } = product;
+const { Content } = await product.render();
+const related = await relatedForProduct(data.asin);
+
+// ----- Owner help CTA: matching de how-to + troubleshoot pages relevantes ---
+// Prioridad: directos (productAsin === data.asin) → mismo brand → genéricos
+// de mismo type. Cap: 2 how-to + 2 troubleshoot. Si total === 0, el componente
+// OwnerHelp omite el render del box (no render vacío).
+
+const productBrand = data.brand;
+
+// Helpers para de-dupe por slug al mergear directos + brand + genéricos.
+function dedupeBySlug<T extends { slug: string }>(items: T[]): T[] {
+  const seen = new Set<string>();
+  const out: T[] = [];
+  for (const item of items) {
+    if (seen.has(item.slug)) continue;
+    seen.add(item.slug);
+    out.push(item);
+  }
+  return out;
+}
+
+// How-tos de mismo brand: targetean OTRO product del catalog que comparte
+// brand con el actual. Útil cuando el product no tiene how-to directo pero
+// sí lo tiene un sibling (e.g. Bambino Plus reusing Bambino guide).
+const sameBrandHowTos: HowToPage[] = howToPages.filter((h) => {
+  if (!h.productAsin) return false;
+  if (h.productAsin === data.asin) return false;
+  return asinToBrand.get(h.productAsin) === productBrand;
+});
+
+const sameBrandTroubleshoots: TroubleshootPage[] = troubleshootPages.filter((t) => {
+  if (!t.productAsin) return false;
+  if (t.productAsin === data.asin) return false;
+  return asinToBrand.get(t.productAsin) === productBrand;
+});
+
+const ownerHelpHowTos = dedupeBySlug([
+  ...howTosForProduct(data.asin),
+  ...sameBrandHowTos,
+  ...genericHowTosForType(data.type),
+]).slice(0, 2);
+
+const ownerHelpTroubleshoots = dedupeBySlug([
+  ...troubleshootsForProduct(data.asin),
+  ...sameBrandTroubleshoots,
+  ...genericTroubleshootsForType(data.type),
+]).slice(0, 2);
+
+// Amazon Associates tag placeholder — replace baristapath79-20 once the
+// Associates account is approved and the production tag string is provided.
+const associatesTag = 'baristapath79-20';
+const amazonUrl = `https://amazon.com/dp/${data.asin}?tag=${associatesTag}`;
+
+// Product schema sin Offer — somos affiliate, no merchant. Incluir Offer
+// disparaba Merchant Listing rich result en Google que requiere shippingDetails,
+// hasMerchantReturnPolicy, image — datos del vendedor (Amazon), no nuestros.
+// Sin Offer, Google trata la página como informational Product page.
+// El affiliate link sigue funcionando en el HTML (AffiliateButton), pero no
+// vive en el JSON-LD.
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: data.name,
+  brand: { '@type': 'Brand', name: data.brand },
+  description: body.split('\n').filter(Boolean).slice(0, 2).join(' ').slice(0, 500),
+  sku: data.asin,
+};
+
+// FAQ generated from product data — focused, useful, not filler.
+const typeLabel = {
+  'espresso-machine': 'espresso machine',
+  'grinder': 'grinder',
+  'accessory': 'accessory',
+  'brewer': 'brewer',
+}[data.type];
+
+const faq = [
+  {
+    q: `Who is the ${data.name} best for?`,
+    a: `The ${data.name} is best suited for ${data.best_for.slice(0, 3).join(', ')}. Tags: ${data.tags.join(', ')}.`,
+  },
+  {
+    q: `How much does the ${data.name} cost?`,
+    a: `The ${data.name} retails around $${data.price} USD, placing it in the ${data.price_tier} tier for ${typeLabel}s.`,
+  },
+  {
+    q: `What are the main downsides of the ${data.name}?`,
+    a: data.cons.join(' '),
+  },
+  {
+    q: `What is the ASIN for the ${data.name}?`,
+    a: `The Amazon ASIN is ${data.asin}. You can check current pricing and availability on Amazon directly.`,
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const description = `${data.name} review: specs, pros, cons, and who should buy it. ${data.brand} ${typeLabel} priced at $${data.price}.`;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Products', url: '/' },
+  { name: data.name, url: `/products/${data.asin}/` },
+];
+---
+<Base
+  title={`${data.name} Review — Specs, Pros & Cons`}
+  description={description}
+  ogType="product"
+  ogImage={data.image_url}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[productSchema, faqSchema]}
+  updatedAt={data.updated_at}
+>
+  <article>
+    <h1>{data.name}</h1>
+    <Byline updatedAt={data.updated_at} />
+    <p class="lead">
+      {data.brand} {typeLabel} &middot; <strong class="price">${data.price}</strong> &middot;
+      <span class="muted">{data.price_tier} tier</span>
+    </p>
+
+    <ul class="tag-list" aria-label="Tags">
+      {data.tags.map((tag: string) => <li>{tag}</li>)}
+    </ul>
+
+    <p>
+      <AffiliateButton asin={data.asin} productName={data.name} />
+    </p>
+
+    <section class="section">
+      <h2>Overview</h2>
+      <Content />
+    </section>
+
+    <section class="section pros-cons">
+      <div class="pros">
+        <h4>Pros</h4>
+        <ul>
+          {data.pros.map((item: string) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="cons">
+        <h4>Cons</h4>
+        <ul>
+          {data.cons.map((item: string) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Specifications</h2>
+      <table class="specs-table">
+        <tbody>
+          <tr><th>Brand</th><td>{data.brand}</td></tr>
+          <tr><th>Type</th><td>{typeLabel}</td></tr>
+          <tr><th>Price (USD)</th><td>${data.price}</td></tr>
+          <tr><th>Price tier</th><td>{data.price_tier}</td></tr>
+          {Object.entries(data.features).map(([key, value]) => (
+            <tr>
+              <th>{key.replace(/_/g, ' ')}</th>
+              <td>{String(value)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Best for</h2>
+      <ul>
+        {data.best_for.map((item: string) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section class="section faq">
+      <h2>Frequently Asked Questions</h2>
+      {faq.map((item) => (
+        <details>
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <p class="muted">Last updated: {data.updated_at.toISOString().slice(0, 10)}</p>
+
+    <OwnerHelp howTos={ownerHelpHowTos} troubleshoots={ownerHelpTroubleshoots} />
+
+    {related.length > 0 && (
+      <section class="section related-content" aria-labelledby="related-heading">
+        <h2 id="related-heading">Related content</h2>
+        <ul>
+          {related.map((link) => (
+            <li class={`related-link related-link--${link.kind}`}>
+              <a href={link.href}>{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Base>

@@ -1,0 +1,303 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { bestPages, type BestPage } from '../../data/best-pages';
+import { relatedForBest } from '../../lib/related-content';
+import VerdictBox from '../../components/VerdictBox.astro';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import Byline from '../../components/Byline.astro';
+import MethodologyNote from '../../components/MethodologyNote.astro';
+import EmailSignup from '../../components/EmailSignup.astro';
+
+// Best-of pages donde mostramos email signup mid-article (variant=featured).
+// Lista corta y alineada con el funnel del lead magnet — solo high-intent
+// beginner roundups donde el PDF es relevante para el lector.
+const EMAIL_SIGNUP_SLUGS = new Set<string>([
+  'best-espresso-machine-under-500',
+  'best-grinder-under-200',
+  'best-budget-espresso-machine',
+  'best-espresso-machine-under-1000-with-pid',
+  'best-espresso-accessories-under-100',
+]);
+
+type Product = CollectionEntry<'products'>;
+
+// Multi-tier pick label resolver.
+// Rank #1 → "Best overall".
+// Rank 2..N → semantic label derived from price_tier / best_for / tags,
+// con fallback "Also great" si no calza ninguna heurística.
+type PickLabel = {
+  text: string;
+  variant:
+    | 'overall'
+    | 'budget'
+    | 'upgrade'
+    | 'beginners'
+    | 'small-kitchen'
+    | 'milk-drinks'
+    | 'also-great';
+};
+
+function resolvePickLabel(product: Product, rank: number): PickLabel {
+  if (rank === 1) {
+    return { text: 'Best overall', variant: 'overall' };
+  }
+  const { price_tier, best_for, tags } = product.data;
+  if (price_tier === 'budget') {
+    return { text: 'Best budget pick', variant: 'budget' };
+  }
+  if (price_tier === 'pro') {
+    return { text: 'Upgrade pick', variant: 'upgrade' };
+  }
+  if (best_for.some((s: string) => s.toLowerCase().includes('beginner'))) {
+    return { text: 'Best for beginners', variant: 'beginners' };
+  }
+  if (
+    best_for.some((s: string) => /small\s*kitchen|apartment|compact/i.test(s)) ||
+    tags.includes('small-kitchen') ||
+    tags.includes('compact')
+  ) {
+    return { text: 'Best for small kitchens', variant: 'small-kitchen' };
+  }
+  if (
+    best_for.some((s: string) => /milk|latte|cappuccino|flat[-\s]?white/i.test(s)) ||
+    tags.includes('milk-drinks')
+  ) {
+    return { text: 'Best for milk drinks', variant: 'milk-drinks' };
+  }
+  return { text: 'Also great', variant: 'also-great' };
+}
+
+export async function getStaticPaths() {
+  const { bestPages: pages } = await import('../../data/best-pages');
+  const all = await getCollection('products');
+  return pages.map((page) => {
+    const matches = all
+      .filter((p) => page.filter(p.data))
+      .sort((a, b) => (page.sort ? page.sort(a.data, b.data) : 0));
+    return {
+      params: { slug: page.slug },
+      props: { page, matches },
+    };
+  });
+}
+
+interface Props {
+  page: BestPage;
+  matches: Product[];
+}
+
+const { page, matches } = Astro.props as Props;
+const related = await relatedForBest(page.slug);
+const showEmailSignup = EMAIL_SIGNUP_SLUGS.has(page.slug);
+
+// updatedAt para el byline: tomamos el max(updated_at) de los productos
+// listados. Esto refleja "la última vez que la lista se tocó" sin depender
+// de un campo manual por página.
+const updatedAt = matches.length
+  ? new Date(
+      Math.max(...matches.map((m) => m.data.updated_at.getTime()))
+    )
+  : new Date();
+
+// Top pick = primer match (ya viene ordenado por page.sort).
+const topPick = matches[0];
+const topPickAnchorId = topPick ? `pick-${topPick.data.asin}` : undefined;
+const topPickDescription = topPick
+  ? `${topPick.data.brand} — best for ${topPick.data.best_for.slice(0, 2).join(' and ')}.`
+  : undefined;
+
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: page.title,
+  itemListElement: matches.map((m, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    item: {
+      '@type': 'Product',
+      name: m.data.name,
+      brand: { '@type': 'Brand', name: m.data.brand },
+    },
+  })),
+};
+
+const faq = [
+  {
+    q: `How were these ${page.title.toLowerCase()} picks chosen?`,
+    a: 'Each pick is evaluated on shot quality (or grind quality), build, parts availability, and price-to-performance. We do not accept payment from manufacturers; affiliate links to Amazon do not change the editorial ranking.',
+  },
+  {
+    q: 'How often is this list updated?',
+    a: 'We review this list quarterly and update individual entries when new products release, prices change materially, or community feedback flags an issue. Last update timestamps appear on each product page.',
+  },
+  {
+    q: 'Are these products available outside the US?',
+    a: 'Pricing and links target the US Amazon market. Many products are sold internationally through specialty distributors at different prices.',
+  },
+  ...(page.faqExtras ?? []),
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Best Of', url: '/' },
+  { name: page.title, url: `/best/${page.slug}/` },
+];
+
+// Reference imported pages array to satisfy unused-import linting; consumers
+// that need the full list can re-export from this module.
+void bestPages;
+---
+<Base
+  title={`${page.title} (2026)`}
+  description={page.description}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[itemListSchema, faqSchema]}
+  updatedAt={updatedAt}
+>
+  <h1>{page.title}</h1>
+  <Byline updatedAt={updatedAt} />
+  {page.introHtml ? (
+    <p class="lead" set:html={page.introHtml} />
+  ) : (
+    <p class="lead">{page.intro}</p>
+  )}
+
+  {matches.length === 0 ? (
+    <p>No products match this criteria yet. Check back as the catalog grows.</p>
+  ) : (
+    <>
+      {topPick && (
+        <VerdictBox
+          variant="best"
+          asin={topPick.data.asin}
+          productName={topPick.data.name}
+          price={topPick.data.price}
+          imageUrl={topPick.data.image_url}
+          description={topPickDescription}
+          anchorId={topPickAnchorId}
+        />
+      )}
+
+      <MethodologyNote />
+
+      <section class="section">
+        <h2>At a glance</h2>
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Type</th>
+              <th>Best for</th>
+            </tr>
+          </thead>
+          <tbody>
+            {matches.map((m, idx) => (
+              <tr>
+                <td>#{idx + 1}</td>
+                <td>
+                  <a href={`/products/${m.data.asin}/`}>{m.data.name}</a>
+                </td>
+                <td>${m.data.price}</td>
+                <td>{m.data.type}</td>
+                <td>{m.data.best_for.slice(0, 2).join(', ')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <ol class="ranked-list">
+        {matches.map((m, idx) => {
+          const rank = idx + 1;
+          const label = resolvePickLabel(m, rank);
+          return (
+            <li id={`pick-${m.data.asin}`}>
+              <span class="rank-badge">#{rank}</span>
+              <span class={`pick-label pick-label--${label.variant}`}>{label.text}</span>
+              <h3>
+                <a href={`/products/${m.data.asin}/`}>{m.data.name}</a>
+              </h3>
+              <p class="meta muted">
+                {m.data.brand} &middot; ${m.data.price} &middot; {m.data.price_tier} tier
+              </p>
+              <div class="pros-cons">
+                <div class="pros">
+                  <h4>Pros</h4>
+                  <ul>
+                    {m.data.pros.slice(0, 3).map((item: string) => <li>{item}</li>)}
+                  </ul>
+                </div>
+                <div class="cons">
+                  <h4>Cons</h4>
+                  <ul>
+                    {m.data.cons.slice(0, 2).map((item: string) => <li>{item}</li>)}
+                  </ul>
+                </div>
+              </div>
+              <p>
+                <AffiliateButton asin={m.data.asin} productName={m.data.name} />
+                {' '}
+                <a href={`/products/${m.data.asin}/`}>Read the full review &rarr;</a>
+              </p>
+            </li>
+          );
+        })}
+      </ol>
+    </>
+  )}
+
+  {showEmailSignup && (
+    <EmailSignup
+      variant="featured"
+      headline="New to home espresso? Grab our free 12-page setup guide."
+      promise="The decisions we wish someone had handed us before our first $1,400 mistake. Budget tiers, machine and grinder criteria, common mistakes, and a glossary. No upsell."
+      cta="Send me the PDF"
+      source={`best-${page.slug}`}
+    />
+  )}
+
+  <section class="section faq">
+    <h2>Frequently Asked Questions</h2>
+    {faq.map((item) => (
+      <details>
+        <summary>{item.q}</summary>
+        <p>{item.a}</p>
+      </details>
+    ))}
+  </section>
+
+  <p class="update-cadence">
+    <strong>Last reviewed:</strong>{' '}
+    <time datetime={updatedAt.toISOString()}>
+      {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+    </time>.
+    {' '}We re-check our recommendations every 3 months and update them when prices,
+    model availability, or new releases shift the picture.
+  </p>
+
+  {related.length > 0 && (
+    <section class="section related-content" aria-labelledby="related-heading">
+      <h2 id="related-heading">Related content</h2>
+      <ul>
+        {related.map((link) => (
+          <li class={`related-link related-link--${link.kind}`}>
+            <a href={link.href}>{link.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

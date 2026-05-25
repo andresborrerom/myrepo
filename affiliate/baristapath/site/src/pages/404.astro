@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Page not found"
+  description="The page you were looking for doesn't exist on Coffee Equipment Reviews."
+>
+  <main class="not-found">
+    <h1>404 &mdash; page not found</h1>
+    <p>The page you tried to reach doesn't exist or has been moved.</p>
+    <p>
+      <a href="/">&larr; Back to home</a>
+    </p>
+  </main>
+</Base>
+
+<style>
+  .not-found {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  .not-found h1 {
+    margin-bottom: 1rem;
+  }
+  .not-found p {
+    margin: 1rem 0;
+  }
+</style>

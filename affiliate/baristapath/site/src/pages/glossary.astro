@@ -1,0 +1,259 @@
+---
+// Glossary page — single-page index de 40-50 términos técnicos del nicho.
+//
+// Estructura:
+//   1. H1 + Byline
+//   2. Lead (2 párrafos: qué es, cómo usarlo)
+//   3. Quick category nav (jump links a las 6 secciones)
+//   4. Una sección H2 por category con entries ordenadas alfabéticamente
+//      Cada entry: H3 con id=slug, aliases en gris debajo, definition (<p>),
+//      context opcional (<p class="muted">), related terms inline
+//   5. FAQ section: por qué glossary, cómo se mantiene
+//   6. Related content: links a category hubs
+//
+// Schema markup:
+//   - DefinedTermSet con todos los DefinedTerm entries
+//   - BreadcrumbList (vía prop)
+//   - FAQPage
+//
+// Anti-gray-hat: definiciones honestas. Cuando un término es debated
+// (flat vs conical, crema como calidad), reflejamos el debate sin
+// posicionar dogmaticamente.
+
+import Base from '../layouts/Base.astro';
+import Byline from '../components/Byline.astro';
+import {
+  GLOSSARY,
+  CATEGORY_ORDER,
+  CATEGORY_LABELS,
+  CATEGORY_DESCRIPTIONS,
+  termsByCategory,
+  findTerm,
+} from '../data/glossary.ts';
+import { detailedSlugSet } from '../data/glossary-detailed.ts';
+
+const grouped = termsByCategory();
+const detailedSet = detailedSlugSet();
+
+// updatedAt: usamos la fecha en que se publicó esta versión del glossary.
+// No tiene una fuente de truth de catálogo como products, así que la
+// hardcodeamos por ahora — actualizar cuando se expanda con nuevos términos.
+const updatedAt = new Date('2026-05-17T00:00:00Z');
+
+// ---------- Schema markup ----------
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://baristapath.com';
+const glossaryUrl = `${siteUrl}/glossary/`;
+
+// DefinedTermSet con todos los términos como DefinedTerm individuales.
+// Cada DefinedTerm tiene url con el anchor (#slug) para que Google pueda
+// linkear directo a la definición.
+const definedTermSetSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  name: 'Coffee Equipment Glossary',
+  url: glossaryUrl,
+  description:
+    'Definitions of technical terms used in home espresso, grinding, and brewing — from PID controllers through WDT and pour-over methods.',
+  hasDefinedTerm: GLOSSARY.map((t) => ({
+    '@type': 'DefinedTerm',
+    '@id': `${glossaryUrl}#${t.slug}`,
+    name: t.term,
+    description: t.definition,
+    url: `${glossaryUrl}#${t.slug}`,
+    inDefinedTermSet: glossaryUrl,
+    ...(t.aliases && t.aliases.length > 0 ? { alternateName: t.aliases } : {}),
+  })),
+};
+
+// FAQ entries — por qué glossary, cómo se usa, cómo se mantiene.
+const faqs = [
+  {
+    q: 'Why a glossary on this site?',
+    a: 'Coffee equipment is dense with jargon — PID, OPV, HX, WDT, ratio, yield, crema — and most product pages and reviews assume you already know it. This glossary defines the terms one place, so you can read a buying guide or comparison without bouncing to four other tabs.',
+  },
+  {
+    q: 'How are the definitions sourced?',
+    a: 'Definitions are written by the same editor who reviews products on this site, with technical claims (boiler temperatures, bar pressure, RPM ranges) verified against manufacturer datasheets and the Specialty Coffee Association reference materials where applicable. We update entries when a term changes meaning in common usage or when new evidence shifts the consensus.',
+  },
+  {
+    q: 'Is something missing or wrong?',
+    a: 'If a term you expected is missing, or a definition reads as inaccurate, please send a note through the site contact. We expand the glossary as new product categories or brewing methods enter the catalog.',
+  },
+  {
+    q: 'Why are some entries non-committal about which is "better"?',
+    a: 'Several long-running debates in the home-espresso community (flat vs conical burrs, dual boiler vs heat exchanger, crema as a quality signal) do not have a single correct answer at the home tier. We describe the trade-offs honestly rather than picking sides where the evidence does not support it.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Glossary', url: '/glossary/' },
+];
+
+const description = `Coffee equipment glossary: ${GLOSSARY.length} short, authoritative definitions of espresso, grinder, brewing, and technique terms — PID, group head, WDT, brew ratio, pour-over, and more.`;
+
+// Helper para imprimir el link a un related term inline en el body.
+// Si el related term tiene página dedicada, linkeamos a /glossary/[slug]/
+// (destino más rico) — sino al anchor del index.
+function relatedTermLink(slug: string): { href: string; term: string } | null {
+  const t = findTerm(slug);
+  if (!t) return null;
+  const href = detailedSet.has(slug) ? `/glossary/${slug}/` : `#${slug}`;
+  return { href, term: t.term };
+}
+---
+<Base
+  title="Coffee equipment glossary — espresso, grinder, brewing terms defined"
+  description={description}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[definedTermSetSchema, faqSchema]}
+  updatedAt={updatedAt}
+>
+  <article class="glossary-page">
+    <h1>Coffee equipment glossary</h1>
+    <Byline updatedAt={updatedAt} />
+
+    <p class="lead">
+      Short, plain-English definitions of the technical terms used across espresso
+      machines, grinders, brewing methods, and accessories — the jargon you will
+      hit on any product page, review, or YouTube video about home coffee.
+    </p>
+
+    <p class="muted">
+      Use the jump links below to skim a category, or search the page (Ctrl/Cmd+F)
+      for a specific term. Every entry has a permanent anchor link
+      (<code>/glossary/#slug</code>) so you can share or bookmark a single definition.
+      We link these anchors from buying guides and best-of pages when the term is
+      first used in context.
+    </p>
+
+    <nav aria-label="Glossary categories" class="glossary-nav">
+      <ul>
+        {CATEGORY_ORDER.map((cat) => {
+          const count = grouped.get(cat)?.length ?? 0;
+          if (count === 0) return null;
+          return (
+            <li>
+              <a href={`#cat-${cat}`}>
+                {CATEGORY_LABELS[cat]}
+                {' '}<span class="muted">({count})</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    {CATEGORY_ORDER.map((cat) => {
+      const terms = grouped.get(cat) ?? [];
+      if (terms.length === 0) return null;
+      return (
+        <section class="section glossary-section" id={`cat-${cat}`}>
+          <h2>{CATEGORY_LABELS[cat]}</h2>
+          <p class="muted glossary-section__intro">{CATEGORY_DESCRIPTIONS[cat]}</p>
+
+          <dl class="glossary-list">
+            {terms.map((t) => (
+              <div class="glossary-entry" id={t.slug}>
+                <dt>
+                  <h3 class="glossary-entry__term">
+                    <a href={`#${t.slug}`} class="glossary-entry__anchor" aria-label={`Permalink to ${t.term}`}>{t.term}</a>
+                    {detailedSet.has(t.slug) && (
+                      <>
+                        {' '}
+                        <a
+                          href={`/glossary/${t.slug}/`}
+                          class="glossary-entry__readmore"
+                          aria-label={`Read the full page on ${t.term}`}
+                        >Read more &rarr;</a>
+                      </>
+                    )}
+                  </h3>
+                  {t.aliases && t.aliases.length > 0 && (
+                    <p class="glossary-entry__aliases muted">
+                      Also: {t.aliases.join(', ')}
+                    </p>
+                  )}
+                </dt>
+                <dd>
+                  <p class="glossary-entry__definition">{t.definition}</p>
+                  {t.context && (
+                    <p class="glossary-entry__context muted">{t.context}</p>
+                  )}
+                  {t.relatedTerms && t.relatedTerms.length > 0 && (
+                    <p class="glossary-entry__related">
+                      <span class="muted">Related:</span>
+                      {' '}
+                      {t.relatedTerms
+                        .map(relatedTermLink)
+                        .filter((x): x is { href: string; term: string } => x !== null)
+                        .map((link, idx, arr) => (
+                          <>
+                            <a href={link.href}>{link.term}</a>
+                            {idx < arr.length - 1 ? ', ' : ''}
+                          </>
+                        ))}
+                    </p>
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      );
+    })}
+
+    <section class="section faq">
+      <h2>Frequently Asked Questions</h2>
+      {faqs.map((item) => (
+        <details>
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <section class="section related-content" aria-labelledby="glossary-related-heading">
+      <h2 id="glossary-related-heading">Where to read these terms in context</h2>
+      <ul>
+        <li class="related-link related-link--category">
+          <a href="/categories/espresso-machines/">All espresso machines in our catalog</a>
+        </li>
+        <li class="related-link related-link--category">
+          <a href="/categories/grinders/">All coffee grinders in our catalog</a>
+        </li>
+        <li class="related-link related-link--category">
+          <a href="/categories/brewers/">All brewers in our catalog</a>
+        </li>
+        <li class="related-link related-link--category">
+          <a href="/categories/accessories/">All espresso accessories in our catalog</a>
+        </li>
+        <li class="related-link related-link--best">
+          <a href="/best/best-espresso-machine-under-500/">Best espresso machines under $500</a>
+        </li>
+        <li class="related-link related-link--best">
+          <a href="/best/best-grinder-under-200/">Best grinders under $200</a>
+        </li>
+      </ul>
+    </section>
+
+    <p class="update-cadence muted">
+      <strong>Last reviewed:</strong>{' '}
+      <time datetime={updatedAt.toISOString()}>
+        {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(updatedAt)}
+      </time>.
+      {' '}This glossary is updated as new product categories enter the catalog or as
+      terminology shifts in common usage.
+    </p>
+  </article>
+</Base>

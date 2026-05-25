@@ -1,0 +1,125 @@
+---
+// Verdict box / TL;DR component — usado por best/[slug].astro (variant "best")
+// y review/[slug].astro (variant "review"). Centraliza el bloque "lo que
+// importa en los primeros 5 segundos" para que el lector tenga la respuesta
+// sin scrollear.
+//
+// Anti-gray-hat: el veredicto refleja `verdict` literal — yes/no/depends
+// pueden mostrarse con el mismo peso visual. No favorecemos "yes" por
+// defecto para empujar clicks.
+
+import AffiliateButton from './AffiliateButton.astro';
+
+type Variant = 'best' | 'review';
+type Verdict = 'yes' | 'no' | 'depends';
+
+interface Props {
+  variant: Variant;
+
+  // Common
+  asin: string;
+  productName: string;
+  price?: number;
+  imageUrl?: string;
+
+  // Variant: best ----------------------------------------------------------
+  /** 1-line description for the top pick (best variant). */
+  description?: string;
+  /** Anchor id for the "why we picked it" link (best variant). */
+  anchorId?: string;
+
+  // Variant: review --------------------------------------------------------
+  verdict?: Verdict;
+  verdictSummary?: string;
+  /** First entry of `worthItFor` (review variant). */
+  bestFor?: string;
+  /** First entry of `skipIf` (review variant). */
+  skipIf?: string;
+}
+
+const {
+  variant,
+  asin,
+  productName,
+  price,
+  imageUrl,
+  description,
+  anchorId,
+  verdict,
+  verdictSummary,
+  bestFor,
+  skipIf,
+} = Astro.props as Props;
+
+const verdictLabel: Record<Verdict, string> = {
+  yes: 'Yes',
+  no: 'No',
+  depends: 'Depends',
+};
+
+const verdictClass = verdict ? `verdict-box__verdict--${verdict}` : '';
+---
+<aside class={`verdict-box verdict-box--${variant}`} aria-labelledby={`verdict-box-title-${asin}`}>
+  {variant === 'best' && (
+    <>
+      <header class="verdict-box__header">
+        <span class="verdict-box__tag verdict-box__tag--overall">Best overall</span>
+        <h2 id={`verdict-box-title-${asin}`} class="verdict-box__title">Our top pick</h2>
+      </header>
+      <div class="verdict-box__body">
+        {imageUrl && (
+          <img
+            class="verdict-box__image"
+            src={imageUrl}
+            alt={`${productName} — top pick image`}
+            loading="lazy"
+            width="120"
+            height="120"
+          />
+        )}
+        <div class="verdict-box__content">
+          <p class="verdict-box__product-name">
+            <a href={`/products/${asin}/`}>{productName}</a>
+          </p>
+          {description && <p class="verdict-box__desc">{description}</p>}
+          {price !== undefined && (
+            <p class="verdict-box__price">${price}</p>
+          )}
+          <AffiliateButton asin={asin} productName={productName} />
+          {anchorId && (
+            <p class="verdict-box__why">
+              <a href={`#${anchorId}`}>Why we picked it &rarr;</a>
+            </p>
+          )}
+        </div>
+      </div>
+    </>
+  )}
+
+  {variant === 'review' && (
+    <>
+      <header class="verdict-box__header">
+        <h2 id={`verdict-box-title-${asin}`} class="verdict-box__title">Verdict</h2>
+      </header>
+      {verdict && (
+        <p class={`verdict-box__verdict ${verdictClass}`} aria-label={`Verdict: ${verdictLabel[verdict]}`}>
+          {verdictLabel[verdict]}
+        </p>
+      )}
+      {verdictSummary && (
+        <p class="verdict-box__summary">{verdictSummary}</p>
+      )}
+      {(bestFor || skipIf) && (
+        <ul class="verdict-box__fit">
+          {bestFor && (
+            <li><strong>Best for:</strong> {bestFor}</li>
+          )}
+          {skipIf && (
+            <li><strong>Skip if:</strong> {skipIf}</li>
+          )}
+        </ul>
+      )}
+      <AffiliateButton asin={asin} productName={productName} />
+    </>
+  )}
+</aside>

@@ -1,0 +1,15 @@
+# robots.txt — INDEXING ENABLED (flipped 2026-05-17)
+# Sitio public-indexable. Soft launch terminado.
+#
+# Historial:
+# - 2026-05-13: creado como "Disallow: /" durante soft launch con mock content
+# - 2026-05-17: flipped a "Allow: /" tras decisión aggressive timeline en
+#   docs/deployment-to-revenue.md Gate 1
+#
+# Si querés re-bloquear (rare — emergency content audit): reemplazar
+# "Allow: /" con "Disallow: /".
+
+User-agent: *
+Allow: /
+
+Sitemap: https://baristapath.com/sitemap-index.xml

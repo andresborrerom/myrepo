@@ -1,0 +1,72 @@
+---
+// Brands index — lista todas las brand pages disponibles.
+// Linkeada desde el footer nav (entre Methodology y Search).
+//
+// Cada card lista brand name + count de products + link a la brand page.
+// Brands con 1 solo product NO aparecen acá — están listadas en
+// SINGLE_PRODUCT_BRANDS pero no tienen página propia.
+
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { BRAND_META } from '../../data/brand-pages';
+
+const all = await getCollection('products');
+
+// Para cada brand con metadata, contamos products en el catalog. Si por
+// alguna razón un brand metadata existe pero no hay products (caso
+// teórico: alguien borró todos los products de la brand), no aparece en
+// el grid — pero igual habría 1 página fantasma. La build script alertaría.
+const brandCards = BRAND_META.map((brand) => {
+  const count = all.filter((p) => p.data.brand === brand.name).length;
+  return { ...brand, count };
+})
+  .filter((b) => b.count >= 2)
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const totalBrands = brandCards.length;
+const totalProducts = brandCards.reduce((sum, b) => sum + b.count, 0);
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Brands', url: '/brands/' },
+];
+
+const description = `Coffee equipment brands covered on Barista Path: ${totalBrands} manufacturers represented across ${totalProducts} products in the catalog. Espresso machines, grinders, brewers, and accessories.`;
+---
+<Base
+  title="Coffee equipment brands"
+  description={description}
+  breadcrumbs={breadcrumbs}
+  showByline={false}
+>
+  <h1>Coffee equipment brands</h1>
+
+  <p class="lead">
+    Brand pages group every {brandCards.length}-brand worth of espresso machines,
+    grinders, brewers, and accessories we cover. Each page lists the products
+    in this catalog, links to relevant comparisons and best-of picks, and answers
+    common head-term questions about the brand.
+  </p>
+
+  <p class="muted">
+    Brands with a single product in our catalog do not have a dedicated page —
+    grouping a single product is not useful. As the catalog grows and additional
+    products from those brands are added, more brand pages will appear here.
+  </p>
+
+  <ul class="product-grid brand-grid">
+    {brandCards.map((brand) => (
+      <li class="product-card brand-card">
+        <h2>
+          <a href={`/brands/${brand.slug}/`}>{brand.name}</a>
+        </h2>
+        <p class="meta">
+          {brand.count} product{brand.count === 1 ? '' : 's'} in catalog
+        </p>
+        <p>
+          <a href={`/brands/${brand.slug}/`}>View {brand.name} &rarr;</a>
+        </p>
+      </li>
+    ))}
+  </ul>
+</Base>

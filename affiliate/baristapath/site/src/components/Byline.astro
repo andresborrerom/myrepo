@@ -1,0 +1,62 @@
+---
+// Byline: "By [Author] · Updated [Date]". Honest, single-editor framing.
+// Renderizado bajo el H1 en páginas best/review/compare/products. La fecha
+// se formatea en estilo US (May 14, 2026) — público objetivo US.
+//
+// Anti-gray-hat: el author es el editor real. No inventamos co-authors ni
+// credenciales no verificables.
+
+import { author as defaultAuthor, type Author } from '../data/author';
+
+interface Props {
+  author?: Author;
+  updatedAt?: Date | string;
+  publishedAt?: Date | string;
+}
+
+const {
+  author = defaultAuthor,
+  updatedAt,
+  publishedAt,
+} = Astro.props as Props;
+
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formatDate = (value: Date | string | undefined): string | null => {
+  if (!value) return null;
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return dateFormatter.format(date);
+};
+
+const updatedLabel = formatDate(updatedAt);
+const publishedLabel = formatDate(publishedAt);
+const updatedIso = updatedAt
+  ? (updatedAt instanceof Date ? updatedAt : new Date(updatedAt)).toISOString()
+  : undefined;
+---
+<p class="byline">
+  <span class="byline__author">By <a href={author.url}>{author.name}</a></span>
+  {updatedLabel && (
+    <>
+      {' '}
+      <span class="byline__sep" aria-hidden="true">·</span>
+      {' '}
+      <span class="byline__updated">
+        Updated <time datetime={updatedIso}>{updatedLabel}</time>
+      </span>
+    </>
+  )}
+  {publishedLabel && !updatedLabel && (
+    <>
+      {' '}
+      <span class="byline__sep" aria-hidden="true">·</span>
+      {' '}
+      <span class="byline__published">Published {publishedLabel}</span>
+    </>
+  )}
+</p>

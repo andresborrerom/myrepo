@@ -1,0 +1,21 @@
+{
+  "name": "coffee-equipment-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build && node scripts/autolink-glossary.mjs",
+    "build:noautolink": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "node --test test/*.spec.js"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/sitemap": "^3.2.0",
+    "astro": "^5.0.0",
+    "fuse.js": "^7.3.0"
+  }
+}

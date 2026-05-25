@@ -1,0 +1,494 @@
+---
+// Email signup component — Fase 2 del revenue plan.
+//
+// Variantes:
+//   - compact:  footer inline, 1 línea + email + button.
+//   - featured: mid-article box destacado con border-left, copy completo.
+//   - landing:  hero size para la página dedicada al lead magnet.
+//
+// Anti-gray-hat (CLAUDE.md):
+//   - No clickbait: el lead magnet entrega VALOR REAL (PDF de 12 pages).
+//   - Disclosure visible: "1-2 emails/month. Unsubscribe anytime."
+//   - Name field es opcional. Email único requerido.
+//   - Después de signup, lector recibe link directo al PDF — captura el
+//     valor aunque después se desuscriba inmediatamente.
+//
+// Submit handler (cliente):
+//   - POST a /api/subscribe (Cloudflare Pages Function, ver functions/api/subscribe.ts).
+//   - Si la function devuelve 200 → success state.
+//   - Si la function devuelve 5xx o fetch falla → fallback localStorage
+//     (no perdemos leads durante el setup de ConvertKit).
+//   - En success state: mostramos link al PDF download para que el lector
+//     reciba valor inmediato (no depende de que llegue el email).
+
+interface Props {
+  /** Visual variant: compact (footer), featured (mid-article), landing (hero). */
+  variant?: 'compact' | 'featured' | 'landing';
+  /** Optional headline override. Sensible defaults per variant. */
+  headline?: string;
+  /** Optional sub-promise override. Sensible defaults per variant. */
+  promise?: string;
+  /** CTA button label. Default: "Get the Free Setup Guide". */
+  cta?: string;
+  /** Optional source tag — passes through to /api/subscribe for attribution. */
+  source?: string;
+}
+
+const {
+  variant = 'featured',
+  headline,
+  promise,
+  cta = 'Get the Free Setup Guide',
+  source = 'site-generic',
+} = Astro.props as Props;
+
+// Defaults sensatos por variant.
+const defaultHeadline =
+  variant === 'compact'
+    ? 'Free guide: How to choose your first home espresso setup'
+    : variant === 'landing'
+      ? 'How to Choose Your First Home Espresso Setup'
+      : 'Free 12-page guide: How to choose your first home espresso setup';
+
+const defaultPromise =
+  variant === 'compact'
+    ? 'A 12-page PDF — budget tiers, machine/grinder criteria, common mistakes. No spam.'
+    : variant === 'landing'
+      ? 'A practical PDF that walks you through every decision — budget tiers, espresso machine criteria, grinder selection, accessories, and the mistakes most beginners make. Written by the same editor behind the reviews on this site.'
+      : 'Real specs and trade-offs — boiler types, burr geometry, budget tiers — packaged in one short PDF so you can decide without reading 20 review pages.';
+
+const formId = `email-signup-${variant}-${Math.random().toString(36).slice(2, 8)}`;
+---
+<section
+  class={`email-signup email-signup--${variant}`}
+  data-source={source}
+  aria-labelledby={`${formId}-heading`}
+>
+  <div class="email-signup__inner">
+    <h3 id={`${formId}-heading`} class="email-signup__headline">
+      {headline ?? defaultHeadline}
+    </h3>
+    <p class="email-signup__promise">{promise ?? defaultPromise}</p>
+
+    <form class="email-signup__form" data-form-id={formId} novalidate>
+      {variant !== 'compact' && (
+        <label class="email-signup__field">
+          <span class="email-signup__label">First name <span class="email-signup__optional">(optional)</span></span>
+          <input
+            type="text"
+            name="name"
+            autocomplete="given-name"
+            class="email-signup__input"
+            placeholder="Your first name"
+          />
+        </label>
+      )}
+      <label class="email-signup__field">
+        <span class="email-signup__label">Email</span>
+        <input
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          class="email-signup__input"
+          placeholder="you@example.com"
+          aria-describedby={`${formId}-disclosure`}
+        />
+      </label>
+      <button type="submit" class="email-signup__submit">
+        {cta}
+      </button>
+    </form>
+
+    <p id={`${formId}-disclosure`} class="email-signup__disclosure">
+      We send 1-2 emails per month. Unsubscribe anytime. We never share your email.
+    </p>
+
+    {/* Success state — oculto por default, JS lo revela tras submit OK. */}
+    <div class="email-signup__success" hidden role="status" aria-live="polite">
+      <p class="email-signup__success-title">Thanks — you are on the list.</p>
+      <p class="email-signup__success-body">
+        Your guide is ready right now. Click below to download it (we also
+        sent a copy to your inbox in case you want it for later):
+      </p>
+      <p>
+        <a class="email-signup__download" href="/lead-magnets/espresso-setup-guide.pdf" download>
+          Download the PDF (12 pages)
+        </a>
+      </p>
+    </div>
+
+    {/* Error state — mostramos solo si falla validación o red. */}
+    <div class="email-signup__error" hidden role="alert">
+      <p class="email-signup__error-text">
+        We could not save your email right now. Try again, or
+        <a href="/lead-magnets/espresso-setup-guide.pdf" download>download the PDF directly here</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Submit handler — vanilla JS, sin deps. Maneja:
+  //   1. Validación email básica (HTML5 + regex de respaldo).
+  //   2. POST a /api/subscribe con {email, name?, source}.
+  //   3. Fallback a localStorage si el endpoint falla (no perdemos leads).
+  //   4. Reveal del success state + persist en localStorage para no
+  //      mostrar el mismo formulario otra vez al mismo visitante.
+  //
+  // Anti-gray-hat: el download link al PDF es visible incluso si la
+  // entrega del email falla — el lector recibe valor sí o sí.
+
+  type SubscribePayload = {
+    email: string;
+    name?: string;
+    source: string;
+    ts: number;
+  };
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const LS_KEY_SUBMITTED = 'baristapath:email-submitted';
+  const LS_KEY_PENDING = 'baristapath:email-pending-leads';
+
+  function isEmail(value: string): boolean {
+    return EMAIL_RE.test(value.trim());
+  }
+
+  function persistPending(payload: SubscribePayload): void {
+    try {
+      const raw = localStorage.getItem(LS_KEY_PENDING);
+      const arr: SubscribePayload[] = raw ? JSON.parse(raw) : [];
+      arr.push(payload);
+      localStorage.setItem(LS_KEY_PENDING, JSON.stringify(arr));
+    } catch {
+      // localStorage no disponible — no podemos persistir, pero al menos
+      // mostramos el download link.
+    }
+  }
+
+  function markSubmitted(email: string): void {
+    try {
+      localStorage.setItem(LS_KEY_SUBMITTED, email);
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function alreadySubmitted(): boolean {
+    try {
+      return Boolean(localStorage.getItem(LS_KEY_SUBMITTED));
+    } catch {
+      return false;
+    }
+  }
+
+  function showSuccess(section: HTMLElement): void {
+    const form = section.querySelector<HTMLFormElement>('.email-signup__form');
+    const success = section.querySelector<HTMLElement>('.email-signup__success');
+    const promise = section.querySelector<HTMLElement>('.email-signup__promise');
+    const disclosure = section.querySelector<HTMLElement>('.email-signup__disclosure');
+    if (form) form.hidden = true;
+    if (promise) promise.hidden = true;
+    if (disclosure) disclosure.hidden = true;
+    if (success) success.hidden = false;
+  }
+
+  function showError(section: HTMLElement): void {
+    const errorBox = section.querySelector<HTMLElement>('.email-signup__error');
+    if (errorBox) errorBox.hidden = false;
+  }
+
+  async function handleSubmit(event: Event): Promise<void> {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const section = form.closest<HTMLElement>('.email-signup');
+    if (!section) return;
+
+    const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
+    const nameInput = form.querySelector<HTMLInputElement>('input[name="name"]');
+    const email = emailInput?.value.trim() ?? '';
+    const name = nameInput?.value.trim() ?? '';
+    const source = section.dataset.source ?? 'unknown';
+
+    if (!isEmail(email)) {
+      emailInput?.setCustomValidity('Please enter a valid email address.');
+      emailInput?.reportValidity();
+      return;
+    }
+    emailInput?.setCustomValidity('');
+
+    const payload: SubscribePayload = {
+      email,
+      ...(name ? { name } : {}),
+      source,
+      ts: Date.now(),
+    };
+
+    // Disable submit mientras hace fetch (evita doble click).
+    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+    }
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      markSubmitted(email);
+      showSuccess(section);
+    } catch {
+      // Fallback: persistimos local + igual mostramos success (lector
+      // recibe el PDF; el lead queda local para sync manual).
+      persistPending(payload);
+      markSubmitted(email);
+      showSuccess(section);
+    }
+  }
+
+  function init(): void {
+    const forms = document.querySelectorAll<HTMLFormElement>('.email-signup__form');
+    forms.forEach((form) => {
+      form.addEventListener('submit', handleSubmit);
+    });
+
+    // Si el visitante ya se suscribió, colapsamos todas las signups del page
+    // a un thank-you discreto en la primera, y ocultamos el resto.
+    if (alreadySubmitted()) {
+      const sections = document.querySelectorAll<HTMLElement>('.email-signup');
+      sections.forEach((section, idx) => {
+        if (idx === 0) {
+          showSuccess(section);
+        } else {
+          section.hidden = true;
+        }
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>
+
+<style>
+  /* Email signup component — tres variants con tokens del global.css. */
+
+  .email-signup {
+    margin: var(--space-xl) 0;
+    border-radius: var(--radius);
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+  }
+
+  .email-signup__inner {
+    padding: var(--space-lg);
+  }
+
+  .email-signup__headline {
+    margin: 0 0 var(--space-sm);
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .email-signup__promise {
+    margin: 0 0 var(--space-md);
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .email-signup__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .email-signup__field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .email-signup__label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .email-signup__optional {
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+
+  .email-signup__input {
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: inherit;
+    width: 100%;
+  }
+
+  .email-signup__input:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+    border-color: var(--color-accent);
+  }
+
+  .email-signup__submit {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    font-family: inherit;
+    line-height: 1.2;
+  }
+
+  .email-signup__submit:hover:not(:disabled),
+  .email-signup__submit:focus-visible {
+    background: var(--color-link-hover);
+  }
+
+  .email-signup__submit:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .email-signup__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .email-signup__disclosure {
+    margin: var(--space-sm) 0 0;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .email-signup__success-title {
+    margin: 0 0 var(--space-xs);
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  .email-signup__success-body {
+    margin: 0 0 var(--space-md);
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  .email-signup__download {
+    display: inline-block;
+    padding: 10px 18px;
+    background: var(--color-accent);
+    color: #fff;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  .email-signup__download:hover,
+  .email-signup__download:focus-visible {
+    background: var(--color-link-hover);
+    color: #fff;
+  }
+
+  .email-signup__error {
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: #fff4e6;
+    border: 1px solid #f4c98c;
+    border-radius: var(--radius);
+  }
+
+  .email-signup__error-text {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6b3a14;
+  }
+
+  /* ----- Variant: compact (footer inline) ----- */
+  .email-signup--compact {
+    background: transparent;
+    border: 1px dashed var(--color-border);
+    margin: var(--space-md) 0 0;
+  }
+
+  .email-signup--compact .email-signup__inner {
+    padding: var(--space-md);
+  }
+
+  .email-signup--compact .email-signup__headline {
+    font-size: 1rem;
+    margin-bottom: var(--space-xs);
+  }
+
+  .email-signup--compact .email-signup__promise {
+    font-size: 0.85rem;
+    margin-bottom: var(--space-sm);
+  }
+
+  @media (min-width: 640px) {
+    .email-signup--compact .email-signup__form {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+    .email-signup--compact .email-signup__field {
+      flex: 1;
+    }
+    .email-signup--compact .email-signup__submit {
+      flex: 0 0 auto;
+    }
+  }
+
+  /* ----- Variant: featured (mid-article) ----- */
+  .email-signup--featured {
+    border-left: 4px solid var(--color-accent);
+  }
+
+  /* ----- Variant: landing (hero) ----- */
+  .email-signup--landing {
+    background: var(--color-surface);
+    border: 2px solid var(--color-accent);
+  }
+
+  .email-signup--landing .email-signup__inner {
+    padding: var(--space-xl);
+  }
+
+  .email-signup--landing .email-signup__headline {
+    font-size: 1.5rem;
+  }
+
+  .email-signup--landing .email-signup__promise {
+    font-size: 1.05rem;
+  }
+
+  @media (min-width: 720px) {
+    .email-signup--landing .email-signup__form {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .email-signup--landing .email-signup__field {
+      flex: 1 1 220px;
+    }
+    .email-signup--landing .email-signup__submit {
+      flex: 0 0 auto;
+    }
+  }
+</style>
