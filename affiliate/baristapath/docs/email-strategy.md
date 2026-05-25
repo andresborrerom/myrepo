@@ -2,7 +2,7 @@
 
 > Última actualización: 2026-05-24
 >
-> Documento operativo. Captura el contenido del welcome email + secuencia educativa para que el operador (o un agente futuro) lo grabe en ConvertKit cuando se active la integración. También captura los pasos de setup de ConvertKit en sí.
+> Documento operativo. Captura el contenido del welcome email + secuencia educativa para que el operador (o un agente futuro) lo grabe en MailerLite cuando se active la integración. También captura los pasos de setup de MailerLite en sí.
 
 ## Objetivos
 
@@ -10,41 +10,48 @@
 2. **Educar a los suscriptores** con valor genuino — no clickbait, no afiliado agresivo. La regla anti-gray-hat de `CLAUDE.md` aplica también acá.
 3. **Pre-validar audiencia para un digital product** (Fase 3). El soft-pitch al final de la secuencia educativa es un eBook o curso de bajo precio ($19-29) — si nadie compra, mejor enterarnos con una lista de 500 suscriptores que con $5k invertidos en producción.
 
-## Stack elegido — ConvertKit (free tier)
+## Stack elegido — MailerLite (free tier)
 
-- **Por qué ConvertKit**: free tier hasta 10,000 suscriptores (subió de 1k en 2024), API simple, broadcast + automation en el mismo plan, no se necesita pagar para empezar.
-- **Alternativa considerada**: Buttondown ($9/mes desde día 1), MailerLite (free hasta 1k pero migrar duele si llegamos a 1k).
-- **Decisión**: empezar con ConvertKit free tier. Si superamos 10k o necesitamos commerce nativo, re-evaluar.
+- **Por qué MailerLite**: free tier hasta 500 suscriptores con 12,000 emails/mes — incluye **welcome email + automations** en el plan free (no como MailerLite, que en 2025 movió incentive email a planes pagos). Pricing predecible: ~$10/mes en 1k subs, ~$20/mes en 2.5k.
+- **Alternativa considerada (descartada)**: MailerLite/Kit free — ya no incluye welcome email automation gratis ($29+/mes para activarlo). Buttondown ($9/mes desde día 1, sin free real). Beehiiv (free 2.5k pero más newsletter-oriented).
+- **Decisión 2026-05-24**: migrar de MailerLite a MailerLite. Para nuestra etapa (0 subs, proyectados <500 en 6 meses) free tier alcanza. Migración cuando se supere 500 subs es trivial vía export/import.
 
 ## Setup steps (operador)
 
-1. **Registrar cuenta**: <https://app.convertkit.com/users/signup>. Free tier directo, sin tarjeta.
-2. **Crear Form**: dashboard → Forms → New → Form → Inline (no usaremos el embed UI, solo la API). Title: "Espresso Setup Guide — Lead Magnet". Apuntar al lead magnet PDF como incentive email attachment.
-3. **Configurar Incentive Email**:
+1. **Registrar cuenta**: <https://www.mailerlite.com/signup>. Free tier directo, sin tarjeta. Onboarding pregunta tipo de creador, audiencia estimada, etc.
+2. **Verificar email** del welcome de MailerLite.
+3. **(Opcional) Crear Group**: Subscribers → Groups → Create group → "baristapath — espresso setup guide". Anotar el Group ID de la URL. Solo necesario si queremos segmentar por origen — para v1 podemos saltar y todos los suscriptores van a la lista general.
+4. **Configurar Welcome Email (Automation)**:
+   - Automations → Create new → Trigger: "Subscriber joins group" (o "Subscriber joins any group" si saltamos el group del paso 3).
+   - Action: Send email.
    - Subject: `Your free guide — How to Choose Your First Home Espresso Setup`
    - Body: ver template "Welcome email" más abajo.
-   - Attachment: `public/lead-magnets/espresso-setup-guide.pdf` (subir copia a ConvertKit; el sitio también lo sirve estático).
-4. **Copiar credenciales**:
-   - Account → Settings → API. Copiar **API Secret** (no la API Key — necesitamos el Secret para POST a forms).
-   - Forms → tu form → Settings → encontrar **Form ID** (número en la URL, ej. `https://app.convertkit.com/forms/designers/12345/edit` → form ID = 12345).
-5. **Configurar en Cloudflare Pages**:
-   - Dashboard → Pages → tu proyecto → Settings → Environment variables.
+   - Adjuntar el PDF o linkear a `https://baristapath.com/lead-magnets/espresso-setup-guide.pdf` (recomendado el link — el site también lo sirve estático).
+   - Activate automation.
+5. **Generar API Token**:
+   - Integraciones → MailerLite API → "Crear nuevo token" (Generate new token).
+   - Nombre: `baristapath-prod`.
+   - IP restrictions: "Todas las IPs permitidas" (no restringir — CF Pages Functions tienen IPs dinámicas).
+   - **Copiar el token COMPLETO inmediatamente** — solo se ve una vez. Guardarlo en password manager.
+6. **Configurar en Cloudflare Pages**:
+   - Dashboard → Pages → tu proyecto → Settings → Variables and Secrets.
    - Production env:
-     - `CONVERTKIT_API_KEY` = (API Secret de ConvertKit) — marcar como **Secret/Encrypted**.
-     - `CONVERTKIT_FORM_ID` = (número del form).
-   - Save + redeploy.
-6. **Verificar**:
-   - Entrar a la home de baristapath.com, subscribir un email de prueba.
-   - Confirmar que aparece en ConvertKit → Subscribers en <60 segundos.
-   - Confirmar que recibe el incentive email con el PDF adjunto.
+     - `MAILERLITE_API_KEY` = (el token JWT) — marcar como **Secret/Encrypted**.
+     - `MAILERLITE_GROUP_ID` = (Group ID si creaste uno; si no, no agregar esta variable). Tipo: Text.
+   - Save + redeploy (Retry deployment).
+7. **Verificar end-to-end**:
+   - Entrar a `https://baristapath.com/espresso-setup-guide`, subscribir un email de prueba (e.g. alias `andres.borrerom+ml-test@gmail.com`).
+   - Confirmar que aparece en MailerLite → Subscribers en <60 segundos.
+   - Confirmar que recibe el welcome email con el link al PDF.
+   - DevTools → Network → ver respuesta de `POST /api/subscribe`. Si dice `mode: "mailerlite"`, OK. Si dice `mode: "setup"`, las env vars no quedaron.
 
-Mientras los env vars NO estén configurados, el endpoint `/api/subscribe` igual devuelve 200 (modo "setup"), y el componente del cliente persiste el lead en `localStorage`. **No se pierden leads durante la transición**. Cuando el operador active ConvertKit, los leads en localStorage se pueden recoger manualmente (abrir devtools en un browser donde un visitante se haya suscrito, exportar `localStorage['baristapath:email-pending-leads']`).
+Mientras los env vars NO estén configurados, el endpoint `/api/subscribe` igual devuelve 200 (modo "setup"), y el componente del cliente persiste el lead en `localStorage`. **No se pierden leads durante la transición**. Cuando el operador active MailerLite, los leads en localStorage se pueden recoger manualmente (abrir devtools en un browser donde un visitante se haya suscrito, exportar `localStorage['baristapath:email-pending-leads']`).
 
 ## Welcome email — template
 
 **Subject**: `Your free guide — How to Choose Your First Home Espresso Setup`
 
-**From**: `editor@baristapath.com` (configurar en ConvertKit → Account → Email settings; mientras no tengamos email custom, usar el default de ConvertKit).
+**From**: `editor@baristapath.com` (configurar en MailerLite → Sender domains; mientras no tengamos email custom, usar el default de MailerLite con "Barista Path" como From name).
 
 **Body**:
 
@@ -161,4 +168,4 @@ Por ahora (lista pequeña), tratamos todos igual.
 - **Click-through a baristapath.com** desde emails 1-4 (proxy de affiliate income futuro).
 - **Click-through al eBook landing** en email 5 (validación primary del digital product).
 
-ConvertKit free tier no incluye click tracking en URLs custom — usamos UTM tags en cada link (`?utm_source=convertkit&utm_campaign=email-N&utm_medium=email`) y leemos los resultados en Cloudflare Web Analytics (cuando esté activado).
+MailerLite free tier no incluye click tracking en URLs custom — usamos UTM tags en cada link (`?utm_source=mailerlite&utm_campaign=email-N&utm_medium=email`) y leemos los resultados en Cloudflare Web Analytics (cuando esté activado).

@@ -2,31 +2,37 @@
 //
 // Endpoint que el componente <EmailSignup> POSTea. Maneja dos modos:
 //
-//   1. ConvertKit configurado (production):
-//      Si CONVERTKIT_API_KEY y CONVERTKIT_FORM_ID están en env vars,
-//      hace POST a la API real de ConvertKit y devuelve 200 al cliente.
+//   1. MailerLite configurado (production):
+//      Si MAILERLITE_API_KEY está en env vars, hace POST a la API real de
+//      MailerLite y devuelve 200 al cliente. Si MAILERLITE_GROUP_ID también
+//      está set, el suscriptor se agrega a ese grupo (segmentación). Si no
+//      hay group ID, el suscriptor queda en la lista principal del account.
 //
-//   2. Setup mode (placeholder, mientras ConvertKit no esté configurado):
+//   2. Setup mode (placeholder, mientras MailerLite no esté configurado):
 //      Devuelve 200 sin más — el componente cliente persiste el lead en
 //      localStorage como fallback. Estos leads se pueden recoger después
-//      cuando el operador active ConvertKit (ver docs/email-strategy.md).
+//      cuando el operador active la integración.
 //
 // Anti-gray-hat (CLAUDE.md):
-//   - Nunca compartimos el email con terceros fuera de ConvertKit.
+//   - Nunca compartimos el email con terceros fuera de MailerLite.
 //   - Validación strict de email antes de cualquier envío.
 //   - Rate limit liviano (1 request por IP cada 10s) para evitar abuso.
 //
 // Bindings esperados en Cloudflare Pages settings:
-//   - CONVERTKIT_API_KEY (Secret) — Account → API → V3 API Secret.
-//   - CONVERTKIT_FORM_ID (Variable) — Forms → settings → Form ID.
+//   - MAILERLITE_API_KEY (Secret) — Integrations -> MailerLite API ->
+//     Generate token. Token JWT, ~400 chars.
+//   - MAILERLITE_GROUP_ID (Text, opcional) — Subscribers -> Groups ->
+//     ID numerico del grupo. Si no se setea, suscriptor va a la lista
+//     general.
 //
-// Static deploy: Astro static + Pages Functions coexisten. Pages Functions
-// se buildean automáticamente desde el directorio /functions cuando se
-// deploya a Cloudflare Pages.
+// Migracion ConvertKit -> MailerLite: 2026-05-24. ConvertKit free tier
+// ya no incluia incentive email (welcome email), feature gateada al plan
+// pago. MailerLite free incluye welcome email + automations hasta 500 subs.
+// Ver docs/email-strategy.md.
 
 interface Env {
-  CONVERTKIT_API_KEY?: string;
-  CONVERTKIT_FORM_ID?: string;
+  MAILERLITE_API_KEY?: string;
+  MAILERLITE_GROUP_ID?: string;
 }
 
 interface SubscribeBody {
@@ -36,9 +42,9 @@ interface SubscribeBody {
   ts?: unknown;
 }
 
-interface ConvertKitResponse {
-  subscription?: { id: number };
-  error?: string;
+interface MailerLiteResponse {
+  data?: { id?: string; email?: string };
+  errors?: Record<string, string[]>;
   message?: string;
 }
 
@@ -46,7 +52,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Rate limit simple en memoria de la function instance. Cloudflare reinicia
 // la instance frecuentemente — esto NO es un rate limit serio, solo cubre
-// el caso obvio de doble-click o bot básico.
+// el caso obvio de doble-click o bot basico.
 const recentByIp = new Map<string, number>();
 const RATE_WINDOW_MS = 10_000;
 
@@ -61,32 +67,47 @@ function isValidEmail(value: unknown): value is string {
   return typeof value === 'string' && EMAIL_RE.test(value.trim()) && value.length < 320;
 }
 
-async function postToConvertKit(
+async function postToMailerLite(
   apiKey: string,
-  formId: string,
   email: string,
   name?: string,
+  groupId?: string,
+  source?: string,
 ): Promise<{ ok: boolean; status: number; detail?: string }> {
-  const url = `https://api.convertkit.com/v3/forms/${encodeURIComponent(formId)}/subscribe`;
-  const payload: Record<string, unknown> = {
-    api_key: apiKey,
-    email,
-  };
-  if (name) payload.first_name = name;
+  // MailerLite v2 (new API): POST /api/subscribers es upsert — crea o
+  // actualiza por email. Doc: developers.mailerlite.com/docs/subscribers
+  const url = 'https://connect.mailerlite.com/api/subscribers';
+  const payload: Record<string, unknown> = { email };
+  if (name) payload.fields = { name };
+  if (groupId) payload.groups = [groupId];
+  // Source custom field para attribution (compatible con segmentos por
+  // landing page futura).
+  if (source) {
+    payload.fields = { ...(payload.fields as object | undefined), source };
+  }
 
   try {
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
       body: JSON.stringify(payload),
     });
-    const data = (await res.json().catch(() => ({}))) as ConvertKitResponse;
+    const data = (await res.json().catch(() => ({}))) as MailerLiteResponse;
     if (!res.ok) {
-      return {
-        ok: false,
-        status: res.status,
-        detail: data.error ?? data.message ?? `HTTP ${res.status}`,
-      };
+      // MailerLite devuelve errors como { field: ["message"] } o message string.
+      let detail: string;
+      if (data.errors) {
+        detail = Object.entries(data.errors)
+          .map(([k, v]) => `${k}: ${(v ?? []).join(', ')}`)
+          .join(' | ');
+      } else {
+        detail = data.message ?? `HTTP ${res.status}`;
+      }
+      return { ok: false, status: res.status, detail };
     }
     return { ok: true, status: res.status };
   } catch (err) {
@@ -126,20 +147,26 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const name = typeof body.name === 'string' && body.name.trim().length > 0 ? body.name.trim().slice(0, 80) : undefined;
   const source = typeof body.source === 'string' ? body.source.slice(0, 80) : 'unknown';
 
-  // Setup mode: ConvertKit no configurado. Devolvemos OK; el cliente
+  // Setup mode: MailerLite no configurado. Devolvemos OK; el cliente
   // ya tiene fallback localStorage. No perdemos leads — solo no los
-  // automatizamos hasta que el operador active la integración.
-  if (!env.CONVERTKIT_API_KEY || !env.CONVERTKIT_FORM_ID) {
+  // automatizamos hasta que el operador active la integracion.
+  if (!env.MAILERLITE_API_KEY) {
     return jsonResponse({
       ok: true,
       mode: 'setup',
-      note: 'ConvertKit not configured yet; lead acknowledged client-side.',
+      note: 'MailerLite not configured yet; lead acknowledged client-side.',
       source,
     });
   }
 
-  // Production mode: POST a ConvertKit.
-  const result = await postToConvertKit(env.CONVERTKIT_API_KEY, env.CONVERTKIT_FORM_ID, email, name);
+  // Production mode: POST a MailerLite.
+  const result = await postToMailerLite(
+    env.MAILERLITE_API_KEY,
+    email,
+    name,
+    env.MAILERLITE_GROUP_ID,
+    source,
+  );
   if (!result.ok) {
     // 5xx para que el cliente caiga al fallback localStorage sin perder el lead.
     return jsonResponse(
@@ -147,7 +174,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       result.status >= 500 ? 502 : result.status,
     );
   }
-  return jsonResponse({ ok: true, mode: 'convertkit', source });
+  return jsonResponse({ ok: true, mode: 'mailerlite', source });
 };
 
 // Para que GET / OPTIONS no devuelvan 404 raro.

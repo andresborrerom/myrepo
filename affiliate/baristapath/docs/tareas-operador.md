@@ -111,20 +111,26 @@ deploys nuevos fallan.
    - a:  `affiliate/baristapath/site/dist`
 5. Save → trigger Retry Deployment del último build para verificar.
 
-### B6. ConvertKit free tier — activar email capture (≈10 min)
+### B6. MailerLite free tier — activar email capture (≈15 min)
 
 Lead magnet PDF + componente EmailSignup ya integrados (commit 0528ede).
-Mientras no actives ConvertKit, los leads viven en localStorage del
-visitor (no se pierden pero no llegan a vos).
+Mientras no actives MailerLite, los leads viven en localStorage del
+visitor (no se pierden pero no llegan a vos). Migrado de ConvertKit a
+MailerLite el 2026-05-24 — Kit movió incentive email a plan pago.
 
-1. Crear cuenta en kit.com (ex ConvertKit) free tier.
-2. Crear form → copiar `form_id`.
-3. Settings → Advanced → copiar `API key` (v3).
-4. Cloudflare Pages → tu proyecto → Settings → Environment Variables →
-   agregar `CONVERTKIT_API_KEY` y `CONVERTKIT_FORM_ID`.
-5. Trigger un redeploy para que la function las recoja.
-6. Test desde el browser: signup con email tuyo → verificar que llega a
-   ConvertKit dashboard.
+1. Crear cuenta en mailerlite.com (free tier hasta 500 subs, incluye
+   welcome email + automations).
+2. Verificar email + (opcional) crear Group "baristapath — espresso
+   setup guide" para segmentación futura.
+3. Configurar Welcome Email vía Automation con trigger "subscriber joins".
+4. Integraciones → MailerLite API → Generate token (nombre:
+   `baristapath-prod`, IPs: todas permitidas).
+5. Cloudflare Pages → proyecto → Settings → Variables and Secrets →
+   agregar `MAILERLITE_API_KEY` (Secret) y opcional `MAILERLITE_GROUP_ID`
+   (Text).
+6. Trigger un redeploy para que la function las recoja.
+7. Test desde el browser: signup con email tuyo → verificar que llega a
+   MailerLite Subscribers + welcome email con PDF.
 
 Detalle completo del flow y welcome email sequence en
 `affiliate/baristapath/docs/email-strategy.md`.
@@ -223,7 +229,7 @@ firma que te hizo la residencia.
 | **B3** | **Pinterest Trial → Standard request** | **5 min** | **Cuando Trial active** | **Pendiente** |
 | B4 | CF Web Analytics token | 5 min | Cuando puedas | Pendiente |
 | **B5** | **CF Pages actualizar build path (post-rename)** | **3 min** | **YA** | **Pendiente** |
-| **B6** | **ConvertKit free tier + env vars** | **10 min** | **Esta semana** | **Pendiente** |
+| **B6** | **MailerLite free tier + env vars** | **15 min** | **Esta semana** | **En progreso** |
 | **B7** | **Registrar `filamentpath.com`** | **10 min** | **Esta semana** | **Pendiente** |
 | B8 | Comprar Bambu A1 mini ($249) | 10 min | Cuando Claude te avise (~junio) | Pendiente |
 | C1 | Suscribir Keepa | 20 min | Inicio mes 2 (jul) | Futuro |
