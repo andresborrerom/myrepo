@@ -56,9 +56,9 @@ Léelo todo antes de empezar a escribir el curso:
   - Insider override silencioso
   - Respetar el formato visual
 - **`README.md`** — Estructura técnica del proyecto.
-- **`curso-claude-y-la-casa/02-momentos-clave.md`** — Lista de los puntos de inflexión específicos en la conversación.
-- **`curso-claude-y-la-casa/03-lecciones-tecnicas.md`** — Patrones técnicos que funcionaron, con código.
-- **`curso-claude-y-la-casa/04-lecciones-emocionales.md`** — Patrones de UX y narrativa.
+- **`curso-claude-y-la-casa/01-momentos-clave.md`** — Lista de los puntos de inflexión específicos en la conversación.
+- **`curso-claude-y-la-casa/02-lecciones-tecnicas.md`** — Patrones técnicos que funcionaron, con código.
+- **`curso-claude-y-la-casa/03-lecciones-emocionales.md`** — Patrones de UX y narrativa.
 - **`producto-regalo-generalizado.md`** — Visión de futuro del producto. Útil para el último módulo (¿y ahora qué?).
 
 También revisa el historial de **commits** del repo (`git log`) — cada mensaje de commit cuenta una micro-historia del proceso. Especialmente útiles los que dicen "fix:" o "refactor:" — esos son los aprendizajes.
