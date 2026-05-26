@@ -1,6 +1,6 @@
 # Progreso y tiempos estimados
 
-> **Última actualización:** 2026-05-13
+> **Última actualización:** 2026-05-26
 >
 > Esta es la fuente de verdad del timing del proyecto. Claude lee este
 > archivo al inicio de cada sesión y reporta al operador el estado
@@ -63,6 +63,33 @@
 - 📧 **Email capture + lead magnet** (commit 0528ede, 2026-05-24): `EmailSignup.astro` 3 variants integrado en footer/home/best-of/methodology + landing `/espresso-setup-guide` + PDF 12 págs (25 KB) + Cloudflare Pages Function `subscribe.ts` dual-mode (ConvertKit real si env vars, modo setup con localStorage fallback si no). 268 páginas, 9/9 tests. **Pendiente operador: activar ConvertKit free tier + agregar env vars** (10 min, doc en `email-strategy.md`).
 - 📋 **ADR 0005 — 2do vertical 3D printing aprobada** (2026-05-24): sub-decisiones operador → FDM-first / umbrella `affiliate/<slug>/` (no fork separado) / comprar Bambu A1 mini en junio cuando esqueleto del sitio esté listo (encaja con cumpleaños hijo).
 - 🏗️ **Refactor monorepo a umbrella `affiliate/`** (2026-05-24): `amazon-resale-project/` → `affiliate/baristapath/`, `courses-source/` promovido a `affiliate/courses-source/` (cross-niche), esqueleto `affiliate/filamentpath/meta.md` creado, `affiliate/CLAUDE.md` cross-niche protocols + `affiliate/SCAFFOLD.md` receta replicación. Workflow CI actualizado a nuevo path. Build verde 268 páginas. **Pendiente operador B5 (crítico): actualizar build path en CF Pages dashboard.**
+
+### Sprint 2026-05-25 — Infrastructure-ready: B5/B6/B7 cerrados + polish + schema fix
+
+- ✅ **B5 cerrado**: CF Pages build path corregido — root `affiliate/baristapath/site`, build command `npm run build`, output `dist`, NODE_VERSION=20 via env var + `.nvmrc` (commits `2e2ab1a`). Auto-deploy verde de la rama `claude/amazon-resale-project-t7o0P` (production branch correcta). **Descubrimiento incidental**: `master` es un proyecto distinto (cartas/family-tree); baristapath vive solo en la rama claude/. Flagged como technical debt para sprint futuro.
+- ✅ **B7 cerrado**: dominio `filamentpath.com` registrado en Cloudflare Registrar (~$10.44/año, auto-renew ON, WHOIS privacy ON). Listo para conectar a CF Pages cuando el scaffold del 2do nicho arranque.
+- ✅ **Bug fix CSS header** (commit `a343ffd`): selector `.primary-nav ul` no matcheaba el `<ul class="primary-nav">` real. Fix de 1 carácter. Header nav ahora horizontal sin bullets. Bug "siempre estuvo ahí" (pre-existente desde commit inicial).
+- ✅ **Bug fix link `best-grinder-under-300`** (commit `a343ffd`): página existía y se buildeaba, pero el home no la linkeaba desde "By price tier" Budget. Agregada como 4to link en Budget tier.
+- ✅ **Polish visual del home** (commit `5f84bf9`, basado en research del agente competitive-benchmark): trust strip cuantitativo (72 products / 45 buying guides / 55 terms / May 2026) + link a methodology, alternating section backgrounds (paper tone en Start here + Compare + Author strip, accent tint suave en starter guide lead magnet), nueva sección "Behind the reviews" con avatar de initials "AB" + bio + link a /about (E-E-A-T signal). Author.ts añadió campo opcional `image` para foto real cuando el operador la suba.
+- ✅ **Schema fix Google Search Console alerts** (commit `c9ecca0`): 2 emails de GSC reportando 8 issues estructurados (Merchant Listings + Product Snippets) por emitir `Product` con bloque `Offer` siendo affiliate, no merchant. Drop del `Offer` block en 6 templates (`products/[asin]`, `review/[slug]`, `best/[slug]`, `categories/[slug]`, `brands/[slug]`, `compare/[slug]`). Affiliate link sigue funcional en HTML (componente `AffiliateButton`). Nuevo archivo `affiliate/baristapath/ops/alerts-log.md` para tracking de alertas externas. **Pendiente operador**: marcar como resueltos en GSC y pedir re-validación (24-48h).
+- ✅ **B6 migrado a MailerLite** (commits `bbdb056` + `fa6c64a`): ConvertKit/Kit movió `incentive email` a planes pagos ~$29-49/mes — incompatible con etapa pre-revenue. Migrado a MailerLite free (500 subs / 12K emails / welcome automation incluido). Refactor `subscribe.ts` para usar endpoint v2 con Bearer token. Env vars: `MAILERLITE_API_KEY` (Secret), `MAILERLITE_GROUP_ID` (Text, opcional). Docs `email-strategy.md` + `tareas-operador.md` actualizadas. Bonus bug fix: form quedaba visible post-submit por `display:flex` venciendo a `[hidden]` HTML default — fix con `.email-signup [hidden] { display: none !important }`.
+- ✅ **Test end-to-end MailerLite**: subscriber `andres.borrerom+ml-test1@gmail.com` llegó a la lista en <10s, respuesta JSON `{"ok":true,"mode":"mailerlite",...}` confirmada en DevTools, success state renderizado con link al PDF.
+- 🧭 **Courses source poblado**: `affiliate/courses-source/coffee-affiliate-site/` con `meta.md` (per spec del README) + `interactions-log.md` retroactivo capturando 16 momentos pedagógicamente valiosos de las sesiones operador↔Claude. Base material para futuro curso "Build a Profitable Affiliate Site with Claude". **Convención**: cada sesión futura con decisiones/pivots genera entry nueva en caliente.
+
+### Cierre del sprint y estado real
+
+**Infraestructura técnica: ready.** Sitio en producción con todo lo necesario para capturar revenue. **Tráfico: cero.** **Analytics: ninguno configurado.** **Backlinks: cero.** **Reloj Amazon Associates 180-day: corriendo desde 2026-05-24, gate de 3 sales activo.**
+
+**Pendiente operador (post-sprint, no bloqueante para próxima sesión)**:
+1. Regenerar token MailerLite (el actual pasó por chat).
+2. Validar correcciones en Search Console (pedir re-validación en los 2 alerts del schema fix).
+3. Opcional: configurar welcome email automation en MailerLite (10 min, eleva UX pero el PDF ya se entrega inmediato al subscribir).
+
+**Próximo sprint focus**: **observability + first traffic**. Specifically:
+- Setup Cloudflare Web Analytics (15 min, gratis, privacy-first).
+- Submit sitemap a GSC + request indexing de URLs prioritarias.
+- Definir cadencia weekly review (Lunes: GSC + Associates + Analytics).
+- Estrategia inicial de backlinks honestos (Reddit aporte contextual, no spam).
 
 ### Próximo hito objetivo
 
@@ -160,3 +187,5 @@ Trabajo de agentes en cron de GitHub Actions corre 24/7 una vez activado.
 | 2026-05-17 | +8 glossary tier 2 pages (236 páginas) | crema, e61, opv, thermojet, specialty-grade, single-dosing, flat/conical-burr |
 | 2026-05-17 | Inline CTAs en product pages | OwnerHelp box: 41/64 product pages con how-to + troubleshoot relevantes, 23/64 skip correcto |
 | 2026-05-17 | +8 generic guides para brewers + accessories (244 páginas) | CTA coverage 41/64 → 64/64 (full). Anti-gray-hat: WDT > puck screen, técnica > hardware. |
+| 2026-05-25 | Sprint B5/B6/B7 + polish + schema fix cerrado | 7 commits: build path CF corregido, MailerLite migration (de ConvertKit), filamentpath.com registrado, CSS bug header + link grinder-300 + UI bug Sending stuck arreglados, trust strip + alternating bg + author byline implementados, Offer block removido de 6 templates (GSC alerts). Infra ready, pre-revenue. |
+| 2026-05-26 | Courses source poblado retroactivo | `coffee-affiliate-site/meta.md` + `interactions-log.md` con 16 entries pedagógicas capturando razonamientos clave de las 3 semanas de proyecto. Base material para futuro curso. Convención: ongoing capture de momentos clave por sesión. |
