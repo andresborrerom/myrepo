@@ -244,6 +244,14 @@
 
 ---
 
-## (Reservado para próximas sesiones)
+## 2026-05-26 — "¿Puedo comprar yo mismo via mi link para probar?" — y por qué NO
 
-A partir de aquí, cada sesión que produzca decisiones/pivots significativos genera nueva entry. Cadencia esperada: ~1-3 entries por sesión activa. Si una sesión es 100% mecánica (e.g. "agregamos 20 productos al catálogo siguiendo patrón ya validado"), NO genera entry — sólo las que enseñan algo nuevo.
+**Contexto**: el operador iba a comprar una impresora 3D (Bambu A1 mini, ~$249) para usar de material editorial en el 2do nicho. Pregunta lógica: "si entro a baristapath, click → Amazon, compro con mi usuario, ¿me cuenta como sale? Quiero validar que el engine funciona."
+
+**Decisión / acción**: rechazo categórico. Self-purchases (incluido familia, amigos, "for any other purpose") están explícitamente prohibidos en el Operating Agreement de Amazon Associates. Amazon los detecta automáticamente cruzando IP/payment method/shipping address/browser fingerprint. Penalty: cancelación inmediata + clawback de commissions + 60 días de ban. Propuesta alternativa: (a) click-test sin compra para validar routing del link + presencia del tag, (b) ver el click en Associates dashboard 24-48h después como confirmación, (c) comprar la impresora directo en amazon.com sin pasar por el sitio.
+
+**Razonamiento**: el instinto "lo pruebo yo mismo" es universal en operadores nuevos de afiliados y casi universalmente catastrófico. Amazon tiene incentivo perfecto para detectar self-purchases (fraude para ellos, pérdida directa). La intuición "si nadie se entera, no pasa nada" subestima la sofisticación del fraud detection de Amazon. Es UNA de las violaciones donde la cuenta se pierde más rápido — más rápido que reviews falsas o keyword stuffing, porque la evidencia está en los logs internos de Amazon mismos.
+
+**Resultado**: operador entendió y va a comprar la impresora directo. Click-test pendiente para próximo sprint cuando montemos observability.
+
+**Takeaway pedagógico**: clase específica en el curso sobre **anti-shortcut intuitions** en affiliate marketing. El estudiante va a sentir muchas veces que "esto sería fácil y rápido" (self-buy, comprarle a familia, redirigir vía link en ventas que iban a pasar igual). Cada uno de esos shortcuts tiene un mecanismo de detección y una penalty mayor que el shortcut gain. La intuición que hay que entrenar: **cuando algo se siente "obvious y rápido", probablemente sea una trampa con costo asimétrico** (upside chico, downside cuenta perdida). Validación legítima del engine: click test + paciencia para sales orgánicos. No hay sandbox de Amazon Associates.

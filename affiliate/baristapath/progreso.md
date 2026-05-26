@@ -97,8 +97,10 @@
 
 ### Bloqueadores activos
 
-- Validaciones de nicho pendientes del operador: #19 (comisión Kitchen, espera tener Associates), **#20 (volúmenes Ubersuggest, ≈30 min)**, **#21 (allintitle KGR, ≈15 min)**. Sin estas dos no escalamos contenido más allá del esqueleto actual.
+- **Pre-revenue real**: tracking infrastructure aún no configurada (próximo sprint). Sin Cloudflare Web Analytics ni cadencia de review semanal, no tenemos visibilidad de tráfico ni de comportamiento on-site. Crítico para validar SEO + conversion antes de mes 3.
+- **Amazon Associates 180-day clock**: corre desde 2026-05-24. Gate: 3 sales. Sin tracking + sin estrategia inicial de backlinks, riesgo real de no hitar el gate.
 - Pinterest Standard API: submitted, review humano 1-3 semanas. No bloquea construcción.
+- **Operador post-sprint pendientes** (low priority, no bloquean): regenerar token MailerLite, validar correcciones GSC en Search Console, opcional welcome email automation MailerLite.
 
 ---
 
@@ -126,8 +128,9 @@ reutilizando infra".
 
 | Bloque | Cuándo | Tiempo | Estado |
 |---|---|---|---|
-| A — esta semana | 2026-05-13 a 2026-05-20 | 75 min | Pendiente |
-| B — mes 1 | jun 2026 | 30 min | Futuro |
+| A — esta semana | 2026-05-13 a 2026-05-20 | 75 min | ✅ Completado (validaciones #20/#21 + Pinterest submitted) |
+| B — mes 1 | jun 2026 | 30 min | ✅ Completado (B5/B6/B7 cerrados en sprint 2026-05-25) |
+| B-extended — sprint observability | finales mayo / inicios junio | 30-45 min | ⏳ Próximo (CF Analytics + sitemap + cadencia) |
 | C — mes 2 | jul 2026 | 30 min | Futuro |
 | D — mes 3 | ago 2026 | 2-3 h | Futuro |
 | E — mes 4 | sep 2026 | 30 min | Futuro |
