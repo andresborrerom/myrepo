@@ -44,24 +44,24 @@ Te propongo (puedes ajustar) **7 módulos de 1-2 horas cada uno**, con una pista
 
 ---
 
-## Material fuente (en este mismo repo)
+## Material fuente (todo en esta misma carpeta — autocontenida)
 
-Léelo todo antes de empezar a escribir el curso:
+Léelo todo antes de empezar a escribir el curso, en este orden:
 
-- **`contexto.md`** — La historia familiar real. Personajes, lugares, cronología. (En el curso: anonimizado o reemplazado por una historia de ejemplo equivalente.)
-- **`errores-que-generaron-reproceso.md`** — Bitácora real de los bugs que generaron reproceso. **CRÍTICO** para el curso: estos son los casos de estudio del módulo 7. Categorías:
+- **`01-contexto.md`** — La historia familiar real. Personajes, lugares, cronología. (En el curso publicado: anonimizar o reemplazar por una historia de ejemplo equivalente.)
+- **`02-momentos-clave.md`** — Cronología emocional del proyecto en 10 fases.
+- **`03-lecciones-tecnicas.md`** — 10 patrones técnicos que funcionaron + 7 anti-patrones cometidos, con código.
+- **`04-lecciones-emocionales.md`** — 10 lecciones de UX y narrativa.
+- **`05-materiales-fuente.md`** — Índice de referencias: archivos clave del repo original, commits narrativos, recursos externos, capturas de pantalla a generar.
+- **`06-bugs-aprendizajes.md`** — Bitácora real de los bugs que generaron reproceso. **CRÍTICO** — es el caso de estudio del módulo 7. Categorías:
   - Lógica replicada en múltiples lugares
   - Overrides silenciosos
   - Modelo de "calendar reveal" vs "random reveal"
   - Insider override silencioso
   - Respetar el formato visual
-- **`README.md`** — Estructura técnica del proyecto.
-- **`curso-claude-y-la-casa/01-momentos-clave.md`** — Lista de los puntos de inflexión específicos en la conversación.
-- **`curso-claude-y-la-casa/02-lecciones-tecnicas.md`** — Patrones técnicos que funcionaron, con código.
-- **`curso-claude-y-la-casa/03-lecciones-emocionales.md`** — Patrones de UX y narrativa.
-- **`producto-regalo-generalizado.md`** — Visión de futuro del producto. Útil para el último módulo (¿y ahora qué?).
+- **`07-vision-producto.md`** — Plan de productizar este regalo como SaaS. Útil para el último módulo del curso ("¿y ahora qué?").
 
-También revisa el historial de **commits** del repo (`git log`) — cada mensaje de commit cuenta una micro-historia del proceso. Especialmente útiles los que dicen "fix:" o "refactor:" — esos son los aprendizajes.
+Si tienes acceso al **repo original** del proyecto, `05-materiales-fuente.md` te indica qué archivos del código mirar. Si no tienes acceso, esta carpeta tiene todo lo conceptual que necesitas.
 
 ---
 
