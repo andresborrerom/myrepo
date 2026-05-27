@@ -28,16 +28,29 @@ Construir un activo de revenue pasivo basado en SEO programático + Amazon Assoc
 
 ## Lo que querés que el curso ENSEÑE
 
-**El curso NO enseña "cómo escribir 268 páginas sobre café". Enseña el meta-proceso:**
+**El curso NO enseña "cómo escribir 268 páginas sobre café". Enseña el meta-proceso para construir un activo afiliado defensible usando AI como co-pilot.**
 
-1. **Cómo elegir nicho con data (no con corazonadas)**: KGR validation, allintitle, Ubersuggest, design benchmark research. Threshold-based decision making.
-2. **Cómo trabajar con AI como co-pilot**, no como subcontratista barato: protocolo "Claude recomienda, operador decide" para no perder agency. Cuándo delegar a agentes vs cuándo decidir vos.
-3. **Anti-gray-hat como ventaja competitiva, no restricción**: el principio de "honest restraint" (no fake reviews, no hot-link de Amazon, no inventar credenciales) baja la velocidad short-term pero construye marca defensible.
-4. **Infraestructura mínima viable**: Astro + Cloudflare Pages + Amazon Associates + email provider gratis. Stack que escala a 0-$1,000/mes sin migrar nada.
-5. **Cuándo abstraer vs cuándo duplicar**: la decisión "no creamos componente compartido hasta 3 nichos sufran la duplicación" — pattern crítico para no over-engineer.
-6. **Pivots como herramienta, no fracaso**: la migración ConvertKit→MailerLite mid-sprint cuando el primer provider movió features a pago. Cómo decidir y ejecutar un pivot sin perder velocidad.
-7. **Estructura editorial sin background editorial**: byline real, methodology page transparente, scoring honesto. Cómo proyectar autoridad cuando no la tenés todavía.
-8. **El reloj de Amazon Associates (3 sales / 180 días)**: el gate REAL del negocio. Cómo trackearlo y qué hacer cuando estás 60 días en y sin sales.
+### Estructura propuesta — 7 capítulos
+
+La estructura del curso emerge directamente de los 7 capítulos temáticos identificados en `interactions-log.md`. Cada capítulo contiene 1-7 entries de interacciones reales operador↔Claude que sirven como casos de estudio.
+
+1. **Capítulo 1 — Elegir nicho con data (no con corazonadas)**: KGR validation, allintitle, Ubersuggest, design benchmark research. Threshold-based decision making. El ejercicio inicial del curso: probar que el nicho preferido del estudiante NO es necesariamente el mejor.
+
+2. **Capítulo 2 — Stack técnico mínimo viable**: Astro + Cloudflare Pages + Cloudflare Registrar at-cost. Por qué NO WordPress (a menos que vos seas no-técnico — entonces versión paralela). Filosofía at-cost desde la primera compra como alineación con el modelo.
+
+3. **Capítulo 3 — Construir confianza editorial sin background editorial**: design benchmark via agentes, robots.txt FLIPPED solo cuando hay masa crítica + señales de E-E-A-T, polish visual basado en diagnóstico (no en síntomas), byline real con foto + methodology transparente.
+
+4. **Capítulo 4 — Anti-gray-hat como ventaja competitiva**: no self-purchase (ban automático), no fake reviews, no hot-linking de Amazon, schema honesty (somos affiliate, no merchant). El principio de "honest restraint" como marca defensible.
+
+5. **Capítulo 5 — Activos pre-revenue (Associates, email, audiencia)**: Amazon Associates 180-day clock, lead magnet con email capture, pivots de proveedor cuando free tier cambia (ConvertKit → MailerLite). Construir activos cuando no hay revenue todavía.
+
+6. **Capítulo 6 — Mantenimiento y seguimiento (sugerido por el operador)**: el cap más denso. Observability (CF Web Analytics + GSC + Amazon Associates dashboard + MailerLite), weekly review cadence con template, thresholds calibrados, secrets hygiene, multi-device validation, technical debt accounting. **El gap entre "infraestructura ready" y "revenue arriving" suele ser meses — este capítulo enseña qué hacer en ese gap sin perder dirección.**
+
+7. **Capítulo 7 — Escalado y replicación**: cuándo abstraer vs cuándo duplicar (regla de los 3 nichos), monorepo affiliate/, SCAFFOLD cross-niche, replicación de patterns validados, courses business como meta-vehicle.
+
+### Cómo se vinculan capítulos a entries del log
+
+Cada entry en `interactions-log.md` está mapeada al capítulo correspondiente (ver "Índice por capítulos del curso" al final del log). El agente generador de cursos (`courses-source/AGENT_PROMPT.md`) usa este mapeo para producir el material de cada lección con casos reales.
 
 ## Lo que NO querés que se duplique
 

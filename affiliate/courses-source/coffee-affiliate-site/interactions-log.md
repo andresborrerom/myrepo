@@ -17,6 +17,8 @@
 > ```
 >
 > Las entries marcadas (retroactiva) se reconstruyeron después del hecho desde commits + ADRs + memoria de las sesiones. A partir de 2026-05-25, las entries se van escribiendo en caliente al final de cada sesión clave.
+>
+> **Mapeo a capítulos del curso**: cada entry pertenece a uno de 7 capítulos temáticos (ver índice al final del archivo). El agente generador del curso (`courses-source/AGENT_PROMPT.md`) usa ese mapeo para organizar las lecciones. Cuando se agrega una entry nueva, anotarla en el índice del final.
 
 ---
 
@@ -255,3 +257,72 @@
 **Resultado**: operador entendió y va a comprar la impresora directo. Click-test pendiente para próximo sprint cuando montemos observability.
 
 **Takeaway pedagógico**: clase específica en el curso sobre **anti-shortcut intuitions** en affiliate marketing. El estudiante va a sentir muchas veces que "esto sería fácil y rápido" (self-buy, comprarle a familia, redirigir vía link en ventas que iban a pasar igual). Cada uno de esos shortcuts tiene un mecanismo de detección y una penalty mayor que el shortcut gain. La intuición que hay que entrenar: **cuando algo se siente "obvious y rápido", probablemente sea una trampa con costo asimétrico** (upside chico, downside cuenta perdida). Validación legítima del engine: click test + paciencia para sales orgánicos. No hay sandbox de Amazon Associates.
+
+---
+
+## 2026-05-26 — Verificación del affiliate engine en mobile: iOS deeplink al Amazon app
+
+**Contexto**: post-setup del Amazon Associates tag real, operador intenta hacer el click-test legítimo (click en AffiliateButton → ver URL destino con tag). En desktop esto es trivial: la URL se ve en la barra del navegador. En mobile (iOS), el tap a un link a `amazon.com` se intercepta por Universal Links y abre la app de Amazon nativa — el navegador nunca llega a mostrar la URL.
+
+**Decisión / acción**: explicación del comportamiento (no es bug, es feature de iOS) + propuesta de método alternativo: **long-press del link** en lugar de tap normal. iOS muestra la URL de destino en un popup ANTES de abrir nada, permitiendo validar el tag visualmente sin disparar la app. Confirmación canónica adicional: el click queda registrado en Amazon Associates dashboard 24-48h después independientemente del medium (browser web o app nativa).
+
+**Razonamiento**: Universal Links es un protocolo de Apple que preserva query parameters al pasar el URL a la app destino. Amazon honra el `tag` en su app igual que en web. Entonces el click "probablemente sí se contó" — pero el operador necesitaba **visibilidad** del tag para tener confianza en la validación. Esa visibilidad la da el long-press, no el tap. El insight clave: en affiliate marketing, "verificar funcionamiento" en mobile requiere flujos distintos a desktop — los app deeplinks oscurecen los detalles que desktop expone naturalmente.
+
+**Resultado**: operador validó via long-press que la URL incluye `?tag=baristapath79-20`. Confirmation definitiva pending en Associates dashboard 24-48h.
+
+**Takeaway pedagógico**: clase sobre **multi-device validation** en affiliate marketing. El estudiante va a buildear todo en desktop, va a testear en desktop, va a creer que funciona. Después un usuario móvil va a venir, va a abrir el link, y va a aterrizar en la app (~70% del tráfico mobile en USA tiene la Amazon app instalada). Hay que probar el flujo COMPLETO en mobile incluyendo deeplink behavior. Y para verificar tag preservation sin loguear sales reales: long-press en iOS, "show link" en Android, o tap regular con DevTools mobile emulation en desktop. Esta es una técnica de QA específica del nicho que casi ningún curso de affiliate enseña.
+
+---
+
+## Índice por capítulos del curso
+
+> Sugerencia del operador (2026-05-26): agrupar las entries por temática para que el material del curso tenga estructura clara. Cada capítulo es una unidad pedagógica. Las entries de una misma fecha se distribuyen por capítulo según el lesson principal, no por cronología.
+
+### Capítulo 1 — Elegir nicho con data (no con corazonadas)
+
+- 2026-05-13 — Decisión inicial del nicho: por qué coffee equipment
+- 2026-05-14 — KGR validation antes de escalar contenido
+
+### Capítulo 2 — Stack técnico mínimo viable
+
+- 2026-05-13 — Stack técnico: por qué Astro + Cloudflare Pages, no WordPress
+- 2026-05-14 — Dominio: Cloudflare Registrar over GoDaddy/Namecheap
+
+### Capítulo 3 — Construir confianza editorial sin background editorial
+
+- 2026-05-15 — Design benchmark research ANTES de rediseño UX
+- 2026-05-17 — robots.txt FLIPPED a Allow: el momento "soft launch"
+- 2026-05-25 — Polish visual: agente para diagnosticar "se ve pobre"
+
+### Capítulo 4 — Anti-gray-hat como ventaja competitiva
+
+- 2026-05-25 — GSC alerts: somos affiliate, no merchant
+- 2026-05-26 — "¿Puedo comprar yo mismo via mi link para probar?" — y por qué NO
+
+### Capítulo 5 — Activos pre-revenue (Associates, email, audiencia)
+
+- 2026-05-24 — Amazon Associates conditional approval + el reloj de 180 días
+- 2026-05-25 — Pivot mid-sprint: ConvertKit → MailerLite
+
+### Capítulo 6 — Mantenimiento y seguimiento (sugerencia del operador)
+
+- 2026-05-25 — Sprint: descubrimiento accidental de que master es otro proyecto (technical debt accounting)
+- 2026-05-25 — Bug CSS: el selector que nunca matcheaba (audit visual cross-templates)
+- 2026-05-25 — MailerLite friction: mobile UI vs desktop UI (cuándo cambiar de medium)
+- 2026-05-25 — Seguridad: el token que pasó por chat (secrets hygiene + regenerar post-exposure)
+- 2026-05-25 — Pregunta meta del operador: "estamos para revenue?" (honestidad post-sprint)
+- 2026-05-26 — Verificación del affiliate engine en mobile: iOS deeplink al Amazon app (multi-device QA)
+- *Pendientes para próximas entries de este capítulo*: weekly review template + cadencia + thresholds, sprint observability como secuencia (CF Analytics + GSC sitemap + click test), interpretación de Core Web Vitals con muestra chica, GSC "Descubierta pero sin indexar" como estado normal de sitio joven.
+
+### Capítulo 7 — Escalado y replicación (cuándo abstraer vs duplicar)
+
+- 2026-05-24 — Refactor a monorepo `affiliate/` cuando aparece 2do nicho (regla de los 3)
+
+---
+
+## Convenciones para entries futuras
+
+1. Cada entry nueva se escribe al final del listado cronológico (NO en la sección de capítulos).
+2. Al final de cada entry, agregar línea: `**Capítulo del curso**: N — <nombre>`.
+3. Replicar el entry en el índice del capítulo correspondiente (link al título).
+4. Si una entry no encaja en ningún capítulo existente, proponer capítulo nuevo al final.
