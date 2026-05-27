@@ -1,0 +1,10 @@
+# robots.txt — INDEXING ENABLED (filamentpath bootstrap 2026-05-26)
+# Sitio public-indexable desde el inicio (decisión cross-portfolio).
+#
+# Si querés re-bloquear (rare — emergency content audit): reemplazar
+# "Allow: /" con "Disallow: /".
+
+User-agent: *
+Allow: /
+
+Sitemap: https://filamentpath.com/sitemap-index.xml

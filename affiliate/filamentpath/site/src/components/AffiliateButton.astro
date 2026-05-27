@@ -1,0 +1,51 @@
+---
+// Affiliate CTA button — reemplaza los anchors pelados que apuntaban directo
+// a amazon.com/dp/<asin>. Centraliza:
+//   - Construcción del URL con el tag de Associates (placeholder hasta aprobación).
+//   - Markup accesible (focus visible, contrast AA, rel="sponsored nofollow noopener").
+//   - Disclosure inline pequeña debajo del botón (transparencia FTC + Amazon ToS).
+//
+// Anti-gray-hat: el disclosure es visible junto al botón, no oculto en el footer.
+
+interface Props {
+  asin: string;
+  /** Optional product name — used to provide context in the aria-label. */
+  productName?: string;
+  /** Optional custom copy. Defaults to "Check price on Amazon". */
+  label?: string;
+  /** Primary = solid accent red/orange; secondary = outlined. */
+  variant?: 'primary' | 'secondary';
+}
+
+const {
+  asin,
+  productName,
+  label = 'Check price on Amazon',
+  variant = 'primary',
+} = Astro.props as Props;
+
+// Associates tag placeholder — replaced site-wide once the Associates account
+// is approved. Kept centralised here so we update one file, not many.
+// `filamentpath-20` is a PLACEHOLDER. Operador may decide to (a) request a
+// separate Associates tag for filamentpath or (b) reuse the existing
+// `baristapath79-20`. Update this constant accordingly when the decision is made.
+const associatesTag = 'filamentpath-20';
+const href = `https://amazon.com/dp/${asin}?tag=${associatesTag}`;
+
+const ariaLabel = productName
+  ? `${label}: ${productName} (opens Amazon in a new tab)`
+  : `${label} (opens Amazon in a new tab)`;
+---
+<span class={`affiliate-button-wrap affiliate-button-wrap--${variant}`}>
+  <a
+    class={`affiliate-button affiliate-button--${variant}`}
+    href={href}
+    rel="sponsored nofollow noopener"
+    target="_blank"
+    aria-label={ariaLabel}
+  >
+    {label}
+    <span class="affiliate-button__icon" aria-hidden="true">↗</span>
+  </a>
+  <span class="affiliate-button__disclosure">Affiliate link &middot; <a href="/about/#disclosure">disclosure</a></span>
+</span>

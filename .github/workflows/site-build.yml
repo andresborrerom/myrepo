@@ -7,29 +7,37 @@ on:
       - main
     paths:
       - 'affiliate/baristapath/site/**'
+      - 'affiliate/filamentpath/site/**'
       - '.github/workflows/site-build.yml'
   pull_request:
     paths:
       - 'affiliate/baristapath/site/**'
+      - 'affiliate/filamentpath/site/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        site:
+          - baristapath
+          - filamentpath
     defaults:
       run:
-        working-directory: affiliate/baristapath/site
+        working-directory: affiliate/${{ matrix.site }}/site
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: affiliate/baristapath/site/package-lock.json
+          cache-dependency-path: affiliate/${{ matrix.site }}/site/package-lock.json
       - run: npm ci
       - run: npm test
       - run: npm run build
       - uses: actions/upload-artifact@v4
         with:
-          name: site-dist
-          path: affiliate/baristapath/site/dist
+          name: site-dist-${{ matrix.site }}
+          path: affiliate/${{ matrix.site }}/site/dist
           retention-days: 7

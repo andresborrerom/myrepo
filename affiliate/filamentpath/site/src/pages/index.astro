@@ -1,0 +1,177 @@
+---
+// Home page — versión MVP (Sub-sprint 1).
+//
+// Estructura mínima necesaria para validar el scaffold:
+//   1. Hero con copy específico del nicho.
+//   2. Latest reviews grid (orden por updated_at desc).
+//   3. Methodology banner.
+//
+// Best/compare/quiz/tools NO existen todavía — se generan en Sub-sprint 3
+// después de KGR validations verdes. Si esos pages volvieran a aparecer,
+// agregar links desde acá.
+//
+// Anti-gray-hat: tono editorial, sin landing agresiva. Affiliate buttons
+// no aparecen en home — el usuario los encuentra en product pages.
+
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { author } from '../data/author';
+
+const all = await getCollection('products');
+
+const authorInitials = author.name
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((s) => s[0]?.toUpperCase() ?? '')
+  .join('');
+
+// Latest reviews: top 6 por updated_at desc.
+const sortedByUpdated = [...all].sort(
+  (a, b) => b.data.updated_at.getTime() - a.data.updated_at.getTime()
+);
+const latest = sortedByUpdated.slice(0, 6);
+
+// Helper para badges de tier en cards.
+const tierLabel: Record<string, string> = {
+  budget: 'Budget',
+  mid: 'Mid',
+  premium: 'Premium',
+  pro: 'Pro',
+};
+
+// ---------- Schema markup ----------
+const siteUrl = 'https://filamentpath.com';
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'FilamentPath',
+  url: siteUrl + '/',
+  description:
+    'Independent, data-driven reviews of FDM 3D printers, filaments, and accessories.',
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'FilamentPath',
+  url: siteUrl + '/',
+  description:
+    'Editorial site reviewing FDM 3D printing equipment with a documented, repeatable methodology.',
+};
+
+const latestItemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Latest reviews',
+  itemListElement: latest.map((p, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    url: `${siteUrl}/products/${p.data.asin}/`,
+    name: p.data.name,
+  })),
+};
+
+const jsonLd = [websiteSchema, organizationSchema, latestItemListSchema];
+
+// Counts para el trust strip — son cuentas reales del build, no claims.
+const productsCount = all.length;
+const printersCount = all.filter((p) => p.data.type === 'printer').length;
+const filamentsCount = all.filter((p) => p.data.type === 'filament').length;
+const accessoriesCount = all.filter((p) => p.data.type === 'accessory').length;
+---
+<Base
+  title="FilamentPath — Honest, Data-Driven 3D Printing Equipment Reviews"
+  description="Independent reviews and comparisons of FDM 3D printers, filaments, and accessories. Specs, pros, cons, and a documented methodology — no paid placements, no sponsored picks."
+  jsonLd={jsonLd}
+  showByline={false}
+>
+  {/* ---------- 1. Hero ---------- */}
+  <section class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">3D printing equipment, compared on data.</h1>
+      <p class="hero__lead">
+        Independent reviews of FDM printers, filaments, and accessories.
+        No paid placements, no sponsored picks &mdash; just specs, a documented methodology,
+        and a clear answer to "should I buy this?"
+      </p>
+    </div>
+  </section>
+
+  {/* ---------- 1b. Trust strip (cuantitativo, no claims) ---------- */}
+  <section class="trust-strip" aria-label="Site coverage at a glance">
+    <ul class="trust-strip__list">
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">{printersCount}</span>
+        <span class="trust-strip__label">printers reviewed</span>
+      </li>
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">{filamentsCount}</span>
+        <span class="trust-strip__label">filaments reviewed</span>
+      </li>
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">{accessoriesCount}</span>
+        <span class="trust-strip__label">accessories reviewed</span>
+      </li>
+      <li class="trust-strip__item">
+        <span class="trust-strip__number">{productsCount}</span>
+        <span class="trust-strip__label">products total</span>
+      </li>
+    </ul>
+    <p class="trust-strip__methodology">
+      <a href="/methodology/">Read the review methodology &rarr;</a>
+    </p>
+  </section>
+
+  {/* ---------- 2. Latest reviews ---------- */}
+  <section class="section" aria-labelledby="latest-heading">
+    <h2 id="latest-heading">Latest reviews</h2>
+    <p class="muted section__intro">Recently updated product pages.</p>
+    <ul class="latest-reviews-grid">
+      {latest.map((p) => (
+        <li class="review-card">
+          <a class="review-card__link" href={`/products/${p.data.asin}/`}>
+            <p class="review-card__brand">{p.data.brand}</p>
+            <h3 class="review-card__name">{p.data.name}</h3>
+            <p class="review-card__meta">
+              <span class={`tier-badge tier-badge--${p.data.price_tier}`}>
+                {tierLabel[p.data.price_tier] ?? p.data.price_tier}
+              </span>
+              <span class="review-card__price">${p.data.price}</span>
+            </p>
+            <span class="review-card__cta">Read review &rarr;</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {/* ---------- 3. Behind the reviews (E-E-A-T) ---------- */}
+  <section class="section section--bg-paper author-strip" aria-labelledby="author-heading">
+    <h2 id="author-heading" class="visually-hidden">Behind the reviews</h2>
+    <div class="author-strip__inner">
+      {author.image ? (
+        <img class="author-strip__photo" src={author.image} alt={author.name} width="96" height="96" loading="lazy" />
+      ) : (
+        <span class="author-strip__avatar" aria-hidden="true">{authorInitials}</span>
+      )}
+      <div class="author-strip__text">
+        <p class="author-strip__eyebrow">Behind the reviews</p>
+        <p class="author-strip__name"><strong>{author.name}</strong> &middot; {author.role}</p>
+        <p class="author-strip__bio">{author.bio}</p>
+        <p class="author-strip__link"><a href={author.url}>About this site &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+
+  {/* ---------- 4. Methodology banner ---------- */}
+  <aside class="methodology-banner-home">
+    <p>
+      <strong>How we review.</strong> Every recommendation follows a documented review
+      process: specs from manufacturer datasheets, structured pros/cons, and
+      same-criteria comparisons across the full catalog.
+    </p>
+    <a class="methodology-banner-home__cta" href="/methodology/">Read our methodology &rarr;</a>
+  </aside>
+</Base>

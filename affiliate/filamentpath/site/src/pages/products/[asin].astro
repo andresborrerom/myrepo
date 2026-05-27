@@ -1,0 +1,188 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { relatedForProduct } from '../../lib/related-content';
+import AffiliateButton from '../../components/AffiliateButton.astro';
+import Byline from '../../components/Byline.astro';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { asin: product.data.asin },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { data, body } = product;
+const { Content } = await product.render();
+const related = await relatedForProduct(data.asin);
+
+// Amazon Associates tag placeholder — replace `filamentpath-20` once the
+// Associates account is approved and the production tag is provided.
+// Centralised in AffiliateButton.astro; here we only mention it for context.
+
+// Product schema sin Offer — somos affiliate, no merchant.
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: data.name,
+  brand: { '@type': 'Brand', name: data.brand },
+  description: body.split('\n').filter(Boolean).slice(0, 2).join(' ').slice(0, 500),
+  sku: data.asin,
+};
+
+// Type label maps to human-readable copy for headings/FAQ.
+const typeLabel: Record<string, string> = {
+  printer: '3D printer',
+  filament: 'filament',
+  accessory: 'accessory',
+};
+const typeWord = typeLabel[data.type] ?? data.type;
+
+// FAQ generated from product data — focused, useful, not filler.
+const faq = [
+  {
+    q: `Who is the ${data.name} best for?`,
+    a: `The ${data.name} is best suited for ${data.best_for.slice(0, 3).join(', ')}.${
+      data.tags.length ? ` Tags: ${data.tags.join(', ')}.` : ''
+    }`,
+  },
+  {
+    q: `How much does the ${data.name} cost?`,
+    a: `The ${data.name} retails around $${data.price} USD, placing it in the ${data.price_tier} tier for ${typeWord}s.`,
+  },
+  {
+    q: `What are the main downsides of the ${data.name}?`,
+    a: data.cons.join(' '),
+  },
+  {
+    q: `What is the ASIN for the ${data.name}?`,
+    a: `The Amazon ASIN is ${data.asin}. Verify current pricing and availability on Amazon directly.`,
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+
+const description = `${data.name} review: specs, pros, cons, and who should buy it. ${data.brand} ${typeWord} priced at $${data.price}.`;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Products', url: '/' },
+  { name: data.name, url: `/products/${data.asin}/` },
+];
+
+// Render the features object as a flat spec table. Each product type carries
+// a different shape (printer vs filament vs accessory); we just iterate over
+// whatever keys are present.
+type FeatureValue = string | number | boolean | string[];
+const featureEntries: Array<[string, FeatureValue]> = Object.entries(
+  data.features as Record<string, FeatureValue>,
+);
+---
+<Base
+  title={`${data.name} Review — Specs, Pros & Cons`}
+  description={description}
+  ogType="product"
+  ogImage={data.image_url}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[productSchema, faqSchema]}
+  updatedAt={data.updated_at}
+>
+  <article>
+    <h1>{data.name}</h1>
+    <Byline updatedAt={data.updated_at} />
+    <p class="lead">
+      {data.brand} {typeWord} &middot; <strong class="price">${data.price}</strong> &middot;
+      <span class="muted">{data.price_tier} tier</span>
+    </p>
+
+    <ul class="tag-list" aria-label="Tags">
+      {data.tags.map((tag: string) => <li>{tag}</li>)}
+    </ul>
+
+    <p>
+      <AffiliateButton asin={data.asin} productName={data.name} />
+    </p>
+
+    <section class="section">
+      <h2>Overview</h2>
+      <Content />
+    </section>
+
+    <section class="section pros-cons">
+      <div class="pros">
+        <h4>Pros</h4>
+        <ul>
+          {data.pros.map((item: string) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="cons">
+        <h4>Cons</h4>
+        <ul>
+          {data.cons.map((item: string) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Specifications</h2>
+      <table class="specs-table">
+        <tbody>
+          <tr><th>Brand</th><td>{data.brand}</td></tr>
+          <tr><th>Type</th><td>{typeWord}</td></tr>
+          <tr><th>Price (USD)</th><td>${data.price}</td></tr>
+          <tr><th>Price tier</th><td>{data.price_tier}</td></tr>
+          {featureEntries.map(([key, value]) => (
+            <tr>
+              <th>{key.replace(/_/g, ' ')}</th>
+              <td>{Array.isArray(value) ? value.join(', ') : String(value)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    {data.best_for.length > 0 && (
+      <section class="section">
+        <h2>Best for</h2>
+        <ul>
+          {data.best_for.map((item: string) => <li>{item}</li>)}
+        </ul>
+      </section>
+    )}
+
+    <section class="section faq">
+      <h2>Frequently Asked Questions</h2>
+      {faq.map((item) => (
+        <details>
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </section>
+
+    <p class="muted">Last updated: {data.updated_at.toISOString().slice(0, 10)}</p>
+
+    {related.length > 0 && (
+      <section class="section related-content" aria-labelledby="related-heading">
+        <h2 id="related-heading">Related products</h2>
+        <ul>
+          {related.map((link) => (
+            <li class={`related-link related-link--${link.kind}`}>
+              <a href={link.href}>{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Base>

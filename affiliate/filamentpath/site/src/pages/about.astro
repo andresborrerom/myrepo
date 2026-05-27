@@ -1,0 +1,139 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="About"
+  description="About FilamentPath: independent, data-driven reviews of FDM 3D printing equipment. Who runs it and how it's funded."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'About', url: '/about/' },
+  ]}
+  showByline={false}
+>
+  <article class="legal-page">
+    <h1 id="about">About</h1>
+
+    <p class="lead">
+      FilamentPath helps readers choose better 3D printing equipment by
+      comparing real specifications, prices, and use cases across FDM
+      printers, filaments, and accessories. Less hype, more numbers.
+    </p>
+
+    <h2>What this site is</h2>
+    <p>
+      An independent reviews and comparison site for FDM (fused
+      deposition modeling) 3D printing equipment. Every product page is
+      built from verifiable specifications, not generic opinion. The
+      question we try to answer is straightforward:
+      <em>which printer (or filament, or accessory) fits your specific
+      use case at your specific budget?</em>
+    </p>
+
+    <h2>How we make money</h2>
+    <p>
+      We earn affiliate commission when readers buy through product
+      links. As an Amazon Associate, we earn from qualifying purchases.
+      Affiliate revenue funds the site and keeps it free of paid
+      advertising. We do not accept payment from manufacturers in
+      exchange for coverage, and we do not accept free units in
+      exchange for rankings.
+    </p>
+
+    <h2 id="disclosure">Affiliate disclosure</h2>
+    <p>
+      Many product links on FilamentPath are affiliate links. If you
+      click such a link and make a qualifying purchase, we may earn a
+      small commission at no additional cost to you. As an Amazon
+      Associate, we earn from qualifying purchases. Where direct
+      manufacturer programs apply (e.g. Bambu Lab, Creality, Anycubic),
+      we disclose them on each affected page.
+    </p>
+
+    <h2>Editorial approach</h2>
+    <p>
+      Our recommendations are anchored in three things:
+    </p>
+    <ul>
+      <li>
+        <strong>Verifiable specifications.</strong> Build volume, layer
+        height range, max bed and nozzle temperature, compatible
+        materials, hotend design, auto-leveling system, footprint &mdash;
+        publicly documented attributes we can compare side by side.
+      </li>
+      <li>
+        <strong>Use-case fit.</strong> The "best" printer depends on
+        whether you're printing PLA minis, functional PETG parts, or
+        flexible TPU; whether you need an enclosure for ABS; whether
+        you'll print one part a week or run a small farm. Content is
+        organised around those decisions.
+      </li>
+      <li>
+        <strong>Price tier transparency.</strong> Products are bucketed
+        by price (budget, mid, premium, pro). Comparisons happen within
+        tiers; we don't pretend a $250 printer competes with a $700 one
+        &mdash; though we will tell you when the difference doesn't
+        matter for your use case.
+      </li>
+    </ul>
+
+    <h2>What we don't do</h2>
+    <ul>
+      <li>We don't post fake reviews.</li>
+      <li>We don't accept payment in exchange for ranking position.</li>
+      <li>We don't recommend products outside the budget you indicated.</li>
+      <li>We don't simulate hands-on testing for products we haven't actually used; comparative analysis is clearly labeled as such.</li>
+    </ul>
+
+    <h2>Who runs it</h2>
+    <p>
+      FilamentPath is run by a single editor &mdash; a Colombian data
+      scientist relocated abroad &mdash; who runs an FDM 3D printer at
+      home as a maker hobbyist. The data-science background informs how
+      product pages are structured: structured specs, documented
+      methodology, and a clear separation between what we know
+      (verifiable facts) and what we infer (aggregate user reports).
+    </p>
+
+    <h2>FDM-first, resin later</h2>
+    <p>
+      Initial coverage focuses on FDM (filament) printers, filaments,
+      and FDM accessories. Resin (SLA / MSLA) coverage will open later
+      and will include explicit safety and ventilation guidance &mdash;
+      uncured resin is irritant and the workflow differs from FDM in
+      important ways.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Reach us at <a href="mailto:hello@filamentpath.com">hello@filamentpath.com</a>.
+      <em>(Email forwarding will be configured shortly after launch.)</em>
+    </p>
+  </article>
+</Base>
+
+<style>
+  .legal-page {
+    max-width: 720px;
+    margin: 2rem auto 4rem;
+    line-height: 1.7;
+  }
+  .legal-page h1 {
+    margin-bottom: 0.5rem;
+  }
+  .legal-page .lead {
+    font-size: 1.1rem;
+    color: #444;
+    margin-top: 0;
+  }
+  .legal-page h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-page ul {
+    padding-left: 1.25rem;
+  }
+  .legal-page li {
+    margin-bottom: 0.5rem;
+  }
+</style>

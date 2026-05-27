@@ -1,0 +1,187 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="How we review 3D printing equipment"
+  description="Our methodology: data-driven specifications analysis, transparent affiliate funding, no paid placements. How FilamentPath builds product recommendations."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Methodology', url: '/methodology/' },
+  ]}
+  showByline={false}
+>
+  <article class="legal-page">
+    <h1>How we review 3D printing equipment</h1>
+
+    <p class="lead">
+      A short, honest explanation of how the content on FilamentPath is built &mdash;
+      what we evaluate, what we don't, and where the limitations are.
+    </p>
+
+    <h2>Editorial principles</h2>
+
+    <p>
+      Recommendations on this site lean on three sources, in order of weight:
+    </p>
+
+    <ol>
+      <li>
+        <strong>Manufacturer specifications and datasheets.</strong>
+        Build volume, layer height range, max print speed, bed and nozzle
+        temperature limits, hotend and extruder design, compatible
+        materials, dimensions, weight, warranty. We collect these from
+        official product pages and verify across at least two sources
+        when something looks inconsistent.
+      </li>
+      <li>
+        <strong>Aggregate user reports.</strong> Long-running threads on
+        Reddit (r/3Dprinting, r/BambuLab, r/PrusaSlicer, r/FixMyPrint),
+        forum threads on All3DP, and verified-purchase reviews on
+        Amazon. Threads with technical specifics and reproducible
+        failure modes weigh more than short opinion posts.
+      </li>
+      <li>
+        <strong>Reviewer consensus across independent outlets.</strong>
+        YouTube channels and 3D-printing publications that disclose
+        whether the unit was purchased or provided by the manufacturer.
+        We note when reviews involve manufacturer-loaned units.
+      </li>
+    </ol>
+
+    <h2>What we evaluate</h2>
+
+    <p>
+      Each product page covers, where applicable, these dimensions:
+    </p>
+
+    <ul>
+      <li><strong>Print quality.</strong> Layer consistency, dimensional accuracy, surface finish, bridging and overhang behaviour out of the box.</li>
+      <li><strong>Bed adhesion consistency.</strong> Auto-leveling reliability, build surface durability, first-layer behaviour across PLA, PETG, and (when relevant) higher-temperature materials.</li>
+      <li><strong>Print speed reliability.</strong> Manufacturer claims vs realistic throughput at acceptable quality. Vibration compensation, input shaping, and ringing/ghosting at advertised speeds.</li>
+      <li><strong>Ease of leveling and setup.</strong> Time from box-open to first usable print, calibration burden, slicer profile availability.</li>
+      <li><strong>Parts availability and serviceability.</strong> Hotend, nozzle, build plate, and electronics replacement parts &mdash; how easy and how expensive.</li>
+      <li><strong>Value per build volume.</strong> Cost-per-cubic-mm of usable build space, after accounting for must-have accessories that aren't in the box.</li>
+    </ul>
+
+    <h2>What we are transparent about</h2>
+
+    <h3>We don't physically own every product we cover.</h3>
+    <p>
+      Covering the long tail of FDM printers, filament brands, and
+      accessories would require a print farm, not a desk. We label
+      content honestly: analyses based on aggregated research are not
+      labeled as hands-on tests. When the operator has direct experience
+      with a specific printer or filament, that's noted in the body of
+      the page.
+    </p>
+
+    <h3>We are funded by affiliate commissions.</h3>
+    <p>
+      Many product links are Amazon affiliate links. As an Amazon
+      Associate, we earn from qualifying purchases at no extra cost to
+      you. Manufacturers do not pay us for coverage, placement, or
+      rankings. We do not accept free units in exchange for favorable
+      reviews. Where direct programs exist (Bambu Lab, Creality, Anycubic
+      and similar), we'll disclose them by name on each affected page.
+    </p>
+
+    <h3>We update content when the underlying facts change.</h3>
+    <p>
+      Printers get firmware updates that change real-world behaviour.
+      Manufacturers tweak hotend designs between revisions. Prices drift
+      hard in this market. Pages note their last review date, and we
+      revisit popular recommendations at least quarterly to confirm they
+      still hold up.
+    </p>
+
+    <h2>What we don't do</h2>
+
+    <ul>
+      <li>We don't post fake reviews or fabricate first-print anecdotes.</li>
+      <li>We don't accept payment for ranking position.</li>
+      <li>We don't recommend a printer outside the budget or use case the reader specified &mdash; even when a more expensive option would pay us more.</li>
+      <li>We don't pretend a $200 printer matches a $700 one. When the gap is real, we say so. When it doesn't matter for the reader's use case (e.g. printing PLA minis on the kitchen table), we say that too.</li>
+      <li>We don't write content optimised only for search rankings at the cost of usefulness. If a comparison adds nothing for the reader, we don't publish it.</li>
+    </ul>
+
+    <h2>How to flag an error</h2>
+
+    <p>
+      If you notice a specification error, a stale price, or a product
+      that no longer exists, email
+      <a href="mailto:hello@filamentpath.com">hello@filamentpath.com</a>.
+      We correct material errors within 48 hours and update the page's
+      last-reviewed date.
+    </p>
+
+    <h2>Limitations of this methodology</h2>
+
+    <ul>
+      <li>
+        Specs don't capture everything. Two printers with the same
+        published max speed and identical claimed accuracy can produce
+        noticeably different parts; we weight aggregate user reports
+        against this gap, but it remains a limitation.
+      </li>
+      <li>
+        New printers enter the market faster than reliable user
+        consensus can form. For releases under 6 months old,
+        recommendations are explicitly marked as preliminary.
+      </li>
+      <li>
+        Our coverage skews toward Amazon-availability. Direct-from-manufacturer
+        options (Prusa Research, Bambu Lab store, Voron community kits)
+        are referenced contextually, but only get affiliate links when
+        they're also on Amazon.
+      </li>
+      <li>
+        We start FDM-first. Resin (SLA / MSLA) printers carry safety
+        and handling considerations &mdash; uncured resin is irritant
+        and requires PPE and proper ventilation &mdash; that we'll cover
+        explicitly when we expand to that segment, not by inference from
+        FDM coverage.
+      </li>
+    </ul>
+
+    <h2>About the operator</h2>
+
+    <p>
+      This site is operated by a single editor &mdash; a Colombian data
+      scientist relocated abroad &mdash; who runs an FDM 3D printer at
+      home as a maker hobbyist. More background on the
+      <a href="/about/">About</a> page.
+    </p>
+  </article>
+</Base>
+
+<style>
+  .legal-page {
+    max-width: 720px;
+    margin: 2rem auto 4rem;
+    line-height: 1.7;
+  }
+  .legal-page h1 {
+    margin-bottom: 0.5rem;
+  }
+  .legal-page .lead {
+    font-size: 1.1rem;
+    color: #444;
+    margin-top: 0;
+  }
+  .legal-page h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-page h3 {
+    margin-top: 1.25rem;
+    margin-bottom: 0.25rem;
+    font-size: 1.05rem;
+  }
+  .legal-page ul, .legal-page ol {
+    padding-left: 1.25rem;
+  }
+  .legal-page li {
+    margin-bottom: 0.5rem;
+  }
+</style>

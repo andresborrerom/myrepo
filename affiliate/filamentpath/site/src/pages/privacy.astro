@@ -1,0 +1,113 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Privacy policy"
+  description="How FilamentPath handles data. Short version: we don't collect personally identifying information."
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Privacy policy', url: '/privacy/' },
+  ]}
+  showByline={false}
+>
+  <article class="legal-page">
+    <h1>Privacy policy</h1>
+    <p class="last-updated"><em>Last updated: 2026-05-26</em></p>
+
+    <h2>Short version</h2>
+    <p>
+      We don't collect personal data. We don't use cookies. We don't sell
+      anything to anyone. We use privacy-respecting analytics that don't
+      fingerprint or track you across sites.
+    </p>
+
+    <h2>What we actually do</h2>
+    <ul>
+      <li>
+        <strong>Server logs.</strong> Cloudflare (our hosting provider)
+        automatically logs basic request metadata such as timestamp,
+        approximate country, and browser type for security and
+        infrastructure purposes. We do not access these logs to identify
+        individuals.
+      </li>
+      <li>
+        <strong>Analytics.</strong> We use Cloudflare Web Analytics, a
+        privacy-preserving analytics product. It does not set cookies,
+        does not fingerprint users, and does not perform cross-site
+        tracking. It reports aggregate page-view counts without
+        identifying individuals.
+      </li>
+      <li>
+        <strong>Affiliate links.</strong> When you click a product link
+        to Amazon or another retailer, that destination site may set its
+        own cookies on its own domain. We have no access to or control
+        over those cookies. Refer to the destination site's privacy
+        policy for details. As an Amazon Associate, we earn from
+        qualifying purchases.
+      </li>
+    </ul>
+
+    <h2>What we don't do</h2>
+    <ul>
+      <li>We don't collect names, email addresses, or any personally identifying information from visitors.</li>
+      <li>We don't have user accounts, logins, or comment systems.</li>
+      <li>We don't display third-party advertising networks.</li>
+      <li>We don't sell, rent, or share visitor data with any third party.</li>
+    </ul>
+
+    <h2>Affiliate disclosure</h2>
+    <p>
+      Many product links on this site are affiliate links. If you click
+      such a link and make a qualifying purchase, we may earn a small
+      commission at no additional cost to you. As an Amazon Associate,
+      we earn from qualifying purchases. Affiliate revenue funds the
+      site and allows us to keep it free of paid advertising.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      This site is not directed to children under 13, and we do not
+      knowingly collect any information from children.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      We may update this policy as the site evolves. Material changes
+      will be reflected by a new "last updated" date at the top of this
+      page. We recommend reviewing this policy periodically.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions or concerns about this policy can be sent to
+      <a href="mailto:hello@filamentpath.com">hello@filamentpath.com</a>.
+      <em>(Email forwarding will be configured shortly after launch.)</em>
+    </p>
+  </article>
+</Base>
+
+<style>
+  .legal-page {
+    max-width: 720px;
+    margin: 2rem auto 4rem;
+    line-height: 1.7;
+  }
+  .legal-page h1 {
+    margin-bottom: 0.25rem;
+  }
+  .legal-page .last-updated {
+    margin-top: 0;
+    color: #666;
+  }
+  .legal-page h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .legal-page ul {
+    padding-left: 1.25rem;
+  }
+  .legal-page li {
+    margin-bottom: 0.5rem;
+  }
+</style>
