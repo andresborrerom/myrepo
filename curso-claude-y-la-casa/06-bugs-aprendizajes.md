@@ -111,8 +111,21 @@ Si no se cumple por lo menos 3 de los 5, **NO commitear** sin revisar el design 
 
 ---
 
+## Proponer alternativas cuando el recurso ya estaba contratado
+
+**Síntoma**: hablando del feature de voz de Valentina, sugerí "evaluemos opciones de TTS / voice cloning" como si el proveedor estuviera abierto. Andrés ya tenía **cuenta de ElevenLabs activa con API key**. El comparativo era trabajo basura y arriesgaba contratar algo duplicado.
+
+**Causa raíz**: la lista de servicios contratados vive en la cabeza del usuario; no hay un `.md` que Claude lea al arrancar la sesión.
+
+**Fix**: creado `recursos-disponibles.md` en el root como inventario vivo. Antes de proponer cualquier integración externa, Claude debe consultar la tabla. ✅ = úsalo, ❓ = pregunta, ausente = pregunta antes de comprometer.
+
+**Lección**: la memoria estructurada en `.md` no solo sirve para errores. Sirve también para **infraestructura disponible**. Mantenerlo evita comparativos innecesarios y suscripciones duplicadas.
+
+---
+
 ## Cómo agregar al README/contexto
 
 Cuando aparezca un nuevo error de reproceso:
 1. Agrégalo a este archivo con: síntoma reportado, causa raíz, modelo correcto/fix, lección.
 2. Si toca un comportamiento del producto (no solo bug técnico), actualiza también `contexto.md`.
+3. Si es sobre infraestructura/recursos, actualiza `recursos-disponibles.md`.

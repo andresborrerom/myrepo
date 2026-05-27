@@ -32,6 +32,7 @@ Todos los archivos en esta misma carpeta:
 - **`03-bugs-aprendizajes.md`** — Bitácora de los bugs del proyecto original. **CRÍTICO** para no repetirlos. Léelo entero antes de tocar el modelo de datos.
 - **`04-anonimizacion.md`** — Checklist explícito de qué borrar del fork. Sigue el orden indicado.
 - **`05-roadmap.md`** — Plan día a día del primer mes, fases siguientes, criterios de salida del MVP.
+- **`06-recursos-disponibles.md`** — Inventario de cuentas y APIs que ya están contratadas (ElevenLabs, Supabase, Vercel, Claude API, etc.). **Léelo antes de proponer cualquier servicio externo.** Si una capacidad ya está cubierta ahí, úsala — no investigues alternativas ni hagas comparativos.
 
 ---
 

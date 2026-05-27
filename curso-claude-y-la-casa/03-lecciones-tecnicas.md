@@ -155,6 +155,32 @@ Algunos commits en este proyecto tenían 3 cambios distintos (tarjeta nueva + bu
 
 **Lección**: un PR = un asunto. Si son varios, varios PRs.
 
+### 8. Proponer alternativas cuando ya teníamos el recurso contratado
+
+En sesiones donde se hablaba del feature de voz, llegué a sugerir "evaluemos opciones de TTS" o "comparemos proveedores de voice cloning". Andrés ya tenía cuenta de **ElevenLabs activa con API key**. Cada minuto investigando alternativas era tiempo perdido y arriesgaba contratar algo duplicado.
+
+**Síntoma**: Claude propone investigar / comparar / "ver cuál conviene" cuando el usuario ya tomó la decisión.
+
+**Causa raíz**: la memoria del contexto contratado vive en la cabeza del usuario; no está en ningún `.md` que Claude lea automáticamente al arrancar.
+
+**Fix aplicado**: crear `recursos-disponibles.md` en el root del proyecto como **inventario vivo** de cuentas, APIs y servicios ya pagados. Convención de leerlo antes de proponer cualquier integración externa.
+
+```markdown
+| Categoría | Proveedor | Estado |
+|---|---|---|
+| Voice cloning + TTS multilingüe | ElevenLabs | ✅ Cuenta activa, API key disponible |
+| LLM (traducción) | Claude API | ✅ Disponible |
+| Hosting | Vercel | ✅ Proyecto desplegado |
+| Email transaccional | ❓ No contratado aún | — |
+```
+
+**Lección**: cada proyecto debe tener un inventario de recursos contratados al alcance de Claude. Antes de proponer un servicio externo, mirar la tabla:
+1. ✅ → úsalo, sin discutir alternativas.
+2. ❓ → pregunta al usuario qué prefiere.
+3. No está → confirma si vale la dependencia nueva antes de comprometerse.
+
+Esto hace cada proyecto **costo-eficiente**: ni tiempo perdido en comparativos ni suscripciones duplicadas.
+
 ---
 
 ## Notas sobre Claude Code específicamente
