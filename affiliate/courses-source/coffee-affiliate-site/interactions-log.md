@@ -307,6 +307,28 @@ Sin Cap 6, el estudiante abandona en mes 3 sin saber por qué no funciona. Con C
 
 ---
 
+## 2026-05-26 — Sub-sprint 1 filamentpath: aplicar SCAFFOLD.md por primera vez y aprender qué falta en el spec
+
+**Contexto**: ADR 0005 aprobó 2do vertical (3D printing FDM) hace 2 días. Dominio filamentpath.com registrado. baristapath en fase wait (post-observability). Decisión: arrancar bootstrap de filamentpath con disciplina (3 sub-sprints: scaffold → KGR validations → content scale solo si verde). Sub-sprint 1 = primer test real del `affiliate/SCAFFOLD.md` que escribimos hace 2 días.
+
+**Decisión / acción**: despacho de agente en background con prompt detallado siguiendo SCAFFOLD.md pasos 1-7. Resultado: 51 archivos creados, 12 mock products (6 printers + 4 filaments + 2 accessories), schema adaptado a 3D printing (build_volume, xy_resolution, compatible_materials, etc.), docs reescritos (methodology + glosario 16 términos FDM), workflow CI refactoreado a matrix (baristapath + filamentpath en paralelo), 17 páginas en build verde, 4 smoke tests. Commit `806ab57` pushed.
+
+**Razonamiento**: el SCAFFOLD.md tenía 2 ambigüedades reveladas solo al ejecutarlo, que el agente resolvió bien:
+1. **Inherited pages problem**: el spec decía "NO crear best-of/compare/etc." pero el template baristapath ya las trae. Hay 2 opciones: (a) borrarlas, (b) stubear cada una para que no rompa build. El agente eligió **borrar** porque stubear 50+ pages crea maintenance debt mayor que regenerar después en Sub-sprint 3. Decisión correcta — esto es exactamente el tipo de cosa que la receta "v0 manual" no anticipa pero queda capturada para el "v1 script automatizable".
+2. **Anti-anti-pattern de copy editorial**: el agente NO copió methodology de baristapath. Reescribió completo para 3D printing (print quality, bed adhesion, ease of leveling, value per build volume). Eso protege contra SEO duplicate detection cross-domain.
+
+**Resultado**: filamentpath scaffold listo para deploy (paso 8 = operador). Pendientes: conectar CF Pages, KGR validations 3D printing, decisión Associates tag. 2 TODOs flagged por el agente (specs que necesitan verificación manual: bed_temp_max del Ender-3 V3 SE + dimensiones exactas del PEI plate). Eso es honestidad anti-gray-hat correcta — preferir "TODO: verify" antes que inventar specs.
+
+**Takeaway pedagógico**: la receta de scaffold solo se mejora ejecutándola. El SCAFFOLD.md v0 era teóricamente sólido pero tenía gaps que solo se ven en aplicación. Lecciones para el curso (Cap 7):
+1. **Scaffold = pattern, no template literal**: replicar la estructura, no el copy. Cada nicho escribe su propia methodology, glossary, FAQs. Eso protege SEO + integridad editorial.
+2. **Inherited cruft del template es esperable**: cuando copiás un sitio maduro a uno joven, te llevás pages/components que el nuevo nicho no tiene aún. Decidir caso por caso: borrar (limpio) vs stubear (preservar para auto-completar después).
+3. **Resistir la tentación del all-at-once**: el agente NO intentó replicar best-of/compare/quiz/calculator en el mismo sprint. Esos se regeneran POST-validación KGR. Disciplina de "scaffold mínimo + valida + después contenido" es lo que distingue replicación honesta de spam de pages duplicadas.
+4. **El "v0 manual" del scaffold genera el spec del "v1 automatizable"**: cada vez que ejecutamos manualmente, capturamos qué simplificar/automatizar. Pattern recurrente en construcción de tooling — la herramienta emerge del uso, no del diseño teórico previo.
+
+**Capítulo del curso**: 7 — Escalado y replicación.
+
+---
+
 ## Índice por capítulos del curso
 
 > Sugerencia del operador (2026-05-26): agrupar las entries por temática para que el material del curso tenga estructura clara. Cada capítulo es una unidad pedagógica. Las entries de una misma fecha se distribuyen por capítulo según el lesson principal, no por cronología.
@@ -351,6 +373,7 @@ Sin Cap 6, el estudiante abandona en mes 3 sin saber por qué no funciona. Con C
 ### Capítulo 7 — Escalado y replicación (cuándo abstraer vs duplicar)
 
 - 2026-05-24 — Refactor a monorepo `affiliate/` cuando aparece 2do nicho (regla de los 3)
+- 2026-05-26 — Sub-sprint 1 filamentpath: aplicar SCAFFOLD.md por primera vez y aprender qué falta en el spec
 
 ---
 
