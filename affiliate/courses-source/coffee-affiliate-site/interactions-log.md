@@ -274,6 +274,39 @@
 
 ---
 
+## 2026-05-26 — Sprint observability: el gap entre "infraestructura ready" y "primer sale"
+
+**Contexto**: post-cierre del sprint técnico (B5/B6/B7), el operador pregunta "¿qué sigue?". Tentación obvia: arrancar 2do nicho (filamentpath). Realidad menos obvia: baristapath está pre-revenue Y sin observability — sin instrumentación, no vamos a saber QUÉ está fallando cuando inevitablemente nada pase en mes 2-3.
+
+**Decisión / acción**: sprint dedicado a observability ANTES de arrancar 2do nicho. Seis sub-tareas:
+(a) verificar/habilitar Cloudflare Web Analytics — confirmado auto-setup vía CF Pages proxy, baseline 7 visits/24h
+(b) submit/verify sitemap status en GSC + request indexing manual de 5 URLs prioritarias
+(c) re-validar correcciones del schema fix anterior
+(d) click-test del affiliate engine en multi-device (descubrimos el iOS Universal Link al app store, validado vía long-press)
+(e) crear `weekly-review-template.md` con thresholds calibrados para sitio nuevo
+(f) crear `pending-checks.md` para reminders time-based + update CLAUDE.md para que se lea automáticamente al inicio de sesión
+
+**Razonamiento**: la fase entre "infrastructure ready" y "first sale" suele durar 3-6 meses en sitios honestos (anti-gray-hat, sin tráfico pago, dominio nuevo). Esos meses son donde más proyectos mueren — no por mal código, sino por **falta de instrumentación que distinga entre 4 fallos distintos**:
+- (1) tráfico bajo (problema de discovery/SEO)
+- (2) tráfico bueno pero conversión rota (problema de UX/copy)
+- (3) Google no indexa (problema de crawl budget/quality signals)
+- (4) Amazon no atribuye clicks (problema de affiliate plumbing)
+Cada uno requiere fix radicalmente distinto. Sin la data semanal, optimizás a ciegas y rotás soluciones random sin saber cuál mueve la aguja. La data te dice cuál es realmente el bloqueo.
+
+**Resultado**: Cap 6 completo en spine. baristapath entra a fase "wait, measure, iterate" con instrumentación de 4 dashboards (CF Web Analytics + GSC + Amazon Associates + MailerLite), template de weekly review con thresholds, pending-checks para reminders proactivos, y protocolo de session-start actualizado para que Claude surfacee chequeos vencidos sin esperar prompt. Operador validó el affiliate engine end-to-end vía long-press + screenshot.
+
+**Takeaway pedagógico**: la mayoría de cursos de afiliados terminan en "lanzaste el sitio, esperá el revenue". La realidad es que **la diferencia entre proyectos que llegan a revenue y proyectos zombie está en lo que pasa en esos 3-6 meses de wait**. El estudiante del Cap 6 sale entendiendo:
+1. Qué dashboards mirar y cada cuánto (cadencia weekly, NO daily — daily es ruido a esta escala).
+2. Qué thresholds gatillan qué decisión (e.g. >50% URLs sin indexar en semana 4 → revisar internal linking + autoridad).
+3. Cuándo intervenir vs cuándo seguir esperando (la disciplina anti-FOMO de NO tocar cosas durante el wait, salvo que un threshold se rompa).
+4. Diferenciar los 4 modos de fallo (traffic / conversion / indexing / attribution) para no aplicar fix de tipo X a problema de tipo Y.
+
+Sin Cap 6, el estudiante abandona en mes 3 sin saber por qué no funciona. Con Cap 6, llega a mes 6 con data accionable para decidir continue/pivot. **El observability sprint es lo que separa cursos honestos de cursos predatorios** en este nicho.
+
+**Capítulo del curso**: 6 — Mantenimiento y seguimiento.
+
+---
+
 ## Índice por capítulos del curso
 
 > Sugerencia del operador (2026-05-26): agrupar las entries por temática para que el material del curso tenga estructura clara. Cada capítulo es una unidad pedagógica. Las entries de una misma fecha se distribuyen por capítulo según el lesson principal, no por cronología.
@@ -312,7 +345,8 @@
 - 2026-05-25 — Seguridad: el token que pasó por chat (secrets hygiene + regenerar post-exposure)
 - 2026-05-25 — Pregunta meta del operador: "estamos para revenue?" (honestidad post-sprint)
 - 2026-05-26 — Verificación del affiliate engine en mobile: iOS deeplink al Amazon app (multi-device QA)
-- *Pendientes para próximas entries de este capítulo*: weekly review template + cadencia + thresholds, sprint observability como secuencia (CF Analytics + GSC sitemap + click test), interpretación de Core Web Vitals con muestra chica, GSC "Descubierta pero sin indexar" como estado normal de sitio joven.
+- 2026-05-26 — Sprint observability: el gap entre "infraestructura ready" y "primer sale" (entrada master del capítulo — los 4 modos de fallo, thresholds, cadencia weekly)
+- *Pendientes para próximas entries de este capítulo*: interpretación de Core Web Vitals con muestra chica (no entrar en pánico con n=7), GSC "Descubierta pero sin indexar" como estado normal de sitio joven, primera weekly review real con datos baseline.
 
 ### Capítulo 7 — Escalado y replicación (cuándo abstraer vs duplicar)
 

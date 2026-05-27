@@ -6,11 +6,16 @@ obsoleto, se actualiza sin pedir permiso.
 
 ## Inicio de sesión
 
-Al inicio de cada sesión, Claude lee `progreso.md` (raíz del proyecto)
-y reporta al operador en máximo 5-7 líneas:
+Al inicio de cada sesión, Claude lee:
+
+1. `progreso.md` (raíz del proyecto) — hito actual + hito siguiente + bloqueadores.
+2. `ops/pending-checks.md` — reminders time-based. Cualquier item en status `Pending` cuya ventana ya venció pasa a `Due` y Claude lo surfacea al operador **sin esperar prompt** en el reporte de inicio.
+
+Y reporta al operador en máximo 5-7 líneas:
 
 - Hito actual y hito siguiente.
 - Bloqueadores activos (tareas operador + bloqueos técnicos).
+- **Checks vencidos** (si los hay) — items de `pending-checks.md` que requieren acción ahora.
 - Tiempos estimados de la próxima entrega.
 
 Si han pasado más de 7 días desde la última actualización de
@@ -18,7 +23,9 @@ Si han pasado más de 7 días desde la última actualización de
 de la sesión.
 
 Toda revisión de tiempos se commitea a `progreso.md` con razón en el
-commit message.
+commit message. Status changes en `pending-checks.md` se commitean en
+el mismo PR que la acción que los resolvió (Pending → Done → archivar,
+o Pending → Stale → archivar con razón).
 
 ## Idiomas
 
