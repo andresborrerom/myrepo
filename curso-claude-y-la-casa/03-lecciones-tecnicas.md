@@ -161,7 +161,7 @@ En sesiones donde se hablaba del feature de voz, llegué a sugerir "evaluemos op
 
 **Síntoma**: Claude propone investigar / comparar / "ver cuál conviene" cuando el usuario ya tomó la decisión.
 
-**Causa raíz**: la memoria del contexto contratado vive en la cabeza del usuario; no está en ningún `.md` que Claude lea automáticamente al arrancar.
+**Causa raíz**: la memoria del contexto contratado vive en la cabeza del usuario; no está en ningún `.md` que Claude lea automáticamente al arrancar. Y peor: cuando Claude conoce vagamente un proveedor, asume el tier más bajo y propone soluciones de menor calidad. Ejemplo concreto: ElevenLabs tiene dos modos de clonar voz — **Instant Voice Clone** (30-90 segundos, calidad aceptable pero "robotic edges", incluido desde Starter) y **Professional Voice Clone** (30+ minutos de muestra limpia, indistinguible del original, solo en plan Pro+). Andrés tiene **Pro**; yo asumí Starter y planeé el feature con IVC. Para una nieta cuyo abuelo conoce su voz, la diferencia es la que decide si el regalo funciona o se rompe.
 
 **Fix aplicado**: crear `recursos-disponibles.md` en el root del proyecto como **inventario vivo** de cuentas, APIs y servicios ya pagados. Convención de leerlo antes de proponer cualquier integración externa.
 
@@ -179,7 +179,7 @@ En sesiones donde se hablaba del feature de voz, llegué a sugerir "evaluemos op
 2. ❓ → pregunta al usuario qué prefiere.
 3. No está → confirma si vale la dependencia nueva antes de comprometerse.
 
-Esto hace cada proyecto **costo-eficiente**: ni tiempo perdido en comparativos ni suscripciones duplicadas.
+Esto hace cada proyecto **costo-eficiente**: ni tiempo perdido en comparativos ni suscripciones duplicadas. Y **calidad-coherente**: el `.md` no solo dice "qué servicio", sino **qué tier y qué capacidad real** está habilitada, para no diseñar features pensando en el plan barato cuando el usuario tiene el premium.
 
 ---
 

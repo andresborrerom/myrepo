@@ -16,7 +16,7 @@ Decisiones técnicas heredadas del proyecto original + ajustes para multi-tenanc
 | Push | Web Push + VAPID + service worker | iOS 16.4+ instalado como PWA. |
 | Email | Resend | Para invitaciones y digests. |
 | LLM auxiliar | Claude API | Sugerir títulos, corregir texto, generar paletas, traducir, dar feedback al comprador. |
-| TTS/Voice clone | ElevenLabs (opcional, premium feature) | Para feature de "voz cruzada de idiomas" (ver feature de Valentina en el proyecto original). |
+| TTS/Voice clone | ElevenLabs Pro (opcional, premium feature) | Para feature de "voz cruzada de idiomas". Pro habilita PVC (Professional Voice Clone, calidad real); IVC (Instant, 30-90s) queda como fallback de menor calidad. Ver §"Feature opcional premium: voz cruzada" para el comparativo completo. |
 
 ---
 
@@ -291,17 +291,28 @@ Heredada del proyecto original (feature de Valentina). En el white-label es prem
 3. Storage: audio.mp3 final en Supabase Storage
 4. Display: tarjeta para el destinatario con transcripción ES + audio ES
 
-**Voice clone setup** (one-time por contribuyente):
-- Subir 1-3 muestras de ~30 segundos hablando en su idioma nativo
-- ElevenLabs Multilingual v2 puede usar muestras en cualquier idioma para clonar y luego sintetizar en cualquier otro
-- Guardar `voice_id` en `voice_clones` table
+**Voice clone setup** (one-time por contribuyente) — DOS modos:
 
-**Costos ElevenLabs**:
-- Creator plan: $22/mes — 100k chars/mes (~100 mensajes cortos)
-- Pro plan: $99/mes — 500k chars/mes (~500 mensajes cortos)
-- Voice clones: incluidos en Creator+
+| Modo | Muestra | Plan ElevenLabs | Calidad | Cross-lingüe |
+|---|---|---|---|---|
+| **IVC** (Instant Voice Clone) | 30 segundos – ~3 min | Starter+ | Aceptable, "robotic edges" | Pierde identidad |
+| **PVC** (Professional Voice Clone) | **30+ minutos** limpio, mismo idioma | **Pro+** | Indistinguible del original | **Mantiene timbre/melodía** reales |
 
-**Pricing implicación para white-label**: la feature de voz se cobra aparte (ej. +$30 por gift que activa Voice) o solo en tier white-glove.
+ElevenLabs Multilingual v2 funciona con ambos para sintetizar en cualquier idioma soportado. Para el feature de Valentina en el proyecto original Andrés tiene plan **Pro** y por tanto usa PVC — la diferencia se nota cuando el oyente conoce a la persona.
+
+**Mapping a tiers del white-label**:
+- Casa Pequeña (gratis): sin voz.
+- Casa Grande ($49): IVC, 1 voz incluida, comunicar la limitación de calidad al comprador.
+- Casa Hecha a Mano ($499): PVC, hasta 2 voces, setup asistido para grabar bien (cuarto silencioso, ~45 min de audio).
+
+Guardar `voice_id`, `clone_type` (`'ivc' | 'pvc'`), y `sample_duration_sec` en `voice_clones`.
+
+**Costos ElevenLabs (snapshot, validar al integrar)**:
+- Creator: $22/mes — 100k chars/mes, solo IVC.
+- **Pro: $99/mes — 500k chars/mes, IVC + PVC** ← el plan que tenemos en el proyecto original.
+- Scale/Business: para volumen alto.
+
+**Pricing implicación para white-label**: la feature de voz se cobra aparte (ej. +$30 por gift activando IVC, +$150 por gift activando PVC). En el wizard del comprador mostrar el comparativo IVC vs PVC para que entienda qué está comprando — no asumir que sabe la diferencia.
 
 ---
 
