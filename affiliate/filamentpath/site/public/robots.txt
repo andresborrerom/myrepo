@@ -1,10 +1,21 @@
-# robots.txt — INDEXING ENABLED (filamentpath bootstrap 2026-05-26)
-# Sitio public-indexable desde el inicio (decisión cross-portfolio).
+# robots.txt — INDEXING DISABLED (filamentpath pre-KGR-validation 2026-05-26)
 #
-# Si querés re-bloquear (rare — emergency content audit): reemplazar
-# "Allow: /" con "Disallow: /".
+# Razón del Disallow: bootstrap del scaffold corrió sin validar KGR del
+# nicho 3D printing todavía. Google asigna calidad de site basado en la
+# primera impresión — indexarse con 12 mock products + sin authority
+# externa + sin validación de queries verdes daría perfil "thin content"
+# difícil de revertir.
+#
+# Pattern aplicado del Cap 3 del curso (lesson de baristapath 2026-05-17):
+# robots.txt FLIPPED a Allow es decisión consciente que se toma cuando:
+# (a) KGR validations verdes para el nicho (sub-sprint 2 pendiente),
+# (b) content critical mass ~100+ páginas con E-E-A-T signals,
+# (c) methodology + about + privacy pages publicadas con copy específico.
+#
+# Flippeás a "Allow: /" en commit dedicado con razón explícita.
+# Mientras tanto, sitemap igual existe para cuando se haga el flip.
 
 User-agent: *
-Allow: /
+Disallow: /
 
 Sitemap: https://filamentpath.com/sitemap-index.xml
