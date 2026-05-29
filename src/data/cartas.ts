@@ -473,39 +473,11 @@ export function getCarta(year: number): Carta | undefined {
 // Para las cartas sin publishOn explícito: se distribuyen una por día desde
 // el cumpleaños (21-may-2026), en orden cronológico de año. Carta 1951 = día
 // del cumpleaños; 1952 = día siguiente; etc. Total: 75 cartas en 75 días.
-const BIRTHDAY_REVEAL = new Date('2026-05-21T07:00:00-05:00');
-
-function startOfDay(d: Date): Date {
-  const x = new Date(d);
-  x.setHours(0, 0, 0, 0);
-  return x;
-}
-
-function computedRevealDate(year: number): Date {
-  // Día relativo: 1951 → 0, 1952 → 1, ..., 2025 → 74.
-  const dayOffset = year - BIRTH_YEAR;
-  const d = new Date(BIRTHDAY_REVEAL);
-  d.setDate(d.getDate() + dayOffset);
-  return d;
-}
-
-export function getRevealDate(carta: Carta): Date {
-  if (carta.publishOn) return new Date(carta.publishOn);
-  return computedRevealDate(carta.year);
-}
-
-export function getCartasReveladas(now: Date = new Date()): Carta[] {
-  return CARTAS
-    .filter((c) => getRevealDate(c) <= now)
-    .sort((a, b) => a.year - b.year);
-}
-
-// La carta cuyo día programado es hoy. Si hoy no toca ninguna, devuelve
-// undefined. Útil para destacarla en el Vestíbulo.
-export function getCartaDelDia(now: Date = new Date()): Carta | undefined {
-  const hoy = startOfDay(now).getTime();
-  return CARTAS.find((c) => startOfDay(getRevealDate(c)).getTime() === hoy);
-}
+//
+// NOTA: este modelo "día = año específico" ya NO se usa. Las cartas se
+// revelan al azar entre todas las que existen (ver getReleasedYears en
+// lib/cartas-fetch). Las funciones getRevealDate/getCartaDelDia que
+// vivían acá se eliminaron porque inducían a regresar al modelo viejo.
 
 export function getAuthor(carta: Carta) {
   return FAMILY.find((p) => p.id === carta.fromId);
