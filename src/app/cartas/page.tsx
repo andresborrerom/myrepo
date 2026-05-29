@@ -16,8 +16,10 @@ export default async function CartasPage() {
   const now = new Date();
   const dayIdx = getDayIndex(now);
 
-  const released = getReleasedYears(now);
-  const { revealedYears } = await fetchAlejandroStateServer();
+  const [released, { revealedYears }] = await Promise.all([
+    getReleasedYears(now),
+    fetchAlejandroStateServer()
+  ]);
 
   return (
     <div className="bg-sabana text-tinta2 min-h-dvh -mt-6 -mx-5 px-6 pt-10 pb-32 sm:px-10">
