@@ -111,6 +111,31 @@ Si no se cumple por lo menos 3 de los 5, **NO commitear** sin revisar el design 
 
 ---
 
+## getReleasedYears solo leía el seed — cartas DB invisibles para papá
+
+**Síntoma**: en `/admin` la cobertura mostraba **29 años con contenido real** (29 con texto, 2 placeholder, 45 sin carta, 3 con 2+). Pero en `/cartas` papá veía solo **6 de 19**. Discrepancia de 10 años.
+
+**Causa raíz**: `getReleasedYears()` en `cartas-fetch.ts` solo leía del seed `CARTAS` en `src/data/cartas.ts`. **Nunca consultaba la DB**. Resultado: las cartas que la familia subió vía `/aporta` con `kind='carta'` + `year` válido — que aparecen en `getCobertura` (combina DB + seed) — quedaban **excluidas del pool del azar y del grid de sobres**. Papá no las podía abrir aunque estuvieran subidas correctamente.
+
+Mientras tanto otras funciones de la misma librería SÍ combinaban DB + seed: `buildSlots`, `getCartasForYear`, `getYearsCoverageWithDb`, `getCobertura`. `getReleasedYears` era la oveja negra.
+
+**Fix**: convertir `getReleasedYears` a `async` y combinar seed + DB:
+- Toma años de seed donde el body no es placeholder.
+- Toma años de DB (`fetchPublishedAportes({ kinds: ['carta'] })`) donde `year` está asignado y body no es placeholder/vacío.
+- Dedup por año (`new Set`).
+- Sort.
+
+Consumers (`/abrir-carta`, `/cartas`) actualizados para `await`. La API `/api/alejandro/reveal` no se tocó (confía en el year que llega; el cliente es quien filtra desde el pool ahora correcto).
+
+**Garantías para papá**:
+- `revealed_years` y `last_reveal_date` en Supabase no se tocan.
+- Cartas ya abiertas siguen abiertas con su contenido actual.
+- El universo se EXPANDE: más sobres disponibles, no menos. Nuevos años aparecen cerrados con sello.
+
+**Lección**: cuando una librería ofrece dos vistas del mismo dominio ("años con cartas"), DEBEN leer de la misma fuente. Si una mira solo seed y otra combina, eventualmente se descalibran. Pattern del checklist: cualquier helper que "lista años con contenido" debe combinar todas las fuentes (seed + DB + futuras), o estar marcado claramente como "solo seed" con su nombre (ej. `getSeedYears`).
+
+---
+
 ## Proponer alternativas cuando el recurso ya estaba contratado
 
 **Síntoma**: hablando del feature de voz de Valentina, sugerí "evaluemos opciones de TTS / voice cloning" como si el proveedor estuviera abierto. Andrés ya tenía **cuenta de ElevenLabs activa con API key**. El comparativo era trabajo basura y arriesgaba contratar algo duplicado.

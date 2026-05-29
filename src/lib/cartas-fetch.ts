@@ -33,17 +33,26 @@ export function getDayIndex(now: Date = new Date()): number | null {
 }
 
 // Años con carta disponibles para abrir: TODOS los años que tienen una
-// carta sembrada NO-placeholder. La cadencia "una por día" se enforce con
+// carta NO-placeholder en seed O en DB (aportes publicados con
+// kind='carta' y year asignado). La cadencia "una por día" se enforce con
 // lastRevealDate. Si se agregan cartas nuevas, entran al pool automático.
-// Excluye placeholders ("[Fulano llenará esta carta]") — papá no debe
-// abrir cartas vacías.
-export function getReleasedYears(now: Date = new Date()): number[] {
+// Excluye placeholders ("[Fulano llenará esta carta]") y bodies vacíos —
+// papá no debe abrir cartas vacías.
+export async function getReleasedYears(now: Date = new Date()): Promise<number[]> {
   const dayIdx = getDayIndex(now);
   if (dayIdx === null) return [];
-  return CARTAS
+
+  const seedYears = CARTAS
     .filter((c) => !isPlaceholderBody(c.body))
-    .map((c) => c.year)
-    .sort((a, b) => a - b);
+    .map((c) => c.year);
+
+  const dbAportes = await fetchPublishedAportes({ kinds: ['carta'] });
+  const dbYears = dbAportes
+    .filter((a) => typeof a.year === 'number' && !isPlaceholderBody(a.body))
+    .map((a) => a.year as number);
+
+  const unique = Array.from(new Set([...seedYears, ...dbYears]));
+  return unique.sort((a, b) => a - b);
 }
 
 function aporteToCartaFinal(a: Aporte): CartaFinal {
