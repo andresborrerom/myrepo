@@ -1,0 +1,55 @@
+{
+  "_comment": "Elenco fijo de los cómics de perros. 'voice_id' lo sacas de ElevenLabs (Voice Library o Voice Design) y lo pegas aquí. 'visual' es la descripción que mantiene al personaje IDÉNTICO en cada imagen/video. 'voice_settings' afina el carácter de la voz (stability bajo = más expresivo/variable, style alto = más actuado).",
+  "estilo_global": "Photorealistic, cinematic lighting, realistic fur detail, shallow depth of field, warm indoor lighting",
+  "personajes": {
+    "Kaiser": {
+      "raza": "German Shepherd",
+      "personalidad": "El líder. Serio, da órdenes, impone respeto.",
+      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_settings": { "stability": 0.6, "similarity_boost": 0.85, "style": 0.25, "use_speaker_boost": true },
+      "visual": "a confident adult German Shepherd with classic black-and-tan coat, alert upright ears, standing tall and composed like a leader"
+    },
+    "Africa": {
+      "raza": "Giant Schnauzer (black)",
+      "personalidad": "La protectora. Fuerte sin medir su fuerza, lista pero obedece solo cuando quiere, no deja a nadie atras. Noble pero un poco abusiva.",
+      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_settings": { "stability": 0.65, "similarity_boost": 0.85, "style": 0.2, "use_speaker_boost": true },
+      "visual": "a large powerful female black Giant Schnauzer with a thick black coat, bushy eyebrows and beard, muscular and imposing but with calm intelligent eyes"
+    },
+    "Rex": {
+      "raza": "Siberian Husky",
+      "personalidad": "Dramatico, cree que es un lobo, exagera todo.",
+      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_settings": { "stability": 0.2, "similarity_boost": 0.8, "style": 0.7, "use_speaker_boost": true },
+      "visual": "a fluffy Siberian Husky with grey-and-white coat and striking blue eyes, dramatic expressive face, often mid-howl"
+    },
+    "Bruno": {
+      "raza": "Golden Retriever",
+      "personalidad": "Bueno y feliz, sin sentido comun, ama a todos.",
+      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_settings": { "stability": 0.4, "similarity_boost": 0.85, "style": 0.4, "use_speaker_boost": true },
+      "visual": "a happy golden retriever with a glossy golden coat, big friendly smile, tongue out, tail clearly wagging"
+    },
+    "Pixel": {
+      "raza": "Border Collie",
+      "personalidad": "El cerebro. Se aburre y trama planes.",
+      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_settings": { "stability": 0.5, "similarity_boost": 0.85, "style": 0.3, "use_speaker_boost": true },
+      "visual": "an alert black-and-white Border Collie with intense focused eyes and a sharp clever expression"
+    },
+    "Tank": {
+      "raza": "Chihuahua",
+      "personalidad": "Mini, ego gigante, siempre busca pelea.",
+      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_settings": { "stability": 0.25, "similarity_boost": 0.8, "style": 0.6, "use_speaker_boost": true },
+      "visual": "a tiny brown-and-white short-haired Chihuahua, comically small but with a furious aggressive expression and huge attitude"
+    },
+    "SirWheeze": {
+      "raza": "English Bulldog",
+      "personalidad": "Perezoso, ronca, solo quiere el sofa.",
+      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_settings": { "stability": 0.55, "similarity_boost": 0.85, "style": 0.2, "use_speaker_boost": true },
+      "visual": "a chubby wrinkly English Bulldog with a stocky body and droopy jowls, looking sleepy and unbothered, usually lying down"
+    }
+  }
+}
