@@ -20,20 +20,19 @@ guion simple, de forma automatizable.
 - ✅ Cuenta Instagram **@the_barkademy** creada
 - ✅ Plan de ElevenLabs: **Creator** (cubre uso comercial)
 
-**Lo que SIGUE (próximo paso exacto):**
-1. ✅ Key de ElevenLabs disponible. OJO: en el environment el secreto se llama
-   **`ELEVENLABS_LABS_KEY`** (no `ELEVEN_API_KEY`). Los robots ya aceptan ese nombre.
-2. **Crear las 7 voces de los perros** con la API de Voice Design:
-   ```
-   node dog-comics/robot-disenar-voces.mjs
-   ```
-   Esto inventa cada voz desde su `voice_prompt`, guarda 3 propuestas para comparar en
-   `output/_voces-diseno/<Perro>/`, y escribe el `voice_id` real en `characters.json`.
-3. Correr el robot de voces para generar los audios de "The Doorbell":
-   ```
-   node dog-comics/robot-voces.mjs the-doorbell
-   ```
-4. Escuchar los audios en `dog-comics/output/the-doorbell/voces/` y ajustar.
+**Hecho también (sesión voces):**
+- ✅ Las **7 voces existen** y están aprobadas (`voice_id` en `characters.json`).
+  Bruno se clonó desde muestra (`refs/Bruno.m4a`); el resto son diseñadas por texto.
+- ✅ Rex habla con voz diseñada + **aullido propio como SFX** (`sfx/rex-howl.m4a`).
+- ✅ Audios de "The Doorbell" generados en `output/the-doorbell/voces/`.
+- Nota del environment: el secreto de ElevenLabs se llama **`ELEVENLABS_LABS_KEY`**
+  (los robots también aceptan ese nombre, no solo `ELEVEN_API_KEY`).
+
+**Lo que SIGUE (próximo paso exacto): ESLABÓN IMÁGENES (Gemini "Nano Banana")**
+1. Andrés crea cuenta en **Google AI Studio** y genera una **`GEMINI_API_KEY`**
+   (se pone como secreto del environment; nunca en el chat ni en el código).
+2. Robot de imágenes: por cada panel del guion, genera la imagen manteniendo a cada
+   perro idéntico con su `visual` de `characters.json` + imagen de referencia.
 
 **Después (siguientes pasos del robot):**
 - Robot de prompts de imagen/video · Conectar Gemini (imágenes) · Conectar Hailuo/Kling

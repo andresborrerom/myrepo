@@ -32,7 +32,7 @@
       "raza": "Siberian Husky",
       "personalidad": "Dramatico, cree que es un lobo, exagera todo.",
       "voice_prompt": "A theatrical, over-the-top adult male voice, dramatic and intensely emotional, prone to wailing and exaggeration, like a melodramatic stage actor who treats every small event as a life-or-death tragedy.",
-      "voice_id": "rfQntnUwqyGbhtZlYPbB",
+      "voice_id": "lmJ6mXnx2Ch2RhpiGMs0",
       "voice_settings": {
         "stability": 0.2,
         "similarity_boost": 0.8,
@@ -40,7 +40,8 @@
         "use_speaker_boost": true
       },
       "visual": "a fluffy Siberian Husky with grey-and-white coat and striking blue eyes, dramatic expressive face, often mid-howl",
-      "voice_origen": "clon"
+      "voice_origen": "diseño",
+      "sfx_howl": "sfx/rex-howl.m4a"
     },
     "Bruno": {
       "raza": "Golden Retriever",
