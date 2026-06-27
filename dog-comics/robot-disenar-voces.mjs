@@ -84,36 +84,43 @@ for (const [nombre, perro] of Object.entries(personajes)) {
   console.log(`→ ${nombre}: diseñando voz...`);
   console.log(`   prompt: "${perro.voice_prompt.slice(0, 80)}..."`);
 
-  // 1) Generar 3 propuestas de voz a partir de la descripción.
-  const dis = await postJson(`${API}/design`, {
-    voice_description: perro.voice_prompt,
-    model_id: MODEL_DESIGN,
-    auto_generate_text: true
-  });
-  const previews = dis.previews || [];
-  if (previews.length === 0) { console.error(`   ❌ ${nombre}: ElevenLabs no devolvió propuestas.`); continue; }
+  // Si un perro falla (ej. el filtro de seguridad rechaza su prompt), lo registramos
+  // y seguimos con los demás: un perro malo no tumba toda la corrida.
+  try {
+    // 1) Generar 3 propuestas de voz a partir de la descripción.
+    const dis = await postJson(`${API}/design`, {
+      voice_description: perro.voice_prompt,
+      model_id: MODEL_DESIGN,
+      auto_generate_text: true
+    });
+    const previews = dis.previews || [];
+    if (previews.length === 0) { console.error(`   ❌ ${nombre}: ElevenLabs no devolvió propuestas.`); continue; }
 
-  // 2) Guardar las 3 propuestas para que el humano pueda comparar.
-  const dirPrev = new URL(`output/_voces-diseno/${nombre}/`, AQUI);
-  await mkdir(dirPrev, { recursive: true });
-  for (let i = 0; i < previews.length; i++) {
-    const mp3 = Buffer.from(previews[i].audio_base_64, 'base64');
-    await writeFile(new URL(`propuesta-${i + 1}.mp3`, dirPrev), mp3);
+    // 2) Guardar las 3 propuestas para que el humano pueda comparar.
+    const dirPrev = new URL(`output/_voces-diseno/${nombre}/`, AQUI);
+    await mkdir(dirPrev, { recursive: true });
+    for (let i = 0; i < previews.length; i++) {
+      const mp3 = Buffer.from(previews[i].audio_base_64, 'base64');
+      await writeFile(new URL(`propuesta-${i + 1}.mp3`, dirPrev), mp3);
+    }
+    console.log(`   🎧 ${previews.length} propuestas guardadas en output/_voces-diseno/${nombre}/`);
+
+    // 3) Convertir la propuesta #1 en voz permanente y guardar el voice_id.
+    const creada = await postJson(API, {
+      voice_name: `Barkademy - ${nombre}`,
+      voice_description: perro.voice_prompt,
+      generated_voice_id: previews[0].generated_voice_id
+    });
+    perro.voice_id = creada.voice_id;
+    console.log(`   ✅ Voz creada: ${creada.voice_id}`);
+    creadas++;
+
+    // 4) Guardar characters.json YA (si algo falla luego, no perdemos lo avanzado).
+    await writeFile(rutaCasting, JSON.stringify(casting, null, 2) + '\n');
+  } catch (e) {
+    const bloqueo = /blocked_generation|safety guidelines/i.test(e.message);
+    console.error(`   ❌ ${nombre}: ${bloqueo ? 'el filtro de seguridad de ElevenLabs rechazó el prompt. Suaviza el voice_prompt y reintenta.' : e.message}`);
   }
-  console.log(`   🎧 ${previews.length} propuestas guardadas en output/_voces-diseno/${nombre}/`);
-
-  // 3) Convertir la propuesta #1 en voz permanente y guardar el voice_id.
-  const creada = await postJson(API, {
-    voice_name: `Barkademy - ${nombre}`,
-    voice_description: perro.voice_prompt,
-    generated_voice_id: previews[0].generated_voice_id
-  });
-  perro.voice_id = creada.voice_id;
-  console.log(`   ✅ Voz creada: ${creada.voice_id}`);
-  creadas++;
-
-  // 4) Guardar characters.json YA (si algo falla luego, no perdemos lo avanzado).
-  await writeFile(rutaCasting, JSON.stringify(casting, null, 2) + '\n');
 }
 
 console.log(`\n📊 Listo: ${creadas} voces creadas, ${saltadas} ya existían.`);
