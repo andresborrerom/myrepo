@@ -95,6 +95,20 @@
         "use_speaker_boost": true
       },
       "visual": "a chubby wrinkly English Bulldog with a stocky body and droopy jowls, looking sleepy and unbothered, usually lying down"
+    },
+    "Malostragos": {
+      "raza": "Mestizo criollo grande (mezcla tipo pastor / golden)",
+      "personalidad": "El grande callejero. El más leal de todos, líder nato, más pro-humano que pro-perro. Noble, protector, sabio de la calle.",
+      "voice_prompt": "A deep, warm, weathered adult male voice, calm and steady with a gentle gravelly wisdom, like an old loyal street-wise leader who has seen everything and quietly protects everyone.",
+      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.85,
+        "style": 0.2,
+        "use_speaker_boost": true
+      },
+      "visual": "a large scruffy mixed-breed street dog with thick reddish-ginger and golden fur, lighter cream chest and legs, tall erect pointed ears, a long snout with a slightly graying grizzled muzzle, a fluffy tail and a lean but sturdy shepherd-like build, with calm soulful loyal eyes",
+      "nota": "Personaje basado en un perro REAL. Fotos de referencia en refs-fotos/Malostragos/. Voz pendiente de diseñar."
     }
   }
 }

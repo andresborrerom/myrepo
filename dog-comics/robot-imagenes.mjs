@@ -20,8 +20,9 @@
 // OJO COSTOS: cada imagen cuesta ~$0.039 en TU cuenta de Google. 7 fichas + ~6 viñetas
 // del primer cómic ≈ $0.5. Requiere facturación activada en el proyecto de Google.
 
-import { readFile, writeFile, mkdir, access } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, access, readdir } from 'node:fs/promises';
 import { constants } from 'node:fs';
+import { extname } from 'node:path';
 
 const AQUI = new URL('./', import.meta.url);
 const MODEL = 'gemini-2.5-flash-image'; // "Nano Banana" (verificado jun-2026)
@@ -90,6 +91,24 @@ async function comoReferencia(url) {
   return { inlineData: { mimeType: 'image/png', data: buf.toString('base64') } };
 }
 
+// Lee hasta 3 FOTOS REALES de refs-fotos/<nombre>/ para personajes basados en perros
+// de verdad (ej. Malostragos). Si no hay carpeta, devuelve [] y se usa solo el texto.
+async function fotosReales(nombre) {
+  const dir = new URL(`refs-fotos/${nombre}/`, AQUI);
+  let archivos;
+  try { archivos = await readdir(dir); } catch { return []; }
+  const MIME = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' };
+  const partes = [];
+  for (const f of archivos.sort()) {
+    const ext = extname(f).toLowerCase();
+    if (!MIME[ext]) continue;
+    const buf = await readFile(new URL(`${nombre}/${f}`, new URL('refs-fotos/', AQUI)));
+    partes.push({ inlineData: { mimeType: MIME[ext], data: buf.toString('base64') } });
+    if (partes.length >= 3) break; // gemini-2.5-flash-image admite ~3 referencias
+  }
+  return partes;
+}
+
 // ---------- MODO 1: crear las fichas de los perros ----------
 async function modoCasting() {
   const dir = new URL('refs-img/', AQUI);
@@ -99,10 +118,15 @@ async function modoCasting() {
   for (const [nombre, perro] of Object.entries(personajes)) {
     const salida = new URL(`${nombre}.png`, dir);
     if (await existe(salida)) { console.log(`✓ ${nombre}: ya tiene ficha, salto.`); saltadas++; continue; }
-    const prompt = `${ESTILO}. Full-body character reference of ${perro.visual}. Single dog, clean neutral studio background, full body visible, sharp focus. Character model sheet for an Instagram cartoon comic.`;
-    console.log(`→ ${nombre}: generando ficha...`);
+    const fotos = await fotosReales(nombre);
+    const trozos = [...fotos];
+    const prompt = fotos.length
+      ? `${ESTILO}. Turn THIS real dog into a character for an Instagram comic, keeping his distinctive look clearly recognizable (coat color and markings, ear shape, snout, body build). ${perro.visual}. Full body, single dog, clean neutral background, character model sheet.`
+      : `${ESTILO}. Full-body character reference of ${perro.visual}. Single dog, clean neutral studio background, full body visible, sharp focus. Character model sheet for an Instagram cartoon comic.`;
+    trozos.push({ text: prompt });
+    console.log(`→ ${nombre}: generando ficha${fotos.length ? ` (con ${fotos.length} foto(s) real(es))` : ''}...`);
     try {
-      const png = await generarImagen([{ text: prompt }], '1:1');
+      const png = await generarImagen(trozos, '1:1');
       await writeFile(salida, png);
       console.log(`   ✅ refs-img/${nombre}.png (${(png.length / 1024).toFixed(0)} KB)`);
       creadas++;
