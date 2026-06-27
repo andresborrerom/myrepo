@@ -44,10 +44,10 @@
     "Bruno": {
       "raza": "Golden Retriever",
       "personalidad": "Bueno y feliz, sin sentido comun, ama a todos.",
-      "voice_prompt": "A bright, cheerful, goofy young adult male voice, extremely friendly and enthusiastic, a little dopey and innocent, warm and bouncy, like a lovable golden-hearted simpleton who adores everyone.",
-      "voice_id": "dLqvP0iPlORfcStsusZz",
+      "voice_prompt": "A warm, mellow, easy-going adult male voice, low and relaxed, friendly and happy in a laid-back way, a little goofy and dopey, like a chilled-out good-natured guy who loves everyone and is never in a hurry.",
+      "voice_id": "jYeHVRDJKuwZzCqQ6CLQ",
       "voice_settings": {
-        "stability": 0.4,
+        "stability": 0.55,
         "similarity_boost": 0.85,
         "style": 0.4,
         "use_speaker_boost": true
@@ -70,10 +70,10 @@
     "Tank": {
       "raza": "Chihuahua",
       "personalidad": "Mini, ego gigante, siempre busca pelea.",
-      "voice_prompt": "An adult male voice with a naturally high, nasal, reedy tone, fast and energetic and full of comic over-the-top confidence, like a small dog with a huge personality who is absolutely sure he runs the place.",
-      "voice_id": "DGCe4ZcN5PQHr8uqQxjx",
+      "voice_prompt": "A bold, brassy adult male voice with loads of swagger and self-assured confidence, punchy and assertive with a slightly nasal edge, like a small dog who is completely convinced he is a big important boss and struts around like he owns the place.",
+      "voice_id": "pO66Bms5r8IEBHLJHLQN",
       "voice_settings": {
-        "stability": 0.25,
+        "stability": 0.5,
         "similarity_boost": 0.8,
         "style": 0.6,
         "use_speaker_boost": true

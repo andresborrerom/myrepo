@@ -30,9 +30,15 @@
     },
     {
       "personaje": "Africa",
-      "accion": "walks in calmly, huge and powerful, grabs the cardboard package in her mouth effortlessly while everyone watches in silence",
-      "dice": "I got the package. Sit down. All of you.",
+      "accion": "walks in calmly toward the package, huge and powerful, while everyone watches in silence",
+      "dice": "I got this. Sit down. All of you.",
       "texto_pantalla": "Africa doesn't ask twice."
+    },
+    {
+      "personaje": "Africa",
+      "accion": "the delivery man, startled by the giant dog, stumbles backward and the cardboard package tumbles to the floor with a loud thud; Africa doesn't flinch, calmly looking down at it",
+      "dice": "Okay. It's not glass.",
+      "texto_pantalla": "Africa doesn't panic either."
     }
   ],
   "caption": "Every dog has a job. Only Africa actually does it. Tag the 'Africa' of your house.",
