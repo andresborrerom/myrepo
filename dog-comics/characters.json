@@ -1,6 +1,6 @@
 {
   "_comment": "Elenco fijo de los cómics de perros. 'voice_prompt' es la descripción con la que el robot INVENTA la voz en ElevenLabs (Voice Design); córrelo con robot-disenar-voces.mjs y se llena 'voice_id' solo. 'visual' mantiene al personaje IDÉNTICO en cada imagen/video. 'voice_settings' afina el carácter de la voz al hablar (stability bajo = más expresivo/variable, style alto = más actuado).",
-  "estilo_global": "Photorealistic, cinematic lighting, realistic fur detail, shallow depth of field, warm indoor lighting",
+  "estilo_global": "Pixar-style 3D animated character, expressive and charming, soft cinematic lighting, vibrant colors, family-friendly animated movie look",
   "personajes": {
     "Kaiser": {
       "raza": "German Shepherd",
