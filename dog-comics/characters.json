@@ -1,10 +1,11 @@
 {
-  "_comment": "Elenco fijo de los cómics de perros. 'voice_id' lo sacas de ElevenLabs (Voice Library o Voice Design) y lo pegas aquí. 'visual' es la descripción que mantiene al personaje IDÉNTICO en cada imagen/video. 'voice_settings' afina el carácter de la voz (stability bajo = más expresivo/variable, style alto = más actuado).",
+  "_comment": "Elenco fijo de los cómics de perros. 'voice_prompt' es la descripción con la que el robot INVENTA la voz en ElevenLabs (Voice Design); córrelo con robot-disenar-voces.mjs y se llena 'voice_id' solo. 'visual' mantiene al personaje IDÉNTICO en cada imagen/video. 'voice_settings' afina el carácter de la voz al hablar (stability bajo = más expresivo/variable, style alto = más actuado).",
   "estilo_global": "Photorealistic, cinematic lighting, realistic fur detail, shallow depth of field, warm indoor lighting",
   "personajes": {
     "Kaiser": {
       "raza": "German Shepherd",
       "personalidad": "El líder. Serio, da órdenes, impone respeto.",
+      "voice_prompt": "A mature adult male voice, deep, steady and commanding. Calm and authoritative like a disciplined squad leader who is used to being obeyed. Measured, controlled pacing, never shouting.",
       "voice_id": "REEMPLAZAR_CON_VOICE_ID",
       "voice_settings": { "stability": 0.6, "similarity_boost": 0.85, "style": 0.25, "use_speaker_boost": true },
       "visual": "a confident adult German Shepherd with classic black-and-tan coat, alert upright ears, standing tall and composed like a leader"
@@ -12,13 +13,15 @@
     "Africa": {
       "raza": "Giant Schnauzer (black)",
       "personalidad": "La protectora. Fuerte sin medir su fuerza, lista pero obedece solo cuando quiere, no deja a nadie atras. Noble pero un poco abusiva.",
-      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_prompt": "A deep, powerful, calm female voice with quiet authority and a slight rasp, like a strong protective figure who does not need to raise her voice to be obeyed.",
+      "voice_id": "sJlqGT5R2Lf3CRxEcahI",
       "voice_settings": { "stability": 0.65, "similarity_boost": 0.85, "style": 0.2, "use_speaker_boost": true },
       "visual": "a large powerful female black Giant Schnauzer with a thick black coat, bushy eyebrows and beard, muscular and imposing but with calm intelligent eyes"
     },
     "Rex": {
       "raza": "Siberian Husky",
       "personalidad": "Dramatico, cree que es un lobo, exagera todo.",
+      "voice_prompt": "A theatrical, over-the-top adult male voice, dramatic and intensely emotional, prone to wailing and exaggeration, like a melodramatic stage actor who treats every small event as a life-or-death tragedy.",
       "voice_id": "REEMPLAZAR_CON_VOICE_ID",
       "voice_settings": { "stability": 0.2, "similarity_boost": 0.8, "style": 0.7, "use_speaker_boost": true },
       "visual": "a fluffy Siberian Husky with grey-and-white coat and striking blue eyes, dramatic expressive face, often mid-howl"
@@ -26,6 +29,7 @@
     "Bruno": {
       "raza": "Golden Retriever",
       "personalidad": "Bueno y feliz, sin sentido comun, ama a todos.",
+      "voice_prompt": "A bright, cheerful, goofy young adult male voice, extremely friendly and enthusiastic, a little dopey and innocent, warm and bouncy, like a lovable golden-hearted simpleton who adores everyone.",
       "voice_id": "REEMPLAZAR_CON_VOICE_ID",
       "voice_settings": { "stability": 0.4, "similarity_boost": 0.85, "style": 0.4, "use_speaker_boost": true },
       "visual": "a happy golden retriever with a glossy golden coat, big friendly smile, tongue out, tail clearly wagging"
@@ -33,6 +37,7 @@
     "Pixel": {
       "raza": "Border Collie",
       "personalidad": "El cerebro. Se aburre y trama planes.",
+      "voice_prompt": "A quick, clever, slightly smug adult male voice, sharp, crisp and articulate, like a witty mastermind who is always three steps ahead and a touch sarcastic.",
       "voice_id": "REEMPLAZAR_CON_VOICE_ID",
       "voice_settings": { "stability": 0.5, "similarity_boost": 0.85, "style": 0.3, "use_speaker_boost": true },
       "visual": "an alert black-and-white Border Collie with intense focused eyes and a sharp clever expression"
@@ -40,6 +45,7 @@
     "Tank": {
       "raza": "Chihuahua",
       "personalidad": "Mini, ego gigante, siempre busca pelea.",
+      "voice_prompt": "A small but intensely aggressive young male voice, high-pitched, fast and cocky, hot-tempered like a tiny self-important tough guy with a huge Napoleon complex who is convinced he is enormous.",
       "voice_id": "REEMPLAZAR_CON_VOICE_ID",
       "voice_settings": { "stability": 0.25, "similarity_boost": 0.8, "style": 0.6, "use_speaker_boost": true },
       "visual": "a tiny brown-and-white short-haired Chihuahua, comically small but with a furious aggressive expression and huge attitude"
@@ -47,6 +53,7 @@
     "SirWheeze": {
       "raza": "English Bulldog",
       "personalidad": "Perezoso, ronca, solo quiere el sofa.",
+      "voice_prompt": "A slow, deep, sleepy adult male voice with a posh British accent, gravelly and unbothered, mumbling and droopy like an aristocrat who just woke up from a nap and only wants to go back to sleep.",
       "voice_id": "REEMPLAZAR_CON_VOICE_ID",
       "voice_settings": { "stability": 0.55, "similarity_boost": 0.85, "style": 0.2, "use_speaker_boost": true },
       "visual": "a chubby wrinkly English Bulldog with a stocky body and droopy jowls, looking sleepy and unbothered, usually lying down"

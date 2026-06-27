@@ -21,9 +21,14 @@ guion simple, de forma automatizable.
 - ✅ Plan de ElevenLabs: **Creator** (cubre uso comercial)
 
 **Lo que SIGUE (próximo paso exacto):**
-1. Tener `ELEVEN_API_KEY` disponible (como secreto del environment, cargado al iniciar sesión).
-2. **Crear las 7 voces de los perros** con la API de Voice Design de ElevenLabs y guardar
-   cada `voice_id` en `characters.json` (hoy están en `REEMPLAZAR_CON_VOICE_ID`).
+1. ✅ Key de ElevenLabs disponible. OJO: en el environment el secreto se llama
+   **`ELEVENLABS_LABS_KEY`** (no `ELEVEN_API_KEY`). Los robots ya aceptan ese nombre.
+2. **Crear las 7 voces de los perros** con la API de Voice Design:
+   ```
+   node dog-comics/robot-disenar-voces.mjs
+   ```
+   Esto inventa cada voz desde su `voice_prompt`, guarda 3 propuestas para comparar en
+   `output/_voces-diseno/<Perro>/`, y escribe el `voice_id` real en `characters.json`.
 3. Correr el robot de voces para generar los audios de "The Doorbell":
    ```
    node dog-comics/robot-voces.mjs the-doorbell
@@ -51,13 +56,26 @@ guion simple, de forma automatizable.
 
 ---
 
-## ▶️ Cómo correr el robot de voces
+## ▶️ Cómo correr los robots de voz
 
-1. Pon tu key de ElevenLabs (una de estas dos):
-   - como variable de entorno `ELEVEN_API_KEY`, o
-   - en un archivo `dog-comics/.env` (copia `dog-comics/.env.example`). Está gitignored.
-2. Asegúrate de que cada perro en `characters.json` tenga su `voice_id` real.
-3. Corre: `node dog-comics/robot-voces.mjs the-doorbell`
-4. Los `.mp3` salen en `dog-comics/output/the-doorbell/voces/`.
+**La key** sale del entorno: en el environment de Claude Code ya viene como secreto
+`ELEVENLABS_LABS_KEY`. En tu propio computador, ponla en `dog-comics/.env`
+(copia `dog-comics/.env.example`, está gitignored). Los robots aceptan
+`ELEVEN_API_KEY`, `ELEVENLABS_API_KEY` o `ELEVENLABS_LABS_KEY`.
 
-El robot es idempotente: no regenera audios que ya existen (no gasta créditos de gusto).
+**1) Diseñar las voces (una sola vez):**
+```
+node dog-comics/robot-disenar-voces.mjs
+```
+Inventa la voz de cada perro desde su `voice_prompt`, deja 3 propuestas en
+`output/_voces-diseno/<Perro>/` para comparar, y guarda el `voice_id` en `characters.json`.
+
+**2) Generar los diálogos de un guion:**
+```
+node dog-comics/robot-voces.mjs the-doorbell
+```
+Los `.mp3` salen en `dog-comics/output/the-doorbell/voces/`.
+
+Ambos robots son idempotentes: no recrean voces ni audios que ya existen (no gastan
+créditos de gusto). ¿No te gustó una voz? Borra su `voice_id` en `characters.json` y
+vuelve a correr el diseñador.

@@ -37,10 +37,11 @@ async function cargarEnvLocal() {
 }
 await cargarEnvLocal();
 
-const API_KEY = process.env.ELEVEN_API_KEY || process.env.ELEVENLABS_API_KEY;
+// Aceptamos varios nombres: el secreto del environment se llama ELEVENLABS_LABS_KEY.
+const API_KEY = process.env.ELEVEN_API_KEY || process.env.ELEVENLABS_API_KEY || process.env.ELEVENLABS_LABS_KEY;
 if (!API_KEY) {
   console.error('\n❌ Falta la API key de ElevenLabs.');
-  console.error('   Ponla así:  ELEVEN_API_KEY=xxxx node dog-comics/robot-voces.mjs the-doorbell');
+  console.error('   En este environment debería venir como secreto ELEVENLABS_LABS_KEY.');
   console.error('   O créala en el archivo  dog-comics/.env  (ver dog-comics/.env.example)\n');
   process.exit(1);
 }
