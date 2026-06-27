@@ -110,12 +110,13 @@ async function fotosReales(nombre) {
 }
 
 // ---------- MODO 1: crear las fichas de los perros ----------
-async function modoCasting() {
+async function modoCasting(soloUno) {
   const dir = new URL('refs-img/', AQUI);
   await mkdir(dir, { recursive: true });
-  console.log('\n🎨 Creando las fichas visuales de los 7 perros...\n');
+  console.log(soloUno ? `\n🎨 Creando la ficha de ${soloUno}...\n` : '\n🎨 Creando las fichas visuales de los perros...\n');
   let creadas = 0, saltadas = 0;
   for (const [nombre, perro] of Object.entries(personajes)) {
+    if (soloUno && nombre.toLowerCase() !== soloUno.toLowerCase()) continue;
     const salida = new URL(`${nombre}.png`, dir);
     if (await existe(salida)) { console.log(`✓ ${nombre}: ya tiene ficha, salto.`); saltadas++; continue; }
     const fotos = await fotosReales(nombre);
@@ -186,5 +187,5 @@ if (!arg) {
   console.error('  o:  node dog-comics/robot-imagenes.mjs the-doorbell   (genera las viñetas del guion)');
   process.exit(1);
 }
-if (arg === 'casting') await modoCasting();
+if (arg === 'casting') await modoCasting(process.argv[3]); // opcional: un solo perro, ej. "casting Malostragos"
 else await modoGuion(arg);
