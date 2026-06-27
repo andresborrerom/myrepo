@@ -1,0 +1,40 @@
+{
+  "titulo": "The Doorbell",
+  "slug": "the-doorbell",
+  "escena_base": "a cozy living room",
+  "panels": [
+    {
+      "tipo": "sfx",
+      "sfx": "a doorbell ringing, ding dong",
+      "texto_pantalla": "The doorbell rang."
+    },
+    {
+      "personaje": "Tank",
+      "accion": "lunges forward, tiny but furious, barking like crazy",
+      "dice": "I'll handle this. Everybody stay back!"
+    },
+    {
+      "personaje": "Bruno",
+      "accion": "has already opened the door, tail wagging, happily greeting the delivery guy",
+      "dice": "Hi!! Come in!! I love you!!"
+    },
+    {
+      "personaje": "Tank",
+      "accion": "tiny and deflated in the corner, defeated",
+      "dice": "...you ruined the whole plan."
+    },
+    {
+      "personaje": "Rex",
+      "accion": "lying dramatically on the floor, paws in the air, screaming",
+      "dice": "We've been breached! This is the end of everything!"
+    },
+    {
+      "personaje": "Africa",
+      "accion": "walks in calmly, huge and powerful, grabs the cardboard package in her mouth effortlessly while everyone watches in silence",
+      "dice": "I got the package. Sit down. All of you.",
+      "texto_pantalla": "Africa doesn't ask twice."
+    }
+  ],
+  "caption": "Every dog has a job. Only Africa actually does it. Tag the 'Africa' of your house.",
+  "hashtags": ["#dogcomics", "#aidog", "#doghumor", "#dogsofinstagram", "#funnydogs", "#germanshepherd", "#schnauzer", "#fyp"]
+}

@@ -10,3 +10,6 @@ next-env.d.ts
 .vercel
 voices.config.json
 tmp/
+
+# Salidas generadas por el robot de comics (audios, imagenes, videos)
+dog-comics/output/
