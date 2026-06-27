@@ -32,27 +32,29 @@
       "raza": "Siberian Husky",
       "personalidad": "Dramatico, cree que es un lobo, exagera todo.",
       "voice_prompt": "A theatrical, over-the-top adult male voice, dramatic and intensely emotional, prone to wailing and exaggeration, like a melodramatic stage actor who treats every small event as a life-or-death tragedy.",
-      "voice_id": "lmJ6mXnx2Ch2RhpiGMs0",
+      "voice_id": "rfQntnUwqyGbhtZlYPbB",
       "voice_settings": {
         "stability": 0.2,
         "similarity_boost": 0.8,
         "style": 0.7,
         "use_speaker_boost": true
       },
-      "visual": "a fluffy Siberian Husky with grey-and-white coat and striking blue eyes, dramatic expressive face, often mid-howl"
+      "visual": "a fluffy Siberian Husky with grey-and-white coat and striking blue eyes, dramatic expressive face, often mid-howl",
+      "voice_origen": "clon"
     },
     "Bruno": {
       "raza": "Golden Retriever",
       "personalidad": "Bueno y feliz, sin sentido comun, ama a todos.",
       "voice_prompt": "A warm, mellow, easy-going adult male voice, low and relaxed, friendly and happy in a laid-back way, a little goofy and dopey, like a chilled-out good-natured guy who loves everyone and is never in a hurry.",
-      "voice_id": "jYeHVRDJKuwZzCqQ6CLQ",
+      "voice_id": "5QbOdOH3qssnV4lIxLaL",
       "voice_settings": {
         "stability": 0.55,
         "similarity_boost": 0.85,
         "style": 0.4,
         "use_speaker_boost": true
       },
-      "visual": "a happy golden retriever with a glossy golden coat, big friendly smile, tongue out, tail clearly wagging"
+      "visual": "a happy golden retriever with a glossy golden coat, big friendly smile, tongue out, tail clearly wagging",
+      "voice_origen": "clon"
     },
     "Pixel": {
       "raza": "Border Collie",
