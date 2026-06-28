@@ -53,8 +53,9 @@ for (let i = 0; i < guion.panels.length; i++) {
     ff(['-i', p(clip), '-filter_complex', VF, '-map', '[v]', '-map', '0:a:0?', ...vBase, p(norm)]);
     console.log(`✓ ${num} (${etiqueta}) [veo] — voz del clip`);
   } else if (await existe(voz)) {
-    // hailuo + voz de ElevenLabs encima (rellena con silencio hasta el final del video)
-    ff(['-i', p(clip), '-i', p(voz), '-filter_complex', `${VF};[1:a]aresample=48000,apad[a]`, '-map', '[v]', '-map', '[a]', '-shortest', ...vBase, p(norm)]);
+    // hailuo + voz de ElevenLabs encima. El video manda la duración (6s); la voz
+    // (más corta) simplemente termina antes. Sin apad infinito.
+    ff(['-i', p(clip), '-i', p(voz), '-filter_complex', `${VF};[1:a]aresample=48000[a]`, '-map', '[v]', '-map', '[a]', ...vBase, p(norm)]);
     console.log(`✓ ${num} (${etiqueta}) [hailuo] — voz ElevenLabs`);
   } else {
     // sin voz → silencio
