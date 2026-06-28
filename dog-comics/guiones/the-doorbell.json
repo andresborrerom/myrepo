@@ -6,39 +6,46 @@
     {
       "tipo": "sfx",
       "sfx": "a doorbell ringing, ding dong",
-      "texto_pantalla": "The doorbell rang."
+      "texto_pantalla": "The doorbell rang.",
+      "motor": "hailuo"
     },
     {
       "personaje": "Tank",
       "accion": "lunges forward, tiny but furious, barking like crazy",
-      "dice": "I'll handle this. Everybody stay back!"
+      "dice": "I'll handle this. Everybody stay back!",
+      "motor": "veo"
     },
     {
       "personaje": "Bruno",
       "accion": "has already opened the door, tail wagging, happily greeting the delivery guy",
-      "dice": "Hi!! Come in!! I love you!!"
+      "dice": "Hi!! Come in!! I love you!!",
+      "motor": "hailuo"
     },
     {
       "personaje": "Tank",
       "accion": "tiny and deflated in the corner, defeated",
-      "dice": "...you ruined the whole plan."
+      "dice": "...you ruined the whole plan.",
+      "motor": "veo"
     },
     {
       "personaje": "Rex",
       "accion": "lying dramatically on the floor, paws in the air, screaming",
-      "dice": "We've been breached! This is the end of everything!"
+      "dice": "We've been breached! This is the end of everything!",
+      "motor": "hailuo"
     },
     {
       "personaje": "Africa",
       "accion": "walks in calmly toward the package, huge and powerful, while everyone watches in silence",
       "dice": "I got this. Sit down. All of you.",
-      "texto_pantalla": "Africa doesn't ask twice."
+      "texto_pantalla": "Africa doesn't ask twice.",
+      "motor": "veo"
     },
     {
       "personaje": "Africa",
       "accion": "the delivery man, startled by the giant dog, stumbles backward and the cardboard package tumbles to the floor with a loud thud; Africa doesn't flinch, calmly looking down at it",
       "dice": "Okay. It's not glass.",
-      "texto_pantalla": "Africa doesn't panic either."
+      "texto_pantalla": "Africa doesn't panic either.",
+      "motor": "veo"
     }
   ],
   "caption": "Every dog has a job. Only Africa actually does it. Tag the 'Africa' of your house.",
