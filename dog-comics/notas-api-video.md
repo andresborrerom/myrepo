@@ -40,6 +40,30 @@ exitosos (no la espera ni errores).
 - Filtros de contenido pueden rechazar (raro en perros de caricatura) → el robot registra
   el error y sigue.
 
+## Lip-sync ("que el perro hable con la boca sincronizada") — VERIFICADO
+
+Pregunta clave del proyecto. Conclusión tras investigación en vivo:
+
+- **Lip-sync encima de un clip, conservando NUESTRA voz (ElevenLabs):** ❌ NO sirve en
+  perros. Los modelos (sync.so, Wav2Lip, LatentSync, MuseTalk, Hummingbird) dependen de
+  detectar una **cara/boca humana**. sync.so dice textual: *"don't support animals or
+  non-humanoid characters."* Un hocico de perro es justo el caso que falla.
+- **Veo 3.1 (Google):** ✅ SÍ hace hablar al perro con boca sincronizada, en 9:16.
+  PERO **genera su propia voz** desde el texto del prompt — **no acepta cargar nuestro
+  mp3**. (`generate_audio` es solo on/off, no "usa este audio"). O sea: lip-sync real
+  *a cambio de* perder la voz de ElevenLabs en ese clip.
+  - Endpoint fal: `fal-ai/veo3.1/fast/image-to-video` (y `.../veo3.1/image-to-video`).
+  - Input: `prompt` (diálogo entre comillas, formato `Dog (Name): "línea"`), `image_url`,
+    `aspect_ratio: "9:16"`, `duration: "4s"|"6s"|"8s"`, `resolution: "720p"|"1080p"|"4k"`,
+    `generate_audio: true`. Output igual que Hailuo (`response_url` → `video.url`).
+  - Precio (audio on): **fast $0.15/s** (6s ≈ $0.90), standard $0.40/s (6s ≈ $2.40).
+  - Gemini API alterno: modelos `veo-3.1-fast-generate-preview` / `veo-3.1-generate-preview`.
+
+**Decisión de producto (pendiente del operador):**
+1. Cómic barato: Hailuo + voces ElevenLabs + bocadillos, sin lip-sync (~$0.27/clip).
+2. Película: Veo, lip-sync real, voz de Veo (~$0.90/clip fast), sin ElevenLabs.
+3. Híbrido: Veo solo en primeros planos donde el perro habla; Hailuo en el resto.
+
 ---
-*Fuentes: fal.ai/models/fal-ai/minimax/hailuo-02/..., fal.ai/docs/model-apis/client, fal.ai/pricing,
-fal.ai/models/fal-ai/veo3.1/... Verificado jun-2026.*
+*Fuentes: fal.ai/models/fal-ai/minimax/hailuo-02/..., fal.ai/models/fal-ai/veo3.1/...,
+sync.so/docs/models, ai.google.dev/gemini-api/docs/video, fal.ai/pricing. Verificado jun-2026.*
