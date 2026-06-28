@@ -147,6 +147,7 @@ async function modoGuion(slug) {
   await mkdir(dir, { recursive: true });
   console.log(`\n🎬 Generando viñetas de: "${guion.titulo}"\n`);
   let creadas = 0, saltadas = 0;
+  const ultimaDe = {}; // última viñeta de cada perro, para mantener continuidad panel a panel
 
   for (let i = 0; i < guion.panels.length; i++) {
     const panel = guion.panels[i];
@@ -155,16 +156,22 @@ async function modoGuion(slug) {
     const perro = nombre ? personajes[nombre] : null;
     const etiqueta = nombre || 'escena';
     const salida = new URL(`${num}-${etiqueta}.png`, dir);
-    if (await existe(salida)) { console.log(`✓ Panel ${num} (${etiqueta}): ya existe, salto.`); saltadas++; continue; }
+    if (await existe(salida)) {
+      console.log(`✓ Panel ${num} (${etiqueta}): ya existe, salto.`);
+      if (nombre) ultimaDe[nombre] = salida; // sirve de referencia de continuidad para la próxima viñeta de este perro
+      saltadas++; continue;
+    }
 
-    // Construir el pedido: estilo + escena + acción del panel, con la ficha del perro como referencia.
+    // Construir el pedido: estilo + escena + acción, con la ficha del perro como referencia
+    // Y ADEMÁS, si este perro ya salió antes, su última viñeta (para que se vea idéntico de panel a panel).
     const escena = guion.escena_base || guion.panels[0]?.escena_base || 'a cozy room';
     const trozos = [];
-    let refPath = perro ? new URL(`refs-img/${nombre}.png`, AQUI) : null;
+    const refPath = perro ? new URL(`refs-img/${nombre}.png`, AQUI) : null;
     if (refPath && await existe(refPath)) trozos.push(await comoReferencia(refPath));
+    if (nombre && ultimaDe[nombre]) trozos.push(await comoReferencia(ultimaDe[nombre]));
 
     const desc = perro
-      ? `Keep this EXACT same dog character identical to the reference. Comic panel: ${perro.visual}, ${panel.accion}. Setting: ${escena}.`
+      ? `Keep this EXACT same dog character identical to the reference image(s) (same face, fur color, ears, proportions). Comic panel: ${perro.visual}, ${panel.accion}. Setting: ${escena}.`
       : `Comic panel, no characters. ${panel.sfx ? 'Scene suggesting: ' + panel.sfx + '. ' : ''}Setting: ${escena}.`;
     trozos.push({ text: `${ESTILO}. Vertical 9:16 Instagram comic panel. ${desc}` });
 
@@ -173,6 +180,7 @@ async function modoGuion(slug) {
       const png = await generarImagen(trozos, '9:16');
       await writeFile(salida, png);
       console.log(`   ✅ ${num}-${etiqueta}.png (${(png.length / 1024).toFixed(0)} KB)`);
+      if (nombre) ultimaDe[nombre] = salida;
       creadas++;
     } catch (e) { console.error(`   ❌ Panel ${num}: ${e.message}`); }
   }
