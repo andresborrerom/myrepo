@@ -111,6 +111,23 @@
       },
       "visual": "a large scruffy mixed-breed street dog with thick reddish-ginger and golden fur, lighter cream chest and legs, tall erect pointed ears, a long snout with a slightly graying grizzled muzzle, a fluffy tail and a lean but sturdy shepherd-like build, with calm soulful loyal eyes",
       "nota": "Personaje basado en un perro REAL. Fotos de referencia en refs-fotos/Malostragos/. Voz pendiente de diseñar."
+    },
+    "Pepe": {
+      "tipo": "humano",
+      "raza": "Humano",
+      "nombre_en": "Pepe",
+      "rol": "(por definir) — el humano de Barkademy.",
+      "personalidad": "(por definir con el operador)",
+      "voice_prompt": "(por definir — voz de adulto joven, cálida y amigable)",
+      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.85,
+        "style": 0.3,
+        "use_speaker_boost": true
+      },
+      "visual": "a friendly young adult man in his late twenties, warm and approachable, casual clothes",
+      "nota": "Personaje ADULTO inspirado en Pedro Pablo (hijo del operador), envejecido a adulto para PROTEGER su identidad. No es su cara real. Fotos de referencia (solo para inspirar) en refs-fotos/Pepe/."
     }
   }
 }

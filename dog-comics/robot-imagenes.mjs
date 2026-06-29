@@ -121,9 +121,19 @@ async function modoCasting(soloUno) {
     if (await existe(salida)) { console.log(`✓ ${nombre}: ya tiene ficha, salto.`); saltadas++; continue; }
     const fotos = await fotosReales(nombre);
     const trozos = [...fotos];
-    const prompt = fotos.length
-      ? `${ESTILO}. Turn THIS real dog into a character for an Instagram comic, keeping his distinctive look clearly recognizable (coat color and markings, ear shape, snout, body build). ${perro.visual}. Full body, single dog, clean neutral background, character model sheet.`
-      : `${ESTILO}. Full-body character reference of ${perro.visual}. Single dog, clean neutral studio background, full body visible, sharp focus. Character model sheet for an Instagram cartoon comic.`;
+    const esHumano = perro.tipo === 'humano';
+    let prompt;
+    if (esHumano) {
+      // Personaje humano: si hay fotos, se ENVEJECE a adulto e INSPIRA (no copia), para
+      // proteger la identidad de un menor. El resultado es un adulto distinto.
+      prompt = fotos.length
+        ? `${ESTILO}. Create a young ADULT character INSPIRED by the person in these photos: age them up to a friendly adult in their late 20s. Keep only a subtle family resemblance but make them clearly a DISTINCT ADULT, NOT a child. ${perro.visual}. Full body, single character, clean neutral background, character model sheet.`
+        : `${ESTILO}. Full-body character reference of an adult: ${perro.visual}. Single character, clean neutral background, character model sheet.`;
+    } else {
+      prompt = fotos.length
+        ? `${ESTILO}. Turn THIS real dog into a character for an Instagram comic, keeping his distinctive look clearly recognizable (coat color and markings, ear shape, snout, body build). ${perro.visual}. Full body, single dog, clean neutral background, character model sheet.`
+        : `${ESTILO}. Full-body character reference of ${perro.visual}. Single dog, clean neutral studio background, full body visible, sharp focus. Character model sheet for an Instagram cartoon comic.`;
+    }
     trozos.push({ text: prompt });
     console.log(`→ ${nombre}: generando ficha${fotos.length ? ` (con ${fotos.length} foto(s) real(es))` : ''}...`);
     try {
