@@ -116,18 +116,19 @@
       "tipo": "humano",
       "raza": "Humano",
       "nombre_en": "Pepe",
-      "rol": "(por definir) — el humano de Barkademy.",
-      "personalidad": "(por definir con el operador)",
-      "voice_prompt": "(por definir — voz de adulto joven, cálida y amigable)",
+      "edad": "niño",
+      "rol": "Cuidador y profe de Barkademy. El niño humano que cuida y enseña a los perros.",
+      "personalidad": "Chistoso y cariñoso. Le encanta marranear y jugar brusco con los perros, y que se le monten encima a jugar. Alegre y cercano; los perros lo adoran.",
+      "voice_prompt": "(por definir — voz de niño alegre y chistosa, DISEÑADA, nunca la voz real del menor)",
       "voice_id": "REEMPLAZAR_CON_VOICE_ID",
       "voice_settings": {
-        "stability": 0.5,
+        "stability": 0.45,
         "similarity_boost": 0.85,
-        "style": 0.3,
+        "style": 0.4,
         "use_speaker_boost": true
       },
-      "visual": "a friendly young adult man in his late twenties, warm and approachable, casual clothes",
-      "nota": "Personaje ADULTO inspirado en Pedro Pablo (hijo del operador), envejecido a adulto para PROTEGER su identidad. No es su cara real. Fotos de referencia (solo para inspirar) en refs-fotos/Pepe/."
+      "visual": "a cheerful boy around 7-8 years old with short brown hair and a big warm smile, wearing a bright yellow Colombia national football jersey",
+      "nota": "Personaje NIÑO inspirado en Pedro Pablo (hijo del operador); aparece como niño en el cómic. Camiseta de Colombia como sello. Fotos reales en refs-fotos/Pepe/ (gitignored, NO se publican). Decisión de likeness (fiel vs inspirado) pendiente del operador."
     }
   }
 }
