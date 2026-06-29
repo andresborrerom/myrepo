@@ -13,3 +13,10 @@ tmp/
 
 # Salidas generadas por el robot de comics (audios, imagenes, videos)
 dog-comics/output/
+
+# Fotos reales del hijo del operador: NO subir (solo se publica el personaje adulto Pepe)
+dog-comics/refs-fotos/Pepe/*.jpeg
+dog-comics/refs-fotos/Pepe/*.jpg
+dog-comics/refs-fotos/Pepe/*.png
+dog-comics/refs-fotos/Pepe/*.mov
+dog-comics/refs-fotos/Pepe/*.mp4
