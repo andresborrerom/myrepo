@@ -1,89 +1,61 @@
 {
   "titulo": "Give Me The Paw",
   "slug": "give-me-the-paw",
-  "version": "punch-v3",
+  "version": "storyboard-v5 (líneas del autor, sin recortar)",
   "escena_base": "the Barkademy classroom (chalkboard reading 'BARKADEMY', dog cubbies, paw prints on the wall)",
-  "premisa": "Pepe (profe/cuidador niño) intenta enseñar a dar la pata. Corre el gag 'Give me the paw!' y cada perro lo subvierte a su personalidad. Comedia + ternura. Cierra en montaña de perros con callback de Tank.",
+  "premisa": "Pepe (profe/cuidador niño) enseña a dar la pata. El gag 'Give me the paw!' se ve/oye al inicio y cada perro lo subvierte a su personalidad. Comedia + ternura. Cierra en montaña de perros con callback de Tank.",
   "running_gag": "Give me the paw!",
-  "objetivo_duracion_seg": 30,
   "subtitulos": "FRASE por frase (una línea a la vez, sincronizada con la voz). NO palabra por palabra.",
-  "notas_punch": "Cold-open con Tank (planta el callback). Cada panel dura lo que dura su diálogo + una pausa de ~0.4s antes del remate, luego corte rápido. Un SFX justo en la palabra clave. Caras MUY exageradas. La MANERA de hablar de cada perro ('entrega') es parte de su voz.",
-  "panels": [
-    {
-      "panel": 1, "hook": true, "personajes": ["Tank", "Pepe"],
-      "accion": "COLD OPEN, primer plano: Tank diminuto temblando de rabia, gruñendo a cámara; la mano de Pepe paciente y abierta en cuadro",
-      "dialogo": [
-        { "quien": "Pepe", "dice": "Tank, give me the paw.", "entrega": "paciente, dulce" },
-        { "quien": "Tank", "dice": "YOU give ME your paw!", "entrega": "rabia temblorosa, rápido", "enfasis": "YOU" },
-        { "quien": "Tank", "dice": "Come and get it, coward.", "entrega": "gruñido bajo, chulo", "enfasis": "coward" }
-      ],
-      "sfx": "gruñidito + sting de tensión cómica",
-      "comedia": "Hook de conflicto en 2s. Planta el callback de Tank."
-    },
-    {
-      "panel": 2, "personajes": ["Rex", "Pepe"],
-      "accion": "Pepe pide la pata; Rex LEVANTA la pata como para darla y, en vez de eso, la convierte en cojera y renguea como herido de guerra",
-      "dialogo": [
-        { "quien": "Pepe", "dice": "You're... not in pain, Rex.", "entrega": "incrédulo, plano" },
-        { "quien": "Rex", "dice": "I am ALWAYS in interior pain.", "entrega": "teatral, melodramático; termina en aullido", "enfasis": "interior", "tag": "howl" }
-      ],
-      "sfx": "violín dramático + aullido",
-      "comedia": "Drama exagerado. Regla de tres, beat 1 (rompe la expectativa: levanta la pata pero no la da)."
-    },
-    {
-      "panel": 3, "personajes": ["SirWheeze", "Pepe"],
-      "accion": "SirWheeze sigue acostado y arrastra la pata por el piso sin levantarla, ojos a medio cerrar",
-      "dialogo": [
-        { "quien": "SirWheeze", "dice": "Close enough?", "entrega": "mascullado, somnoliento" },
-        { "quien": "SirWheeze", "dice": "...Okay. Nap time. Exhausting.", "entrega": "se apaga, bostezando", "enfasis": "Exhausting" }
-      ],
-      "sfx": "slide whistle perezoso + ronquidito",
-      "comedia": "Mínimo esfuerzo, deadpan. Regla de tres, beat 2."
-    },
-    {
-      "panel": 4, "personajes": ["Kaiser", "Pepe"],
-      "accion": "Kaiser sube la pata PERFECTA, postura militar rígida, pecho afuera, esperando elogio; mira de reojo con desprecio a los otros perros",
-      "dialogo": [
-        { "quien": "Kaiser", "dice": "Paw! Sir, yes sir!", "entrega": "marcial, ladrado, firme" },
-        { "quien": "Pepe", "dice": "Great! Good boy, Kaiser!", "entrega": "feliz, animando" },
-        { "quien": "Kaiser", "dice": "Of course.", "entrega": "orgullo propio, seco", "enfasis": "Of course" },
-        { "quien": "Kaiser", "dice": "...Unlike SOME of you.", "entrega": "a los otros perros, desdeñoso", "enfasis": "SOME" }
-      ],
-      "sfx": "sting marcial seco",
-      "comedia": "Kaiser está orgulloso de SÍ MISMO: busca el elogio de Pepe y desprecia a los demás."
-    },
-    {
-      "panel": 5, "personajes": ["Bear", "Pepe"],
-      "accion": "Bear, calmado y sabio, primero ENTRENA a Pepe; Pepe repite con seguridad; entonces Bear da la pata y mira a Pepe con orgullo de papá",
-      "dialogo": [
-        { "quien": "Bear", "dice": "Say it like you mean it, kid.", "entrega": "grave, cálido, mentor" },
-        { "quien": "Pepe", "dice": "Give me the paw!", "entrega": "ahora con seguridad" },
-        { "quien": "Bear", "dice": "Good kid. Keep at it — you're doing great.", "entrega": "orgulloso de Pepe, cálido", "enfasis": "Good kid" }
-      ],
-      "sfx": "campanita suave y cálida",
-      "comedia": "EL CONTRASTE con Kaiser: Bear está orgulloso de PEPE, lo entrena y lo felicita (no al revés)."
-    },
-    {
-      "panel": 6, "personajes": ["Bruno", "Pepe"],
-      "accion": "Bruno mira la mano vacía de Pepe, ladea la cabeza; luego salta y le lame toda la cara mientras Pepe ríe",
-      "dialogo": [
-        { "quien": "Bruno", "dice": "No ball... no cookie...", "entrega": "genuinamente confundido, feliz" },
-        { "quien": "Bruno", "dice": "What are we even playing? ...OH! I know!", "entrega": "estalla de alegría", "enfasis": "OH" }
-      ],
-      "sfx": "boing feliz + lamida + risa de Pepe",
-      "comedia": "Lógica de bobo feliz → ternura. Pico emocional antes del clímax."
-    },
-    {
-      "panel": 7, "personajes": ["Africa", "Pepe", "todos"],
-      "accion": "Africa: 'I know what you REALLY want' — tacle MUY juguetón a Pepe, todos los perros se le montan, montaña de perros, Pepe enterrado riendo; Tank emerge encima, chulo",
-      "dialogo": [
-        { "quien": "Africa", "dice": "The paw? I know what you REALLY want.", "entrega": "voz FEMENINA grave y cálida, cómplice", "enfasis": "REALLY" },
-        { "quien": "Pepe", "dice": "—just the paw—!", "entrega": "enterrado, riendo" },
-        { "quien": "Tank", "dice": "Told you. Got you AND your paw.", "entrega": "chulo, victorioso", "enfasis": "Told you", "tag": "callback al panel 1" }
-      ],
-      "sfx": "whoosh juguetón + montaña de perros + sting final en la línea de Tank",
-      "comedia": "Clímax de ternura + CALLBACK de Tank que paga el cold-open. Cortar inmediatamente después."
-    }
+  "staging": "Cada TOMA = una imagen. Los diálogos de ida y vuelta se parten en varias tomas (primer plano de quien habla, corte a la reacción). NO se recortan las líneas del autor.",
+  "duracion_estimada_seg": "~38-40 (con todas tus líneas; priorizamos tus palabras sobre el largo)",
+  "shots": [
+    { "id": "01", "beat": "Establecer gag", "plano": "WIDE del aula", "en_cuadro": "Pepe de frente a la clase de perros, mano arriba; chalkboard 'BARKADEMY'",
+      "linea": { "quien": "Pepe", "dice": "Give me the paw!", "entrega": "alegre, con energía" }, "enfasis": "Give me the paw", "dur_seg": 2.0, "nota": "Aquí SE VE y SE OYE el gag al inicio." },
+
+    { "id": "02", "beat": "Rex", "plano": "DOS (Pepe + Rex)", "en_cuadro": "Rex LEVANTA la pata como para darla y, en vez de eso, empieza a cojear hacia Pepe como herido",
+      "linea": { "quien": "Pepe", "dice": "You are not in pain...", "entrega": "incrédulo" }, "dur_seg": 2.0 },
+    { "id": "03", "beat": "Rex", "plano": "PRIMER PLANO Rex", "en_cuadro": "Rex trágico, mirada al cielo",
+      "linea": { "quien": "Rex", "dice": "I am always in interior pain.", "entrega": "teatral; termina en aullido", "tag": "howl" }, "sfx": "violín dramático + aullido", "dur_seg": 2.3 },
+
+    { "id": "04", "beat": "SirWheeze", "plano": "MEDIO a ras de piso", "en_cuadro": "SirWheeze acostado arrastra la pata por el piso sin levantarla",
+      "linea": { "quien": "SirWheeze", "dice": "Close enough yes? Ok yes, resting time, that was exhausting...", "entrega": "mascullado, somnoliento, se apaga" }, "sfx": "slide whistle perezoso + ronquidito", "dur_seg": 3.2 },
+
+    { "id": "05", "beat": "Tank", "plano": "PRIMER PLANO Tank", "en_cuadro": "Tank diminuto temblando de rabia, gruñendo",
+      "linea": { "quien": "Tank", "dice": "YOU give me YOUR PAW!!!", "entrega": "rabia temblorosa, gritado" }, "sfx": "gruñidito + sting", "dur_seg": 1.8 },
+    { "id": "06", "beat": "Tank", "plano": "DOS (Pepe + Tank)", "en_cuadro": "Pepe calmado, paciente",
+      "linea": { "quien": "Pepe", "dice": "No growling Tank, just give me the paw.", "entrega": "calmado" }, "dur_seg": 2.0 },
+    { "id": "07", "beat": "Tank", "plano": "PRIMER PLANO Tank", "en_cuadro": "Tank retador",
+      "linea": { "quien": "Tank", "dice": "Come and get it you coward.", "entrega": "gruñido chulo" }, "dur_seg": 1.8, "nota": "planta el callback" },
+
+    { "id": "08", "beat": "Kaiser", "plano": "PRIMER PLANO Kaiser", "en_cuadro": "Kaiser sube la pata PERFECTA, cara seria, postura militar",
+      "linea": { "quien": "Kaiser", "dice": "Paw! Sir yes sir.", "entrega": "marcial, firme" }, "dur_seg": 1.6 },
+    { "id": "09", "beat": "Kaiser", "plano": "DOS (Pepe + Kaiser)", "en_cuadro": "Pepe lo felicita feliz",
+      "linea": { "quien": "Pepe", "dice": "Great! Good boy!", "entrega": "animando" }, "dur_seg": 1.4 },
+    { "id": "10", "beat": "Kaiser", "plano": "PRIMER PLANO Kaiser de reojo a los otros", "en_cuadro": "Kaiser orgulloso de sí mismo, luego desdén a los demás perros",
+      "linea": { "quien": "Kaiser", "dice": "[orgullo propio] ...You guys are morons.", "entrega": "orgulloso, desdeñoso", "PROPUESTA": "para el 'orgullo propio' propongo 'Naturally.' — dime si lo dejas, lo cambias o lo quitas" }, "sfx": "sting marcial", "dur_seg": 2.4, "nota": "Kaiser orgulloso de SÍ MISMO y desprecia a los otros." },
+
+    { "id": "11", "beat": "Bear", "plano": "PRIMER PLANO Bear", "en_cuadro": "Bear calmado, sabio, mirando a Pepe como mentor",
+      "linea": { "quien": "Bear", "dice": "Say it more enthusiastic!", "entrega": "grave, cálido, coach" }, "dur_seg": 1.8 },
+    { "id": "12", "beat": "Bear", "plano": "PRIMER PLANO Pepe", "en_cuadro": "Pepe se endereza y lo repite con más seguridad",
+      "linea": { "quien": "Pepe", "dice": "Give me the paw!", "entrega": "ahora con seguridad" }, "dur_seg": 1.5 },
+    { "id": "13", "beat": "Bear", "plano": "DOS (Bear + Pepe)", "en_cuadro": "Bear da la pata y mira a Pepe con orgullo de papá",
+      "linea": { "quien": "Bear", "dice": "Good kid! Keep at it, you're doing great.", "entrega": "orgulloso de PEPE, cálido" }, "sfx": "campanita cálida", "dur_seg": 2.4, "nota": "CONTRASTE con Kaiser: Bear orgulloso de PEPE, lo entrena y lo felicita." },
+
+    { "id": "14", "beat": "Bruno", "plano": "DOS (Bruno + mano vacía de Pepe)", "en_cuadro": "Bruno mira juguetón la mano vacía de Pepe",
+      "linea": { "quien": "Bruno", "dice": "There is no ball in your hand.", "entrega": "observación inocente, feliz" }, "dur_seg": 2.2 },
+    { "id": "15", "beat": "Bruno", "plano": "PRIMER PLANO Pepe", "en_cuadro": "Pepe insiste con cariño",
+      "linea": { "quien": "Pepe", "dice": "Come on Bruno, give me the paw!", "entrega": "cariñoso, insistiendo" }, "dur_seg": 1.8 },
+    { "id": "16", "beat": "Bruno", "plano": "PRIMER PLANO Bruno", "en_cuadro": "Bruno razonando, ladeando la cabeza, luego se le ilumina la cara",
+      "linea": { "quien": "Bruno", "dice": "No cookie your hand... no ball, no cookie... what are we playing master? Oh ok! I know!", "entrega": "razona confundido y feliz; al final estalla de alegría" }, "enfasis": "Oh ok! I know!", "dur_seg": 3.4, "nota": "ESTA es la personalidad de Bruno: pregunta qué pasa, espera comida o juego, y punto." },
+    { "id": "17", "beat": "Bruno", "plano": "PRIMER PLANO Pepe", "en_cuadro": "Bruno salta y le lame TODA la cara; Pepe ríe",
+      "accion": "lamida total + risa de Pepe", "sfx": "boing + lamida + risa", "dur_seg": 2.0 },
+
+    { "id": "18", "beat": "Finale", "plano": "PRIMER PLANO Africa", "en_cuadro": "Africa cómplice y juguetona",
+      "linea": { "quien": "Africa", "dice": "The paw? I know what you want!", "entrega": "voz FEMENINA grave y cálida, cómplice" }, "dur_seg": 2.2 },
+    { "id": "19", "beat": "Finale", "plano": "WIDE", "en_cuadro": "Africa lo tacle MUY juguetón → todos los perros se montan → montaña de perros, Pepe enterrado riendo cada vez más",
+      "linea": { "quien": "Pepe", "dice": "Haha, just the paw!", "entrega": "riendo, enterrado" }, "extra": { "quien": "todos", "dice": "MOUNTAIN OF DOGS!", "entrega": "grito juguetón" }, "sfx": "whoosh + montaña de perros + risas crecientes", "dur_seg": 3.0 },
+    { "id": "20", "beat": "Finale", "plano": "PRIMER PLANO Tank encima de la montaña", "en_cuadro": "Tank emerge encima, chulo, victorioso",
+      "linea": { "quien": "Tank", "dice": "Yeah, I got you AND your paw. I warned you.", "entrega": "chulo, victorioso" }, "enfasis": "I warned you", "sfx": "sting final", "dur_seg": 2.4, "nota": "CALLBACK que paga el cold-open (su 'come and get it' del shot 07). Cortar ya." }
   ],
   "caption": "Day one at Barkademy: teaching the paw. Results... varied. 🐾",
   "hashtags": ["#dogcomics", "#aidog", "#doghumor", "#dogsofinstagram", "#funnydogs", "#talkingdogs", "#fyp"]
