@@ -32,7 +32,7 @@
     { "id": "09", "beat": "Kaiser", "plano": "DOS (Pepe + Kaiser)", "en_cuadro": "Pepe lo felicita feliz",
       "linea": { "quien": "Pepe", "dice": "Great! Good boy!", "entrega": "animando" }, "dur_seg": 1.4 },
     { "id": "10", "beat": "Kaiser", "plano": "PRIMER PLANO Kaiser de reojo a los otros", "en_cuadro": "Kaiser orgulloso de sí mismo, luego desdén a los demás perros",
-      "linea": { "quien": "Kaiser", "dice": "[orgullo propio] ...You guys are morons.", "entrega": "orgulloso, desdeñoso", "PROPUESTA": "para el 'orgullo propio' propongo 'Naturally.' — dime si lo dejas, lo cambias o lo quitas" }, "sfx": "sting marcial", "dur_seg": 2.4, "nota": "Kaiser orgulloso de SÍ MISMO y desprecia a los otros." },
+      "linea": { "quien": "Kaiser", "dice": "You guys are morons.", "entrega": "orgulloso de sí mismo, desdeñoso hacia los demás" }, "sfx": "sting marcial", "dur_seg": 2.4, "nota": "Kaiser orgulloso de SÍ MISMO y desprecia a los otros (la soberbia va en la entrega)." },
 
     { "id": "11", "beat": "Bear", "plano": "PRIMER PLANO Bear", "en_cuadro": "Bear calmado, sabio, mirando a Pepe como mentor",
       "linea": { "quien": "Bear", "dice": "Say it more enthusiastic!", "entrega": "grave, cálido, coach" }, "dur_seg": 1.8 },

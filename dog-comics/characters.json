@@ -103,7 +103,7 @@
       "rol": "El LÍDER del grupo.",
       "personalidad": "El líder de verdad. Grande, callejero y el más leal. SABE lo que los humanos quieren y necesitan. Protege sin alarmar de más: no ataca a los niños, al contrario, se aparta de ellos para que no lo molesten mientras vigila. Calmado, intuitivo, noble, pro-humano. Su única debilidad: ve una pelota y se enloquece.",
       "voice_prompt": "A deep, warm, weathered adult male voice, calm and steady with a gentle gravelly wisdom, like an old loyal street-wise leader who has seen everything and quietly protects everyone.",
-      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_id": "uveYYwxEmcASWl2p0jsv",
       "voice_settings": {
         "stability": 0.6,
         "similarity_boost": 0.85,
@@ -120,8 +120,8 @@
       "edad": "niño",
       "rol": "Cuidador y profe de Barkademy. El niño humano que cuida y enseña a los perros.",
       "personalidad": "Chistoso y cariñoso. Le encanta marranear y jugar brusco con los perros, y que se le monten encima a jugar. Alegre y cercano; los perros lo adoran.",
-      "voice_prompt": "(por definir — voz de niño alegre y chistosa, DISEÑADA, nunca la voz real del menor)",
-      "voice_id": "REEMPLAZAR_CON_VOICE_ID",
+      "voice_prompt": "A youthful, bright and cheerful male voice, playful, warm and full of energy, like an upbeat friendly young cartoon character; expressive and fun.",
+      "voice_id": "ImRPnKTrRBs9rPoMKmLS",
       "voice_settings": {
         "stability": 0.45,
         "similarity_boost": 0.85,
