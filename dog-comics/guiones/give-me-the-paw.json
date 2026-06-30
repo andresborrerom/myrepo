@@ -28,7 +28,7 @@
       "linea": { "quien": "Tank", "dice": "Come and get it you coward.", "entrega": "gruñido chulo" }, "dur_seg": 1.8, "nota": "planta el callback" },
 
     { "id": "08", "beat": "Kaiser", "plano": "PRIMER PLANO Kaiser", "en_cuadro": "Kaiser sube la pata PERFECTA, cara seria, postura militar",
-      "linea": { "quien": "Kaiser", "dice": "Paw! Sir yes sir.", "entrega": "marcial, firme" }, "dur_seg": 1.6 },
+      "linea": { "quien": "Kaiser", "dice": "Paw! Sir yes sir.", "entrega": "marcial, firme" }, "gesto_pata": true, "dur_seg": 1.6 },
     { "id": "09", "beat": "Kaiser", "plano": "DOS (Pepe + Kaiser)", "en_cuadro": "Pepe lo felicita feliz",
       "linea": { "quien": "Pepe", "dice": "Great! Good boy!", "entrega": "animando" }, "dur_seg": 1.4 },
     { "id": "10", "beat": "Kaiser", "plano": "PRIMER PLANO Kaiser de reojo a los otros", "en_cuadro": "Kaiser orgulloso de sí mismo, luego desdén a los demás perros",
@@ -39,7 +39,7 @@
     { "id": "12", "beat": "Bear", "plano": "PRIMER PLANO Pepe", "en_cuadro": "Pepe se endereza y lo repite con más seguridad",
       "linea": { "quien": "Pepe", "dice": "Give me the paw!", "entrega": "ahora con seguridad" }, "dur_seg": 1.5 },
     { "id": "13", "beat": "Bear", "plano": "DOS (Bear + Pepe)", "en_cuadro": "Bear da la pata y mira a Pepe con orgullo de papá",
-      "linea": { "quien": "Bear", "dice": "Good kid! Keep at it, you're doing great.", "entrega": "orgulloso de PEPE, cálido" }, "sfx": "campanita cálida", "dur_seg": 2.4, "nota": "CONTRASTE con Kaiser: Bear orgulloso de PEPE, lo entrena y lo felicita." },
+      "linea": { "quien": "Bear", "dice": "Good kid! Keep at it, you're doing great.", "entrega": "orgulloso de PEPE, cálido" }, "gesto_pata": true, "sfx": "campanita cálida", "dur_seg": 2.4, "nota": "CONTRASTE con Kaiser: Bear orgulloso de PEPE, lo entrena y lo felicita." },
 
     { "id": "14", "beat": "Bruno", "plano": "DOS (Bruno + mano vacía de Pepe)", "en_cuadro": "Bruno mira juguetón la mano vacía de Pepe",
       "linea": { "quien": "Bruno", "dice": "There is no ball in your hand.", "entrega": "observación inocente, feliz" }, "dur_seg": 2.2 },

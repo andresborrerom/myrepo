@@ -30,6 +30,21 @@ const DESC = {
   Pepe: 'Pepe the boy in the yellow Colombia football jersey',
 };
 function describir(texto) { let t = texto || ''; for (const n of NOMBRES) t = t.replace(new RegExp(`\\b${n}\\b`, 'g'), DESC[n]); return t; }
+// Tamaño relativo POR personaje (solo se aplican los que están en cuadro).
+const SIZE = {
+  Pepe: 'the boy is slightly TALLER than the big dogs',
+  Bear: 'the big ginger leader dog is large (same size as the German Shepherd)',
+  Kaiser: 'the German Shepherd is large (same size as the big ginger leader dog)',
+  Africa: 'the black Giant Schnauzer is a bit shorter than the big dogs but more muscular and powerful',
+  Rex: 'the Husky is medium-large',
+  Bruno: 'the golden retriever is medium-large',
+  Pixel: 'the Border Collie is medium',
+  SirWheeze: 'the English Bulldog is short and stocky',
+  Tank: 'the Chihuahua is tiny (fits in a hand)',
+};
+// Gesto correcto de "dar la pata" (verificado): solo en tomas con shot.gesto_pata = true.
+const PAW = 'the dog is SITTING on its haunches and lifts ONE front paw a few inches to its own chest height, gently placing it into the kneeling boy\'s open upturned palm; the boy is crouched/kneeling low at the dog\'s level holding out one flat hand palm-up';
+const PAW_NEG = 'dog standing on hind legs, dog standing upright like a human, dog on all fours, two paws raised, vertical human handshake, clasped or gripping hands, paw raised too high, boy standing upright';
 
 async function cargarEnvLocal() {
   try {
@@ -64,7 +79,9 @@ const filtro = process.argv[3] ? new Set(process.argv[3].split(',')) : null;
 if (!slug) { console.error('Uso: node dog-comics/robot-storyboard-img.mjs <slug> [ids]'); process.exit(1); }
 
 const guion = JSON.parse(await readFile(new URL(`guiones/${slug}.json`, AQUI), 'utf8'));
-const ESTILO = JSON.parse(await readFile(new URL('characters.json', AQUI), 'utf8')).estilo_global;
+const casting = JSON.parse(await readFile(new URL('characters.json', AQUI), 'utf8'));
+const ESTILO = casting.estilo_global;
+const ESCALA = casting.escala_relativa || '';
 const escena = guion.escena_base || 'a cozy room';
 const dir = new URL(`output/${slug}/imagenes/`, AQUI);
 await mkdir(dir, { recursive: true });
@@ -89,7 +106,9 @@ for (const shot of guion.shots) {
   for (const n of presentes.slice(0, 3)) { const r = await refDe(n); if (r) refs.push(r); }
 
   const desc = describir(`${shot.plano || ''}. ${shot.en_cuadro || shot.accion || ''}`);
-  const prompt = `${ESTILO}. Vertical 9:16 Instagram comic panel. ${desc}. Keep each character identical to the reference image(s). Setting: ${escena}. Expressive cartoon comedy, clean composition.`;
+  const sizeNote = presentes.map(n => SIZE[n]).filter(Boolean).join('; ');
+  const paw = shot.gesto_pata ? ` Correct paw gesture: ${PAW}. Avoid: ${PAW_NEG}.` : '';
+  const prompt = `${ESTILO}. Vertical 9:16 Instagram comic panel. ${desc}.${sizeNote ? ' Relative sizes: ' + sizeNote + '.' : ''}${paw} Keep each character identical to the reference image(s). Setting: ${escena}. Expressive cartoon comedy, clean composition.`;
   console.log(`→ ${shot.id} [${shot.beat}] (${presentes.join('+') || 'escena'}): ${(shot.en_cuadro || '').slice(0, 50)}...`);
   try {
     const png = await generar([...refs, { text: prompt }]);
