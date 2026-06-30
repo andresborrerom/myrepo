@@ -15,7 +15,8 @@ const AQUI = new URL('./', import.meta.url);
 const ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent';
 
 // Nombre en el guion -> archivo de ficha en refs-img/
-const FICHA = { Tank: 'Tank', Rex: 'Rex', SirWheeze: 'SirWheeze', Kaiser: 'Kaiser', Bruno: 'Bruno', Africa: 'Africa', Pixel: 'Pixel', Bear: 'Malostragos', Pepe: 'Pepe-nino' };
+// PEPE_FICHA permite usar el Pepe adulto (='Pepe') para la versión C (Veo no anima niños).
+const FICHA = { Tank: 'Tank', Rex: 'Rex', SirWheeze: 'SirWheeze', Kaiser: 'Kaiser', Bruno: 'Bruno', Africa: 'Africa', Pixel: 'Pixel', Bear: 'Malostragos', Pepe: process.env.PEPE_FICHA || 'Pepe-nino' };
 const NOMBRES = Object.keys(FICHA);
 // Descripción para el PROMPT (evita que 'Bear'->oso, 'Tank'->tanque, 'Africa'->continente, etc.)
 const DESC = {
@@ -86,7 +87,7 @@ const casting = JSON.parse(await readFile(new URL('characters.json', AQUI), 'utf
 const ESTILO = casting.estilo_global;
 const ESCALA = casting.escala_relativa || '';
 const escena = guion.escena_base || 'a cozy room';
-const dir = new URL(`output/${slug}/imagenes/`, AQUI);
+const dir = new URL(`output/${slug}/${process.env.IMG_SUBDIR || 'imagenes'}/`, AQUI);
 await mkdir(dir, { recursive: true });
 
 console.log(`\n🎨 Tomas de "${guion.titulo}"\n`);

@@ -35,7 +35,7 @@ const slug = process.argv[2];
 const filtro = process.argv[3] ? new Set(process.argv[3].split(',')) : null;
 if (!slug) { console.error('Uso: node dog-comics/robot-veo-shots.mjs <slug> [ids]'); process.exit(1); }
 const guion = JSON.parse(await readFile(new URL(`guiones/${slug}.json`, AQUI), 'utf8'));
-const dirImg = new URL(`output/${slug}/imagenes/`, AQUI);
+const dirImg = new URL(`output/${slug}/${process.env.IMG_SUBDIR || 'imagenes'}/`, AQUI);
 const dirC = new URL(`output/${slug}/clips-C/`, AQUI);
 await mkdir(dirC, { recursive: true });
 
