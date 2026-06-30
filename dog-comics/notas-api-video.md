@@ -67,3 +67,10 @@ Pregunta clave del proyecto. Conclusión tras investigación en vivo:
 ---
 *Fuentes: fal.ai/models/fal-ai/minimax/hailuo-02/..., fal.ai/models/fal-ai/veo3.1/...,
 sync.so/docs/models, ai.google.dev/gemini-api/docs/video, fal.ai/pricing. Verificado jun-2026.*
+
+## ⚠️ Veo y MENORES (hallazgo jun-2026)
+Veo 3.1 (vía fal) **se niega a animar tomas que contienen un NIÑO** (devuelve
+`no_media_generated` / unsafe content). Confirmado: tomas solo-perros pasan; tomas con
+Pepe (el niño) son rechazadas. → Para historias protagonizadas por Pepe, **Veo NO es
+viable** (solo sirve para tomas solo-perros). Usar motion-comic (A) o Hailuo (B) para
+cualquier toma con el niño.
