@@ -24,7 +24,7 @@ const DESC = {
   SirWheeze: 'SirWheeze the chubby wrinkly English Bulldog',
   Kaiser: 'Kaiser the German Shepherd',
   Bruno: 'Bruno the golden retriever',
-  Africa: 'the large black female Giant Schnauzer',
+  Africa: 'the all-black female Giant Schnauzer (completely solid black coat, black beard, NO grey or white hair)',
   Pixel: 'Pixel the Border Collie',
   Bear: 'the big ginger mixed-breed leader dog',
   Pepe: 'Pepe the boy in the yellow Colombia football jersey',
@@ -101,6 +101,7 @@ for (const shot of guion.shots) {
   const presentes = [];
   const add = n => { if (n && FICHA[n] && !presentes.includes(n)) presentes.push(n); };
   add(shot.linea?.quien); add(shot.extra?.quien); add(shot.beat); // beat suele ser el perro de la escena
+  if (shot.gesto_pata) add('Pepe'); // en "dar la pata" el niño está en cuadro (referenciar su outfit)
   const texto = (shot.en_cuadro || '') + ' ' + (shot.accion || '');
   for (const n of NOMBRES) if (new RegExp(`\\b${n}\\b`).test(texto)) add(n);
   if (/todos|MOUNTAIN|montaña/i.test(texto + (shot.extra?.quien || ''))) { add('Pepe'); add('Bear'); add('Tank'); }
