@@ -69,8 +69,8 @@ Pregunta clave del proyecto. Conclusión tras investigación en vivo:
 sync.so/docs/models, ai.google.dev/gemini-api/docs/video, fal.ai/pricing. Verificado jun-2026.*
 
 ## ⚠️ Veo y MENORES (hallazgo jun-2026)
-Veo 3.1 (vía fal) **se niega a animar tomas que contienen un NIÑO** (devuelve
-`no_media_generated` / unsafe content). Confirmado: tomas solo-perros pasan; tomas con
-Pepe (el niño) son rechazadas. → Para historias protagonizadas por Pepe, **Veo NO es
-viable** (solo sirve para tomas solo-perros). Usar motion-comic (A) o Hailuo (B) para
-cualquier toma con el niño.
+Veo 3.1 (vía fal) **se niega a animar CUALQUIER toma con un personaje HUMANO** (niño O
+adulto), no solo menores — devuelve `no_media_generated`. Probado: tomas solo-perros pasan;
+tomas con Pepe niño Y con Pepe adulto fueron rechazadas (prevención de personas/likeness de
+Google). → Para historias con un humano (Pepe), **Veo NO es viable**; solo sirve para tomas
+SOLO-perros. Para cualquier toma con humano: motion-comic (A) o Hailuo (B).
