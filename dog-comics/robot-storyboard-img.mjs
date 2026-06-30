@@ -30,17 +30,20 @@ const DESC = {
   Pepe: 'Pepe the boy in the yellow Colombia football jersey',
 };
 function describir(texto) { let t = texto || ''; for (const n of NOMBRES) t = t.replace(new RegExp(`\\b${n}\\b`, 'g'), DESC[n]); return t; }
-// Tamaño relativo POR personaje (solo se aplican los que están en cuadro).
+// Reglas que aplican a TODA toma (evitan los errores recurrentes).
+const GLOBAL = "IMPORTANT: every dog is a normal FOUR-LEGGED dog in a natural dog pose — never humanoid, never standing on hind legs like a person, never with human arms/hands, and never wearing human clothes. One single continuous scene — NOT a collage, NOT a character model sheet, no split panels, no extra text or labels on the image.";
+const PEPE_OUTFIT = " The boy Pepe always wears the SAME outfit: a yellow Colombia football jersey, blue shorts and yellow socks — this outfit is ONLY on the human boy, NEVER on a dog.";
+// Tamaño relativo POR personaje (solo se aplican los que están en cuadro). Comparado por ALTURA DE LA CABEZA.
 const SIZE = {
-  Pepe: 'the boy is slightly TALLER than the big dogs',
-  Bear: 'the big ginger leader dog is large (same size as the German Shepherd)',
-  Kaiser: 'the German Shepherd is large (same size as the big ginger leader dog)',
-  Africa: 'the black Giant Schnauzer is a bit shorter than the big dogs but more muscular and powerful',
+  Pepe: "the boy Pepe is the tallest here: his head is clearly ABOVE the dogs' heads",
+  Bear: "the big ginger leader dog's head reaches about the boy's chest (same height as the German Shepherd)",
+  Kaiser: "the German Shepherd's head reaches about the boy's chest (same height as the big ginger leader dog)",
+  Africa: "the black Giant Schnauzer is a four-legged dog, a bit shorter than the German Shepherd but sturdier/stronger",
   Rex: 'the Husky is medium-large',
   Bruno: 'the golden retriever is medium-large',
   Pixel: 'the Border Collie is medium',
-  SirWheeze: 'the English Bulldog is short and stocky',
-  Tank: 'the Chihuahua is tiny (fits in a hand)',
+  SirWheeze: 'the English Bulldog is short and low to the ground, chunky',
+  Tank: "the Chihuahua is TINY (about ankle height), and he NEVER offers his paw — he is always defiant",
 };
 // Gesto correcto de "dar la pata" (verificado): solo en tomas con shot.gesto_pata = true.
 const PAW = 'the dog is SITTING on its haunches and lifts ONE front paw a few inches to its own chest height, gently placing it into the kneeling boy\'s open upturned palm; the boy is crouched/kneeling low at the dog\'s level holding out one flat hand palm-up';
@@ -97,7 +100,7 @@ for (const shot of guion.shots) {
   // ¿Quiénes están en cuadro? (hablante(s) + nombres mencionados en 'en_cuadro')
   const presentes = [];
   const add = n => { if (n && FICHA[n] && !presentes.includes(n)) presentes.push(n); };
-  add(shot.linea?.quien); add(shot.extra?.quien);
+  add(shot.linea?.quien); add(shot.extra?.quien); add(shot.beat); // beat suele ser el perro de la escena
   const texto = (shot.en_cuadro || '') + ' ' + (shot.accion || '');
   for (const n of NOMBRES) if (new RegExp(`\\b${n}\\b`).test(texto)) add(n);
   if (/todos|MOUNTAIN|montaña/i.test(texto + (shot.extra?.quien || ''))) { add('Pepe'); add('Bear'); add('Tank'); }
@@ -108,7 +111,7 @@ for (const shot of guion.shots) {
   const desc = describir(`${shot.plano || ''}. ${shot.en_cuadro || shot.accion || ''}`);
   const sizeNote = presentes.map(n => SIZE[n]).filter(Boolean).join('; ');
   const paw = shot.gesto_pata ? ` Correct paw gesture: ${PAW}. Avoid: ${PAW_NEG}.` : '';
-  const prompt = `${ESTILO}. Vertical 9:16 Instagram comic panel. ${desc}.${sizeNote ? ' Relative sizes: ' + sizeNote + '.' : ''}${paw} Keep each character identical to the reference image(s). Setting: ${escena}. Expressive cartoon comedy, clean composition.`;
+  const prompt = `${ESTILO}. Vertical 9:16 Instagram comic panel. ${desc}.${sizeNote ? ' Relative sizes: ' + sizeNote + '.' : ''}${paw} Keep each character identical to the reference image(s). ${GLOBAL}${presentes.includes('Pepe') ? PEPE_OUTFIT : ''} Setting: ${escena}. Expressive cartoon comedy, clean composition.`;
   console.log(`→ ${shot.id} [${shot.beat}] (${presentes.join('+') || 'escena'}): ${(shot.en_cuadro || '').slice(0, 50)}...`);
   try {
     const png = await generar([...refs, { text: prompt }]);

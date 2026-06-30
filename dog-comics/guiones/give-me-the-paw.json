@@ -52,7 +52,7 @@
 
     { "id": "18", "beat": "Finale", "plano": "PRIMER PLANO Africa", "en_cuadro": "Africa cómplice y juguetona",
       "linea": { "quien": "Africa", "dice": "The paw? I know what you want!", "entrega": "voz FEMENINA grave y cálida, cómplice" }, "dur_seg": 2.2 },
-    { "id": "19", "beat": "Finale", "plano": "WIDE", "en_cuadro": "Africa lo tacle MUY juguetón → todos los perros se montan → montaña de perros, Pepe enterrado riendo cada vez más",
+    { "id": "19", "beat": "Finale", "plano": "WIDE", "en_cuadro": "Africa playfully knocks Pepe down and all the dogs pile on him in a happy chaotic heap — dogs jumping, sprawling and leaning on Pepe and on each other ON ALL FOURS (NOT standing upright, NOT stacked like a tower), a joyful messy dog pile, Pepe laughing underneath",
       "linea": { "quien": "Pepe", "dice": "Haha, just the paw!", "entrega": "riendo, enterrado" }, "extra": { "quien": "todos", "dice": "MOUNTAIN OF DOGS!", "entrega": "grito juguetón" }, "sfx": "whoosh + montaña de perros + risas crecientes", "dur_seg": 3.0 },
     { "id": "20", "beat": "Finale", "plano": "PRIMER PLANO Tank encima de la montaña", "en_cuadro": "Tank emerge encima, chulo, victorioso",
       "linea": { "quien": "Tank", "dice": "Yeah, I got you AND your paw. I warned you.", "entrega": "chulo, victorioso" }, "enfasis": "I warned you", "sfx": "sting final", "dur_seg": 2.4, "nota": "CALLBACK que paga el cold-open (su 'come and get it' del shot 07). Cortar ya." }
