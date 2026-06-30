@@ -1,85 +1,89 @@
 {
   "titulo": "Give Me The Paw",
   "slug": "give-me-the-paw",
-  "version": "punch-v2",
+  "version": "punch-v3",
   "escena_base": "the Barkademy classroom (chalkboard reading 'BARKADEMY', dog cubbies, paw prints on the wall)",
-  "premisa": "Pepe (profe/cuidador niño) intenta enseñar a dar la pata. Corre el gag 'Give me the paw!' y cada perro lo subvierte. Comedia + ternura. Cierra en montaña de perros con callback de Tank.",
+  "premisa": "Pepe (profe/cuidador niño) intenta enseñar a dar la pata. Corre el gag 'Give me the paw!' y cada perro lo subvierte a su personalidad. Comedia + ternura. Cierra en montaña de perros con callback de Tank.",
   "running_gag": "Give me the paw!",
-  "objetivo_duracion_seg": 22,
-  "notas_punch": "Cold-open con Tank (planta el callback). Cortar todo lo que no sea setup o remate. Pausa de ~0.5s antes de cada remate, luego corte rápido a la reacción. Un SFX justo en la palabra del chiste. Subtítulos bold palabra-por-palabra, resaltando la palabra clave (85% ve en mudo). Caras MUY exageradas.",
+  "objetivo_duracion_seg": 30,
+  "subtitulos": "FRASE por frase (una línea a la vez, sincronizada con la voz). NO palabra por palabra.",
+  "notas_punch": "Cold-open con Tank (planta el callback). Cada panel dura lo que dura su diálogo + una pausa de ~0.4s antes del remate, luego corte rápido. Un SFX justo en la palabra clave. Caras MUY exageradas. La MANERA de hablar de cada perro ('entrega') es parte de su voz.",
   "panels": [
     {
-      "panel": 1,
-      "hook": true,
-      "personajes": ["Tank", "Pepe"],
-      "accion": "COLD OPEN, extreme close-up: tiny Tank trembling with rage, growling at the camera; Pepe's hand patiently open in frame",
+      "panel": 1, "hook": true, "personajes": ["Tank", "Pepe"],
+      "accion": "COLD OPEN, primer plano: Tank diminuto temblando de rabia, gruñendo a cámara; la mano de Pepe paciente y abierta en cuadro",
       "dialogo": [
-        { "quien": "Pepe", "dice": "Tank, give me the paw." },
-        { "quien": "Tank", "dice": "YOU give ME your paw.", "enfasis": "YOU" },
-        { "quien": "Tank", "dice": "Come and get it, coward.", "enfasis": "coward" }
+        { "quien": "Pepe", "dice": "Tank, give me the paw.", "entrega": "paciente, dulce" },
+        { "quien": "Tank", "dice": "YOU give ME your paw!", "entrega": "rabia temblorosa, rápido", "enfasis": "YOU" },
+        { "quien": "Tank", "dice": "Come and get it, coward.", "entrega": "gruñido bajo, chulo", "enfasis": "coward" }
       ],
-      "sfx": "tiny angry growl + comedic tension sting",
-      "comedia": "Hook de conflicto en 2s. Planta el callback de Tank para el final."
+      "sfx": "gruñidito + sting de tensión cómica",
+      "comedia": "Hook de conflicto en 2s. Planta el callback de Tank."
     },
     {
-      "panel": 2,
-      "personajes": ["Rex", "Pepe"],
-      "accion": "Rex limps over dragging one paw like a wounded soldier, milking it; held beat on his tragic face before the line",
+      "panel": 2, "personajes": ["Rex", "Pepe"],
+      "accion": "Pepe pide la pata; Rex LEVANTA la pata como para darla y, en vez de eso, la convierte en cojera y renguea como herido de guerra",
       "dialogo": [
-        { "quien": "Pepe", "dice": "You're... not in pain." },
-        { "quien": "Rex", "dice": "I am ALWAYS in interior pain.", "enfasis": "interior", "tag": "howl" }
+        { "quien": "Pepe", "dice": "You're... not in pain, Rex.", "entrega": "incrédulo, plano" },
+        { "quien": "Rex", "dice": "I am ALWAYS in interior pain.", "entrega": "teatral, melodramático; termina en aullido", "enfasis": "interior", "tag": "howl" }
       ],
-      "sfx": "dramatic violin sting + howl",
-      "comedia": "Primer subversión: drama exagerado. Regla de tres, beat 1."
+      "sfx": "violín dramático + aullido",
+      "comedia": "Drama exagerado. Regla de tres, beat 1 (rompe la expectativa: levanta la pata pero no la da)."
     },
     {
-      "panel": 3,
-      "personajes": ["SirWheeze", "Pepe"],
-      "accion": "SirWheeze stays flat on the floor and just slides his paw across the ground without lifting it, eyes barely open",
+      "panel": 3, "personajes": ["SirWheeze", "Pepe"],
+      "accion": "SirWheeze sigue acostado y arrastra la pata por el piso sin levantarla, ojos a medio cerrar",
       "dialogo": [
-        { "quien": "SirWheeze", "dice": "Close enough?" },
-        { "quien": "SirWheeze", "dice": "...Okay, nap time. Exhausting.", "enfasis": "Exhausting" }
+        { "quien": "SirWheeze", "dice": "Close enough?", "entrega": "mascullado, somnoliento" },
+        { "quien": "SirWheeze", "dice": "...Okay. Nap time. Exhausting.", "entrega": "se apaga, bostezando", "enfasis": "Exhausting" }
       ],
-      "sfx": "lazy slide whistle + tiny snore",
-      "comedia": "Mínimo esfuerzo, deadpan. Regla de tres, beat 2 (refuerza el patrón)."
+      "sfx": "slide whistle perezoso + ronquidito",
+      "comedia": "Mínimo esfuerzo, deadpan. Regla de tres, beat 2."
     },
     {
-      "panel": 4,
-      "personajes": ["Bear", "Pepe"],
-      "accion": "Bear calmly places the paw PERFECTLY, then looks at Pepe like a proud mentor grading his student",
+      "panel": 4, "personajes": ["Kaiser", "Pepe"],
+      "accion": "Kaiser sube la pata PERFECTA, postura militar rígida, pecho afuera, esperando elogio; mira de reojo con desprecio a los otros perros",
       "dialogo": [
-        { "quien": "Bear", "dice": "Perfect instruction, kid." },
-        { "quien": "Bear", "dice": "Keep at it.", "enfasis": "Keep" }
+        { "quien": "Kaiser", "dice": "Paw! Sir, yes sir!", "entrega": "marcial, ladrado, firme" },
+        { "quien": "Pepe", "dice": "Great! Good boy, Kaiser!", "entrega": "feliz, animando" },
+        { "quien": "Kaiser", "dice": "Of course.", "entrega": "orgullo propio, seco", "enfasis": "Of course" },
+        { "quien": "Kaiser", "dice": "...Unlike SOME of you.", "entrega": "a los otros perros, desdeñoso", "enfasis": "SOME" }
       ],
-      "sfx": "RECORD SCRATCH on the twist (the dog is teaching the teacher)",
-      "comedia": "EL GIRO (regla de tres, beat 3 que rompe el patrón): Bear no obedece, EVALÚA a Pepe."
+      "sfx": "sting marcial seco",
+      "comedia": "Kaiser está orgulloso de SÍ MISMO: busca el elogio de Pepe y desprecia a los demás."
     },
     {
-      "panel": 5,
-      "personajes": ["Bruno", "Pepe"],
-      "accion": "Bruno stares at Pepe's empty open hand, tilts head; then bursts forward and licks Pepe's whole face while Pepe laughs",
+      "panel": 5, "personajes": ["Bear", "Pepe"],
+      "accion": "Bear, calmado y sabio, primero ENTRENA a Pepe; Pepe repite con seguridad; entonces Bear da la pata y mira a Pepe con orgullo de papá",
       "dialogo": [
-        { "quien": "Bruno", "dice": "No ball... no cookie..." },
-        { "quien": "Bruno", "dice": "What are we even playing? ...OH! I know!", "enfasis": "OH" }
+        { "quien": "Bear", "dice": "Say it like you mean it, kid.", "entrega": "grave, cálido, mentor" },
+        { "quien": "Pepe", "dice": "Give me the paw!", "entrega": "ahora con seguridad" },
+        { "quien": "Bear", "dice": "Good kid. Keep at it — you're doing great.", "entrega": "orgulloso de Pepe, cálido", "enfasis": "Good kid" }
       ],
-      "sfx": "happy boing + slobbery lick + Pepe laughing",
-      "comedia": "Lógica de bobo feliz → ternura (lamida + risa). Pico emocional antes del clímax."
+      "sfx": "campanita suave y cálida",
+      "comedia": "EL CONTRASTE con Kaiser: Bear está orgulloso de PEPE, lo entrena y lo felicita (no al revés)."
     },
     {
-      "panel": 6,
-      "personajes": ["Africa", "Pepe", "todos"],
-      "accion": "Africa: 'I know what you REALLY want' — tackles Pepe VERY playfully, all dogs pile on, happy mountain of dogs, Pepe laughing underneath; Tank surfaces on top, smug",
+      "panel": 6, "personajes": ["Bruno", "Pepe"],
+      "accion": "Bruno mira la mano vacía de Pepe, ladea la cabeza; luego salta y le lame toda la cara mientras Pepe ríe",
       "dialogo": [
-        { "quien": "Africa", "dice": "The paw? I know what you REALLY want.", "enfasis": "REALLY" },
-        { "quien": "Pepe", "dice": "—just the paw—!", "tag": "buried, laughing" },
-        { "quien": "Tank", "dice": "Told you. Got you AND your paw.", "enfasis": "Told you", "tag": "callback to panel 1" }
+        { "quien": "Bruno", "dice": "No ball... no cookie...", "entrega": "genuinamente confundido, feliz" },
+        { "quien": "Bruno", "dice": "What are we even playing? ...OH! I know!", "entrega": "estalla de alegría", "enfasis": "OH" }
       ],
-      "sfx": "big playful whoosh + dog pile + final comedic sting on Tank's line",
-      "comedia": "Clímax de ternura + CALLBACK de Tank que cierra el chiste (paga el cold-open). Cortar inmediatamente después."
+      "sfx": "boing feliz + lamida + risa de Pepe",
+      "comedia": "Lógica de bobo feliz → ternura. Pico emocional antes del clímax."
+    },
+    {
+      "panel": 7, "personajes": ["Africa", "Pepe", "todos"],
+      "accion": "Africa: 'I know what you REALLY want' — tacle MUY juguetón a Pepe, todos los perros se le montan, montaña de perros, Pepe enterrado riendo; Tank emerge encima, chulo",
+      "dialogo": [
+        { "quien": "Africa", "dice": "The paw? I know what you REALLY want.", "entrega": "voz FEMENINA grave y cálida, cómplice", "enfasis": "REALLY" },
+        { "quien": "Pepe", "dice": "—just the paw—!", "entrega": "enterrado, riendo" },
+        { "quien": "Tank", "dice": "Told you. Got you AND your paw.", "entrega": "chulo, victorioso", "enfasis": "Told you", "tag": "callback al panel 1" }
+      ],
+      "sfx": "whoosh juguetón + montaña de perros + sting final en la línea de Tank",
+      "comedia": "Clímax de ternura + CALLBACK de Tank que paga el cold-open. Cortar inmediatamente después."
     }
-  ],
-  "panels_eliminados": [
-    { "personaje": "Kaiser", "linea": "Paw! Sir yes sir. ...You guys are morons.", "razon": "Se sacó del corte para no tener DOS perros 'perfectos' seguidos (Bear ya hace ese beat). Guardado como escena para otro capítulo." }
   ],
   "caption": "Day one at Barkademy: teaching the paw. Results... varied. 🐾",
   "hashtags": ["#dogcomics", "#aidog", "#doghumor", "#dogsofinstagram", "#funnydogs", "#talkingdogs", "#fyp"]
