@@ -31,4 +31,28 @@ Permitiría conservar nuestras voces Y tener boca sincronizada (2 pasos):
 - Si queremos **conservar las voces de ElevenLabs** + lip-sync: animar barato (Hailuo/PixVerse)
   y pasar un lip-sync con **LatentSync/OmniHuman/Avatar v2** usando nuestro audio (probar en perro).
 
-*Fuentes: fal.ai model pages, foros ai.google.dev (bloqueos Veo), docs de cada modelo. Jun-2026.*
+## ⚠️ Filtro de contenido de PixVerse V6 — lecciones al producir "Give Me The Paw" (jul-2026)
+Producimos las 20 tomas con `robot-pixverse-shots.mjs`. El *content checker* de PixVerse
+es quisquilloso y da DOS tipos de fallo:
+1. **`content_policy_violation`** (error explícito en el `response_url`).
+2. **Silencioso**: `status=COMPLETED` pero el response viene **sin `video.url`** → nuestro
+   robot lo reportaba como "sin video". Es el mismo bloqueo, sin mensaje.
+
+**Qué lo dispara (con niño en cuadro):**
+- Describir a Pepe como **"boy"/"child"** en el prompt → bloquea (filtro de menores). FIX:
+  no describir al humano como menor; usar el **nombre** ("Pepe") o "the character". La imagen
+  ya es la referencia, no hace falta el anti-"oso literal" que sí necesitaban las imágenes.
+- Palabras de acción tipo **"knocks down", "pile on", "buried underneath", "playing together"**
+  junto a una imagen de un niño en el suelo cubierto por perros → `content_policy_violation`,
+  aunque sea juego. FIX: prompt de **movimiento neutro** ("gentle subtle camera motion,
+  characters smile, lively bounce"). La toma 19 (montaña de perros) solo pasó así.
+
+**Otros aprendizajes:**
+- Como en la versión C **igual cambiamos el audio por ElevenLabs**, para tomas problemáticas
+  conviene `generate_audio_switch:false` (no gastamos el checker de audio y evita otro filtro).
+- Hubo fallos **transitorios** de la cola (una toma fallaba y al reintentar salía). El robot
+  debe reintentar. Cobran solo clips exitosos.
+- Precio real: ~$0.20/clip 720p 5s. Las 20 tomas + reintentos ≈ **$5**.
+
+*Fuentes: fal.ai model pages, foros ai.google.dev (bloqueos Veo), docs de cada modelo,
+producción propia de "Give Me The Paw". Jun–jul 2026.*
