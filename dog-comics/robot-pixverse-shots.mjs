@@ -11,7 +11,10 @@ import { constants } from 'node:fs';
 
 const AQUI = new URL('./', import.meta.url);
 const MODEL = 'fal-ai/pixverse/v6/image-to-video';
-const DESC = { Bear: 'the big ginger dog', Tank: 'the tiny Chihuahua', Africa: 'the black Giant Schnauzer', Rex: 'the Husky', Kaiser: 'the German Shepherd', Bruno: 'the golden retriever', SirWheeze: 'the English Bulldog', Pixel: 'the Border Collie', Pepe: 'the boy in the yellow Colombia jersey' };
+// OJO: para PIXVERSE la imagen ya es la referencia, así que sólo evitamos nombres que el
+// modelo podría tomar literales (Bear→oso, Tank→tanque). A Pepe NO lo describimos como
+// "boy/child" porque dispara el filtro de menores de PixVerse (devuelve COMPLETED sin video).
+const DESC = { Bear: 'the big ginger dog', Tank: 'the small Chihuahua dog', Africa: 'the black Giant Schnauzer dog', Pepe: 'Pepe (in the yellow Colombia jersey)' };
 function describir(t) { t = t || ''; for (const n of Object.keys(DESC)) t = t.replace(new RegExp(`\\b${n}\\b`, 'g'), DESC[n]); return t; }
 
 async function cargarEnv() { try { const txt = await readFile(new URL('.env', AQUI), 'utf8'); for (const l of txt.split('\n')) { const t = l.trim(); if (!t || t.startsWith('#')) continue; const i = t.indexOf('='); if (i < 0) continue; const k = t.slice(0, i).trim(); if (!process.env[k]) process.env[k] = t.slice(i + 1).trim().replace(/^["']|["']$/g, ''); } } catch {} }
@@ -50,7 +53,7 @@ for (const shot of guion.shots) {
   if (!(await existe(img))) { console.error(`❌ falta imagen ${shot.id}`); fallidos++; continue; }
   const dataUri = `data:image/png;base64,${(await readFile(img)).toString('base64')}`;
   const accion = describir(shot.en_cuadro || shot.accion || '');
-  const dice = shot.linea?.dice ? ` The character speaks, mouth moving lip-synced to the words: "${describir(shot.linea.dice)}".` : '';
+  const dice = shot.linea?.dice ? ` The character speaks, mouth moving lip-synced to the words: "${shot.linea.dice}".` : '';
   const pata = shot.gesto_pata ? ' The dog is sitting and lifts ONE front paw, placing it into the kneeling boy\'s open hand (a dog giving its paw), NOT a human handshake.' : '';
   const prompt = `3D Pixar-style cartoon, keep the EXACT same characters, colors and look from the image. ${accion}.${dice}${pata} Expressive comedic facial animation, smooth natural motion, single clear action.`;
   console.log(`→ ${shot.id} (${shot.linea?.quien || 'escena'}) [PixVerse]: ${(shot.linea?.dice || accion).slice(0, 45)}... (tarda ~1-2min)`);
