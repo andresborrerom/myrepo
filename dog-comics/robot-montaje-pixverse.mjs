@@ -46,9 +46,10 @@ for (const shot of guion.shots) {
   const voz = quien ? new URL(`${shot.id}-1-${quien}.mp3`, dirVoz) : null;
   const hayVoz = voz && await existe(voz);
 
-  // Duración del segmento: con voz -> voz + cola (ágil); sin voz -> dur_seg o el clip.
-  let D = hayVoz ? dur(p(voz)) + 0.6 : (shot.dur_seg ? shot.dur_seg + 0.3 : vidDur);
-  D = Math.min(D, vidDur); // nunca más largo que el clip de PixVerse
+  // Duración del segmento: con voz -> voz + cola corta (ágil); sin voz -> dur_seg o el clip.
+  // NO capamos al largo del clip: si la voz es más larga, congelamos el último cuadro
+  // (tpad) para que la frase se oiga COMPLETA sin cortarse. Si la voz es corta, recortamos.
+  const D = hayVoz ? dur(p(voz)) + 0.3 : (shot.dur_seg ? shot.dur_seg + 0.2 : vidDur);
 
   // Subtítulo (la frase del shot), igual estilo que la versión A.
   let drawtext = '';
@@ -58,14 +59,15 @@ for (const shot of guion.shots) {
     drawtext = `,drawtext=fontfile=${FONT}:textfile=${p(txt)}:fontcolor=white:fontsize=54:line_spacing=10:box=1:boxcolor=black@0.55:boxborderw=24:x=(w-text_w)/2:y=h-text_h-210`;
   }
 
-  const vf = `[0:v]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},setsar=1,fps=${FPS}${drawtext},format=yuv420p[v]`;
+  // tpad congela el último cuadro para cubrir voces largas; luego -t D recorta a la duración exacta.
+  const vf = `[0:v]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},setsar=1,fps=${FPS},tpad=stop_mode=clone:stop_duration=${D.toFixed(2)}${drawtext},format=yuv420p[v]`;
   const norm = new URL(`norm_${shot.id}.mp4`, dirT);
   const vBase = ['-t', String(D), '-r', String(FPS), '-c:v', 'libx264', '-preset', 'veryfast', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-ar', '48000', '-ac', '2', '-b:a', '192k'];
 
   if (hayVoz) {
-    // Cambia la voz genérica de PixVerse por la nuestra (ElevenLabs).
+    // Cambia la voz genérica de PixVerse por la nuestra (ElevenLabs) + nivela el volumen (loudnorm).
     ff(['-i', p(px), '-i', p(voz),
-        '-filter_complex', `${vf};[1:a]adelay=150|150,aresample=48000,apad=whole_dur=${D}[a]`,
+        '-filter_complex', `${vf};[1:a]loudnorm=I=-16:TP=-1.5:LRA=11,adelay=120|120,aresample=48000,apad=whole_dur=${D}[a]`,
         '-map', '[v]', '-map', '[a]', ...vBase, p(norm)]);
   } else {
     // Sin voz nuestra (ej. toma 17 lamida): conserva el audio nativo de PixVerse.
