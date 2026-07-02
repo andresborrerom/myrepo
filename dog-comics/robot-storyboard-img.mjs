@@ -32,7 +32,7 @@ const DESC = {
 };
 function describir(texto) { let t = texto || ''; for (const n of NOMBRES) t = t.replace(new RegExp(`\\b${n}\\b`, 'g'), DESC[n]); return t; }
 // Reglas que aplican a TODA toma (evitan los errores recurrentes).
-const GLOBAL = "IMPORTANT: every dog is a normal FOUR-LEGGED dog in a natural dog pose — never humanoid, never standing on hind legs like a person, never with human arms/hands, and never wearing human clothes. One single continuous scene — NOT a collage, NOT a character model sheet, no split panels, no extra text or labels on the image.";
+const GLOBAL = "IMPORTANT: every dog is a normal FOUR-LEGGED dog in a natural dog pose — never humanoid, never standing on hind legs like a person, never with human arms/hands, and never wearing human clothes. One single continuous scene — NOT a collage, NOT a character model sheet, no split panels, no extra text or labels on the image. Each named character appears EXACTLY ONCE — never draw the same character twice or as twins.";
 const PEPE_OUTFIT = " The boy Pepe always wears the SAME outfit: a yellow Colombia football jersey, blue shorts and yellow socks — this outfit is ONLY on the human boy, NEVER on a dog.";
 // Tamaño relativo POR personaje (solo se aplican los que están en cuadro). Comparado por ALTURA DE LA CABEZA.
 const SIZE = {
