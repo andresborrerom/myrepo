@@ -1,6 +1,6 @@
 {
   "_comment": "Elenco fijo de los cómics de perros. 'voice_prompt' es la descripción con la que el robot INVENTA la voz en ElevenLabs (Voice Design); córrelo con robot-disenar-voces.mjs y se llena 'voice_id' solo. 'visual' mantiene al personaje IDÉNTICO en cada imagen/video. 'voice_settings' afina el carácter de la voz al hablar (stability bajo = más expresivo/variable, style alto = más actuado).",
-  "estilo_global": "Pixar-style 3D animated character, expressive and charming, soft cinematic lighting, vibrant colors, family-friendly animated movie look",
+  "estilo_global": "Flat 2D comic-book / webtoon illustration: bold black ink outlines, flat cel colors, light halftone shading, simple graphic cartoon look, expressive and charming, family-friendly. NOT 3D, NOT a photorealistic render, NOT Pixar.",
   "escala_relativa": "RESPETAR SIEMPRE los tamaños relativos: Pepe (a child) is slightly TALLER than the big dogs. Bear and Kaiser are the largest dogs and the SAME size as each other. Africa is slightly shorter than Bear/Kaiser but more muscular and powerful. Rex and Bruno are medium-large. Pixel is medium. SirWheeze is short and stocky/chunky. Tank is tiny (fits in a hand).",
   "personajes": {
     "Kaiser": {
