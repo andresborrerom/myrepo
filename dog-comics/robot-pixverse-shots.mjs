@@ -40,7 +40,9 @@ const filtro = process.argv[3] ? new Set(process.argv[3].split(',')) : null;
 if (!slug) { console.error('Uso: node dog-comics/robot-pixverse-shots.mjs <slug> [ids]'); process.exit(1); }
 const guion = JSON.parse(await readFile(new URL(`guiones/${slug}.json`, AQUI), 'utf8'));
 const dirImg = new URL(`output/${slug}/${process.env.IMG_SUBDIR || 'imagenes'}/`, AQUI);
-const dirPX = new URL(`output/${slug}/clips-PX/`, AQUI);
+const dirPX = new URL(`output/${slug}/${process.env.CLIP_SUBDIR || 'clips-PX'}/`, AQUI);
+// Estilo de animación: por defecto cómic 2D (dirección actual). ANIM_STYLE lo permite cambiar.
+const ANIM_STYLE = process.env.ANIM_STYLE || '2D comic-book cartoon animation, keep the EXACT same flat inked comic style, colors and characters from the image. Do NOT turn it 3D or realistic';
 await mkdir(dirPX, { recursive: true });
 
 console.log(`\n🎬 PixVerse (C) de "${guion.titulo}"\n`);
@@ -55,7 +57,7 @@ for (const shot of guion.shots) {
   const accion = describir(shot.en_cuadro || shot.accion || '');
   const dice = shot.linea?.dice ? ` The character speaks, mouth moving lip-synced to the words: "${shot.linea.dice}".` : '';
   const pata = shot.gesto_pata ? ' The dog is sitting and lifts ONE front paw, placing it into the kneeling boy\'s open hand (a dog giving its paw), NOT a human handshake.' : '';
-  const prompt = `3D Pixar-style cartoon, keep the EXACT same characters, colors and look from the image. ${accion}.${dice}${pata} Expressive comedic facial animation, smooth natural motion, single clear action.`;
+  const prompt = `${ANIM_STYLE}. ${accion}.${dice}${pata} Expressive comedic facial animation, smooth natural motion, single clear action.`;
   console.log(`→ ${shot.id} (${shot.linea?.quien || 'escena'}) [PixVerse]: ${(shot.linea?.dice || accion).slice(0, 45)}... (tarda ~1-2min)`);
   try {
     const url = await pixverse({ prompt, image_url: dataUri, resolution: '720p', duration: 5, generate_audio_switch: true });

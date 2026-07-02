@@ -29,9 +29,10 @@ function envolver(t, max = 22) {
 const slug = process.argv[2];
 if (!slug) { console.error('Uso: node dog-comics/robot-montaje-pixverse.mjs <slug>'); process.exit(1); }
 const guion = JSON.parse(await readFile(new URL(`guiones/${slug}.json`, AQUI), 'utf8'));
-const dirPX = new URL(`output/${slug}/clips-PX/`, AQUI);
+const dirPX = new URL(`output/${slug}/${process.env.CLIP_SUBDIR || 'clips-PX'}/`, AQUI);
 const dirVoz = new URL(`output/${slug}/voces/`, AQUI);
-const dirT = new URL(`output/${slug}/montaje-C/`, AQUI);
+const SUF = process.env.OUT_SUFFIX || 'C-pixverse';
+const dirT = new URL(`output/${slug}/montaje-${SUF}/`, AQUI);
 await mkdir(dirT, { recursive: true });
 
 console.log(`\n🎞️  Montaje C (PixVerse + voces ElevenLabs) de "${guion.titulo}"\n`);
@@ -81,6 +82,6 @@ for (const shot of guion.shots) {
 
 const lista = new URL('lista.txt', dirT);
 await writeFile(lista, clips.map(u => `file '${p(u)}'`).join('\n') + '\n');
-const reel = new URL(`${slug}-C-pixverse.mp4`, new URL(`output/${slug}/`, AQUI));
+const reel = new URL(`${slug}-${SUF}.mp4`, new URL(`output/${slug}/`, AQUI));
 ff(['-f', 'concat', '-safe', '0', '-i', p(lista), '-c', 'copy', p(reel)]);
-console.log(`\n✅ Reel C listo: output/${slug}/${slug}-C-pixverse.mp4  (${clips.length} tomas)\n`);
+console.log(`\n✅ Reel listo: output/${slug}/${slug}-${SUF}.mp4  (${clips.length} tomas)\n`);
