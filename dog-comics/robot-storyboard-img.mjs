@@ -50,6 +50,18 @@ const SIZE = {
 const PAW = 'the dog is SITTING on its haunches and lifts ONE front paw a few inches to its own chest height, gently placing it into the kneeling boy\'s open upturned palm; the boy is crouched/kneeling low at the dog\'s level holding out one flat hand palm-up';
 const PAW_NEG = 'dog standing on hind legs, dog standing upright like a human, dog on all fours, two paws raised, vertical human handshake, clasped or gripping hands, paw raised too high, boy standing upright';
 
+// --- Dirección de cámara / composición / expresión (umbral de calidad) ---
+// Evita el "centrado monótono" (tell de AI) y las caras tibias. Varía el encuadre por beat.
+const COMPO = 'Compose OFF-CENTER using the rule of thirds: put the focal character on a thirds line with breathing space toward their gaze/action. Do NOT center the subject, and do NOT center the chalkboard symmetrically (let it sit to one side or be partly out of frame). Build depth with foreground / midground / background layers. One clear focal point, no dead symmetry.';
+const EXPR = 'Exaggerated comedic cartoon acting pushed well past realism: big expressive eyes, mobile eyebrows, clear open-mouth expression, ONE unmistakable emotion. The dog acts with its whole body AND tail; strong curved line of action in the pose. No stiff, polite, neutral faces.';
+function camara(plano) {
+  const p = (plano || '').toUpperCase();
+  if (/PRIMER\s*PLANO|PRIMERISIMO|CLOSE/.test(p)) return 'CLOSE-UP: fill the frame with the head and shoulders for maximum expression; keep the background simple and out of the way.';
+  if (/WIDE|GENERAL|ESTABLEC|AULA/.test(p)) return 'WIDE establishing shot from a slightly low or high angle: characters smaller within the room, strong foreground/midground/background depth.';
+  if (/DOS|MEDIO|MEDIUM|TWO/.test(p)) return 'MEDIUM shot, roughly waist-up, from a dynamic 3/4 or slightly low angle (never flat eye-level with both characters centered); use over-the-shoulder or a foreground element for energy.';
+  return 'MEDIUM-CLOSE dynamic shot at a slight off-axis angle, not centered.';
+}
+
 async function cargarEnvLocal() {
   try {
     const txt = await readFile(new URL('.env', AQUI), 'utf8');
@@ -127,7 +139,7 @@ for (const shot of guion.shots) {
   const sizeNote = presentes.map(n => SIZE[n]).filter(Boolean).join('; ');
   const paw = shot.gesto_pata ? ` Correct paw gesture: ${PAW}. Avoid: ${PAW_NEG}.` : '';
   const setNote = setR ? ' SET: the FIRST reference image is the fixed BARKADEMY classroom — reproduce the SAME room exactly (same green chalkboard reading "BARKADEMY" with a chalk paw-print, same cream walls with faint paw-prints, same honey wooden plank floor, same low cubbies with dog beds, same warm lighting). Keep it identical across panels.' : '';
-  const prompt = `${ESTILO}. Vertical 9:16 Instagram comic panel. ${desc}.${sizeNote ? ' Relative sizes: ' + sizeNote + '.' : ''}${paw}${setNote}${fichas ? ' Characters (match the other reference images AND these descriptions exactly): ' + fichas + '.' : ''} Keep each character identical to its reference. ${GLOBAL}${presentes.includes('Pepe') ? PEPE_OUTFIT : ''} Expressive cartoon comedy, clean composition.`;
+  const prompt = `${ESTILO}. Vertical 9:16 Instagram comic panel. ${desc}.${sizeNote ? ' Relative sizes: ' + sizeNote + '.' : ''}${paw}${setNote}${fichas ? ' Characters (match the other reference images AND these descriptions exactly): ' + fichas + '.' : ''} Keep each character identical to its reference. CAMERA: ${camara(shot.plano)} ${COMPO} ${EXPR} ${GLOBAL}${presentes.includes('Pepe') ? PEPE_OUTFIT : ''}`;
   console.log(`→ ${shot.id} [${shot.beat}] (${presentes.join('+') || 'escena'}): ${(shot.en_cuadro || '').slice(0, 50)}...`);
   try {
     const png = await generar([...refs, { text: prompt }]);
