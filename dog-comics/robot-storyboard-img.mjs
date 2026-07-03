@@ -77,6 +77,12 @@ async function refDe(nombre) {
   if (!(await existe(u))) return null;
   return { inlineData: { mimeType: 'image/png', data: (await readFile(u)).toString('base64') } };
 }
+// Referencia por nombre de archivo directo (ej. el salón oficial 'set-barkademy').
+async function refArchivo(fname) {
+  const u = new URL(`refs-img/${fname}.png`, AQUI);
+  if (!(await existe(u))) return null;
+  return { inlineData: { mimeType: 'image/png', data: (await readFile(u)).toString('base64') } };
+}
 
 const slug = process.argv[2];
 const filtro = process.argv[3] ? new Set(process.argv[3].split(',')) : null;
@@ -107,13 +113,21 @@ for (const shot of guion.shots) {
   for (const n of NOMBRES) if (new RegExp(`\\b${n}\\b`).test(texto)) add(n);
   if (/todos|MOUNTAIN|montaña/i.test(texto + (shot.extra?.quien || ''))) { add('Pepe'); add('Bear'); add('Tank'); }
 
+  // La PRIMERA referencia es el salón oficial (fondo fijo); luego los personajes.
   const refs = [];
+  const setR = await refArchivo('set-barkademy');
+  if (setR) refs.push(setR);
   for (const n of presentes.slice(0, 3)) { const r = await refDe(n); if (r) refs.push(r); }
+
+  // Descripción de texto de cada personaje presente (ancla la identidad, no solo la foto).
+  const fichaVisual = n => { const k = casting.personajes[FICHA[n]] ? FICHA[n] : n; return casting.personajes[k]?.visual ? `${n} = ${casting.personajes[k].visual}` : ''; };
+  const fichas = presentes.map(fichaVisual).filter(Boolean).join('. ');
 
   const desc = describir(`${shot.plano || ''}. ${shot.en_cuadro || shot.accion || ''}`);
   const sizeNote = presentes.map(n => SIZE[n]).filter(Boolean).join('; ');
   const paw = shot.gesto_pata ? ` Correct paw gesture: ${PAW}. Avoid: ${PAW_NEG}.` : '';
-  const prompt = `${ESTILO}. Vertical 9:16 Instagram comic panel. ${desc}.${sizeNote ? ' Relative sizes: ' + sizeNote + '.' : ''}${paw} Keep each character identical to the reference image(s). ${GLOBAL}${presentes.includes('Pepe') ? PEPE_OUTFIT : ''} Setting: ${escena}. Expressive cartoon comedy, clean composition.`;
+  const setNote = setR ? ' SET: the FIRST reference image is the fixed BARKADEMY classroom — reproduce the SAME room exactly (same green chalkboard reading "BARKADEMY" with a chalk paw-print, same cream walls with faint paw-prints, same honey wooden plank floor, same low cubbies with dog beds, same warm lighting). Keep it identical across panels.' : '';
+  const prompt = `${ESTILO}. Vertical 9:16 Instagram comic panel. ${desc}.${sizeNote ? ' Relative sizes: ' + sizeNote + '.' : ''}${paw}${setNote}${fichas ? ' Characters (match the other reference images AND these descriptions exactly): ' + fichas + '.' : ''} Keep each character identical to its reference. ${GLOBAL}${presentes.includes('Pepe') ? PEPE_OUTFIT : ''} Expressive cartoon comedy, clean composition.`;
   console.log(`→ ${shot.id} [${shot.beat}] (${presentes.join('+') || 'escena'}): ${(shot.en_cuadro || '').slice(0, 50)}...`);
   try {
     const png = await generar([...refs, { text: prompt }]);
