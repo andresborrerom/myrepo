@@ -70,6 +70,10 @@ for (const shot of guion.shots) {
     ff(['-i', p(px), '-i', p(voz),
         '-filter_complex', `${vf};[1:a]loudnorm=I=-16:TP=-1.5:LRA=11,adelay=120|120,aresample=48000,apad=whole_dur=${D}[a]`,
         '-map', '[v]', '-map', '[a]', ...vBase, p(norm)]);
+  } else if (shot.reaccion) {
+    // Toma de reacción MUDA: silencio (la cama de música la cubre) → da respiro y timing.
+    ff(['-i', p(px), '-f', 'lavfi', '-i', 'anullsrc=channel_layout=stereo:sample_rate=48000',
+        '-filter_complex', `${vf}`, '-map', '[v]', '-map', '1:a', ...vBase, p(norm)]);
   } else {
     // Sin voz nuestra (ej. toma 17 lamida): conserva el audio nativo de PixVerse.
     ff(['-i', p(px),
@@ -83,5 +87,19 @@ for (const shot of guion.shots) {
 const lista = new URL('lista.txt', dirT);
 await writeFile(lista, clips.map(u => `file '${p(u)}'`).join('\n') + '\n');
 const reel = new URL(`${slug}-${SUF}.mp4`, new URL(`output/${slug}/`, AQUI));
-ff(['-f', 'concat', '-safe', '0', '-i', p(lista), '-c', 'copy', p(reel)]);
-console.log(`\n✅ Reel listo: output/${slug}/${slug}-${SUF}.mp4  (${clips.length} tomas)\n`);
+
+// Cama de música continua (fluidez): MUSIC=archivo dentro de output/<slug>/.
+const musica = process.env.MUSIC ? new URL(process.env.MUSIC, new URL(`output/${slug}/`, AQUI)) : null;
+if (musica && await existe(musica)) {
+  const base = new URL(`_base_${SUF}.mp4`, dirT);
+  ff(['-f', 'concat', '-safe', '0', '-i', p(lista), '-c', 'copy', p(base)]);
+  const total = dur(p(base));
+  // Música por debajo con fades y ducking; voces encima. Llena los silencios entre líneas.
+  ff(['-i', p(base), '-i', p(musica),
+      '-filter_complex', `[1:a]volume=0.16,afade=t=in:st=0:d=1.5,afade=t=out:st=${(total - 2).toFixed(2)}:d=2[m];[0:a]volume=1.25[vv];[vv][m]amix=inputs=2:duration=first:dropout_transition=0[a]`,
+      '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', p(reel)]);
+  console.log(`\n✅ Reel listo (con música): output/${slug}/${slug}-${SUF}.mp4  (${clips.length} tomas)\n`);
+} else {
+  ff(['-f', 'concat', '-safe', '0', '-i', p(lista), '-c', 'copy', p(reel)]);
+  console.log(`\n✅ Reel listo: output/${slug}/${slug}-${SUF}.mp4  (${clips.length} tomas)\n`);
+}
