@@ -5,9 +5,10 @@
 import PasswordGate from '@/components/PasswordGate';
 import { isAdminAuth } from '@/lib/auth';
 import { fetchAllAportesAdmin } from '@/lib/aportes-fetch';
-import { fetchAlejandroStateServer, isPlaceholderBody, getCobertura } from '@/lib/cartas-fetch';
+import { fetchAlejandroStateServer, isPlaceholderBody, getCobertura, getReleasedYears } from '@/lib/cartas-fetch';
 import { BIRTH_YEAR, TURNS_75_YEAR } from '@/data/cartas';
 import { getPerson } from '@/data/family';
+import { getServiceClient } from '@/lib/supabase';
 import type { Aporte } from '@/data/aportes-types';
 
 export const metadata = { title: 'Diagnóstico cartas vs textos' };
@@ -37,13 +38,23 @@ export default async function CartasVsTextosPage() {
     );
   }
 
-  const [aportes, state, cobertura] = await Promise.all([
+  const [aportes, state, cobertura, releasedYears, pushCount] = await Promise.all([
     fetchAllAportesAdmin(),
     fetchAlejandroStateServer(),
-    getCobertura()
+    getCobertura(),
+    getReleasedYears(),
+    (async () => {
+      const supabase = getServiceClient();
+      if (!supabase) return null;
+      const { count } = await supabase
+        .from('push_subscriptions')
+        .select('endpoint', { count: 'exact', head: true });
+      return count ?? 0;
+    })()
   ]);
 
   const revealed = new Set(state.revealedYears);
+  const restantes = releasedYears.filter((y) => !revealed.has(y));
   const published = aportes.filter((a) => a.status === 'published');
 
   // ── Bucket A — Años con carta seed placeholder (sin DB override real)
@@ -90,6 +101,45 @@ export default async function CartasVsTextosPage() {
           Umbral "texto largo sospechoso de ser carta": {SOSPECHOSO_MIN_CHARS}+ caracteres.
         </p>
       </header>
+
+      {/* ── Estado del ritual (agregado por diagnóstico "papá no recibe cartas") ── */}
+      <Section
+        title="Estado del ritual"
+        hint="Diagnóstico rápido: ¿por qué papá no está recibiendo cartas?"
+      >
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Card tone={restantes.length === 0 ? 'warn' : 'muted'}>
+            <div className="font-mono text-[10px] tracking-widest text-ink-800/60">POOL</div>
+            <div className="font-display text-2xl text-ink-900">
+              {revealed.size} / {releasedYears.length}
+            </div>
+            <div className="text-xs text-ink-800/70">
+              {restantes.length === 0
+                ? '⚠ Papá ya abrió TODAS. No hay más cartas disponibles hasta que la familia suba más.'
+                : `Le quedan ${restantes.length} sin abrir: ${restantes.slice(0, 8).join(', ')}${restantes.length > 8 ? '…' : ''}`}
+            </div>
+          </Card>
+          <Card tone={pushCount === 0 ? 'warn' : 'muted'}>
+            <div className="font-mono text-[10px] tracking-widest text-ink-800/60">PUSH SUBSCRIPTIONS</div>
+            <div className="font-display text-2xl text-ink-900">{pushCount ?? '?'}</div>
+            <div className="text-xs text-ink-800/70">
+              {pushCount === 0
+                ? '⚠ Cero suscripciones activas. Papá debe reinstalar el PWA y aceptar notificaciones de nuevo.'
+                : pushCount === null
+                ? 'Supabase no configurado (no puedo consultar).'
+                : `${pushCount} device${pushCount === 1 ? '' : 's'} suscrito${pushCount === 1 ? '' : 's'} al push diario.`}
+            </div>
+          </Card>
+        </div>
+        <div className="mt-3 rounded-xl bg-cream-50 p-3 text-xs text-ink-800/70">
+          <div className="font-mono text-[10px] tracking-widest text-ink-800/60">ÚLTIMA APERTURA</div>
+          <div className="mt-1">
+            {state.lastRevealDate
+              ? `${state.lastRevealDate} (hace ${Math.floor((Date.now() - new Date(state.lastRevealDate).getTime()) / 86_400_000)} días)`
+              : 'Nunca'}
+          </div>
+        </div>
+      </Section>
 
       {/* ── A — años huérfanos (placeholder o vacío) ───────────────── */}
       <Section
