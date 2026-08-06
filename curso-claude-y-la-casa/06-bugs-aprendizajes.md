@@ -136,6 +136,31 @@ Consumers (`/abrir-carta`, `/cartas`) actualizados para `await`. La API `/api/al
 
 ---
 
+## Supabase se pausó por inactividad (free tier) — todo se rompió sin aviso
+
+**Síntoma**: agosto 2026, papá reportó "ya no me llegan cartas". Al revisar `/admin/cartas-vs-textos`: `Total publicados: 0 · revelados a papá: 0`. Bucket A mostraba 4 placeholder + 53 vacíos (vs 2 + 45 anteriores). Todo era como si la DB no existiera.
+
+**Causa raíz**: el proyecto Supabase estaba **paused** por inactividad. Free tier de Supabase pausa proyectos con ~7 días sin actividad. Data intacta, pero el compute apagado → cero lecturas, cero escrituras. Fallo silencioso en cascada:
+- `/cartas` y `/abrir-carta` cayeron al seed (solo 19 años con contenido).
+- Push notifications: el cron leyó 0 subscriptions → mandó 0 pushes.
+- Papá abría la app y no le pasaba nada nuevo.
+
+**Por qué se pausó a pesar del cron diario**: el cron de `recordatorio` sí hacía queries a `push_subscriptions` cada día en teoría, pero algo lo detuvo (env var faltante, Vercel Hobby suspendiendo crons, o Supabase no contando la actividad como suficiente). Consecuencia: 7+ días sin actividad "real" → pausa automática.
+
+**Fix**:
+1. Andrés dio "Resume project" en el dashboard de Supabase → data intacta, todo volvió.
+2. Agregado `/api/cron/keep-alive` que hace un `SELECT COUNT(*) FROM aportes` cada día a las 3 AM UTC (fuera de horario de los otros crons). Ping trivial que garantiza actividad diaria.
+3. Agregado a `vercel.json` como tercer cron.
+4. Actualizado `recursos-disponibles.md` marcando Supabase como **Free tier con limitación de pausa**.
+
+**Lección**: dependencias con auto-pausa (Supabase free, Vercel Hobby, Neon free…) NECESITAN un keep-alive explícito e independiente del cron de negocio. Si el cron de negocio falla, el keep-alive debe seguir vivo. Deben vivir en endpoints separados y con lógica mínima (menos superficie a fallar).
+
+**Alternativa considerada**: Supabase Pro ($25/mes) elimina la pausa. Decisión: mantener free + keep-alive por ahora; escalar a Pro si el keep-alive falla o si el proyecto crece.
+
+**Alerta futura**: si `/admin/cartas-vs-textos` vuelve a mostrar `Total publicados: 0`, primera hipótesis siempre es "Supabase pausado" — verificar dashboard antes de investigar el código.
+
+---
+
 ## Proponer alternativas cuando el recurso ya estaba contratado
 
 **Síntoma**: hablando del feature de voz de Valentina, sugerí "evaluemos opciones de TTS / voice cloning" como si el proveedor estuviera abierto. Andrés ya tenía **cuenta de ElevenLabs activa con API key**. El comparativo era trabajo basura y arriesgaba contratar algo duplicado.

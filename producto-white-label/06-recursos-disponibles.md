@@ -24,7 +24,7 @@ En sesiones pasadas, Claude propuso evaluar/comparar herramientas (TTS, hosting,
 | **Speech-to-text** | OpenAI Whisper API | ❓ Confirmar con Andrés | Necesario para el paso de transcripción del feature de voz cruzada. Alternativa local: `whisper.cpp` self-hosted. |
 | **LLM (traducción, asistente)** | Claude API (Anthropic) | ✅ Disponible | Usar para traducción ES↔EN, sugerencias de texto, generación de variaciones. |
 | **Hosting + edge runtime + cron** | Vercel | ✅ Proyecto desplegado | Cron jobs ya configurados. Wildcard domain pendiente para el white-label. |
-| **DB + Storage + RLS** | Supabase | ✅ Proyecto activo | Free tier hasta hoy. Buckets para fotos/audio. |
+| **DB + Storage + RLS** | Supabase | ✅ Proyecto activo (**Free tier — pausa a los 7 días de inactividad**) | Buckets para fotos/audio. En ago 2026 se pausó y rompió push + reveal. Ahora hay `/api/cron/keep-alive` diario (3 AM UTC) que evita pausas. Si vuelve a fallar, considerar upgrade a **Pro ($25/mes)**. Ver errores-que-generaron-reproceso.md § "Supabase se pausó por inactividad". |
 | **Email transaccional** | ❓ No contratado aún | — | Cuando se necesite (invites, digests): preferir Resend por DX. Confirmar antes. |
 | **Pagos** | ❓ No contratado aún | — | Para Fase 2 del white-label. Opciones: Stripe / Polar / Lemon Squeezy. Confirmar antes de implementar. |
 | **Push Web (VAPID)** | Self-hosted con `web-push` npm | ✅ Funcionando | Llaves VAPID en env vars de Vercel. |
