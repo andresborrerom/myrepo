@@ -10,3 +10,9 @@ next-env.d.ts
 .vercel
 voices.config.json
 tmp/
+
+# Robot local secrets (NEVER commit)
+robot/.env
+robot/node_modules/
+# NB: robot/state/seen-threads.json SÍ se commitea (auto por el bot en CI)
+# — es el mecanismo de persistencia de dedup entre runs.

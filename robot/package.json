@@ -1,0 +1,19 @@
+{
+  "name": "affiliate-robot",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Outreach robot for baristapath + filamentpath affiliate portfolio. Scouts Reddit, drafts comments via Claude, notifies operator via Telegram for approval.",
+  "scripts": {
+    "scout": "node scripts/pipeline.mjs",
+    "scout:dry": "DRY_RUN=1 node scripts/pipeline.mjs",
+    "test": "node --test tests/*.spec.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

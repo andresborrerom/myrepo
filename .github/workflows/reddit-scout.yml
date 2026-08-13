@@ -1,0 +1,67 @@
+name: Reddit scout (baristapath outreach)
+
+on:
+  # Cron cada 1h de 13:00-03:00 UTC = 8am-10pm Panamá (UTC-5)
+  schedule:
+    - cron: '0 13-23 * * *'
+    - cron: '0 0-3 * * *'
+  # Trigger manual desde Actions tab (para testing)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (no Telegram notifs, print to log)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+# Evitar overlapping runs (si un run tarda >1h, cancelar el nuevo)
+concurrency:
+  group: reddit-scout
+  cancel-in-progress: false
+
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Permite commit del seen-threads.json state file
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install robot deps
+        working-directory: robot
+        run: npm install --no-audit --no-fund
+
+      - name: Run scout pipeline
+        working-directory: robot
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          WARMUP_MODE: 'true'
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: node scripts/pipeline.mjs baristapath
+
+      - name: Commit seen-threads state
+        if: success() && github.event.inputs.dry_run != 'true'
+        run: |
+          if git diff --quiet robot/state/seen-threads.json; then
+            echo "No state changes"
+          else
+            git config user.name "reddit-scout-bot"
+            git config user.email "bot@baristapath.local"
+            git add robot/state/seen-threads.json
+            git commit -m "chore(robot): update seen-threads cache"
+            git push
+          fi
